@@ -1,26 +1,26 @@
 import uuid
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi_users import FastAPIUsers
 
-from modules.auth.auth import auth_backend
-from modules.auth.database import User
-from modules.auth.schemas import UserRead, UserCreate
-from modules.auth.user_manager import get_user_manager
+from models.user import User
+from src.user.auth import auth_backend
+from src.user.auth_router import auth_router
+from src.user.utils import get_user_manager
 
+app = FastAPI()
+
+app.include_router(auth_router)
+
+
+# Protected router example
 fastapi_users = FastAPIUsers[User, uuid.UUID](
     get_user_manager,
     [auth_backend],
 )
+current_active_user = fastapi_users.current_user(active=True)
 
-app = FastAPI()
-app.include_router(
-    fastapi_users.get_auth_router(auth_backend),
-    prefix="/auth/jwt",
-    tags=["auth"],
-)
-app.include_router(
-    fastapi_users.get_register_router(UserRead, UserCreate),
-    prefix="/auth",
-    tags=["auth"],
-)
+
+@app.get("/protected-route")
+def protected_route(user: User = Depends(current_active_user)):
+    return f"Hello, {user.email}"

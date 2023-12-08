@@ -4,8 +4,7 @@
   - Run server: `uvicorn main:app --reload`
 
 * Migration generate:
-  - `alembic revision --autogenerate -m "your_message"` 
-  - Example `alembic revision --autogenerate -m "0001"`
+  - `alembic revision --rev-id=0001 --autogenerate -m 'your_message`
 
 * Migration apply:
   - Specific version
@@ -13,3 +12,9 @@
     - Example `alembic upgrade 6d4bb18b725c`
   - Latest version
     - `alembic upgrade head`
+
+* Unapply all migrations
+  - `alembic downgrade base`
+
+* To show all applied migrations
+  * `alembic history`

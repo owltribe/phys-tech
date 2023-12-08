@@ -1,11 +1,12 @@
 import uuid
 from typing import Optional
 
-from fastapi import Depends, Request
+from fastapi import Request
 from fastapi_users import BaseUserManager, UUIDIDMixin, schemas, models, exceptions
 
-from modules.auth.database import User, get_user_db
+from models.user import User
 
+# TODO put it in env
 SECRET = "SECRET"
 
 
@@ -65,7 +66,3 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     #     self, user: User, token: str, request: Optional[Request] = None
     # ):
     #     print(f"Verification requested for user {user.id}. Verification token: {token}")
-
-
-async def get_user_manager(user_db=Depends(get_user_db)):
-    yield UserManager(user_db)

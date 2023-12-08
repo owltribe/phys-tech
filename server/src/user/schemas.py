@@ -2,16 +2,17 @@ import uuid
 from typing import Optional
 
 from fastapi_users import schemas
+from fastapi_users.models import ID
 from pydantic import EmailStr
 
-from models.models import UserRole
+from models.user import UserRoleEnum
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
-    id: str
+    id: ID
     email: EmailStr
     username: str
-    role: UserRole
+    role: UserRoleEnum
     is_active: bool = True
     is_superuser: bool = False
     is_verified: bool = False
@@ -23,7 +24,7 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
 class UserCreate(schemas.BaseUserCreate):
     email: EmailStr
     username: str
-    role: UserRole
+    role: UserRoleEnum
     password: str
     is_active: Optional[bool] = True
     # is_superuser: Optional[bool] = False
@@ -33,7 +34,7 @@ class UserCreate(schemas.BaseUserCreate):
 class UserUpdate(schemas.BaseUserUpdate):
     email: Optional[EmailStr] = None
     username: Optional[str] = None
-    role: Optional[UserRole] = None
+    role: Optional[UserRoleEnum] = None
     password: Optional[str] = None
     is_active: Optional[bool] = None
     is_superuser: Optional[bool] = None
