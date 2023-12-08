@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "upgrade:tamagui": "$npm_execpath up '*tamagui*' '@tamagui/*'"
+    "upgrade:tamagui": "$npm_execpath up '*tamagui*' '@tamagui/*'",
+    "generate-types": "curl http://localhost:8000/openapi.json -o schema.yaml && yarn run openapi --input ./schema.yaml --output ./types/generated --exportServices=false --exportCore=false --useUnionTypes"
   },
   "dependencies": {
     "@tamagui/animations-react-native": "^1.61.3",
@@ -53,6 +54,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "openapi-typescript-codegen": "^0.25.0",
     "prettier": "^2.8.3",
     "semantic-release": "19.0.5",
     "typescript": "^5.1.3"
