@@ -38,11 +38,21 @@ export default function Layout() {
             value={colorScheme === "light" ? DefaultTheme : DarkTheme}
           >
             <MySafeAreaView>
-              <Stack
-                screenOptions={{
-                  headerShown: false
-                }}
-              />
+              <Stack>
+                <Stack.Screen
+                    name="(tabs)"
+                    options={{
+                      headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="users/[user]"
+                    options={{
+                      headerShown: false,
+                      animation: "slide_from_bottom",
+                    }}
+                />
+              </Stack>
             </MySafeAreaView>
           </ThemeProvider>
         </Theme>
