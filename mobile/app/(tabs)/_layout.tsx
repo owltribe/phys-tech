@@ -1,19 +1,18 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs, useRouter } from "expo-router";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Home, Search, TableProperties, UserCircle} from "@tamagui/lucide-icons";
 
-const Tab = createBottomTabNavigator();
+
+const Color = {
+    Active: '#eb4c60',
+    Disabled: '#afafaf',
+};
 
 function getTabIcon(routeName, focused) {
-    const activeColor = '#eb4c60';
-    const iconColor = '#afafaf';
-
     const icons = {
-        index: <Home color={focused ? activeColor : iconColor} />,
-        services: <TableProperties color={focused ? activeColor : iconColor} />,
-        search: <Search color={focused ? activeColor : iconColor} />,
-        profile: <UserCircle color={focused ? activeColor : iconColor} />
+        index: <Home color={focused ? Color.Active : Color.Disabled} />,
+        services: <TableProperties color={focused ? Color.Active : Color.Disabled} />,
+        search: <Search color={focused ? Color.Active : Color.Disabled} />,
+        profile: <UserCircle color={focused ? Color.Active : Color.Disabled} />
     };
 
     return icons[routeName] || null;
