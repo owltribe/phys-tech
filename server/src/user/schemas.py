@@ -3,7 +3,7 @@ from typing import Optional
 
 from fastapi_users import schemas
 from fastapi_users.models import ID
-from pydantic import EmailStr
+from pydantic import EmailStr, BaseModel
 
 from models.user import UserRoleEnum
 
@@ -39,3 +39,10 @@ class UserUpdate(schemas.BaseUserUpdate):
     is_active: Optional[bool] = None
     is_superuser: Optional[bool] = None
     is_verified: Optional[bool] = None
+
+
+class UserProfile(BaseModel):
+    username: str
+    email: str | None = None
+    full_name: str | None = None
+    disabled: bool | None = None

@@ -1,12 +1,7 @@
 import { ArrowLeft } from "@tamagui/lucide-icons";
+import { MyStack } from "components/MyStack";
 import { useRouter, useSearchParams } from "expo-router";
 import { Button, H3, H6, XStack } from "tamagui";
-
-import DialogDemo from "../../components/DialogDemo";
-import { MyStack } from "../../components/MyStack";
-import SelectDemo from "../../components/SelectDemo";
-import SpinnerDemo from "../../components/SpinnerDemo";
-import SwitchDemo from "../../components/SwitchDemo";
 
 export default function User() {
   const router = useRouter();
@@ -25,12 +20,12 @@ export default function User() {
         <H3>{params.user}&apos;s user page</H3>
       </XStack>
 
-      <H6>Some Tamagui components in action.</H6>
+      {/*<H6>Some Tamagui components in action.</H6>*/}
 
-      <DialogDemo />
-      <SelectDemo />
-      <SpinnerDemo />
-      <SwitchDemo />
+      {/*<DialogDemo />*/}
+      {/*<SelectDemo />*/}
+      {/*<SpinnerDemo />*/}
+      {/*<SwitchDemo />*/}
     </MyStack>
   );
 }

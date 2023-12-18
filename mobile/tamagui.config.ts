@@ -30,7 +30,7 @@ const bodyFont = createInterFont();
 
 const config = createTamagui({
   animations,
-  defaultTheme: "dark",
+  defaultTheme: "light_green",
   shouldAddPrefersColorThemes: false,
   themeClassNameOnRoot: false,
   shorthands,
@@ -38,6 +38,7 @@ const config = createTamagui({
     heading: headingFont,
     body: bodyFont
   },
+  defaultFont: "body",
   themes,
   tokens,
   media: createMedia({

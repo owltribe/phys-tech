@@ -20848,7 +20848,7 @@
         "pointer": "coarse"
       }
     },
-    "defaultTheme": "dark",
+    "defaultTheme": "light_green",
     "shouldAddPrefersColorThemes": false,
     "themeClassNameOnRoot": false,
     "shorthands": {
