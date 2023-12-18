@@ -1,4 +1,3 @@
-import { useRouter } from "expo-router";
 import {
     Anchor,
     Avatar, Button, ButtonProps, H1,
@@ -41,7 +40,7 @@ export default function Profile() {
                 space="$4"
                 maxWidth={600}
             >
-                <H2>Profile</H2>
+                <H2>Профиль</H2>
                 <Button unstyled onPress={handleOpenEdit}>
                     <XStack space="$6" justifyContent="space-between" alignItems="center">
                         <XStack>
@@ -71,15 +70,15 @@ export default function Profile() {
             <Separator marginVertical={10} />
 
             <YStack space="$2.5">
-                <Paragraph color="$gray8" size="$5">About Us</Paragraph>
+                <Paragraph color="$gray8" size="$5">О нас</Paragraph>
                 <ChevronButton title="FAQ" />
-                <ChevronButton title="Privacy Policy" />
+                <ChevronButton title="Политика конфиденциальности" />
             </YStack>
 
             <Separator marginVertical={10} />
 
             <YStack>
-                <Anchor size="$6" color="red">Logout</Anchor>
+                <Anchor size="$6" color="red">Выйти</Anchor>
             </YStack>
         </MyStack>
 
@@ -96,14 +95,14 @@ export default function Profile() {
                 />
                 <Sheet.Handle />
                 <Sheet.Frame padding="$3" space="$4">
-                    <H2>Edit Profile</H2>
+                    <H2>Редактировать</H2>
                     <YStack mt="$space.4" alignItems="center" space="$2.5">
                         <XStack space="$4">
-                            <Label width={90}  size='$5' htmlFor="first_name">First Name:</Label>
+                            <Label width={90}  size='$5' htmlFor="first_name">Имя:</Label>
                             <Input size='$5' disabled id="first_name" defaultValue="Jonas" />
                         </XStack>
                         <XStack space="$4">
-                            <Label width={90}  size='$5' htmlFor="last_name">Last Name:</Label>
+                            <Label width={90}  size='$5' htmlFor="last_name">Фамилия:</Label>
                             <Input size='$5' disabled id="last_name" defaultValue="Black" />
                         </XStack>
                     </YStack>
