@@ -8,23 +8,7 @@ import {
 } from "tamagui";
 
 import { MyStack } from "../../components/MyStack";
-
-export const EventCard = ({title, description} : {title: string, description: string }) => {
-    return (
-        <Card elevate bordered size="$4" height={100} backgroundColor='transparent'>
-            <Card.Header padded>
-                <XStack justifyContent="space-between">
-                    <H4>{title}</H4>
-                    <H4>9am - 6pm</H4>
-                </XStack>
-                <XStack justifyContent="space-between">
-                    <Paragraph>{description}</Paragraph>
-                    <Paragraph>Dec 16</Paragraph>
-                </XStack>
-            </Card.Header>
-        </Card>
-    )
-};
+import EventCard from "../../components/EventCard";
 export const ServiceCard = ({title, description, imageUrl} : {title: string, description: string, imageUrl: string}) => {
     return (
         <YStack >
@@ -64,14 +48,14 @@ export default function Home() {
 
   return (
     <MyStack>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <YStack space="$3"  >
                   <YStack
                       space="$2.5"
                   >
                       <Input size="$4" placeholder="Search" borderRadius='$space.10'  />
                       <H2>Научные Организаций</H2>
-                    <ScrollView horizontal space="$5" mt="$space.2">
+                    <ScrollView showsHorizontalScrollIndicator={false} horizontal space="$5" mt="$space.2">
                       <ScienceOrganizationCard title="PhysTech" description="Description of the org" imageUrl="https://media.istockphoto.com/id/1270632735/photo/model-of-atom-and-elementary-particles-physics-concept-3d-rendered-illustration.jpg?s=612x612&w=0&k=20&c=n-Y_YPN6MtUS6OZf74oW2Bn68snhi6J2WI5ua3w0Skg=" />
                       <ScienceOrganizationCard title="BioTech" description="Description of the org" imageUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeavdP9LMP2O_5PlsdSSCOM3nbt0fsLjPNVA&usqp=CAU" />
                     </ScrollView>
@@ -79,7 +63,7 @@ export default function Home() {
 
                   <YStack>
                       <H2>Уcлуги</H2>
-                      <ScrollView horizontal space="$5" mt="$space.2">
+                      <ScrollView showsHorizontalScrollIndicator={false} horizontal space="$5" mt="$space.2">
                         <ServiceCard title="Service" description="Description of Service" imageUrl="https://www.enterpriseappstoday.com/wp-content/uploads/2023/05/Clinical-Laboratory-Services-market.jpg" />
                         <ServiceCard title="Service" description="Description of Service" imageUrl="https://www.enterpriseappstoday.com/wp-content/uploads/2023/05/Clinical-Laboratory-Services-market.jpg" />
                         <ServiceCard title="Service" description="Description of Service" imageUrl="https://www.enterpriseappstoday.com/wp-content/uploads/2023/05/Clinical-Laboratory-Services-market.jpg" />
@@ -89,7 +73,7 @@ export default function Home() {
 
                   <YStack>
                     <H2>Мероприятия</H2>
-                    <ScrollView space="$3" mt="$space.2">
+                    <ScrollView showsVerticalScrollIndicator={false} space="$3" mt="$space.2">
                         <EventCard title="Service" description="Description of Service" />
                         <EventCard title="Service" description="Description of Service" />
                         <EventCard title="Service" description="Description of Service" />
