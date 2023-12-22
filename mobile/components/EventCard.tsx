@@ -2,7 +2,7 @@ import {Card, H4, Paragraph, XStack} from "tamagui";
 
 export default function EventCard({title, description} : {title: string, description: string }) {
     return (
-        <Card elevate bordered size="$4" height={100} backgroundColor='transparent'>
+        <Card bordered size="$4" height={100} backgroundColor='white'>
             <Card.Header padded>
                 <XStack justifyContent="space-between">
                     <H4>{title}</H4>

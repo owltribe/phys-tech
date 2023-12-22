@@ -6,20 +6,23 @@ import {
 } from "tamagui";
 
 import { MyStack } from "../../components/MyStack";
+import {Link, useRouter} from "expo-router";
 
 export const ServiceCard = ({title, description, imageUrl} : {title: string, description: string, imageUrl: string}) => {
     return (
-        <YStack>
-            <Image
-                source={{ uri: imageUrl }}
-                style={{ width: 180, height: 140}}
-                borderRadius={8}
-            />
-            <YStack p="$space.2">
-                <H3>{title}</H3>
-                <Paragraph>{description}</Paragraph>
+        <Link href="/service/1">
+            <YStack>
+                <Image
+                    source={{ uri: imageUrl }}
+                    style={{ width: 180, height: 140}}
+                    borderRadius={8}
+                />
+                <YStack p="$space.2">
+                    <H3>{title}</H3>
+                    <Paragraph>{description}</Paragraph>
+                </YStack>
             </YStack>
-        </YStack>
+        </Link>
 
     )
 };
