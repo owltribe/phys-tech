@@ -9,7 +9,7 @@ import { MyStack } from "../../components/MyStack";
 
 export const ServiceCard = ({title, description, imageUrl} : {title: string, description: string, imageUrl: string}) => {
     return (
-        <YStack >
+        <YStack>
             <Image
                 source={{ uri: imageUrl }}
                 style={{ width: 180, height: 140}}
@@ -34,8 +34,8 @@ export default function Services() {
                     >
                         <H2>Услуги</H2>
                         <Input size="$4" placeholder="Искать Услуги" borderRadius='$space.10'  />
-                        <ScrollView mt="$space.2" p="$space.2">
-                            <Stack flexDirection='row' flexWrap="wrap" justifyContent="space-between">
+                        <ScrollView mt="$space.2">
+                            <Stack flexDirection='row' flexWrap="wrap" justifyContent="space-between" space="$space.2">
                                 <ServiceCard title="Service" description="Description of Service" imageUrl="https://www.enterpriseappstoday.com/wp-content/uploads/2023/05/Clinical-Laboratory-Services-market.jpg" />
                                 <ServiceCard title="Service" description="Description of Service" imageUrl="https://www.enterpriseappstoday.com/wp-content/uploads/2023/05/Clinical-Laboratory-Services-market.jpg" />
                                 <ServiceCard title="Service" description="Description of Service" imageUrl="https://www.enterpriseappstoday.com/wp-content/uploads/2023/05/Clinical-Laboratory-Services-market.jpg" />
