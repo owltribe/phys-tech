@@ -28,23 +28,23 @@ export default function Service() {
             </YStack>
             <ScrollView mt="$space.2">
                 <YStack px='$2' space="$3">
-                    {data.map((item) => <Paragraph size="$5">{"\u2022 "}{item}</Paragraph>)}
+                    {data.map((item) => <Paragraph key={item} size="$5">{"\u2022 "}{item}</Paragraph>)}
                 </YStack>
 
-                <YStack space="$3">
-                    <H3>Дополнительный возможности:</H3>
-                    <Button size='sm' maxWidth={100}>FAQ</Button>
+                <YStack space="$3" mt="$2">
+                    <H3>{"\u2022 "}Импульсный отжиг подложек в инфракрасной печи.</H3>
+                    <Button size='$4' maxWidth={100}>FAQ</Button>
                 </YStack>
             </ScrollView>
             <Button
-                size="lg"
+                size="$5"
                 position="absolute"
                 bottom={20}
                 left={12}
                 right={12}
                 theme="blue"
             >
-                Записаться
+                Запросить
             </Button>
             <Button
                 size="$2"
