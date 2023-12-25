@@ -70,6 +70,13 @@ export default function Layout() {
                     headerTitle: ""
                   }}
                 />
+                <Stack.Screen
+                    name="organization/[id]"
+                    options={{
+                      headerShown: false,
+                    }}
+                />
+
               </Stack>
             </MySafeAreaView>
           </ThemeProvider>
