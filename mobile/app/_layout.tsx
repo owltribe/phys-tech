@@ -40,23 +40,35 @@ export default function Layout() {
             <MySafeAreaView>
               <Stack>
                 <Stack.Screen
-                    name="(tabs)"
-                    options={{
-                      headerShown: false,
-                    }}
+                  name="(tabs)"
+                  options={{
+                    headerShown: false
+                  }}
                 />
                 <Stack.Screen
-                    name="users/[user]"
-                    options={{
-                      headerShown: false,
-                      animation: "slide_from_bottom",
-                    }}
+                  name="users/[user]"
+                  options={{
+                    headerShown: false,
+                    animation: "slide_from_bottom"
+                  }}
                 />
                 <Stack.Screen
                   name="service/[id]"
-                    options={{
-                        headerShown: false,
-                    }}
+                  options={{
+                    headerShown: false
+                  }}
+                />
+                <Stack.Screen
+                  name="events"
+                  options={{
+                    headerTitle: ""
+                  }}
+                />
+                <Stack.Screen
+                  name="organizations"
+                  options={{
+                    headerTitle: ""
+                  }}
                 />
               </Stack>
             </MySafeAreaView>

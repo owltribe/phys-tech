@@ -17,11 +17,11 @@ export default function EventCard({
       <Card.Header padded>
         <XStack justifyContent="space-between">
           <H4>{title}</H4>
-          <H4>9am - 6pm</H4>
+          <H4>8:00 - 9:00</H4>
         </XStack>
         <XStack justifyContent="space-between">
           <Paragraph>{description}</Paragraph>
-          <Paragraph>Dec 16</Paragraph>
+          <Paragraph>12/10/2023</Paragraph>
         </XStack>
       </Card.Header>
     </Card>
