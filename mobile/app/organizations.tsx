@@ -1,4 +1,5 @@
 import { MyStack } from "components/MyStack";
+import { useRouter } from "expo-router";
 import {
   Card,
   H2,
@@ -15,6 +16,8 @@ import {
 // import { ScienceOrganizationCard } from "./index";
 
 export default function Organizations() {
+  const router = useRouter();
+
   return (
     <MyStack>
       <H2>Организации</H2>
@@ -30,10 +33,10 @@ export default function Organizations() {
           justifyContent="space-between"
           rowGap={10}
         >
-          {Array.from(Array(5)).map((i) => (
+          {Array.from(Array(5)).map((_, i) => (
             <Card
               key={i}
-              animation="bouncy"
+              animation="lazy"
               size="$4"
               width="48%"
               scale={0.9}
@@ -43,6 +46,7 @@ export default function Organizations() {
               bordered
               borderRadius="$6"
               backgroundColor="$blue2"
+              onPress={() => router.push("organization/1")}
             >
               <Card.Header padded>
                 <H4>BioTech</H4>
