@@ -1,4 +1,5 @@
 import type { IconProps } from "@tamagui/helpers-icon";
+import { useRouter } from "expo-router";
 import { Avatar, Button, Card, H2, Paragraph, XStack } from "tamagui";
 
 type ButtonProps = React.ComponentProps<typeof Button>;
@@ -8,14 +9,24 @@ interface LinkCardProps {
   description: string;
   theme: ButtonProps["theme"];
   Icon: React.NamedExoticComponent<IconProps>;
+  link?: string;
 }
 
 const PreviewLinkCard = ({
   title,
   description,
   theme,
-  Icon
+  Icon,
+  link
 }: LinkCardProps) => {
+  const router = useRouter();
+
+  const handlePress = () => {
+    if (link) {
+      router.push(link);
+    }
+  };
+
   return (
     <Card
       animation="lazy"
@@ -57,6 +68,7 @@ const PreviewLinkCard = ({
         <Button
           theme={theme}
           borderRadius="$10"
+          onPress={handlePress}
         >
           Перейти
         </Button>

@@ -25,6 +25,7 @@ export default function Home() {
           description="Каталог научных услуг от каждой организации"
           theme="green"
           Icon={HeartHandshake}
+          link="/services"
         />
         <PreviewLinkCard
           title="Мероприятия"
