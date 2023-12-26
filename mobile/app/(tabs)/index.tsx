@@ -1,15 +1,18 @@
 import { Atom, Calendar, HeartHandshake } from "@tamagui/lucide-icons";
 import PreviewLinkCard from "components/common/PreviewLinkCard";
 import { MyStack } from "components/MyStack";
-import { Input, ScrollView } from "tamagui";
+import { H2, Input, ScrollView } from "tamagui";
+
+import { neutral } from "../../utils/colors";
 
 export default function Home() {
   return (
     <ScrollView>
       <MyStack>
+        <H2 fontWeight="800">Главная</H2>
         <Input
           size="$5"
-          placeholder="Search"
+          placeholder="Поиск"
           borderRadius="$space.10"
           mb="$10"
         />
@@ -19,6 +22,7 @@ export default function Home() {
           description="Профили научных организаций с детальной информацией"
           theme="blue"
           Icon={Atom}
+          link="/organizations"
         />
         <PreviewLinkCard
           title="Услуги"
@@ -32,6 +36,7 @@ export default function Home() {
           description="Календарь семинаров, конференций и других мероприятий"
           theme="purple"
           Icon={Calendar}
+          link="/events"
         />
       </MyStack>
     </ScrollView>

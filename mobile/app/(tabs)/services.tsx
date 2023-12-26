@@ -37,7 +37,7 @@ export default function Services() {
         <H2 fontWeight="700">Услуги</H2>
         <Input
           size="$5"
-          placeholder="Search"
+          placeholder="Поиск"
           borderRadius="$space.10"
           mb="$5"
         />
