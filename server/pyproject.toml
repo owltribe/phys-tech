@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "phys-tech"
+name = "src"
 version = "0.1.0"
 description = ""
 authors = ["AsgardPavlov <pasgard9@gmail.com>"]
