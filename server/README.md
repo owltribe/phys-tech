@@ -19,3 +19,11 @@
 
 * To show all applied migrations
   * `alembic history`
+
+* Setup environments
+  * create `.env` folder
+  * see `.env-sample` for exact env variables 
+  * if DB is not created make sure to create instance locally
+  * example to create docker container
+    * `docker run --name phys-tech-db -e POSTGRES_PASSWORD=mysecretpassword -d postgres`
+
