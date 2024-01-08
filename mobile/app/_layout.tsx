@@ -1,15 +1,17 @@
-import { Suspense, useCallback, useEffect } from "react";
+import { Suspense, useCallback } from "react";
 import { useColorScheme } from "react-native";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider
 } from "@react-navigation/native";
+import { MySafeAreaView } from "components/MySafeAreaView";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
+import { AuthProvider } from "providers/AuthProvider";
+import { ReactQueryClientProvider } from "providers/ReactQueryProvider";
 import { TamaguiProvider, Text, Theme } from "tamagui";
 
-import { MySafeAreaView } from "../components/MySafeAreaView";
 import config from "../tamagui.config";
 
 SplashScreen.preventAutoHideAsync();
@@ -41,47 +43,57 @@ export default function Layout() {
           <ThemeProvider
             value={colorScheme === "light" ? DefaultTheme : DarkTheme}
           >
-            <MySafeAreaView onLayout={onLayoutRootView}>
-              <Stack>
-                <Stack.Screen
-                  name="(tabs)"
-                  options={{
-                    headerShown: false
-                  }}
-                />
-                <Stack.Screen
-                  name="users/[user]"
-                  options={{
-                    headerShown: false,
-                    animation: "slide_from_bottom"
-                  }}
-                />
-                <Stack.Screen
-                  name="service/[id]"
-                  options={{
-                    headerShown: false
-                  }}
-                />
-                <Stack.Screen
-                  name="events"
-                  options={{
-                    headerTitle: ""
-                  }}
-                />
-                <Stack.Screen
-                  name="organizations"
-                  options={{
-                    headerTitle: ""
-                  }}
-                />
-                <Stack.Screen
-                  name="organization/[id]"
-                  options={{
-                    headerShown: false
-                  }}
-                />
-              </Stack>
-            </MySafeAreaView>
+            <ReactQueryClientProvider>
+              <AuthProvider>
+                <MySafeAreaView onLayout={onLayoutRootView}>
+                  <Stack>
+                    <Stack.Screen
+                      name="(tabs)"
+                      options={{
+                        headerShown: false
+                      }}
+                    />
+                    <Stack.Screen
+                      name="users/[user]"
+                      options={{
+                        headerShown: false,
+                        animation: "slide_from_bottom"
+                      }}
+                    />
+                    <Stack.Screen
+                      name="service/[id]"
+                      options={{
+                        headerShown: false
+                      }}
+                    />
+                    <Stack.Screen
+                      name="events"
+                      options={{
+                        headerTitle: ""
+                      }}
+                    />
+                    <Stack.Screen
+                      name="organizations"
+                      options={{
+                        headerTitle: ""
+                      }}
+                    />
+                    <Stack.Screen
+                      name="organization/[id]"
+                      options={{
+                        headerShown: false
+                      }}
+                    />
+                    <Stack.Screen
+                      name="onboarding"
+                      options={{
+                        headerShown: false
+                      }}
+                    />
+                  </Stack>
+                </MySafeAreaView>
+              </AuthProvider>
+            </ReactQueryClientProvider>
           </ThemeProvider>
         </Theme>
       </Suspense>
