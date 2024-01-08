@@ -3,6 +3,8 @@ import { MyStack } from "components/MyStack";
 import { useRouter } from "expo-router";
 import { H2, H3, Image, Input, Paragraph, ScrollView, YStack } from "tamagui";
 
+import { MyTextInput } from "../../components/MyTextInput";
+
 export const ServiceCard = ({
   title,
   description,
@@ -35,12 +37,7 @@ export default function Services() {
     <ScrollView>
       <MyStack>
         <H2 fontWeight="700">Услуги</H2>
-        <Input
-          size="$5"
-          placeholder="Поиск"
-          borderRadius="$space.10"
-          mb="$5"
-        />
+        <MyTextInput placeholder="Поиск" />
 
         {Array.from(Array(10)).map((i, ii) => (
           <ServiceCard

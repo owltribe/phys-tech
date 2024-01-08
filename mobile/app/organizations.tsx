@@ -52,17 +52,6 @@ export default function Organizations() {
                 <H4>BioTech</H4>
                 <Paragraph theme="alt2">Описание организаций</Paragraph>
               </Card.Header>
-              {/*<Card.Background>*/}
-              {/*  <Image*/}
-              {/*    resizeMode="cover"*/}
-              {/*    alignSelf="center"*/}
-              {/*    source={{*/}
-              {/*      width: 300,*/}
-              {/*      height: 300,*/}
-              {/*      uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeavdP9LMP2O_5PlsdSSCOM3nbt0fsLjPNVA&usqp=CAU"*/}
-              {/*    }}*/}
-              {/*  />*/}
-              {/*</Card.Background>*/}
             </Card>
           ))}
         </Stack>

@@ -1,21 +1,15 @@
 import { Atom, Calendar, HeartHandshake } from "@tamagui/lucide-icons";
 import PreviewLinkCard from "components/common/PreviewLinkCard";
 import { MyStack } from "components/MyStack";
-import { H2, Input, ScrollView } from "tamagui";
-
-import { neutral } from "../../utils/colors";
+import { MyTextInput } from "components/MyTextInput";
+import { H2, ScrollView, YStack } from "tamagui";
 
 export default function Home() {
   return (
     <ScrollView>
       <MyStack>
-        <H2 fontWeight="800">Главная</H2>
-        <Input
-          size="$5"
-          placeholder="Поиск"
-          borderRadius="$space.10"
-          mb="$10"
-        />
+        <H2 fontWeight="700">Главная</H2>
+        <MyTextInput placeholder="Поиск" />
 
         <PreviewLinkCard
           title="Организации"

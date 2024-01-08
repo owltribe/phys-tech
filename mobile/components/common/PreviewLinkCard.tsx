@@ -1,6 +1,8 @@
 import type { IconProps } from "@tamagui/helpers-icon";
+import { ChevronRight } from "@tamagui/lucide-icons";
 import { useRouter } from "expo-router";
-import { Avatar, Button, Card, H2, Paragraph, XStack } from "tamagui";
+import { Avatar, Button, Card, H2, Paragraph, XStack, YStack } from "tamagui";
+import { neutral } from "utils/colors";
 
 type ButtonProps = React.ComponentProps<typeof Button>;
 
@@ -36,15 +38,23 @@ const PreviewLinkCard = ({
       hoverStyle={{ scale: 0.925 }}
       pressStyle={{ scale: 0.875 }}
       p="$2"
-      bordered
+      bordered={false}
+      borderWidth={0}
       borderRadius="$6"
       backgroundColor={`$${theme}2`}
+      style={{
+        shadowColor: neutral["400"],
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 2,
+        elevation: 6
+      }}
     >
       <Card.Header padded>
         <XStack
           space
-          mb="$4"
           alignItems="center"
+          justifyContent="space-between"
         >
           <Avatar
             size="$5"
@@ -59,19 +69,26 @@ const PreviewLinkCard = ({
               color={`$${theme}10`}
             />
           </Avatar>
-          <H2 fontWeight="900">{title}</H2>
+
+          <Button
+            theme={theme}
+            borderRadius="$10"
+            circular
+          >
+            <ChevronRight
+              size="$2"
+              strokeWidth={2}
+              color={neutral["600"]}
+              onPress={handlePress}
+            />
+          </Button>
         </XStack>
-        <Paragraph theme="alt2">{description}</Paragraph>
       </Card.Header>
       <Card.Footer padded>
-        <XStack flex={1} />
-        <Button
-          theme={theme}
-          borderRadius="$10"
-          onPress={handlePress}
-        >
-          Перейти
-        </Button>
+        <YStack space="$2">
+          <H2 fontWeight="600">{title}</H2>
+          <Paragraph theme="alt2">{description}</Paragraph>
+        </YStack>
       </Card.Footer>
     </Card>
   );
