@@ -1,9 +1,9 @@
 import { createAnimations } from "@tamagui/animations-react-native";
-import { createInterFont } from "@tamagui/font-inter";
+import { config as tamaguiConfig } from "@tamagui/config/v2";
 import { createMedia } from "@tamagui/react-native-media-driver";
 import { shorthands } from "@tamagui/shorthands";
 import { themes, tokens } from "@tamagui/themes";
-import { createTamagui } from "tamagui";
+import { createFont, createTamagui } from "tamagui";
 
 const animations = createAnimations({
   bouncy: {
@@ -25,8 +25,30 @@ const animations = createAnimations({
   }
 });
 
-const headingFont = createInterFont();
-const bodyFont = createInterFont();
+const ralewayFace = {
+  normal: { normal: "Raleway_400Regular" },
+  bold: { normal: "Raleway_700Bold" },
+  400: { normal: "Raleway_400Regular" },
+  500: { normal: "Raleway_500Medium" },
+  600: { normal: "Raleway_600SemiBold" },
+  700: { normal: "Raleway_700Bold" }
+};
+
+const headingFont = createFont({
+  size: tamaguiConfig.fonts.heading.size,
+  lineHeight: tamaguiConfig.fonts.heading.lineHeight,
+  weight: tamaguiConfig.fonts.heading.weight,
+  letterSpacing: tamaguiConfig.fonts.heading.letterSpacing,
+  face: ralewayFace
+});
+
+const bodyFont = createFont({
+  size: tamaguiConfig.fonts.body.size,
+  lineHeight: tamaguiConfig.fonts.body.lineHeight,
+  weight: tamaguiConfig.fonts.body.weight,
+  letterSpacing: tamaguiConfig.fonts.body.letterSpacing,
+  face: ralewayFace
+});
 
 const config = createTamagui({
   animations,

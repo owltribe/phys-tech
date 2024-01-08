@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from "react";
+import { Suspense, useCallback, useEffect } from "react";
 import { useColorScheme } from "react-native";
 import {
   DarkTheme,
@@ -17,18 +17,22 @@ SplashScreen.preventAutoHideAsync();
 export default function Layout() {
   const colorScheme = useColorScheme();
 
-  const [loaded] = useFonts({
-    Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
-    InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf")
+  const [fontsLoaded] = useFonts({
+    Raleway_400Regular: require("node_modules/@expo-google-fonts/raleway/Raleway_400Regular.ttf"),
+    Raleway_500Medium: require("node_modules/@expo-google-fonts/raleway/Raleway_500Medium.ttf"),
+    Raleway_600SemiBold: require("node_modules/@expo-google-fonts/raleway/Raleway_600SemiBold.ttf"),
+    Raleway_700Bold: require("node_modules/@expo-google-fonts/raleway/Raleway_700Bold.ttf")
   });
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded]);
 
-  if (!loaded) return null;
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <TamaguiProvider config={config}>
@@ -37,7 +41,7 @@ export default function Layout() {
           <ThemeProvider
             value={colorScheme === "light" ? DefaultTheme : DarkTheme}
           >
-            <MySafeAreaView>
+            <MySafeAreaView onLayout={onLayoutRootView}>
               <Stack>
                 <Stack.Screen
                   name="(tabs)"
@@ -71,12 +75,11 @@ export default function Layout() {
                   }}
                 />
                 <Stack.Screen
-                    name="organization/[id]"
-                    options={{
-                      headerShown: false,
-                    }}
+                  name="organization/[id]"
+                  options={{
+                    headerShown: false
+                  }}
                 />
-
               </Stack>
             </MySafeAreaView>
           </ThemeProvider>

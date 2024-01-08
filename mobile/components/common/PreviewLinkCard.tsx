@@ -31,7 +31,7 @@ const PreviewLinkCard = ({
     <Card
       animation="lazy"
       size="$4"
-      width="100"
+      width="100%"
       scale={0.9}
       hoverStyle={{ scale: 0.925 }}
       pressStyle={{ scale: 0.875 }}
