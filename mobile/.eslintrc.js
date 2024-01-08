@@ -6,11 +6,12 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   parser: "@typescript-eslint/parser",
   root: true,
-  plugins: ["simple-import-sort"],
+  plugins: ["simple-import-sort", "@tanstack/query"],
   rules: {
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-var-requires": "off",
