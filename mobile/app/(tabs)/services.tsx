@@ -1,9 +1,9 @@
 import { TouchableOpacity } from "react-native";
+import EmptyStatement from "components/EmptyStatement";
 import { MyStack } from "components/MyStack";
+import { MyTextInput } from "components/MyTextInput";
 import { useRouter } from "expo-router";
-import { H2, H3, Image, Input, Paragraph, ScrollView, YStack } from "tamagui";
-
-import { MyTextInput } from "../../components/MyTextInput";
+import { H2, H3, Image, Paragraph, ScrollView, YStack } from "tamagui";
 
 export const ServiceCard = ({
   title,
@@ -34,20 +34,23 @@ export const ServiceCard = ({
 
 export default function Services() {
   return (
-    <ScrollView>
-      <MyStack>
-        <H2 fontWeight="700">Услуги</H2>
-        <MyTextInput placeholder="Поиск" />
+    <MyStack>
+      <H2 fontWeight="700">Мои Услуги</H2>
+      <MyTextInput placeholder="Поиск" />
 
-        {Array.from(Array(10)).map((i, ii) => (
-          <ServiceCard
-            key={ii}
-            title="Название услуги"
-            description="Описание услуги"
-            imageUrl="https://www.enterpriseappstoday.com/wp-content/uploads/2023/05/Clinical-Laboratory-Services-market.jpg"
-          />
-        ))}
-      </MyStack>
-    </ScrollView>
+      <ScrollView>
+        <EmptyStatement description="У вас нет текущих услуг" />
+        {/*<YStack>*/}
+        {/*  {Array.from(Array(10)).map((i, ii) => (*/}
+        {/*    <ServiceCard*/}
+        {/*      key={ii}*/}
+        {/*      title="Название услуги"*/}
+        {/*      description="Описание услуги"*/}
+        {/*      imageUrl="https://www.enterpriseappstoday.com/wp-content/uploads/2023/05/Clinical-Laboratory-Services-market.jpg"*/}
+        {/*    />*/}
+        {/*  ))}*/}
+        {/*</YStack>*/}
+      </ScrollView>
+    </MyStack>
   );
 }
