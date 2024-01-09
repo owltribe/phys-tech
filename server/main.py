@@ -8,12 +8,13 @@ from src.user.auth import auth_backend
 from src.user.auth_router import auth_router
 from src.user.user_router import users_router
 from src.user.utils import get_user_manager
+from src.service.service_router import services_router
 
 app = FastAPI()
 
 app.include_router(auth_router)
 app.include_router(users_router)
-
+app.include_router(services_router)
 
 # Protected router example
 fastapi_users = FastAPIUsers[User, uuid.UUID](
