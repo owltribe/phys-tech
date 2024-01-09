@@ -7,6 +7,7 @@ from alembic import context
 
 from config import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
 from models.user import metadata as user_metadata
+from models.service import metadata as service_metadata
 
 import os
 import sys
@@ -36,6 +37,7 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 target_metadata = [
     user_metadata,
+    service_metadata
 ]
 
 # other values from the config, defined by the needs of env.py,
