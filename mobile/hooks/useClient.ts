@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { AxiosInstance } from "axios";
-
-import axiosInstance from "../utils/axios-instance";
+import axiosInstance from "utils/axios-instance";
 
 export default function useClient(): AxiosInstance {
   // const { session } = useAuth();
