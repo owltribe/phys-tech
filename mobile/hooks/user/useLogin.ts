@@ -1,4 +1,9 @@
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient
+} from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import {
   BearerResponse,
@@ -12,6 +17,8 @@ export default function useLogin(): UseMutationResult<
   AxiosError<ErrorModel>,
   Body_auth_jwt_login_auth_login_post
 > {
+  const queryClient = useQueryClient();
+
   const login = (payload: Body_auth_jwt_login_auth_login_post) => {
     const formData = new FormData();
     formData.append("username", payload.username);
@@ -25,6 +32,13 @@ export default function useLogin(): UseMutationResult<
   };
 
   return useMutation({
-    mutationFn: login
+    mutationFn: login,
+    onSuccess: async (response) => {
+      await AsyncStorage.setItem("JWT", response.data.access_token);
+
+      queryClient.invalidateQueries({
+        queryKey: ["me"]
+      });
+    }
   });
 }

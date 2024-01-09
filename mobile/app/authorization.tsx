@@ -1,8 +1,6 @@
 import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Sparkles } from "@tamagui/lucide-icons";
-import { useQueryClient } from "@tanstack/react-query/build/modern/index";
 import { MyStack } from "components/MyStack";
 import { MyTextInput } from "components/MyTextInput";
 import { MyButton } from "components/tamagui/MyButton";
@@ -15,8 +13,6 @@ interface FormValues {
 }
 
 export default function Authorization() {
-  const queryClient = useQueryClient();
-
   const loginMutation = useLogin();
 
   const { control, handleSubmit } = useForm<FormValues>({
@@ -29,13 +25,6 @@ export default function Authorization() {
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
     console.log("Ons");
     loginMutation.mutate(formValues, {
-      onSuccess: async (response) => {
-        await AsyncStorage.setItem("JWT", response.data.access_token);
-
-        queryClient.invalidateQueries({
-          queryKey: ["me"]
-        });
-      },
       onError: (e) => {
         console.error("Error", e);
       }
