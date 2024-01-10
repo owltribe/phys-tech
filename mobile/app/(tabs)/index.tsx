@@ -16,21 +16,21 @@ export default function Home() {
           description="Профили научных организаций с детальной информацией"
           theme="blue"
           Icon={Atom}
-          link="/organizations"
+          link="/search?section=organization"
         />
         <PreviewLinkCard
           title="Услуги"
           description="Каталог научных услуг от каждой организации"
           theme="green"
           Icon={HeartHandshake}
-          link="/services"
+          link="/search?section=service"
         />
         <PreviewLinkCard
           title="Мероприятия"
           description="Календарь семинаров, конференций и других мероприятий"
           theme="purple"
           Icon={Calendar}
-          link="/events"
+          link="/search?section=event"
         />
       </MyStack>
     </ScrollView>
