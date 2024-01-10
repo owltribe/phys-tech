@@ -4,7 +4,7 @@ import { Sparkles } from "@tamagui/lucide-icons";
 import { MyStack } from "components/MyStack";
 import { MyTextInput } from "components/MyTextInput";
 import { MyButton } from "components/tamagui/MyButton";
-import useLogin from "hooks/user/useLogin";
+import { useAuth } from "providers/AuthProvider";
 import { H2, Separator, Spinner, Theme, YStack } from "tamagui";
 
 interface FormValues {
@@ -13,7 +13,7 @@ interface FormValues {
 }
 
 export default function Authorization() {
-  const loginMutation = useLogin();
+  const { onLogin, isLoginLoading } = useAuth();
 
   const { control, handleSubmit } = useForm<FormValues>({
     defaultValues: {
@@ -23,12 +23,7 @@ export default function Authorization() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    console.log("Ons");
-    loginMutation.mutate(formValues, {
-      onError: (e) => {
-        console.error("Error", e);
-      }
-    });
+    onLogin(formValues);
   };
 
   return (
@@ -108,7 +103,8 @@ export default function Authorization() {
 
           <MyButton
             mt="$4"
-            icon={loginMutation.isPending ? <Spinner /> : undefined}
+            icon={isLoginLoading ? <Spinner /> : undefined}
+            disabled={isLoginLoading}
             onPress={handleSubmit(onSubmit)}
           >
             Войти

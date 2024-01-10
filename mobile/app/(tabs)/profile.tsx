@@ -17,6 +17,8 @@ import {
   YStack
 } from "tamagui";
 
+import { useAuth } from "../../providers/AuthProvider";
+
 interface ChevronButtonProps extends ButtonProps {
   title: string;
 }
@@ -48,6 +50,8 @@ const ChevronButton = ({ title, onPress }: ChevronButtonProps) => {
   );
 };
 export default function Profile() {
+  const { user } = useAuth();
+
   const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
   const handleOpenEdit = () => setIsEditSheetOpen(true);
 
@@ -84,8 +88,8 @@ export default function Profile() {
                   />
                 </Avatar>
                 <YStack justifyContent="center">
-                  <H3>Jonas Black</H3>
-                  <Paragraph color="$gray9">@jonasblack</Paragraph>
+                  <H3>{user.username}</H3>
+                  <Paragraph color="$gray9">{user.email}</Paragraph>
                 </YStack>
               </XStack>
               <Button.Icon>

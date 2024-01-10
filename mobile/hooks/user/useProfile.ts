@@ -3,14 +3,22 @@ import { AxiosError, AxiosResponse } from "axios";
 import { ErrorModel, UserProfile } from "types/generated";
 import axiosInstance from "utils/axios-instance";
 
-export default function useProfile(): UseQueryResult<
-  AxiosResponse<UserProfile>,
-  AxiosError<ErrorModel>
-> {
+import useClient from "../useClient";
+
+export default function useProfile({
+  enabled
+}: {
+  enabled: boolean;
+}): UseQueryResult<AxiosResponse<UserProfile>, AxiosError<ErrorModel>> {
+  const client = useClient();
+
+  const fetchProfile = () => {
+    return client.get("/users/me/profile");
+  };
+
   return useQuery({
     queryKey: ["me"],
-    queryFn: () => {
-      return axiosInstance.get("/users/me/profile");
-    }
+    queryFn: fetchProfile,
+    enabled: enabled
   });
 }
