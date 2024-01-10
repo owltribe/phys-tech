@@ -61,7 +61,7 @@ export default function Onboarding() {
   return (
     <OnboardingView
       autoSwipe
-      onOnboarded={() => router.push("/")}
+      onOnboarded={() => router.push("authorization")}
       steps={steps}
     />
   );
