@@ -5,7 +5,7 @@ from fastapi_users import FastAPIUsers
 from models.service import Service
 from src.service.schemas import SerivceCreate
 
-from sqlalchemy import insert
+from sqlalchemy import insert, select
 from database import get_async_session
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -19,7 +19,9 @@ services_router = APIRouter(
     status_code=status.HTTP_200_OK,
 )
 async def get_service_by_id(id: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
-   return id
+   query = select(Service).where(Service.id == id)
+   result = await session.execute(query)
+   return result.scalar()
 
 @services_router.post(
     "/create",
