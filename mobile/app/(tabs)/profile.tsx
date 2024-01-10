@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ChevronRight } from "@tamagui/lucide-icons";
+import { NamedExoticComponent, useState } from "react";
+import {ChevronRight, HelpCircle, LogOut, Mail, Mailbox, PencilLine, Phone, ShieldCheck} from "@tamagui/lucide-icons";
 import { MyStack } from "components/MyStack";
 import { useAuth } from "providers/AuthProvider";
 import {
@@ -7,8 +7,8 @@ import {
   Avatar,
   Button,
   ButtonProps,
-  H2,
-  H3,
+  H2, H3,
+  H5,
   Input,
   Label,
   Paragraph,
@@ -17,14 +17,17 @@ import {
   XStack,
   YStack
 } from "tamagui";
+import {IconProps} from "@tamagui/helpers-icon";
 
-import { UserRead } from "../../types/generated";
 
+import { UserRead } from "types/generated";
 interface ChevronButtonProps extends ButtonProps {
   title: string;
+  isRed?: boolean;
+  icon: NamedExoticComponent<IconProps>;
 }
 
-const ChevronButton = ({ title, onPress }: ChevronButtonProps) => {
+const ChevronButton = ({ title, onPress, isRed, icon: Icon }: ChevronButtonProps) => {
   return (
     <Button
       unstyled
@@ -37,10 +40,13 @@ const ChevronButton = ({ title, onPress }: ChevronButtonProps) => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <H3>{title}</H3>
+            <XStack alignItems="center" space="$3">
+              <Icon size="$2" color={isRed ? "$red9" : "$blue9"} />
+              <Paragraph size="$5" fontWeight="800" color={isRed ? "$red9": undefined}>{title}</Paragraph>
+            </XStack>
             <Button.Icon>
               <ChevronRight
-                color="$gray9"
+                color={isRed ? "$red9" : "$gray9"}
                 size="$3"
               />
             </Button.Icon>
@@ -63,7 +69,15 @@ export default function Profile() {
           space="$4"
           maxWidth={600}
         >
-          <H2>Профиль</H2>
+          <XStack justifyContent="space-between">
+            <H2>Профиль</H2>
+            <Button.Icon>
+              <PencilLine
+                  color="$blue9"
+                  size="$3"
+              />
+            </Button.Icon>
+          </XStack>
           <Button
             unstyled
             onPress={handleOpenEdit}
@@ -93,14 +107,18 @@ export default function Profile() {
                   <Paragraph color="$gray9">{user.email}</Paragraph>
                 </YStack>
               </XStack>
-              <Button.Icon>
-                <ChevronRight
-                  color="$gray9"
-                  size="$3"
-                />
-              </Button.Icon>
             </XStack>
           </Button>
+          <YStack>
+            <XStack alignItems="center" space="$3">
+              <Phone size={16} color="$gray9" />
+              <Paragraph size="$5" color="$gray9">+628992344221</Paragraph>
+            </XStack>
+            <XStack alignItems="center" space="$3">
+              <Mail size={16} color="$gray9" />
+              <Paragraph size="$5" color="$gray9">{user.email}</Paragraph>
+            </XStack>
+          </YStack>
         </YStack>
 
         <Separator marginVertical={10} />
@@ -112,19 +130,9 @@ export default function Profile() {
           >
             О нас
           </Paragraph>
-          <ChevronButton title="FAQ" />
-          <ChevronButton title="Политика конфиденциальности" />
-        </YStack>
-
-        <Separator marginVertical={10} />
-
-        <YStack>
-          <Anchor
-            size="$6"
-            color="red"
-          >
-            Выйти
-          </Anchor>
+          <ChevronButton title="FAQ" icon={HelpCircle} />
+          <ChevronButton title="Политика конфиденциальности" icon={ShieldCheck} />
+          <ChevronButton title="Выйти" icon={LogOut} isRed />
         </YStack>
       </MyStack>
 
@@ -146,11 +154,10 @@ export default function Profile() {
         >
           <H2>Редактировать</H2>
           <YStack
-            mt="$space.4"
-            alignItems="center"
+            mt="$4"
             space="$2.5"
           >
-            <XStack space="$4">
+            <YStack space="$0.5">
               <Label
                 width={90}
                 size="$5"
@@ -164,8 +171,8 @@ export default function Profile() {
                 id="first_name"
                 defaultValue="Jonas"
               />
-            </XStack>
-            <XStack space="$4">
+            </YStack>
+            <YStack space="$0.5">
               <Label
                 width={90}
                 size="$5"
@@ -179,7 +186,7 @@ export default function Profile() {
                 id="last_name"
                 defaultValue="Black"
               />
-            </XStack>
+            </YStack>
           </YStack>
         </Sheet.Frame>
       </Sheet>
