@@ -1,19 +1,17 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import { ErrorModel, UserProfile } from "types/generated";
-import axiosInstance from "utils/axios-instance";
-
-import useClient from "../useClient";
+import useClient from "hooks/useClient";
+import { ErrorModel, UserRead } from "types/generated";
 
 export default function useProfile({
   enabled
 }: {
   enabled: boolean;
-}): UseQueryResult<AxiosResponse<UserProfile>, AxiosError<ErrorModel>> {
+}): UseQueryResult<AxiosResponse<UserRead>, AxiosError<ErrorModel>> {
   const client = useClient();
 
   const fetchProfile = () => {
-    return client.get("/users/me/profile");
+    return client.get("/users/me");
   };
 
   return useQuery({
