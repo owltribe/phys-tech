@@ -3,4 +3,4 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UserRoleEnum = 'Organization' | 'Client';
+export type UserRole = 'Organization' | 'Client';

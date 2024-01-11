@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { UserRoleEnum } from './UserRoleEnum';
+import type { UserRole } from './UserRole';
 
 export type UserCreate = {
     email: string;
@@ -11,7 +11,8 @@ export type UserCreate = {
     is_active?: (boolean | null);
     is_superuser?: (boolean | null);
     is_verified?: (boolean | null);
-    username: string;
-    role: UserRoleEnum;
+    first_name: string;
+    last_name: string;
+    role: UserRole;
 };
 
