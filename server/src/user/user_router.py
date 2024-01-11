@@ -6,7 +6,7 @@ from fastapi_users import FastAPIUsers
 
 from models.user import User
 from src.user.auth import auth_backend
-from src.user.schemas import UserProfile
+from src.user.schemas import UserRead
 from src.user.utils import get_user_manager
 
 users_router = APIRouter(
@@ -24,8 +24,8 @@ current_active_user = fastapi_users.current_user(active=True)
 
 
 @users_router.get(
-    "/me/profile",
-    response_model=UserProfile,
+    "/me",
+    response_model=UserRead,
     status_code=status.HTTP_200_OK,
 )
 async def read_users_me_profile(current_user: User = Depends(current_active_user)):

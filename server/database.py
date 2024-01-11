@@ -1,7 +1,9 @@
+from datetime import datetime
 from typing import AsyncGenerator
 
+from sqlalchemy import TIMESTAMP
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, mapped_column
 
 from config import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
 
@@ -12,6 +14,9 @@ async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
 
 class Base(DeclarativeBase):
+    created_at = mapped_column(TIMESTAMP, default=datetime.utcnow)
+    updated_at = mapped_column(TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow)
+
     pass
 
 
