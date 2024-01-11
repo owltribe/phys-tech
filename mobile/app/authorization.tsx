@@ -4,6 +4,7 @@ import { Sparkles } from "@tamagui/lucide-icons";
 import { MyStack } from "components/MyStack";
 import { MyTextInput } from "components/MyTextInput";
 import { MyButton } from "components/tamagui/MyButton";
+import { useRouter } from "expo-router";
 import { useAuth } from "providers/AuthProvider";
 import { H2, Separator, Spinner, Theme, YStack } from "tamagui";
 
@@ -13,6 +14,7 @@ interface FormValues {
 }
 
 export default function Authorization() {
+  const router = useRouter();
   const { onLogin, isLoginLoading } = useAuth();
 
   const { control, handleSubmit } = useForm<FormValues>({
@@ -103,6 +105,8 @@ export default function Authorization() {
 
           <MyButton
             mt="$4"
+            color="$color1"
+            backgroundColor="$color9"
             icon={isLoginLoading ? <Spinner /> : undefined}
             disabled={isLoginLoading}
             onPress={handleSubmit(onSubmit)}
@@ -112,7 +116,18 @@ export default function Authorization() {
 
           <Separator marginVertical={15} />
 
-          <MyButton variant="outlined">Зарегистрироваться</MyButton>
+          <MyButton
+            pressStyle={{
+              backgroundColor: "$color6",
+              borderColor: "$color6"
+            }}
+            chromeless
+            bordered
+            borderColor="$color"
+            onPress={() => router.push("/register")}
+          >
+            Зарегистрироваться
+          </MyButton>
         </YStack>
       </MyStack>
     </Theme>
