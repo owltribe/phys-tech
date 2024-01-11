@@ -62,8 +62,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const onRegister = (formValues: UserCreate) => {
     registerMutation.mutate(formValues, {
-      onSuccess: (response) => {
-        console.log(response.data, "res");
+      onSuccess: () => {
+        router.replace("/authorization");
       }
     });
   };
@@ -90,6 +90,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user: data?.data || null,
     isLoading: isLoading,
     isLoginLoading: loginMutation.isPending,
+    isRegisterLoading: registerMutation.isPending,
     onLogin: onLogin,
     onRegister: onRegister,
     token: token

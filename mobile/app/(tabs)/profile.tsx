@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronRight } from "@tamagui/lucide-icons";
 import { MyStack } from "components/MyStack";
+import { useAuth } from "providers/AuthProvider";
 import {
   Anchor,
   Avatar,
@@ -17,7 +18,7 @@ import {
   YStack
 } from "tamagui";
 
-import { useAuth } from "../../providers/AuthProvider";
+import { UserRead } from "../../types/generated";
 
 interface ChevronButtonProps extends ButtonProps {
   title: string;
@@ -50,7 +51,7 @@ const ChevronButton = ({ title, onPress }: ChevronButtonProps) => {
   );
 };
 export default function Profile() {
-  const { user } = useAuth();
+  const { user }: { user: UserRead } = useAuth();
 
   const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
   const handleOpenEdit = () => setIsEditSheetOpen(true);
@@ -88,7 +89,7 @@ export default function Profile() {
                   />
                 </Avatar>
                 <YStack justifyContent="center">
-                  <H3>{user.username}</H3>
+                  <H3>{user.full_name}</H3>
                   <Paragraph color="$gray9">{user.email}</Paragraph>
                 </YStack>
               </XStack>
