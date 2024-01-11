@@ -11,13 +11,16 @@ import {
   UserCreate,
   UserRead
 } from "types/generated";
+
 import axiosInstance from "utils/axios-instance";
+import useLogout from "hooks/user/useLogout";
 
 interface AuthProps {
   user?: any | null;
   isLoading?: boolean;
   isLoginLoading?: boolean;
   onLogin?: (formValues: Body_auth_jwt_login_auth_login_post) => void;
+  onLogout?: () => void;
   token?: string | null;
 }
 
@@ -38,6 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const loginMutation = useLogin();
   const registerMutation = useRegister();
+  const logoutMutation = useLogout();
 
   const { data, isLoading } = useProfile({
     enabled: !!token
@@ -68,6 +72,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const onLogout = () => {
+    logoutMutation.mutate(null, {
+      onError: (e) => {
+        console.error("Error during logout", e);
+      },
+      onSuccess: async () => {
+        await AsyncStorage.removeItem("accessToken");
+        setToken(null);
+        queryClient.invalidateQueries({
+          queryKey: ["me"]
+        });
+        replaceRoute("/authorization");
+      }
+    });
+  };
+
   useEffect(() => {
     const loadToken = async () => {
       const accessToken = await AsyncStorage.getItem("accessToken");
@@ -93,6 +113,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     isRegisterLoading: registerMutation.isPending,
     onLogin: onLogin,
     onRegister: onRegister,
+    onLogout,
     token: token
   };
 
