@@ -96,6 +96,13 @@ export default function Layout() {
                         headerShown: false
                       }}
                     />
+                    <Stack.Screen
+                      name="register"
+                      options={{
+                        headerTitle: "Войти",
+                        headerTitleAlign: "left"
+                      }}
+                    />
                   </Stack>
                 </MySafeAreaView>
               </AuthProvider>

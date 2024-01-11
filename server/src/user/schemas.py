@@ -3,19 +3,21 @@ from typing import Optional
 
 from fastapi_users import schemas
 from fastapi_users.models import ID
-from pydantic import EmailStr, BaseModel
+from pydantic import EmailStr
 
-from models.user import UserRoleEnum
+from models.user import UserRole
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
     id: ID
     email: EmailStr
-    username: str
-    role: UserRoleEnum
+    first_name: str
+    last_name: str
+    role: UserRole
     is_active: bool = True
     is_superuser: bool = False
     is_verified: bool = False
+    full_name: str
 
     class Config:
         from_attributes = True
@@ -23,26 +25,21 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
 
 class UserCreate(schemas.BaseUserCreate):
     email: EmailStr
-    username: str
-    role: UserRoleEnum
+    first_name: str
+    last_name: str
+    role: UserRole
     password: str
     is_active: Optional[bool] = True
-    # is_superuser: Optional[bool] = False
-    # is_verified: Optional[bool] = False
+    is_superuser: Optional[bool] = False
+    is_verified: Optional[bool] = False
 
 
 class UserUpdate(schemas.BaseUserUpdate):
     email: Optional[EmailStr] = None
-    username: Optional[str] = None
-    role: Optional[UserRoleEnum] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    role: Optional[UserRole] = None
     password: Optional[str] = None
     is_active: Optional[bool] = None
     is_superuser: Optional[bool] = None
     is_verified: Optional[bool] = None
-
-
-class UserProfile(BaseModel):
-    username: str
-    email: str | None = None
-    full_name: str | None = None
-    disabled: bool | None = None

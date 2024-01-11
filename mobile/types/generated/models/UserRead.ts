@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { UserRoleEnum } from './UserRoleEnum';
+import type { UserRole } from './UserRole';
 
 export type UserRead = {
     id: any;
@@ -11,7 +11,9 @@ export type UserRead = {
     is_active?: boolean;
     is_superuser?: boolean;
     is_verified?: boolean;
-    username: string;
-    role: UserRoleEnum;
+    first_name: string;
+    last_name: string;
+    role: UserRole;
+    full_name: string;
 };
 

@@ -9,7 +9,6 @@ export default function useClient(): AxiosInstance {
   return useCallback(() => {
     const cl = axiosInstance;
 
-    console.log(token, "token");
     cl.interceptors.request.use((config) => {
       if (token) {
         config.headers.set("Authorization", `Bearer ${token}`);

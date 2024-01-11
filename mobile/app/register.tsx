@@ -1,31 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Sparkles } from "@tamagui/lucide-icons";
 import { MyStack } from "components/MyStack";
 import { MyTextInput } from "components/MyTextInput";
 import { MyButton } from "components/tamagui/MyButton";
-import { useRouter } from "expo-router";
 import { useAuth } from "providers/AuthProvider";
-import { H2, Separator, Spinner, Theme, YStack } from "tamagui";
+import { H2, Spinner, Theme, YStack } from "tamagui";
+
+import { UserRole } from "../types/generated";
 
 interface FormValues {
-  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
   password: string;
+  rePassword: string;
+  role: UserRole | null;
 }
 
 export default function Authorization() {
-  const router = useRouter();
-  const { onLogin, isLoginLoading } = useAuth();
+  const { onRegister, isRegisterLoading } = useAuth();
 
   const { control, handleSubmit } = useForm<FormValues>({
     defaultValues: {
-      username: "",
-      password: ""
+      email: "",
+      first_name: "",
+      last_name: "",
+      password: "",
+      rePassword: "",
+      role: "Organization"
     }
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    onLogin(formValues);
+    onRegister({ ...formValues });
   };
 
   return (
@@ -34,20 +41,6 @@ export default function Authorization() {
         backgroundColor="$color3"
         jc="center"
       >
-        <YStack
-          animation="lazy"
-          y={0}
-          enterStyle={{ scale: 0.8, y: -10, opacity: 0 }}
-          exitStyle={{ scale: 0.8, y: -10, opacity: 0 }}
-          opacity={1}
-          scale={1}
-          ai="center"
-        >
-          <Sparkles
-            color="$color9"
-            size={96}
-          />
-        </YStack>
         <H2
           mt="$5"
           animation="bouncy"
@@ -65,21 +58,55 @@ export default function Authorization() {
             mt: "$4"
           }}
         >
-          Science Услуги
+          Регистрация
         </H2>
 
-        <YStack mt="$8">
+        <YStack mt="$4">
           <Controller
             control={control}
             rules={{
               required: true
             }}
-            name="username"
+            name="email"
             render={({ field: { onChange, onBlur, value } }) => (
               <MyTextInput
                 placeholder="Электронная почта"
                 autoComplete="email"
                 inputMode="email"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="first_name"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <MyTextInput
+                placeholder="Имя"
+                autoComplete="name"
+                inputMode="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="last_name"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <MyTextInput
+                placeholder="Фамилия"
+                autoComplete="family-name"
+                inputMode="text"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -102,29 +129,30 @@ export default function Authorization() {
               />
             )}
           />
+          <Controller
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="rePassword"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <MyTextInput
+                placeholder="Повтроите пароль"
+                autoComplete="password-new"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
 
           <MyButton
             mt="$4"
             color="$color1"
             backgroundColor="$color9"
-            icon={isLoginLoading ? <Spinner /> : undefined}
-            disabled={isLoginLoading}
+            icon={isRegisterLoading ? <Spinner /> : undefined}
+            disabled={isRegisterLoading}
             onPress={handleSubmit(onSubmit)}
-          >
-            Войти
-          </MyButton>
-
-          <Separator marginVertical={15} />
-
-          <MyButton
-            pressStyle={{
-              backgroundColor: "$color6",
-              borderColor: "$color6"
-            }}
-            chromeless
-            bordered
-            borderColor="$color"
-            onPress={() => router.push("/register")}
           >
             Зарегистрироваться
           </MyButton>

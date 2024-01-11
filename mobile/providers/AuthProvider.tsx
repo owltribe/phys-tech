@@ -3,14 +3,15 @@ import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
-import useLogin from "hooks/user/useLogin";
+import useLogin from "hooks/auth/useLogin";
+import useRegister from "hooks/auth/useRegister";
 import useProfile from "hooks/user/useProfile";
 import {
   Body_auth_jwt_login_auth_login_post,
-  UserProfile
+  UserCreate,
+  UserRead
 } from "types/generated";
-
-import axiosInstance from "../utils/axios-instance";
+import axiosInstance from "utils/axios-instance";
 
 interface AuthProps {
   user?: any | null;
@@ -36,6 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
 
   const loginMutation = useLogin();
+  const registerMutation = useRegister();
 
   const { data, isLoading } = useProfile({
     enabled: !!token
@@ -54,6 +56,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         queryClient.invalidateQueries({
           queryKey: ["me"]
         });
+      }
+    });
+  };
+
+  const onRegister = (formValues: UserCreate) => {
+    registerMutation.mutate(formValues, {
+      onSuccess: () => {
+        router.replace("/authorization");
       }
     });
   };
@@ -80,14 +90,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user: data?.data || null,
     isLoading: isLoading,
     isLoginLoading: loginMutation.isPending,
+    isRegisterLoading: registerMutation.isPending,
     onLogin: onLogin,
+    onRegister: onRegister,
     token: token
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export function useProtectedRoute(user: UserProfile | null) {
+export function useProtectedRoute(user: UserRead | null) {
   useEffect(() => {
     if (user) {
       replaceRoute("/");
