@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQueryClient } from "@tanstack/react-query";
-import { router } from "expo-router";
+import { router, useRouter } from "expo-router";
 import useLogin from "hooks/auth/useLogin";
+import useLogout from "hooks/auth/useLogout";
 import useRegister from "hooks/auth/useRegister";
 import useProfile from "hooks/user/useProfile";
 import {
@@ -11,9 +11,7 @@ import {
   UserCreate,
   UserRead
 } from "types/generated";
-
 import axiosInstance from "utils/axios-instance";
-import useLogout from "hooks/user/useLogout";
 
 interface AuthProps {
   user?: any | null;
@@ -23,6 +21,27 @@ interface AuthProps {
   onLogout?: () => void;
   token?: string | null;
 }
+
+/**
+ * temporary fix
+ *
+ * see https://github.com/expo/router/issues/740
+ * see https://github.com/expo/router/issues/745
+ *  */
+const replaceRoute = (href: string) => {
+  setImmediate(() => {
+    router.replace(href);
+  });
+  // if (Platform.OS === "ios") {
+  //   setTimeout(() => {
+  //     router.replace(href);
+  //   }, 1);
+  // } else {
+  //   setImmediate(() => {
+  //     router.replace(href);
+  //   });
+  // }
+};
 
 export const AuthContext = createContext<AuthProps>({});
 
@@ -44,7 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logoutMutation = useLogout();
 
   const { data, isLoading } = useProfile({
-    enabled: !!token
+    token: token
   });
 
   const onLogin = (formValues: Body_auth_jwt_login_auth_login_post) => {
@@ -60,6 +79,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         queryClient.invalidateQueries({
           queryKey: ["me"]
         });
+
+        replaceRoute("/");
       }
     });
   };
@@ -67,7 +88,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const onRegister = (formValues: UserCreate) => {
     registerMutation.mutate(formValues, {
       onSuccess: () => {
-        router.replace("/authorization");
+        replaceRoute("/authorization");
       }
     });
   };
@@ -83,7 +104,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         queryClient.invalidateQueries({
           queryKey: ["me"]
         });
-        replaceRoute("/authorization");
+        router.replace("/authorization");
       }
     });
   };
@@ -129,21 +150,3 @@ export function useProtectedRoute(user: UserRead | null) {
     }
   }, [user]);
 }
-
-/**
- * temporary fix
- *
- * see https://github.com/expo/router/issues/740
- * see https://github.com/expo/router/issues/745
- *  */
-const replaceRoute = (href: string) => {
-  if (Platform.OS === "ios") {
-    setTimeout(() => {
-      router.replace(href);
-    }, 1);
-  } else {
-    setImmediate(() => {
-      router.replace(href);
-    });
-  }
-};

@@ -9,7 +9,8 @@ import {
   Mailbox,
   PencilLine,
   Phone,
-  ShieldCheck
+  ShieldCheck,
+  User
 } from "@tamagui/lucide-icons";
 import { MyStack } from "components/MyStack";
 import { MyTextInput } from "components/MyTextInput";
@@ -17,13 +18,11 @@ import { MyButton } from "components/tamagui/MyButton";
 import useEditUser from "hooks/user/useEditUser";
 import { useAuth } from "providers/AuthProvider";
 import {
-  Anchor,
   Avatar,
   Button,
   ButtonProps,
   H2,
   H3,
-  Label,
   Paragraph,
   Separator,
   Sheet,
@@ -40,6 +39,7 @@ interface ChevronButtonProps extends ButtonProps {
 
 interface FormValues {
   first_name: string;
+  last_name: string;
 }
 
 const ChevronButton = ({
@@ -76,12 +76,6 @@ const ChevronButton = ({
                 {title}
               </Paragraph>
             </XStack>
-            <Button.Icon>
-              <ChevronRight
-                color={isRed ? "$red9" : "$gray9"}
-                size="$3"
-              />
-            </Button.Icon>
           </XStack>
         </Button>
       </YStack>
@@ -92,17 +86,19 @@ export default function Profile() {
   const { user, onLogout }: { user: UserRead; onLogout: () => void } =
     useAuth();
 
-  const editUser = useEditUser();
+  const updateUserMutation = useEditUser();
 
-  const { control, handleSubmit } = useForm<FormValues>({
+  const { control, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: {
-      first_name: ""
+      first_name: "",
+      last_name: ""
     }
   });
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    editUser.mutate(formValues, {
+    updateUserMutation.mutate(formValues, {
       onSuccess: () => {
         setIsEditSheetOpen(false);
+        reset();
       }
     });
   };
@@ -139,14 +135,14 @@ export default function Profile() {
                 size="$7"
                 marginRight={15}
               >
-                <Avatar.Image
-                  borderRadius="$space.20"
-                  accessibilityLabel="Cam"
-                  src="https://images.unsplash.com/photo-1548142813-c348350df52b?&w=150&h=150&dpr=2&q=80"
-                />
+                {/*<Avatar.Image*/}
+                {/*  borderRadius="$space.20"*/}
+                {/*  accessibilityLabel="Cam"*/}
+                {/*  src={<User />}*/}
+                {/*/>*/}
                 <Avatar.Fallback
                   borderRadius="$space.20"
-                  backgroundColor="$gray6"
+                  backgroundColor="$blue6"
                 />
               </Avatar>
               <YStack justifyContent="center">
@@ -155,43 +151,43 @@ export default function Profile() {
               </YStack>
             </XStack>
           </XStack>
-          <YStack>
-            <XStack
-              alignItems="center"
-              space="$3"
-            >
-              <Phone
-                size={16}
-                color="$gray9"
-              />
-              <Paragraph
-                size="$5"
-                color="$gray9"
-              >
-                +628992344221
-              </Paragraph>
-            </XStack>
-            <XStack
-              alignItems="center"
-              space="$3"
-            >
-              <Mail
-                size={16}
-                color="$gray9"
-              />
-              <Paragraph
-                size="$5"
-                color="$gray9"
-              >
-                {user.email}
-              </Paragraph>
-            </XStack>
-          </YStack>
+          {/*<YStack>*/}
+          {/*  <XStack*/}
+          {/*    alignItems="center"*/}
+          {/*    space="$3"*/}
+          {/*  >*/}
+          {/*    <Phone*/}
+          {/*      size={16}*/}
+          {/*      color="$gray9"*/}
+          {/*    />*/}
+          {/*    <Paragraph*/}
+          {/*      size="$5"*/}
+          {/*      color="$gray9"*/}
+          {/*    >*/}
+          {/*      +628992344221*/}
+          {/*    </Paragraph>*/}
+          {/*  </XStack>*/}
+          {/*  <XStack*/}
+          {/*    alignItems="center"*/}
+          {/*    space="$3"*/}
+          {/*  >*/}
+          {/*    <Mail*/}
+          {/*      size={16}*/}
+          {/*      color="$gray9"*/}
+          {/*    />*/}
+          {/*    <Paragraph*/}
+          {/*      size="$5"*/}
+          {/*      color="$gray9"*/}
+          {/*    >*/}
+          {/*      {user.email}*/}
+          {/*    </Paragraph>*/}
+          {/*  </XStack>*/}
+          {/*</YStack>*/}
         </YStack>
 
         <Separator marginVertical={10} />
 
-        <YStack space="$2.5">
+        <YStack space="$4">
           <Paragraph
             color="$gray8"
             size="$5"
@@ -209,6 +205,7 @@ export default function Profile() {
           <ChevronButton
             title="Выйти"
             icon={LogOut}
+            onPress={logout}
             isRed
           />
         </YStack>
@@ -237,25 +234,41 @@ export default function Profile() {
           >
             <YStack space="$0.5">
               <Controller
-                  control={control}
-                  rules={{
-                    required: true
-                  }}
-                  name="first_name"
-                  render={({ field: { onChange, onBlur, value } }) => (
-                      <MyTextInput
-                          placeholder="Имя"
-                          autoComplete="name"
-                          onBlur={onBlur}
-                          onChangeText={onChange}
-                          value={value}
-                      />
-                  )}
+                control={control}
+                rules={{
+                  required: true
+                }}
+                name="first_name"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <MyTextInput
+                    placeholder="Имя"
+                    autoComplete="name"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                rules={{
+                  required: true
+                }}
+                name="last_name"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <MyTextInput
+                    placeholder="Фамилия"
+                    autoComplete="family-name"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
               />
             </YStack>
             <MyButton
-                mt="$4"
-                onPress={handleSubmit(onSubmit)}
+              mt="$4"
+              onPress={handleSubmit(onSubmit)}
             >
               Изменить
             </MyButton>

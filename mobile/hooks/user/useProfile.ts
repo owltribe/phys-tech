@@ -4,19 +4,23 @@ import useClient from "hooks/useClient";
 import { ErrorModel, UserRead } from "types/generated";
 
 export default function useProfile({
-  enabled
+  token
 }: {
-  enabled: boolean;
+  token: string | null;
 }): UseQueryResult<AxiosResponse<UserRead>, AxiosError<ErrorModel>> {
   const client = useClient();
 
   const fetchProfile = () => {
-    return client.get("/users/me");
+    return client.get("/users/me", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
   };
 
   return useQuery({
     queryKey: ["me"],
     queryFn: fetchProfile,
-    enabled: enabled
+    enabled: !!token
   });
 }

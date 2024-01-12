@@ -4,11 +4,11 @@ import { Adapt, Fieldset, Label, Select, Sheet, YStack } from "tamagui";
 import { LinearGradient } from "tamagui/linear-gradient";
 
 export default function SelectDemo() {
-  const [val, setVal] = useState("apple");
+  const [val, setVal] = useState("Организация");
 
   return (
     <Fieldset>
-      <Label htmlFor="food">Select Demo</Label>
+      <Label htmlFor="food">Выберите роль</Label>
       <Select
         id="food"
         value={val}
@@ -104,27 +104,4 @@ export default function SelectDemo() {
   );
 }
 
-const items = [
-  { name: "Apple" },
-  { name: "Pear" },
-  { name: "Blackberry" },
-  { name: "Peach" },
-  { name: "Apricot" },
-  { name: "Melon" },
-  { name: "Honeydew" },
-  { name: "Starfruit" },
-  { name: "Blueberry" },
-  { name: "Rasberry" },
-  { name: "Strawberry" },
-  { name: "Mango" },
-  { name: "Pineapple" },
-  { name: "Lime" },
-  { name: "Lemon" },
-  { name: "Coconut" },
-  { name: "Guava" },
-  { name: "Papaya" },
-  { name: "Orange" },
-  { name: "Grape" },
-  { name: "Jackfruit" },
-  { name: "Durian" }
-];
+const items = [{ name: "Организация" }, { name: "Клиент" }];

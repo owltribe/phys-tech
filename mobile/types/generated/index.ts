@@ -10,4 +10,5 @@ export type { HTTPValidationError } from './models/HTTPValidationError';
 export type { UserCreate } from './models/UserCreate';
 export type { UserRead } from './models/UserRead';
 export type { UserRole } from './models/UserRole';
+export type { UserUpdate } from './models/UserUpdate';
 export type { ValidationError } from './models/ValidationError';
