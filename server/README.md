@@ -10,6 +10,7 @@
 * Migration apply:
   - Specific version
     - `alembic upgrade <revisionId>`
+    - `alembic downgrade <revisionId>` 
     - Example `alembic upgrade 6d4bb18b725c`
   - Latest version
     - `alembic upgrade head`
