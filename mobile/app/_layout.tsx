@@ -1,5 +1,5 @@
 import { Suspense, useCallback } from "react";
-import { useColorScheme } from "react-native";
+import { LogBox, useColorScheme } from "react-native";
 import {
   DarkTheme,
   DefaultTheme,
@@ -113,3 +113,5 @@ export default function Layout() {
     </TamaguiProvider>
   );
 }
+
+LogBox.ignoreAllLogs();
