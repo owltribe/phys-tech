@@ -1,8 +1,8 @@
-"""user
+"""service
 
 Revision ID: 0002
 Revises: 0001
-Create Date: 2024-01-10 01:28:03.070360
+Create Date: 2024-01-12 18:15:07.157807
 
 """
 from typing import Sequence, Union
@@ -23,8 +23,11 @@ def upgrade() -> None:
     op.create_table('service',
     sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
-    sa.Column('short_description', sa.String(), nullable=False),
-    sa.Column('full_description', sa.String(), nullable=False),
+    sa.Column('description', sa.String(), nullable=False),
+    sa.Column('result', sa.String(), nullable=False),
+    sa.Column('cost', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.TIMESTAMP(), nullable=True),
+    sa.Column('updated_at', sa.TIMESTAMP(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

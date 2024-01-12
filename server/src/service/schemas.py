@@ -1,28 +1,28 @@
-import uuid
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 
-class SerivceCreate(BaseModel):
+
+class ServiceCreate(BaseModel):
     name: str
-    short_description: str
-    full_description: str
+    description: Optional[str]
+    result: Optional[str]
+    cost: int
+
 
 class ServiceRead(BaseModel):
-    id: int
+    id: UUID4
     name: str
-    short_description: str
-    full_description: str
+    description: Optional[str]
+    result: Optional[str]
+    cost: int
 
     class Config:
         from_attributes = True
 
+
 class ServiceUpdate(BaseModel):
     name: Optional[str] = None
-    short_description: Optional[str] = None
-    full_description: Optional[str] = None
-
-class ServiceDelete(BaseModel):
-    id: int
-    name: str
-    
+    description: Optional[str] = None
+    result: Optional[str] = None
+    cost: Optional[int] = None

@@ -8,7 +8,7 @@ from src.user.auth import auth_backend
 from src.user.auth_router import auth_router
 from src.user.user_router import users_router
 from src.user.utils import get_user_manager
-from src.service.service_router import services_router
+from src.service.router import services_router
 
 app = FastAPI()
 
