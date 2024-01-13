@@ -5,14 +5,14 @@
 
 import type { UserRole } from './UserRole';
 
-export type UserCreate = {
-    email: string;
-    password: string;
+export type UserUpdate = {
+    password?: (string | null);
+    email?: (string | null);
     is_active?: (boolean | null);
     is_superuser?: (boolean | null);
     is_verified?: (boolean | null);
-    first_name: string;
-    last_name: string;
-    role: UserRole;
+    first_name?: (string | null);
+    last_name?: (string | null);
+    role?: (UserRole | null);
 };
 

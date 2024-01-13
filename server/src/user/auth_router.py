@@ -5,7 +5,7 @@ from fastapi_users import FastAPIUsers
 
 from models.user import User
 from src.user.auth import auth_backend
-from src.user.schemas import UserRead, UserCreate
+from src.user.schemas import UserRead, UserCreate, UserUpdate
 from src.user.utils import get_user_manager
 
 auth_router = APIRouter(
@@ -23,4 +23,8 @@ auth_router.include_router(
 )
 auth_router.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
+)
+
+auth_router.include_router(
+    fastapi_users.get_users_router(UserRead, UserUpdate),
 )

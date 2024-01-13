@@ -3,4 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UserRoleEnum = 'Organization' | 'Client';
+export type BearerResponse = {
+    access_token: string;
+    token_type: string;
+};
+

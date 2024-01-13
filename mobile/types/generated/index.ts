@@ -3,11 +3,15 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export type { BearerResponse } from './models/BearerResponse';
 export type { Body_auth_jwt_login_auth_login_post } from './models/Body_auth_jwt_login_auth_login_post';
 export type { ErrorModel } from './models/ErrorModel';
 export type { HTTPValidationError } from './models/HTTPValidationError';
+export type { ServiceCreate } from './models/ServiceCreate';
+export type { ServiceRead } from './models/ServiceRead';
+export type { ServiceUpdate } from './models/ServiceUpdate';
 export type { UserCreate } from './models/UserCreate';
-export type { UserProfile } from './models/UserProfile';
 export type { UserRead } from './models/UserRead';
-export type { UserRoleEnum } from './models/UserRoleEnum';
+export type { UserRole } from './models/UserRole';
+export type { UserUpdate } from './models/UserUpdate';
 export type { ValidationError } from './models/ValidationError';

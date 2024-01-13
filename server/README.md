@@ -1,6 +1,6 @@
 * Getting started: 
   - Activate env: `poetry shell`
-  - Install dependencies: `poetry install`
+  - Install dependencies: `pip install -r requirements.txt`
   - Run server: `uvicorn main:app --reload`
 
 * Migration generate:
@@ -10,6 +10,7 @@
 * Migration apply:
   - Specific version
     - `alembic upgrade <revisionId>`
+    - `alembic downgrade <revisionId>` 
     - Example `alembic upgrade 6d4bb18b725c`
   - Latest version
     - `alembic upgrade head`
