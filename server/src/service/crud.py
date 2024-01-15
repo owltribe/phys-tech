@@ -42,6 +42,6 @@ def delete_service(db: Session, service_id: str):
         db.commit()
     return db_service
 
-# TODO uncomment when organization entity relation exist
+# TODO uncomment when organization entity relation is added
 # def get_services_by_organization_id(db: Session, organization_id: str):
 #     return db.query(Service).filter(Service.organization_id == organization_id)

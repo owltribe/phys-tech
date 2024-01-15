@@ -4,16 +4,14 @@ from fastapi import FastAPI, Depends
 from fastapi_users import FastAPIUsers
 
 from models.user import User
-from src.user.auth import auth_backend
-from src.user.auth_router import auth_router
-from src.user.user_router import users_router
-from src.user.utils import get_user_manager
+from src.auth.auth_backend import auth_backend
+from src.auth.router import auth_router
+from src.auth.utils import get_user_manager
 from src.service.router import services_router
 
 app = FastAPI()
 
 app.include_router(auth_router)
-app.include_router(users_router)
 app.include_router(services_router)
 
 # Protected router example

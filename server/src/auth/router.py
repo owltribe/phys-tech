@@ -4,9 +4,9 @@ from fastapi import APIRouter
 from fastapi_users import FastAPIUsers
 
 from models.user import User
-from src.user.auth import auth_backend
-from src.user.schemas import UserRead, UserCreate, UserUpdate
-from src.user.utils import get_user_manager
+from src.auth.auth_backend import auth_backend
+from src.auth.schemas import UserRead, UserCreate, UserUpdate
+from src.auth.utils import get_user_manager
 
 auth_router = APIRouter(
     prefix="/auth",
