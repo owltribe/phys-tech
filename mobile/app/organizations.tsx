@@ -1,17 +1,6 @@
-import { MyStack } from "components/MyStack";
+import { MyStack } from "components/tamagui/MyStack";
 import { useRouter } from "expo-router";
-import {
-  Card,
-  H2,
-  H3,
-  H4,
-  Image,
-  Input,
-  Paragraph,
-  ScrollView,
-  Stack,
-  YStack
-} from "tamagui";
+import { Card, H2, H4, Input, Paragraph, ScrollView, Stack } from "tamagui";
 
 // import { ScienceOrganizationCard } from "./index";
 

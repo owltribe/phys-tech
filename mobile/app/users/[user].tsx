@@ -3,10 +3,10 @@ import { useRouter, useSearchParams } from "expo-router";
 import { Button, H3, H6, XStack } from "tamagui";
 
 import DialogDemo from "../../components/DialogDemo";
-import { MyStack } from "../../components/MyStack";
 import SelectDemo from "../../components/SelectDemo";
 import SpinnerDemo from "../../components/SpinnerDemo";
 import SwitchDemo from "../../components/SwitchDemo";
+import { MyStack } from "../../components/tamagui/MyStack";
 
 export default function User() {
   const router = useRouter();

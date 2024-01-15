@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { MyStack } from "components/MyStack";
-import { MyTextInput } from "components/MyTextInput";
 import { MyButton } from "components/tamagui/MyButton";
+import { MyStack } from "components/tamagui/MyStack";
+import { MyTextInput } from "components/tamagui/MyTextInput";
 import { useAuth } from "providers/AuthProvider";
 import {
   H2,
