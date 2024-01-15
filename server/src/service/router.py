@@ -15,7 +15,7 @@ services_router = APIRouter(
 
 
 @services_router.get("", response_model=List[ServiceRead])
-async def read_services(db: Session = Depends(get_db)):
+async def list_services(db: Session = Depends(get_db)):
     services = crud.get_services(db=db)
     return services
 
@@ -26,7 +26,7 @@ async def create_new_service(service: ServiceCreate, db: Session = Depends(get_d
     return service
 
 
-@services_router.post("/{service_id}", response_model=ServiceRead)
+@services_router.get("/{service_id}", response_model=ServiceRead)
 async def read_service(service_id: str, db: Session = Depends(get_db)):
     db_service = crud.get_service(db=db, service_id=service_id)
     if db_service is None:

@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQueryClient } from "@tanstack/react-query";
-import { router, useRouter } from "expo-router";
+import { router } from "expo-router";
 import useLogin from "hooks/auth/useLogin";
 import useLogout from "hooks/auth/useLogout";
+import useMe from "hooks/auth/useMe";
 import useRegister from "hooks/auth/useRegister";
-import useProfile from "hooks/user/useProfile";
 import {
   Body_auth_jwt_login_auth_login_post,
   UserCreate,
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const registerMutation = useRegister();
   const logoutMutation = useLogout();
 
-  const { data, isLoading } = useProfile({
+  const { data, isLoading } = useMe({
     token: token
   });
 

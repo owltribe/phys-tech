@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
 import { ErrorModel, UserRead } from "types/generated";
 
-export default function useProfile({
+export default function useMe({
   token
 }: {
   token: string | null;
@@ -11,7 +11,7 @@ export default function useProfile({
   const client = useClient();
 
   const fetchProfile = () => {
-    return client.get("/users/me", {
+    return client.get("/auth/me", {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -19,7 +19,7 @@ export default function useProfile({
   };
 
   return useQuery({
-    queryKey: ["me"],
+    queryKey: ["auth"],
     queryFn: fetchProfile,
     enabled: !!token
   });

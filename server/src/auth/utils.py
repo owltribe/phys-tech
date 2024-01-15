@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_async_session
 from models.user import User
-from src.user.manager import UserManager
+from src.auth.user_manager import UserManager
 
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):

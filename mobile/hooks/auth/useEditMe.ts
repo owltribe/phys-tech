@@ -7,7 +7,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
 import { ErrorModel, UserRead, UserUpdate } from "types/generated";
 
-export default function useEditUser(): UseMutationResult<
+export default function useEditMe(): UseMutationResult<
   AxiosResponse<UserRead>,
   AxiosError<ErrorModel>,
   UserUpdate
@@ -25,7 +25,7 @@ export default function useEditUser(): UseMutationResult<
       console.error("Error updating user", e);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["me"] });
+      queryClient.invalidateQueries({ queryKey: ["auth"] });
     }
   });
 }

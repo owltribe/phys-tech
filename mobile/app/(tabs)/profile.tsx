@@ -15,7 +15,7 @@ import {
 import { MyStack } from "components/MyStack";
 import { MyTextInput } from "components/MyTextInput";
 import { MyButton } from "components/tamagui/MyButton";
-import useEditUser from "hooks/user/useEditUser";
+import useEditMe from "hooks/auth/useEditMe";
 import { useAuth } from "providers/AuthProvider";
 import {
   Avatar,
@@ -86,7 +86,7 @@ export default function Profile() {
   const { user, onLogout }: { user: UserRead; onLogout: () => void } =
     useAuth();
 
-  const updateUserMutation = useEditUser();
+  const updateUserMutation = useEditMe();
 
   const { control, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: {
