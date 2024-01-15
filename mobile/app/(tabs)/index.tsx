@@ -1,7 +1,7 @@
 import { Atom, Calendar, HeartHandshake } from "@tamagui/lucide-icons";
 import PreviewLinkCard from "components/common/PreviewLinkCard";
-import { MyStack } from "components/MyStack";
-import { MyTextInput } from "components/MyTextInput";
+import { MyStack } from "components/tamagui/MyStack";
+import { MyTextInput } from "components/tamagui/MyTextInput";
 import { H2, ScrollView } from "tamagui";
 
 export default function Home() {
