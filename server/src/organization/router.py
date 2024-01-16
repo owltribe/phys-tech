@@ -1,45 +1,37 @@
-from typing import List
-
-from fastapi import APIRouter, Depends, status, HTTPException
-from sqlalchemy.orm import Session
-from sqlalchemy import select
+from fastapi import APIRouter, status, HTTPException
+from fastapi_pagination.links import Page
 from src.organization.schemas import OrganizationCreate, OrganizationRead, OrganizationUpdate, OrganizationFilter
-from database import get_db
+from database import DbSession
 
-from fastapi_filter import FilterDepends, with_prefix
+from fastapi_filter import FilterDepends
 
-from src.organization import service
-from models import Organization
+from src.organization.service import OrganizationService
 
 organizations_router = APIRouter(
     prefix="/organizations",
     tags=["Organizations"]
 )
+service = OrganizationService(session=DbSession)
 
 
-@organizations_router.get("", response_model=List[OrganizationRead])
+@organizations_router.get("", response_model=Page[OrganizationRead])
 async def list_organizations(
-    organization_filter: OrganizationFilter = FilterDepends(OrganizationFilter),
-    db: Session = Depends(get_db),
+        organization_filter: OrganizationFilter = FilterDepends(OrganizationFilter),
 ):
-    query = select(Organization)
-    query = organization_filter.filter(query)
-    query = organization_filter.sort(query)
-    result = db.execute(query)
-    return result.scalars().all()
+    return service.get_organizations(organization_filter)
 
 
 @organizations_router.post("", response_model=OrganizationRead)
-async def create_new_organization(organization: OrganizationCreate, db: Session = Depends(get_db)):
-    organization = service.create_organization(db=db, organization=organization)
+def create_new_organization(organization: OrganizationCreate):
+    organization = service.create_organization(organization=organization)
     return organization
 
 
 @organizations_router.get("/{organization_id}", response_model=OrganizationRead)
-async def read_organization(organization_id: str, db: Session = Depends(get_db)):
-    db_organization = service.get_organization(db=db, organization_id=organization_id)
+def read_organization(organization_id: str):
+    db_organization = service.get_organization(organization_id=organization_id)
     if db_organization is None:
-        raise HTTPException(status_code=404, detail="Услуга не найдена")
+        raise HTTPException(status_code=404, detail="Организация не найдена")
     return db_organization
 
 
@@ -47,22 +39,21 @@ async def read_organization(organization_id: str, db: Session = Depends(get_db))
 def update_organization(
         organization_id: str,
         updated_organization: OrganizationUpdate,
-        db: Session = Depends(get_db)
 ):
-    existing_organization = service.get_organization(db, organization_id)
+    existing_organization = service.get_organization(organization_id)
 
     if existing_organization is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Услуга не найдена",
+            detail="Организации не найдена",
         )
 
-    updated_organization_instance = service.update_organization(db, organization_id, updated_organization)
+    updated_organization_instance = service.update_organization(organization_id, updated_organization)
 
     if updated_organization_instance is None:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Ошибка обновления услуги",
+            detail="Ошибка обновления организации",
         )
 
     return updated_organization_instance

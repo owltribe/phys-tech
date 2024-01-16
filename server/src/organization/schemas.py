@@ -7,6 +7,7 @@ from models import Organization
 
 from fastapi_filter.contrib.sqlalchemy import Filter
 
+
 class OrganizationCreate(BaseModel):
     name: str
     bin: Optional[str]
@@ -15,7 +16,6 @@ class OrganizationCreate(BaseModel):
     email: str
     description: str
     category: Optional[Category]
-
 
 
 class OrganizationRead(BaseModel):
@@ -40,6 +40,7 @@ class OrganizationUpdate(BaseModel):
     email: Optional[str]
     description: Optional[str]
     category: Optional[Category]
+
 
 class OrganizationFilter(Filter):
     name: Optional[str] = None
