@@ -1,6 +1,7 @@
 import uuid
 
 from fastapi import FastAPI, Depends
+from fastapi_pagination import add_pagination
 from fastapi_users import FastAPIUsers
 
 from models.user import User
@@ -10,6 +11,9 @@ from src.auth.utils import get_user_manager
 from src.service.router import services_router
 
 app = FastAPI()
+
+# Third party apps
+add_pagination(app)
 
 app.include_router(auth_router)
 app.include_router(services_router)

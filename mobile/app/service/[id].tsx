@@ -13,7 +13,7 @@ import {
   YStack
 } from "tamagui";
 
-import { MyStack } from "../../components/MyStack";
+import { MyStack } from "../../components/tamagui/MyStack";
 
 const data = [
   "Измерение морфологии поверхности методом АСМ. ",

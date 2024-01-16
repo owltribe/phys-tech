@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
-import { MyStack } from "components/MyStack";
-import { MyTextInput } from "components/MyTextInput";
+import { MyStack } from "components/tamagui/MyStack";
+import { MyTextInput } from "components/tamagui/MyTextInput";
 import { useLocalSearchParams } from "expo-router";
 import { Button, Paragraph, ScrollView, XStack } from "tamagui";
 
