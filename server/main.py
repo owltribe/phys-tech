@@ -9,6 +9,7 @@ from src.auth.auth_backend import auth_backend
 from src.auth.router import auth_router
 from src.auth.utils import get_user_manager
 from src.service.router import services_router
+from src.event.router import events_router
 
 app = FastAPI()
 
@@ -17,6 +18,7 @@ add_pagination(app)
 
 app.include_router(auth_router)
 app.include_router(services_router)
+app.include_router(events_router)
 
 # Protected router example
 fastapi_users = FastAPIUsers[User, uuid.UUID](
