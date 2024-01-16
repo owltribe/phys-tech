@@ -38,7 +38,7 @@ export const ServiceCard = ({
 };
 
 export default function Services() {
-  const { data } = useServices();
+  const { data } = useServices({search: ""});
 
   const [isCreateSheetOpened, setIsCreateSheetOpened] = useState(false);
 

@@ -5,6 +5,7 @@ import { MyTextInput } from "components/tamagui/MyTextInput";
 import { useLocalSearchParams } from "expo-router";
 import { Button, Paragraph, ScrollView, XStack } from "tamagui";
 import {Organization} from "./components/organization";
+import {Service} from "./components/service";
 
 const filtersMock: { id: number; name: string }[] = [
   {
@@ -116,6 +117,7 @@ export default function Index() {
           </XStack>
         </ScrollView>
         {searchControlValues[selectedIndex].name === "organization" && <Organization nameLike={searchQuery} />}
+        {searchControlValues[selectedIndex].name === "service" && <Service search={searchQuery} />}
       </ScrollView>
     </MyStack>
   );
