@@ -2,11 +2,14 @@ from typing import List
 
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
-
-from src.service.schemas import ServiceCreate, ServiceRead, ServiceUpdate
+from sqlalchemy import select
+from src.organization.schemas import OrganizationCreate, OrganizationRead, OrganizationUpdate, OrganizationFilter
 from database import get_db
 
+from fastapi_filter import FilterDepends, with_prefix
+
 from src.organization import service
+from models import Organization
 
 organizations_router = APIRouter(
     prefix="/organizations",
@@ -14,46 +17,52 @@ organizations_router = APIRouter(
 )
 
 
-@services_router.get("", response_model=List[ServiceRead])
-async def list_services(db: Session = Depends(get_db)):
-    services = service.get_services(db=db)
-    return services
+@organizations_router.get("", response_model=List[OrganizationRead])
+async def list_organizations(
+    organization_filter: OrganizationFilter = FilterDepends(OrganizationFilter),
+    db: Session = Depends(get_db),
+):
+    query = select(Organization)
+    query = organization_filter.filter(query)
+    query = organization_filter.sort(query)
+    result = db.execute(query)
+    return result.scalars().all()
 
 
-@services_router.post("", response_model=ServiceRead)
-async def create_new_service(service: ServiceCreate, db: Session = Depends(get_db)):
-    service = service.create_service(db=db, service=service)
-    return service
+@organizations_router.post("", response_model=OrganizationRead)
+async def create_new_organization(organization: OrganizationCreate, db: Session = Depends(get_db)):
+    organization = service.create_organization(db=db, organization=organization)
+    return organization
 
 
-@services_router.get("/{organization_id}", response_model=ServiceRead)
-async def read_service(organization_id: str, db: Session = Depends(get_db)):
-    db_service = service.get_organization(db=db, organization_id=organization_id)
-    if db_service is None:
+@organizations_router.get("/{organization_id}", response_model=OrganizationRead)
+async def read_organization(organization_id: str, db: Session = Depends(get_db)):
+    db_organization = service.get_organization(db=db, organization_id=organization_id)
+    if db_organization is None:
         raise HTTPException(status_code=404, detail="Услуга не найдена")
-    return db_service
+    return db_organization
 
 
-@services_router.put("/{organization_id}", response_model=ServiceRead)
+@organizations_router.put("/{organization_id}", response_model=OrganizationRead)
 def update_organization(
         organization_id: str,
-        updated_service: ServiceUpdate,
+        updated_organization: OrganizationUpdate,
         db: Session = Depends(get_db)
 ):
-    existing_service = service.get_organization(db, organization_id)
+    existing_organization = service.get_organization(db, organization_id)
 
-    if existing_service is None:
+    if existing_organization is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Услуга не найдена",
         )
 
-    updated_service_instance = service.update_organization(db, service_id, updated_service)
+    updated_organization_instance = service.update_organization(db, organization_id, updated_organization)
 
-    if updated_service_instance is None:
+    if updated_organization_instance is None:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Ошибка обновления услуги",
         )
 
-    return updated_service_instance
+    return updated_organization_instance

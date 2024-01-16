@@ -4,6 +4,7 @@ import { MyStack } from "components/tamagui/MyStack";
 import { MyTextInput } from "components/tamagui/MyTextInput";
 import { useLocalSearchParams } from "expo-router";
 import { Button, Paragraph, ScrollView, XStack } from "tamagui";
+import {Organization} from "./components/organization";
 
 const filtersMock: { id: number; name: string }[] = [
   {
@@ -28,7 +29,7 @@ const filtersMock: { id: number; name: string }[] = [
   }
 ];
 
-export default function Search() {
+export default function Index() {
   const scrollViewRef = useRef<any>(null);
 
   const [activeFilterId, setActiveFilterId] = useState<number>();
@@ -40,6 +41,8 @@ export default function Search() {
     { name: "event", title: "Мероприятия" }
   ];
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+
 
   useEffect(() => {
     const matchedSection = searchControlValues.find(
@@ -60,8 +63,10 @@ export default function Search() {
   return (
     <MyStack>
       <MyTextInput
-        placeholder={"Поиск " + searchControlValues[selectedIndex || 0].title}
-        mb="$1"
+          placeholder={"Поиск " + searchControlValues[selectedIndex || 0].title}
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+          mb="$1"
       />
       <SegmentedControl
         values={searchControlValues.map((a) => a.title)}
@@ -70,42 +75,47 @@ export default function Search() {
           setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
         }}
       />
-      <ScrollView
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        ref={scrollViewRef}
-      >
-        <XStack space="$3">
-          {sortedFilters.map(({ id, name }) => {
-            const isActive = activeFilterId == id;
-            return (
-              <Button
-                key={id}
-                borderRadius="$6"
-                size="$3"
-                backgroundColor={isActive ? "$blue8" : undefined}
-                variant={isActive ? undefined : "outlined"}
-                borderColor={isActive ? undefined : "$blue8"}
-                onPress={() => {
-                  setActiveFilterId(id);
-                  scrollViewRef.current?.scrollTo({
-                    x: 0,
-                    y: 0,
-                    animated: true
-                  });
-                }}
-              >
-                <Paragraph
-                  px="$1"
-                  color={isActive ? "white" : "$blue8"}
-                  fontWeight="800"
+      <ScrollView>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          ref={scrollViewRef}
+          maxHeight={40}
+          mb='$4'
+        >
+          <XStack space="$3">
+            {sortedFilters.map(({ id, name }) => {
+              const isActive = activeFilterId == id;
+              return (
+                <Button
+                  key={id}
+                  borderRadius="$6"
+                  size="$3"
+                  backgroundColor={isActive ? "$blue8" : undefined}
+                  variant={isActive ? undefined : "outlined"}
+                  borderColor={isActive ? undefined : "$blue8"}
+                  onPress={() => {
+                    setActiveFilterId(id);
+                    scrollViewRef.current?.scrollTo({
+                      x: 0,
+                      y: 0,
+                      animated: true
+                    });
+                  }}
                 >
-                  {name}
-                </Paragraph>
-              </Button>
-            );
-          })}
-        </XStack>
+                  <Paragraph
+                    px="$1"
+                    color={isActive ? "white" : "$blue8"}
+                    fontWeight="800"
+                  >
+                    {name}
+                  </Paragraph>
+                </Button>
+              );
+            })}
+          </XStack>
+        </ScrollView>
+        {searchControlValues[selectedIndex].name === "organization" && <Organization nameLike={searchQuery} />}
       </ScrollView>
     </MyStack>
   );

@@ -22,4 +22,5 @@ class Organization(Base):
     contact: Mapped[str] = mapped_column(String)
     email: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)
+
     category: Mapped[Category] = mapped_column(SQLEnum(Category), nullable=False)

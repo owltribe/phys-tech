@@ -39,7 +39,7 @@ function getTabIcon(routeName, focused: boolean) {
         strokeWidth={strokeWidth}
       />
     ),
-    search: (
+    'search/index': (
       <Search
         color={color}
         size="$2"
@@ -90,7 +90,7 @@ export default function Layout() {
         }}
       />
       <Tabs.Screen
-        name="search"
+        name="search/index"
         options={{
           tabBarLabel: ({ focused }) => getTabLabel("Поиск", focused)
         }}
