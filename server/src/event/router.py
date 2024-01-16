@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from src.event.schemas import EventCreate, EventRead, EventUpdate
 from database import get_db
 
-from src.event import crud
+from src.event import service
 
 events_router = APIRouter(
     prefix="/events",
@@ -16,19 +16,19 @@ events_router = APIRouter(
 
 @events_router.get("", response_model=List[EventRead])
 async def list_events(db: Session = Depends(get_db)):
-    events = crud.get_events(db=db)
+    events = service.get_events(db=db)
     return events
 
 
 @events_router.post("", response_model=EventRead)
 async def create_new_event(event: EventCreate, db: Session = Depends(get_db)):
-    event = crud.create_event(db=db, event=event)
+    event = service.create_event(db=db, event=event)
     return event
 
 
 @events_router.get("/{event_id}", response_model=EventRead)
 async def read_event(event_id: str, db: Session = Depends(get_db)):
-    db_event = crud.get_event(db=db, event_id=event_id)
+    db_event = service.get_event(db=db, event_id=event_id)
     if db_event is None:
         raise HTTPException(status_code=404, detail="Событие не найдено")
     return db_event
@@ -40,7 +40,7 @@ def update_event(
         updated_event: EventUpdate,
         db: Session = Depends(get_db)
 ):
-    existing_event = crud.get_event(db, event_id)
+    existing_event = service.get_event(db, event_id)
 
     if existing_event is None:
         raise HTTPException(
@@ -48,7 +48,7 @@ def update_event(
             detail="Событие не найдено",
         )
 
-    updated_event_instance = crud.update_event(db, event_id, updated_event)
+    updated_event_instance = service.update_event(db, event_id, updated_event)
 
     if updated_event_instance is None:
         raise HTTPException(
@@ -64,7 +64,7 @@ def delete_event(
         event_id: str,
         db: Session = Depends(get_db)
 ):
-    deleted_event = crud.delete_event(db, event_id)
+    deleted_event = service.delete_event(db, event_id)
 
     if deleted_event is None:
         raise HTTPException(
