@@ -1,26 +1,28 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
-import {ErrorModel, OrganizationRead} from "types/generated";
+import { ErrorModel, Page_OrganizationRead_ } from "types/generated";
 
 export default function useOrganization({
   nameLike
 }: {
   nameLike?: string;
-}): UseQueryResult<AxiosResponse<Array<OrganizationRead>>, AxiosError<ErrorModel>> {
+}): UseQueryResult<
+  AxiosResponse<Page_OrganizationRead_>,
+  AxiosError<ErrorModel>
+> {
   const client = useClient();
 
-  const fetchOrganizations = () => {
-    let queryString = "";
+  const fetchOrganizations = (params = {} as any) => {
     if (nameLike) {
-      queryString = `?name__like=${encodeURIComponent(nameLike)}`;
+      params.name__like = nameLike;
     }
 
-    return client.get(`/organizations${queryString}`);
+    return client.get(`/organizations`, { params: params });
   };
 
   return useQuery({
     queryKey: ["organization"],
-    queryFn: fetchOrganizations,
+    queryFn: fetchOrganizations
   });
 }
