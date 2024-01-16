@@ -12,6 +12,7 @@ from src.auth.router import auth_router
 from src.service.admin import ServiceAdmin
 from src.service.router import services_router
 from src.organization.router import organizations_router
+from src.event.router import events_router
 
 app = FastAPI()
 
@@ -32,7 +33,7 @@ admin.add_view(ServiceAdmin)
 app.include_router(auth_router)
 app.include_router(services_router)
 app.include_router(organizations_router)
-
+app.include_router(events_router)
 # Protected router example
 
 @app.get("/protected-route")
