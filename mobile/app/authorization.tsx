@@ -1,9 +1,9 @@
 import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Sparkles } from "@tamagui/lucide-icons";
-import { MyStack } from "components/MyStack";
-import { MyTextInput } from "components/MyTextInput";
 import { MyButton } from "components/tamagui/MyButton";
+import { MyStack } from "components/tamagui/MyStack";
+import { MyTextInput } from "components/tamagui/MyTextInput";
 import { useRouter } from "expo-router";
 import { useAuth } from "providers/AuthProvider";
 import { H2, Separator, Spinner, Theme, YStack } from "tamagui";
@@ -118,12 +118,13 @@ export default function Authorization() {
 
           <MyButton
             pressStyle={{
-              backgroundColor: "$color6",
-              borderColor: "$color6"
+              // backgroundColor: "$6",
+              borderColor: "$dark6"
             }}
             chromeless
             bordered
             borderColor="$color"
+            color="$black"
             onPress={() => router.push("/register")}
           >
             Зарегистрироваться

@@ -1,11 +1,12 @@
 import { Suspense, useCallback } from "react";
 import { LogBox, useColorScheme } from "react-native";
+import Toast from "react-native-toast-message";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider
 } from "@react-navigation/native";
-import { MySafeAreaView } from "components/MySafeAreaView";
+import { MySafeAreaView } from "components/tamagui/MySafeAreaView";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { AuthProvider } from "providers/AuthProvider";
@@ -104,6 +105,7 @@ export default function Layout() {
                       }}
                     />
                   </Stack>
+                  <Toast visibilityTime={3500} />
                 </MySafeAreaView>
               </AuthProvider>
             </ReactQueryClientProvider>

@@ -1,34 +1,33 @@
-from typing import List
-
 from fastapi import APIRouter, Depends, status, HTTPException
-from sqlalchemy.orm import Session
+from fastapi_filter import FilterDepends
+from fastapi_pagination.links import Page
 
+from src.service.filters import ServiceFilter
+from src.service.service import ServiceService
 from src.service.schemas import ServiceCreate, ServiceRead, ServiceUpdate
-from database import get_db
-
-from src.service import crud
+from database import DbSession
 
 services_router = APIRouter(
     prefix="/services",
     tags=["Services"]
 )
 
+service = ServiceService(session=DbSession)
 
-@services_router.get("", response_model=List[ServiceRead])
-async def list_services(db: Session = Depends(get_db)):
-    services = crud.get_services(db=db)
-    return services
+
+@services_router.get("", response_model=Page[ServiceRead])
+async def list_services(service_filter: ServiceFilter = FilterDepends(ServiceFilter)):
+    return service.get_services(service_filter)
 
 
 @services_router.post("", response_model=ServiceRead)
-async def create_new_service(service: ServiceCreate, db: Session = Depends(get_db)):
-    service = crud.create_service(db=db, service=service)
-    return service
+def create_service(service_create: ServiceCreate):
+    return service.create_service(service=service_create)
 
 
 @services_router.get("/{service_id}", response_model=ServiceRead)
-async def read_service(service_id: str, db: Session = Depends(get_db)):
-    db_service = crud.get_service(db=db, service_id=service_id)
+def read_service(service_id: str):
+    db_service = service.get_service(service_id=service_id)
     if db_service is None:
         raise HTTPException(status_code=404, detail="Услуга не найдена")
     return db_service
@@ -37,10 +36,9 @@ async def read_service(service_id: str, db: Session = Depends(get_db)):
 @services_router.put("/{service_id}", response_model=ServiceRead)
 def update_service(
         service_id: str,
-        updated_service: ServiceUpdate,
-        db: Session = Depends(get_db)
+        service_update: ServiceUpdate,
 ):
-    existing_service = crud.get_service(db, service_id)
+    existing_service = service.get_service(service_id)
 
     if existing_service is None:
         raise HTTPException(
@@ -48,7 +46,7 @@ def update_service(
             detail="Услуга не найдена",
         )
 
-    updated_service_instance = crud.update_service(db, service_id, updated_service)
+    updated_service_instance = service.update_service(service_id, service_update)
 
     if updated_service_instance is None:
         raise HTTPException(
@@ -60,11 +58,8 @@ def update_service(
 
 
 @services_router.delete("/{service_id}", response_model=None, status_code=status.HTTP_204_NO_CONTENT)
-def delete_service(
-        service_id: str,
-        db: Session = Depends(get_db)
-):
-    deleted_service = crud.delete_service(db, service_id)
+def delete_service(service_id: str):
+    deleted_service = service.delete_service(service_id)
 
     if deleted_service is None:
         raise HTTPException(

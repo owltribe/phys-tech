@@ -1,7 +1,6 @@
-import { H2, H3, Input, ScrollView, Stack, YStack } from "tamagui";
-
-import EventCard from "../components/EventCard";
-import { MyStack } from "../components/MyStack";
+import EventCard from "components/EventCard";
+import { MyStack } from "components/tamagui/MyStack";
+import { H2, Input, ScrollView } from "tamagui";
 
 export default function Events() {
   return (

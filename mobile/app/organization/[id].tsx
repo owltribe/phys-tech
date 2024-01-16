@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowLeftCircle } from "@tamagui/lucide-icons";
-import { MyStack } from "components/MyStack";
+import { MyStack } from "components/tamagui/MyStack";
 import { useRouter } from "expo-router";
 import {
   Button,

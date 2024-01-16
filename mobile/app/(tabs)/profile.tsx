@@ -12,9 +12,9 @@ import {
   ShieldCheck,
   User
 } from "@tamagui/lucide-icons";
-import { MyStack } from "components/MyStack";
-import { MyTextInput } from "components/MyTextInput";
 import { MyButton } from "components/tamagui/MyButton";
+import { MyStack } from "components/tamagui/MyStack";
+import { MyTextInput } from "components/tamagui/MyTextInput";
 import useEditMe from "hooks/auth/useEditMe";
 import { useAuth } from "providers/AuthProvider";
 import {
