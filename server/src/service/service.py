@@ -4,8 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from models import Service
-from src.service.filters import ServiceFilter
-from src.service.schemas import ServiceCreate, ServiceUpdate, ServiceRead
+from src.service.schemas import ServiceCreate, ServiceUpdate, ServiceRead, ServiceFilter
 
 
 class ServiceService:
@@ -15,6 +14,7 @@ class ServiceService:
     def get_services(self, service_filter: ServiceFilter) -> Page[ServiceRead]:
         query = select(Service)
         query = service_filter.filter(query)
+        query = service_filter.sort(query)
 
         return paginate(self.session, query)
 

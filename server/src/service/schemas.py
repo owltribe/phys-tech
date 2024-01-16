@@ -1,6 +1,9 @@
-from typing import Optional
+from typing import Optional, List
 
+from fastapi_filter.contrib.sqlalchemy import Filter
 from pydantic import BaseModel, UUID4
+
+from models import Service
 
 
 class ServiceCreate(BaseModel):
@@ -26,3 +29,12 @@ class ServiceUpdate(BaseModel):
     description: Optional[str] = None
     result: Optional[str] = None
     cost: Optional[int] = None
+
+
+class ServiceFilter(Filter):
+    order_by: List[str] = None
+    search: Optional[str] = None
+
+    class Constants(Filter.Constants):
+        model = Service
+        search_model_fields = ["name", "description", "result"]
