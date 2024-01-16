@@ -1,11 +1,10 @@
 import enum
 import uuid
-from datetime import datetime
 
 from pydantic import computed_field
-from sqlalchemy import String, Boolean, Enum, TIMESTAMP, UUID
+from sqlalchemy import String, Boolean, Enum, UUID
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
-from fastapi_users_db_sqlalchemy import UUID_ID, GUID
+from fastapi_users_db_sqlalchemy import UUID_ID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from database import Base
