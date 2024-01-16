@@ -2,9 +2,8 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from fastapi_filter import FilterDepends
 from fastapi_pagination.links import Page
 
-from src.service.filters import ServiceFilter
 from src.service.service import ServiceService
-from src.service.schemas import ServiceCreate, ServiceRead, ServiceUpdate
+from src.service.schemas import ServiceCreate, ServiceRead, ServiceUpdate, ServiceFilter
 from database import DbSession
 
 services_router = APIRouter(
