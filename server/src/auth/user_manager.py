@@ -4,15 +4,13 @@ from typing import Optional
 from fastapi import Request
 from fastapi_users import BaseUserManager, UUIDIDMixin, schemas, models, exceptions
 
+from config import AUTH_SECRET
 from models.user import User
-
-# TODO put it in env
-SECRET = "SECRET"
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
-    reset_password_token_secret = SECRET
-    verification_token_secret = SECRET
+    reset_password_token_secret = AUTH_SECRET
+    verification_token_secret = AUTH_SECRET
 
     async def create(
         self,
