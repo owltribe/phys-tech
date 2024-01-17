@@ -18,8 +18,7 @@ import {
   XStack,
   YStack
 } from "tamagui";
-
-import { UserRole } from "../types/generated";
+import { UserCreate, UserRole } from "types/generated";
 
 interface FormValues {
   email: string;
@@ -87,7 +86,13 @@ function ToggleGroupComponent(props: {
 }
 
 export default function Authorization() {
-  const { onRegister, isRegisterLoading } = useAuth();
+  const {
+    onRegister,
+    isRegisterLoading
+  }: {
+    onRegister: (payload: UserCreate) => void;
+    isRegisterLoading: boolean;
+  } = useAuth();
 
   const { control, handleSubmit } = useForm<FormValues>({
     defaultValues: {
@@ -130,137 +135,137 @@ export default function Authorization() {
           Регистрация
         </H2>
 
-        <Tabs
-          defaultValue="tab1"
-          orientation="horizontal"
-          flexDirection="column"
-          borderRadius="$4"
-          borderWidth="$0.25"
-          overflow="hidden"
-          borderColor="$borderColor"
-        >
-          <Tabs.List
-            separator={<Separator vertical />}
-            disablePassBorderRadius="bottom"
-            aria-label="Manage your account"
+        {/*<Tabs*/}
+        {/*  defaultValue="tab1"*/}
+        {/*  orientation="horizontal"*/}
+        {/*  flexDirection="column"*/}
+        {/*  borderRadius="$4"*/}
+        {/*  borderWidth="$0.25"*/}
+        {/*  overflow="hidden"*/}
+        {/*  borderColor="$borderColor"*/}
+        {/*>*/}
+        {/*  <Tabs.List*/}
+        {/*    separator={<Separator vertical />}*/}
+        {/*    disablePassBorderRadius="bottom"*/}
+        {/*    aria-label="Manage your account"*/}
+        {/*  >*/}
+        {/*    <Tabs.Tab*/}
+        {/*      flex={1}*/}
+        {/*      value="tab1"*/}
+        {/*    >*/}
+        {/*      <Text>Организация</Text>*/}
+        {/*    </Tabs.Tab>*/}
+        {/*    <Tabs.Tab*/}
+        {/*      flex={1}*/}
+        {/*      value="tab2"*/}
+        {/*    >*/}
+        {/*      <Text>Клиент</Text>*/}
+        {/*    </Tabs.Tab>*/}
+        {/*  </Tabs.List>*/}
+        {/*  <Separator />*/}
+        {/*  <Tabs.Content value="tab1">*/}
+        <YStack mt="$4">
+          <Controller
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="email"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <MyTextInput
+                placeholder="Электронная почта"
+                autoComplete="email"
+                inputMode="email"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="first_name"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <MyTextInput
+                placeholder="Имя"
+                autoComplete="name"
+                inputMode="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="last_name"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <MyTextInput
+                placeholder="Фамилия"
+                autoComplete="family-name"
+                inputMode="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="password"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <MyTextInput
+                placeholder="Пароль"
+                autoComplete="password"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="rePassword"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <MyTextInput
+                placeholder="Повтроите пароль"
+                autoComplete="password-new"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+
+          <MyButton
+            mt="$4"
+            color="$color1"
+            backgroundColor="$color9"
+            icon={isRegisterLoading ? <Spinner /> : undefined}
+            disabled={isRegisterLoading}
+            onPress={handleSubmit(onSubmit)}
           >
-            <Tabs.Tab
-              flex={1}
-              value="tab1"
-            >
-              <Text>Организация</Text>
-            </Tabs.Tab>
-            <Tabs.Tab
-              flex={1}
-              value="tab2"
-            >
-              <Text>Клиент</Text>
-            </Tabs.Tab>
-          </Tabs.List>
-          <Separator />
-          <Tabs.Content value="tab1">
-            <YStack mt="$4">
-              <Controller
-                control={control}
-                rules={{
-                  required: true
-                }}
-                name="email"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <MyTextInput
-                    placeholder="Электронная почта"
-                    autoComplete="email"
-                    inputMode="email"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-              />
-              <Controller
-                control={control}
-                rules={{
-                  required: true
-                }}
-                name="first_name"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <MyTextInput
-                    placeholder="Имя"
-                    autoComplete="name"
-                    inputMode="text"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-              />
-              <Controller
-                control={control}
-                rules={{
-                  required: true
-                }}
-                name="last_name"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <MyTextInput
-                    placeholder="Фамилия"
-                    autoComplete="family-name"
-                    inputMode="text"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-              />
-              <Controller
-                control={control}
-                rules={{
-                  required: true
-                }}
-                name="password"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <MyTextInput
-                    placeholder="Пароль"
-                    autoComplete="password"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-              />
-              <Controller
-                control={control}
-                rules={{
-                  required: true
-                }}
-                name="rePassword"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <MyTextInput
-                    placeholder="Повтроите пароль"
-                    autoComplete="password-new"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-              />
+            Зарегистрироваться
+          </MyButton>
+        </YStack>
+        {/*  </Tabs.Content>*/}
 
-              <MyButton
-                mt="$4"
-                color="$color1"
-                backgroundColor="$color9"
-                icon={isRegisterLoading ? <Spinner /> : undefined}
-                disabled={isRegisterLoading}
-                onPress={handleSubmit(onSubmit)}
-              >
-                Зарегистрироваться
-              </MyButton>
-            </YStack>
-          </Tabs.Content>
-
-          <Tabs.Content value="tab2">
-            <H5>Клиент</H5>
-          </Tabs.Content>
-        </Tabs>
+        {/*  <Tabs.Content value="tab2">*/}
+        {/*    <H5>Клиент</H5>*/}
+        {/*  </Tabs.Content>*/}
+        {/*</Tabs>*/}
       </MyStack>
     </Theme>
   );
