@@ -43,8 +43,16 @@ class UserAdmin(ModelView, model=User):
     column_list = [
         User.id,
         User.email,
+        User.role,
         User.is_active,
-        User.is_verified,
-        User.is_superuser,
+        User.created_at,
+        # User.requested_services,
+    ]
+    column_searchable_list = [
+        User.first_name,
+        User.last_name,
+        User.email,
+    ]
+    column_sortable_list = [
         User.created_at,
     ]
