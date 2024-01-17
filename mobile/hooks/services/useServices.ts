@@ -3,18 +3,21 @@ import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
 import { ErrorModel, Page_ServiceRead_ } from "types/generated";
 
-export default function useServices(): UseQueryResult<
+export default function useServices({ search = "" }: { search?: string; }): UseQueryResult<
   AxiosResponse<Page_ServiceRead_>,
   AxiosError<ErrorModel>
 > {
   const client = useClient();
 
-  const fetchServices = () => {
-    return client.get("/services");
+  const fetchServices = (params = {} as any) => {
+    if (search) {
+      params.search = search;
+    }
+    return client.get("/services", { params: params });
   };
 
   return useQuery({
-    queryKey: ["services"],
+    queryKey: ["services", search],
     queryFn: fetchServices
   });
 }
