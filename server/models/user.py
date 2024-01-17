@@ -7,6 +7,9 @@ from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 from fastapi_users_db_sqlalchemy import UUID_ID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from database import Base
 
 
@@ -28,6 +31,7 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     hashed_password: Mapped[str] = mapped_column(
         String(length=1024), nullable=False
     )
+    organization_id = mapped_column(UUID, ForeignKey('organization.id'), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     is_superuser: Mapped[bool] = mapped_column(
         Boolean, default=False, nullable=False
@@ -43,6 +47,7 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
         cascade="delete",
         uselist=True
     )
+    organization = relationship("Organization")
 
     @computed_field
     @property

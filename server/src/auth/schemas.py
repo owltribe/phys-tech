@@ -19,6 +19,7 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
     is_superuser: bool = False
     is_verified: bool = False
     full_name: str
+    organization_id: uuid.UUID
 
     class Config:
         from_attributes = True
@@ -47,3 +48,4 @@ class UserUpdate(schemas.BaseUserUpdate):
     is_active: Optional[bool] = None
     is_superuser: Optional[bool] = None
     is_verified: Optional[bool] = None
+    organization_id: Optional[uuid.UUID] = None

@@ -1,14 +1,17 @@
 import uuid
 from typing import Optional
 
-from fastapi import Request
+from fastapi import Request, status, HTTPException
 from fastapi_users import BaseUserManager, UUIDIDMixin, schemas, models, exceptions
 
 from config import AUTH_SECRET
-from models.user import User, UserRole
+from models.user import UserRole
+from src.auth.schemas import UserWithOrganizationCreate
 from models.organization import Organization
 
-class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
+from database import async_session_maker
+
+class UserManager(UUIDIDMixin, BaseUserManager[UserWithOrganizationCreate, uuid.UUID]):
     reset_password_token_secret = AUTH_SECRET
     verification_token_secret = AUTH_SECRET
 
@@ -46,16 +49,31 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         user_dict["hashed_password"] = self.password_helper.hash(password)
 
 
+        organization_data = user_dict.pop("organization_data", None)
         created_user = await self.user_db.create(user_dict)
 
-        await self.on_after_register(created_user, request)
+        await self.on_after_register(created_user, organization_data, request)
 
         return created_user
 
-    async def on_after_register(self, user: User, request: Optional[Request] = None):
-        print(f"User {user.id} has registered.")
+    async def on_after_register(self, user: UserWithOrganizationCreate, organization_data: Organization,  request: Optional[Request] = None):
         if user.role == UserRole.Organization:
-            print(f"User {user.id} has registered as organization.")
+            async with async_session_maker() as session:  # Using async session for DB operations
+                try:
+                    organization = Organization(**organization_data)
+                    session.add(organization)
+                    await session.commit()
+                    await session.refresh(organization)
+
+                    # Update user with organization id
+                    update_dict = {"organization_id": organization.id}
+                    await self.user_db.update(user, update_dict)
+                except:
+                    raise HTTPException(
+                        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                        detail="Ошибка при созданий организации",
+                    )
+                    #await session.rollback()
 
     # async def on_after_forgot_password(
     #     self, user: User, token: str, request: Optional[Request] = None
