@@ -5,6 +5,7 @@ from fastapi_users import schemas
 from fastapi_users.models import ID
 from pydantic import EmailStr
 
+from src.organization.schemas import OrganizationCreate
 from models.user import UserRole
 
 
@@ -32,6 +33,9 @@ class UserCreate(schemas.BaseUserCreate):
     is_active: Optional[bool] = True
     is_superuser: Optional[bool] = False
     is_verified: Optional[bool] = False
+
+class UserWithOrganizationCreate(UserCreate):
+    organization_data: Optional[OrganizationCreate] = None
 
 
 class UserUpdate(schemas.BaseUserUpdate):

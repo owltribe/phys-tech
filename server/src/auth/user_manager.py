@@ -5,8 +5,8 @@ from fastapi import Request
 from fastapi_users import BaseUserManager, UUIDIDMixin, schemas, models, exceptions
 
 from config import AUTH_SECRET
-from models.user import User
-
+from models.user import User, UserRole
+from models.organization import Organization
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = AUTH_SECRET
@@ -54,6 +54,8 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
     async def on_after_register(self, user: User, request: Optional[Request] = None):
         print(f"User {user.id} has registered.")
+        if user.role == UserRole.Organization:
+            print(f"User {user.id} has registered as organization.")
 
     # async def on_after_forgot_password(
     #     self, user: User, token: str, request: Optional[Request] = None
