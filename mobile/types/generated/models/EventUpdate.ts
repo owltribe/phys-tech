@@ -3,10 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type ServiceUpdate = {
+export type EventUpdate = {
     name?: (string | null);
     description?: (string | null);
-    expected_result?: (string | null);
-    cost?: (number | null);
+    start_date?: (string | null);
+    start_time?: (string | null);
+    duration?: (number | null);
+    location?: (string | null);
 };
 

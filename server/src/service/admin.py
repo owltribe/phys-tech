@@ -7,6 +7,6 @@ class ServiceAdmin(ModelView, model=Service):
     column_list = [
         Service.id,
         Service.name,
-        Service.result,
+        Service.expected_result,
         Service.created_at,
     ]

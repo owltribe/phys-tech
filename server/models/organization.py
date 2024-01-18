@@ -1,11 +1,13 @@
+import enum
 import uuid
-from enum import Enum
-from sqlalchemy import String, Enum as SQLEnum, UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from typing import List
+
+from sqlalchemy import String, Enum, UUID
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import Base
 
 
-class Category(Enum):
+class Category(enum.Enum):
     scientific_organization = "Научная организация"
     university = "Вуз"
     technopark = "Технопарк"
@@ -23,4 +25,12 @@ class Organization(Base):
     email: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)
 
-    category: Mapped[Category] = mapped_column(SQLEnum(Category), nullable=False)
+    category: Mapped[Category] = mapped_column(Enum(Category), nullable=False)
+
+    services = relationship(
+        "Service",
+        back_populates="organization",
+        cascade="delete",
+        uselist=True,
+    )
+

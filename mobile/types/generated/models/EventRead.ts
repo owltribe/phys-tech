@@ -3,10 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type ServiceCreate = {
+export type EventRead = {
+    id: string;
     name: string;
     description: (string | null);
-    expected_result: (string | null);
-    cost: number;
+    start_date: string;
+    start_time: string;
+    duration: (number | null);
+    location: string;
 };
 
