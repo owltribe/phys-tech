@@ -72,30 +72,7 @@ const CustomSelect = ({ label, placeholder, items, value, onValueChange, ...prop
                             <Select.Label>Fruits</Select.Label>
                             {useMemo(
                                 () =>
-                                    [
-                                        { name: 'Apple' },
-                                        { name: 'Pear' },
-                                        { name: 'Blackberry' },
-                                        { name: 'Peach' },
-                                        { name: 'Apricot' },
-                                        { name: 'Melon' },
-                                        { name: 'Honeydew' },
-                                        { name: 'Starfruit' },
-                                        { name: 'Blueberry' },
-                                        { name: 'Raspberry' },
-                                        { name: 'Strawberry' },
-                                        { name: 'Mango' },
-                                        { name: 'Pineapple' },
-                                        { name: 'Lime' },
-                                        { name: 'Lemon' },
-                                        { name: 'Coconut' },
-                                        { name: 'Guava' },
-                                        { name: 'Papaya' },
-                                        { name: 'Orange' },
-                                        { name: 'Grape' },
-                                        { name: 'Jackfruit' },
-                                        { name: 'Durian' },
-                                    ].map((item, i) => {
+                                    items.map((item, i) => {
                                         return (
                                             <Select.Item
                                                 index={i}

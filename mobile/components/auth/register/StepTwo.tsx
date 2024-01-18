@@ -4,6 +4,7 @@ import {MyStack} from "../../tamagui/MyStack";
 import {MyTextInput} from "../../tamagui/MyTextInput";
 import {MyButton} from "../../tamagui/MyButton";
 import {Spinner, YStack} from "tamagui";
+import SelectCustom from "../../SelectCustom";
 
 const StepTwo = (
     {
@@ -17,6 +18,9 @@ const StepTwo = (
         handleSubmit: any,
         onSubmit: (data: any) => void
 }) => {
+
+    const categorySelectItems = [{ name: "Научная " }, { name: "Вуз" }, { name: "Технопарк" }, { name: "Коммерческая Лабораторная компания" }];
+
     return (
         <MyStack backgroundColor="$color3" jc="center">
             <YStack mt="$4">
@@ -100,6 +104,20 @@ const StepTwo = (
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
+                        />
+                    )}
+                />
+                <Controller
+                    control={control}
+                    rules={{ required: true }}
+                    name="organization_data.category"
+                    render={({ field: { onChange, value } }) => (
+                        <SelectCustom
+                            placeholder="Категория"
+                            label="Категория"
+                            items={categorySelectItems}
+                            value={value}
+                            onValueChange={onChange}
                         />
                     )}
                 />
