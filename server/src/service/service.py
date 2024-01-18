@@ -23,9 +23,10 @@ class ServiceService:
 
     def create_service(self, service: ServiceCreate):
         db_service = Service(
+            organization_id="e6f3b6f5-05a7-48b5-bdfa-70e2f77f78a1",
             name=service.name,
             description=service.description,
-            result=service.result,
+            expected_result=service.expected_result,
             cost=service.cost,
         )
         self.session.add(db_service)

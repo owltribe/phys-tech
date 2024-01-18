@@ -16,7 +16,7 @@ interface CreateServiceModalProps
 interface FormValues {
   name: string;
   description: string | null;
-  result: string | null;
+  expected_result: string | null;
   cost: string;
 }
 
@@ -36,7 +36,7 @@ const CreateServiceSheet = ({
     defaultValues: {
       name: "",
       description: "",
-      result: "",
+      expected_result: "",
       cost: ""
     }
   });
@@ -115,7 +115,7 @@ const CreateServiceSheet = ({
 
             <Controller
               control={control}
-              name="result"
+              name="expected_result"
               render={({ field: { onChange, onBlur, value } }) => (
                 <MyTextInput
                   placeholder="Предполагаемый результат"
