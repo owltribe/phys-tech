@@ -116,19 +116,20 @@ export default function Authorization() {
 
           <Separator marginVertical={15} />
 
-          <MyButton
-            pressStyle={{
-              // backgroundColor: "$6",
-              borderColor: "$dark6"
-            }}
-            chromeless
-            bordered
-            borderColor="$color"
-            color="$black"
-            onPress={() => router.push("/register")}
-          >
-            Зарегистрироваться
-          </MyButton>
+          <Theme name="blue">
+            <MyButton
+              pressStyle={{
+                // backgroundColor: "$6",
+                borderColor: "$dark6"
+              }}
+              chromeless
+              bordered
+              borderColor="$color"
+              onPress={() => router.push("/register")}
+            >
+              Зарегистрироваться
+            </MyButton>
+          </Theme>
         </YStack>
       </MyStack>
     </Theme>
