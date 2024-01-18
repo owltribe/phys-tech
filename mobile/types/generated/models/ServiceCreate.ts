@@ -6,7 +6,7 @@
 export type ServiceCreate = {
     name: string;
     description: (string | null);
-    result: (string | null);
+    expected_result: (string | null);
     cost: number;
 };
 

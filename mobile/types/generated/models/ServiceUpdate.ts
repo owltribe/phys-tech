@@ -6,7 +6,7 @@
 export type ServiceUpdate = {
     name?: (string | null);
     description?: (string | null);
-    result?: (string | null);
+    expected_result?: (string | null);
     cost?: (number | null);
 };
 

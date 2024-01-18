@@ -7,7 +7,7 @@ export type ServiceRead = {
     id: string;
     name: string;
     description: (string | null);
-    result: (string | null);
+    expected_result: (string | null);
     cost: number;
 };
 
