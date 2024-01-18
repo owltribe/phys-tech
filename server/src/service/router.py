@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, status, HTTPException
 from fastapi_filter import FilterDepends
 from fastapi_pagination.links import Page
 
