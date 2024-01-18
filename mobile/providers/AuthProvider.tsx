@@ -56,13 +56,14 @@ export function useAuth(): any {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
 
+  const [user, setUser] = useState<UserRead>(null);
   const [token, setToken] = useState<string | null>(null);
 
   const loginMutation = useLogin();
   const registerMutation = useRegister();
   const logoutMutation = useLogout();
 
-  const { data, isLoading } = useMe({
+  const { data, isLoading, refetch } = useMe({
     token: token
   });
 
@@ -73,14 +74,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       },
       onSuccess: async (response) => {
         const accessToken = response.data.access_token;
+        const userData = await refetch();
+        setUser(userData.data.data);
         await AsyncStorage.setItem("accessToken", accessToken);
         setToken(accessToken);
 
         queryClient.invalidateQueries({
-          queryKey: ["me"]
+          queryKey: ["auth"]
         });
-
-        replaceRoute("/");
       }
     });
   };
@@ -125,10 +126,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loadToken();
   }, []);
 
-  useProtectedRoute(data?.data ?? null);
+  useEffect(() => {
+    if (data?.data) {
+      setUser(data?.data);
+    }
+  }, [data?.data]);
+
+  useProtectedRoute(user);
 
   const value = {
-    user: data?.data || null,
+    user: user,
     isLoading: isLoading,
     isLoginLoading: loginMutation.isPending,
     isRegisterLoading: registerMutation.isPending,
