@@ -1,10 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import useLogin from "hooks/auth/useLogin";
 import useLogout from "hooks/auth/useLogout";
-import useMe from "hooks/auth/useMe";
 import useRegister from "hooks/auth/useRegister";
 import {
   Body_auth_jwt_login_auth_login_post,
@@ -12,6 +11,8 @@ import {
   UserRead
 } from "types/generated";
 import axiosInstance from "utils/axios-instance";
+
+import useClient from "../hooks/useClient";
 
 interface AuthProps {
   user?: any | null;
@@ -55,6 +56,7 @@ export function useAuth(): any {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
+  const client = useClient();
 
   const [user, setUser] = useState<UserRead>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -63,21 +65,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const registerMutation = useRegister();
   const logoutMutation = useLogout();
 
-  const { data, isLoading, refetch } = useMe({
-    token: token
+  const fetchProfile = () => {
+    return client.get("/auth/me", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  };
+
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["auth"],
+    queryFn: fetchProfile,
+    enabled: !!token
   });
 
   const onLogin = (formValues: Body_auth_jwt_login_auth_login_post) => {
     loginMutation.mutate(formValues, {
-      onError: (e) => {
-        console.error("Error", e);
+      onError: async (e) => {
+        await AsyncStorage.removeItem("accessToken");
+        setToken(null);
       },
       onSuccess: async (response) => {
         const accessToken = response.data.access_token;
         const userData = await refetch();
-        setUser(userData.data.data);
-        await AsyncStorage.setItem("accessToken", accessToken);
-        setToken(accessToken);
+        setUser(userData?.data.data || null);
+
+        if (accessToken) {
+          AsyncStorage.setItem("accessToken", accessToken);
+          setToken(accessToken);
+          axiosInstance.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${accessToken}`;
+        }
 
         queryClient.invalidateQueries({
           queryKey: ["auth"]
@@ -125,6 +144,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     loadToken();
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      console.log(token, "token");
+      axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
+
+      setToken(token);
+    }
+  }, [token]);
 
   useEffect(() => {
     if (data?.data) {
