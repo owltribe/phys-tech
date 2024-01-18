@@ -1,12 +1,18 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueryClient,
+  UseQueryResult
+} from "@tanstack/react-query";
+import { AxiosError, AxiosResponse } from "axios";
 import { router } from "expo-router";
 import useLogin from "hooks/auth/useLogin";
 import useLogout from "hooks/auth/useLogout";
 import useRegister from "hooks/auth/useRegister";
 import {
   Body_auth_jwt_login_auth_login_post,
+  ErrorModel,
   UserCreate,
   UserRead
 } from "types/generated";
@@ -66,18 +72,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logoutMutation = useLogout();
 
   const fetchProfile = () => {
-    return client.get("/auth/me", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    return client
+      .get("/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .catch(async (e) => {
+        await AsyncStorage.removeItem("accessToken");
+      });
   };
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["auth"],
-    queryFn: fetchProfile,
-    enabled: !!token
-  });
+  const {
+    data,
+    isLoading,
+    refetch
+  }: UseQueryResult<AxiosResponse<UserRead>, AxiosError<ErrorModel>> = useQuery(
+    {
+      queryKey: ["auth"],
+      queryFn: fetchProfile,
+      enabled: !!token
+    }
+  );
 
   const onLogin = (formValues: Body_auth_jwt_login_auth_login_post) => {
     loginMutation.mutate(formValues, {
@@ -88,7 +104,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       onSuccess: async (response) => {
         const accessToken = response.data.access_token;
         const userData = await refetch();
-        setUser(userData?.data.data || null);
+        setUser(userData?.data?.data || null);
 
         if (accessToken) {
           AsyncStorage.setItem("accessToken", accessToken);
@@ -122,7 +138,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         await AsyncStorage.removeItem("accessToken");
         setToken(null);
         queryClient.invalidateQueries({
-          queryKey: ["me"]
+          queryKey: ["auth"]
         });
         router.replace("/authorization");
       }
