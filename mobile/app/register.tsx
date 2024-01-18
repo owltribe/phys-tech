@@ -1,21 +1,27 @@
 import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import SegmentedControl from "components/SegmentedControl";
 import { MyButton } from "components/tamagui/MyButton";
 import { MyStack } from "components/tamagui/MyStack";
 import { MyTextInput } from "components/tamagui/MyTextInput";
 import { useAuth } from "providers/AuthProvider";
 import {
   H2,
+  H5,
+  Separator,
+  SizableText,
   SizeTokens,
   Spinner,
+  Tabs,
   Text,
   Theme,
   ToggleGroup,
   XStack,
   YStack
 } from "tamagui";
-import { UserCreate, UserRole } from "types/generated";
+import { UserWithOrganizationCreate, UserRole, OrganizationCreate } from "types/generated";
+import { MultiStepView, StepInfo } from "../components/multi-step/MultiStepView";
+import StepOne from "../components/auth/register/StepOne";
+import StepTwo from "../components/auth/register/StepTwo";
 
 interface FormValues {
   email: string;
@@ -24,6 +30,8 @@ interface FormValues {
   password: string;
   rePassword: string;
   role: UserRole | null;
+
+  organization_data: OrganizationCreate | null;
 }
 
 function ToggleGroupComponent(props: {
@@ -71,12 +79,6 @@ function ToggleGroupComponent(props: {
         >
           <Text width="100%">Клиент</Text>
         </ToggleGroup.Item>
-        {/*<ToggleGroup.Item*/}
-        {/*  value="right"*/}
-        {/*  aria-label="Right aligned"*/}
-        {/*>*/}
-        {/*  <AlignRight />*/}
-        {/*</ToggleGroup.Item>*/}
       </ToggleGroup>
     </XStack>
   );
@@ -92,19 +94,29 @@ export default function Authorization() {
     onRegister,
     isRegisterLoading
   }: {
-    onRegister: (payload: UserCreate) => void;
+    onRegister: (payload: UserWithOrganizationCreate) => void;
     isRegisterLoading: boolean;
   } = useAuth();
 
   const [role, setRole] = useState<UserRole>("Organization");
 
-  const { control, handleSubmit } = useForm<FormValues>({
+  const { control, handleSubmit, trigger } = useForm<FormValues>({
     defaultValues: {
       email: "",
       first_name: "",
       last_name: "",
       password: "",
-      rePassword: ""
+      rePassword: "",
+
+      organization_data: {
+        name: "",
+        bin: "",
+        address: "",
+        contact: "",
+        email: "",
+        description: "",
+        category: "Научная организация",
+      }
     }
   });
 
@@ -112,136 +124,60 @@ export default function Authorization() {
     onRegister({ ...formValues, role: role });
   };
 
+const validateFirstStep = async () => {
+    const result = await trigger(["email", "first_name", "last_name", "password", "rePassword"]);
+    return result;
+};
+
+const categorySelectItems = [{ name: "Научная " }, { name: "Вуз" }, { name: "Технопарк" }, { name: "Коммерческая Лабораторная компания" }];
+
+
+const steps: StepInfo[] = [
+{
+  theme: "blue",
+  validate: validateFirstStep,
+  Content: () => (
+      <StepOne control={control} />
+  )
+},
+  {
+      theme: "blue",
+      Content: () => (
+          <StepTwo
+              control={control}
+              isRegisterLoading={isRegisterLoading}
+              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
+          />
+  )
+  },
+];
+
   return (
-    <Theme name="blue">
-      <MyStack
-        backgroundColor="$color3"
-        jc="center"
-      >
-        <H2
-          mt="$5"
-          animation="bouncy"
-          y={0}
-          enterStyle={{ scale: 0.95, y: 4, opacity: 0 }}
-          exitStyle={{ scale: 0.95, y: 4, opacity: 0 }}
-          opacity={1}
-          scale={1}
-          size="$10"
-          color="$color9"
-          selectable={false}
-          textAlign="center"
-          $md={{
-            size: "$10",
-            mt: "$4"
-          }}
-        >
-          Регистрация
-        </H2>
-
-        <YStack mt="$4">
-          <SegmentedControl
-            options={options}
-            selectedOption={role}
-            onOptionPress={setRole as (p: UserRole) => void}
-          />
-
-          <Controller
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="email"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
-                mt="$4"
-                placeholder="Электронная почта"
-                autoComplete="email"
-                inputMode="email"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="first_name"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
-                placeholder="Имя"
-                autoComplete="name"
-                inputMode="text"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="last_name"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
-                placeholder="Фамилия"
-                autoComplete="family-name"
-                inputMode="text"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="password"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
-                placeholder="Пароль"
-                autoComplete="password"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="rePassword"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
-                placeholder="Повтроите пароль"
-                autoComplete="password-new"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
-
-          <MyButton
-            mt="$4"
-            color="$color1"
-            backgroundColor="$color9"
-            icon={isRegisterLoading ? <Spinner /> : undefined}
-            disabled={isRegisterLoading}
-            onPress={handleSubmit(onSubmit)}
-          >
-            Зарегистрироваться
-          </MyButton>
-        </YStack>
-      </MyStack>
-    </Theme>
+        <MultiStepView
+            autoSwipe
+            steps={steps}
+            title={
+                <H2
+                    mt="$5"
+                    animation="bouncy"
+                    y={0}
+                    enterStyle={{ scale: 0.95, y: 4, opacity: 0 }}
+                    exitStyle={{ scale: 0.95, y: 4, opacity: 0 }}
+                    opacity={1}
+                    scale={1}
+                    size="$10"
+                    color="$color9"
+                    selectable={false}
+                    textAlign="center"
+                    $md={{
+                        size: "$10",
+                        mt: "$4"
+                    }}
+                >
+                    Регистрация
+                </H2>
+        }
+        />
   );
 }

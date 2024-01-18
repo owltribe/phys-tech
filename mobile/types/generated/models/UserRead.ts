@@ -15,5 +15,6 @@ export type UserRead = {
     last_name: string;
     role: UserRole;
     full_name: string;
+    organization_id: string;
 };
 
