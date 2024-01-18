@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Optional
 
 from fastapi_filter.contrib.sqlalchemy import Filter
@@ -18,6 +19,7 @@ class ServiceRequestRead(BaseModel):
     status: ServiceRequestStatus
     service: ServiceRead
     requested_by: UserRead
+    created_at: datetime
 
     class Config:
         from_attributes = True
