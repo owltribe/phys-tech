@@ -17,6 +17,16 @@
     },
     "android": {
       "package": "com.asgard.phystechapp"
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ]
   }
 }
