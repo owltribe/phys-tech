@@ -5,7 +5,7 @@
   "build": {
     "preview": {
       "env": {
-        "EXPO_PUBLIC_BACKEND_URL": "http://78.40.216.114:8000"
+        "EXPO_PUBLIC_BACKEND_URL": "https://kamigard.space"
       },
       "android": {
         "buildType": "apk"
