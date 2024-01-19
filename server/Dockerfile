@@ -12,4 +12,7 @@ RUN poetry config virtualenvs.create false && poetry install --no-dev
 # Copy the rest of the application code
 COPY . /app
 
-CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app"]
+

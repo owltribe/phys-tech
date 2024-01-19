@@ -3,15 +3,20 @@ version: '3.8'
 services:
   postgres:
     image: postgres:latest
-    container_name: phys-tech-db
+    container_name: phys-tech
     environment:
-      POSTGRES_DB: phys-tech  # Updated to use the "physt-tech" database
+      POSTGRES_DB: phys-tech
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
     ports:
-      - "5433:5432"
+      - "5432:5432"
     networks:
       - my_network
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U postgres' ]
+      interval: 2s
+      timeout: 2s
+      retries: 15
 
   fastapi_app:
     build:
@@ -20,7 +25,7 @@ services:
     container_name: phys-tech-web
     environment:
       - DB_HOST=postgres
-      - DB_PORT=5433
+      - DB_PORT=5432
       - DB_NAME=phys-tech
       - DB_USER=postgres
       - DB_PASS=root
@@ -28,10 +33,14 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - my_network
 
 networks:
-  my_network:
-    driver: bridge
+  my_network: {}
+
+#networks:
+#  my_network:
+#    driver: bridge
