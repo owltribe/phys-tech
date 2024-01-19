@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import SegmentedControl from "@react-native-segmented-control/segmented-control";
+import SegmentedControl from "../../../components/SegmentedControl";
 import { MyStack } from "components/tamagui/MyStack";
 import { MyTextInput } from "components/tamagui/MyTextInput";
 import { useLocalSearchParams } from "expo-router";
@@ -37,7 +37,7 @@ export default function Index() {
 
   const { section } = useLocalSearchParams<{ section: string }>();
   const searchControlValues = [
-    { name: "organization", title: "Организаций" },
+    { name: "organization", title: "Организации" },
     { name: "service", title: "Услуги" },
     { name: "event", title: "Мероприятия" }
   ];
@@ -70,11 +70,12 @@ export default function Index() {
           mb="$1"
       />
       <SegmentedControl
-        values={searchControlValues.map((a) => a.title)}
-        selectedIndex={selectedIndex}
-        onChange={(event) => {
-          setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
-        }}
+          options={searchControlValues.map((a) => ({ label: a.title, value: a.name }))}
+          selectedOption={searchControlValues[selectedIndex].name}
+          onOptionPress={(option: string) => {
+          const matchedIndex = searchControlValues.findIndex((sc) => sc.name === option);
+          setSelectedIndex(matchedIndex >= 0 ? matchedIndex : 0);
+      }}
       />
       <ScrollView>
         <ScrollView
