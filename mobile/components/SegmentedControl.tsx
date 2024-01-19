@@ -20,7 +20,7 @@ type SegmentedControlProps = {
 };
 
 const Palette = {
-  baseGray05: gray.gray3,
+  baseGray05: white,
   background: blue.blue9
 };
 
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
   },
   labelContainer: { justifyContent: "center", alignItems: "center" },
   label: {
-    fontSize: 16
-    // fontWeight: "500"
+    fontSize: 16,
+    fontWeight: "500"
   }
 });
 

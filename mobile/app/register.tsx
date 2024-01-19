@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import SegmentedControl from "components/SegmentedControl";
 import { MyButton } from "components/tamagui/MyButton";
 import { MyStack } from "components/tamagui/MyStack";
 import { MyTextInput } from "components/tamagui/MyTextInput";
 import { useAuth } from "providers/AuthProvider";
 import {
   H2,
-  H5,
-  Separator,
-  SizableText,
   SizeTokens,
   Spinner,
-  Tabs,
   Text,
   Theme,
   ToggleGroup,
@@ -85,6 +82,11 @@ function ToggleGroupComponent(props: {
   );
 }
 
+const options: { label: string; value: UserRole }[] = [
+  { label: "Организация", value: "Organization" },
+  { label: "Клиент", value: "Client" }
+];
+
 export default function Authorization() {
   const {
     onRegister,
@@ -94,19 +96,20 @@ export default function Authorization() {
     isRegisterLoading: boolean;
   } = useAuth();
 
+  const [role, setRole] = useState<UserRole>("Organization");
+
   const { control, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       email: "",
       first_name: "",
       last_name: "",
       password: "",
-      rePassword: "",
-      role: "Organization"
+      rePassword: ""
     }
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    onRegister({ ...formValues });
+    onRegister({ ...formValues, role: role });
   };
 
   return (
@@ -135,36 +138,13 @@ export default function Authorization() {
           Регистрация
         </H2>
 
-        {/*<Tabs*/}
-        {/*  defaultValue="tab1"*/}
-        {/*  orientation="horizontal"*/}
-        {/*  flexDirection="column"*/}
-        {/*  borderRadius="$4"*/}
-        {/*  borderWidth="$0.25"*/}
-        {/*  overflow="hidden"*/}
-        {/*  borderColor="$borderColor"*/}
-        {/*>*/}
-        {/*  <Tabs.List*/}
-        {/*    separator={<Separator vertical />}*/}
-        {/*    disablePassBorderRadius="bottom"*/}
-        {/*    aria-label="Manage your account"*/}
-        {/*  >*/}
-        {/*    <Tabs.Tab*/}
-        {/*      flex={1}*/}
-        {/*      value="tab1"*/}
-        {/*    >*/}
-        {/*      <Text>Организация</Text>*/}
-        {/*    </Tabs.Tab>*/}
-        {/*    <Tabs.Tab*/}
-        {/*      flex={1}*/}
-        {/*      value="tab2"*/}
-        {/*    >*/}
-        {/*      <Text>Клиент</Text>*/}
-        {/*    </Tabs.Tab>*/}
-        {/*  </Tabs.List>*/}
-        {/*  <Separator />*/}
-        {/*  <Tabs.Content value="tab1">*/}
         <YStack mt="$4">
+          <SegmentedControl
+            options={options}
+            selectedOption={role}
+            onOptionPress={setRole as (p: UserRole) => void}
+          />
+
           <Controller
             control={control}
             rules={{
@@ -173,6 +153,7 @@ export default function Authorization() {
             name="email"
             render={({ field: { onChange, onBlur, value } }) => (
               <MyTextInput
+                mt="$4"
                 placeholder="Электронная почта"
                 autoComplete="email"
                 inputMode="email"
