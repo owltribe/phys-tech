@@ -9,6 +9,14 @@
     },
     "icon": "./assets/icon.png",
     "name": "phys-tech-app",
-    "slug": "phys-tech-app"
+    "slug": "phys-tech-app",
+    "extra": {
+      "eas": {
+        "projectId": "228d7635-6e9f-41d6-80a3-00445bd569c6"
+      }
+    },
+    "android": {
+      "package": "com.asgard.phystechapp"
+    }
   }
 }
