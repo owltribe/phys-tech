@@ -241,12 +241,6 @@ export default function Authorization() {
             Зарегистрироваться
           </MyButton>
         </YStack>
-        {/*  </Tabs.Content>*/}
-
-        {/*  <Tabs.Content value="tab2">*/}
-        {/*    <H5>Клиент</H5>*/}
-        {/*  </Tabs.Content>*/}
-        {/*</Tabs>*/}
       </MyStack>
     </Theme>
   );

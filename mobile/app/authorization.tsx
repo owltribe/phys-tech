@@ -8,6 +8,8 @@ import { useRouter } from "expo-router";
 import { useAuth } from "providers/AuthProvider";
 import { H2, Separator, Spinner, Theme, YStack } from "tamagui";
 
+import { black } from "../utils/colors";
+
 interface FormValues {
   username: string;
   password: string;
@@ -119,12 +121,12 @@ export default function Authorization() {
           <Theme name="blue">
             <MyButton
               pressStyle={{
-                // backgroundColor: "$6",
                 borderColor: "$dark6"
               }}
               chromeless
               bordered
               borderColor="$color"
+              style={{ color: black }}
               onPress={() => router.push("/register")}
             >
               Зарегистрироваться
