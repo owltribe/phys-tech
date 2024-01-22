@@ -21,10 +21,10 @@ export default function Layout() {
   const colorScheme = useColorScheme();
 
   const [fontsLoaded] = useFonts({
-    Raleway_400Regular: require("node_modules/@expo-google-fonts/raleway/Raleway_400Regular.ttf"),
-    Raleway_500Medium: require("node_modules/@expo-google-fonts/raleway/Raleway_500Medium.ttf"),
-    Raleway_600SemiBold: require("node_modules/@expo-google-fonts/raleway/Raleway_600SemiBold.ttf"),
-    Raleway_700Bold: require("node_modules/@expo-google-fonts/raleway/Raleway_700Bold.ttf")
+    Raleway_400Regular: require("@expo-google-fonts/raleway/Raleway_400Regular.ttf"),
+    Raleway_500Medium: require("@expo-google-fonts/raleway/Raleway_500Medium.ttf"),
+    Raleway_600SemiBold: require("@expo-google-fonts/raleway/Raleway_600SemiBold.ttf"),
+    Raleway_700Bold: require("@expo-google-fonts/raleway/Raleway_700Bold.ttf")
   });
 
   const onLayoutRootView = useCallback(async () => {
