@@ -1,27 +1,13 @@
-import React, { useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { MyButton } from "components/tamagui/MyButton";
-import { MyStack } from "components/tamagui/MyStack";
-import { MyTextInput } from "components/tamagui/MyTextInput";
-import { useAuth } from "providers/AuthProvider";
-import {
-  H2,
-  H5,
-  Separator,
-  SizableText,
-  SizeTokens,
-  Spinner,
-  Tabs,
-  Text,
-  Theme,
-  ToggleGroup,
-  XStack,
-  YStack
-} from "tamagui";
-import { UserWithOrganizationCreate, UserRole, OrganizationCreate } from "types/generated";
-import { MultiStepView, StepInfo } from "../components/multi-step/MultiStepView";
+import React, {useState} from "react";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {useAuth} from "providers/AuthProvider";
+import {H2, SizeTokens, Spinner, Text, ToggleGroup, XStack, YStack} from "tamagui";
+import {Category, OrganizationCreate, UserRole, UserWithOrganizationCreate} from "types/generated";
+import {MultiStepView, StepInfo} from "../components/multi-step/MultiStepView";
 import StepOne from "../components/auth/register/StepOne";
 import StepTwo from "../components/auth/register/StepTwo";
+import {MyButton} from "../components/tamagui/MyButton";
+import {MyStack} from "../components/tamagui/MyStack";
 
 interface FormValues {
   email: string;
@@ -43,20 +29,10 @@ function ToggleGroupComponent(props: {
   return (
     <XStack
       flexDirection={props.orientation === "horizontal" ? "row" : "column"}
-      // alignItems="center"
-      // justifyContent="center"
       space="$4"
       mb="$4"
       width="100%"
     >
-      {/*<Label*/}
-      {/*  paddingRight="$0"*/}
-      {/*  justifyContent="flex-end"*/}
-      {/*  size={props.size}*/}
-      {/*  htmlFor={id}*/}
-      {/*>*/}
-      {/*  {props.type === "single" ? "Single" : "Multiple"}*/}
-      {/*</Label>*/}
 
       <ToggleGroup
         orientation={props.orientation}
@@ -84,11 +60,6 @@ function ToggleGroupComponent(props: {
   );
 }
 
-const options: { label: string; value: UserRole }[] = [
-  { label: "Организация", value: "Organization" },
-  { label: "Клиент", value: "Client" }
-];
-
 export default function Authorization() {
   const {
     onRegister,
@@ -99,6 +70,7 @@ export default function Authorization() {
   } = useAuth();
 
   const [role, setRole] = useState<UserRole>("Organization");
+  const [category, setCategory] = useState<Category>("Научная организация");
 
   const { control, handleSubmit, trigger } = useForm<FormValues>({
     defaultValues: {
@@ -125,33 +97,61 @@ export default function Authorization() {
   };
 
 const validateFirstStep = async () => {
-    const result = await trigger(["email", "first_name", "last_name", "password", "rePassword"]);
-    return result;
+  return await trigger(["email", "first_name", "last_name", "password", "rePassword"]);
 };
 
-const categorySelectItems = [{ name: "Научная " }, { name: "Вуз" }, { name: "Технопарк" }, { name: "Коммерческая Лабораторная компания" }];
-
-
-const steps: StepInfo[] = [
-{
-  theme: "blue",
-  validate: validateFirstStep,
-  Content: () => (
-      <StepOne control={control} />
-  )
-},
+let steps: StepInfo[] = [
   {
-      theme: "blue",
-      Content: () => (
-          <StepTwo
-              control={control}
-              isRegisterLoading={isRegisterLoading}
-              handleSubmit={handleSubmit}
-              onSubmit={onSubmit}
-          />
-  )
-  },
+    theme: "blue",
+    validate: validateFirstStep,
+    Content: () => (
+        <MyStack backgroundColor="$color3" jc="center">
+          <YStack mt="$4">
+            <StepOne control={control} role={role} setRole={setRole} />
+            {role === "Client" && (
+                <MyButton
+                    mt="$4"
+                    color="$color1"
+                    backgroundColor="$color9"
+                    icon={isRegisterLoading ? <Spinner /> : undefined}
+                    disabled={isRegisterLoading}
+                    onPress={handleSubmit(onSubmit)}
+                >
+                  Зарегистрироваться
+                </MyButton>
+            )}
+          </YStack>
+        </MyStack>
+    )
+  }
 ];
+
+if (role === "Organization") {
+  steps.push({
+    theme: "blue",
+    Content: () => (
+        <MyStack backgroundColor="$color3" jc="center">
+          <YStack mt="$1">
+            <StepTwo
+                control={control}
+                category={category}
+                setCategory={setCategory}
+            />
+            <MyButton
+                mt="$4"
+                color="$color1"
+                backgroundColor="$color9"
+                icon={isRegisterLoading ? <Spinner /> : undefined}
+                disabled={isRegisterLoading}
+                onPress={handleSubmit(onSubmit)}
+            >
+              Зарегистрироваться
+            </MyButton>
+          </YStack>
+        </MyStack>
+    )
+  });
+}
 
   return (
         <MultiStepView
