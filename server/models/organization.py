@@ -1,10 +1,9 @@
 import enum
 import uuid
-from typing import List
 
-from sqlalchemy import String, Enum, UUID
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import Base
+from sqlalchemy import UUID, Enum, ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class Category(enum.Enum):
@@ -27,10 +26,21 @@ class Organization(Base):
 
     category: Mapped[Category] = mapped_column(Enum(Category), nullable=False)
 
+    owner_id: Mapped[uuid.UUID] = mapped_column(
+        UUID,
+        ForeignKey("user.id", ondelete="CASCADE", name="fk_organization_owner"),
+        nullable=True,
+    )
+    owner = relationship(
+        "User",
+        back_populates="organization",
+        primaryjoin="User.id == Organization.owner_id",
+        uselist=False,
+    )
+
     services = relationship(
         "Service",
         back_populates="organization",
         cascade="delete",
         uselist=True,
     )
-

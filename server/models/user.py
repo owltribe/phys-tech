@@ -1,16 +1,12 @@
 import enum
 import uuid
 
-from pydantic import computed_field
-from sqlalchemy import String, Boolean, Enum, UUID
+from database import Base
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 from fastapi_users_db_sqlalchemy import UUID_ID
+from pydantic import computed_field
+from sqlalchemy import UUID, Boolean, Enum, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-
-from database import Base
 
 
 class UserRole(enum.Enum):
@@ -28,26 +24,26 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     )
     first_name: Mapped[str] = mapped_column(String, nullable=False)
     last_name: Mapped[str] = mapped_column(String, nullable=False)
-    hashed_password: Mapped[str] = mapped_column(
-        String(length=1024), nullable=False
-    )
-    organization_id = mapped_column(UUID, ForeignKey('organization.id'), nullable=True)
+    hashed_password: Mapped[str] = mapped_column(String(length=1024), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-    is_superuser: Mapped[bool] = mapped_column(
-        Boolean, default=False, nullable=False
-    )
-    is_verified: Mapped[bool] = mapped_column(
-        Boolean, default=False, nullable=False
-    )
+    is_superuser: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    is_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 
     requested_services = relationship(
         "ServiceRequest",
         back_populates="requested_by",
         primaryjoin="User.id == ServiceRequest.requested_by_id",
         cascade="delete",
-        uselist=True
+        uselist=True,
     )
-    organization = relationship("Organization")
+
+    organization = relationship(
+        "Organization",
+        back_populates="owner",
+        primaryjoin="User.id == Organization.owner_id",
+        cascade="delete",
+        uselist=False,
+    )
 
     @computed_field
     @property
