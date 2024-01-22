@@ -8,6 +8,7 @@ import StepOne from "../components/auth/register/StepOne";
 import StepTwo from "../components/auth/register/StepTwo";
 import {MyButton} from "../components/tamagui/MyButton";
 import {MyStack} from "../components/tamagui/MyStack";
+import KeyBoardAvoidingContainer from "../components/KeyBoardAvoidingContainer";
 
 interface FormValues {
   email: string;
@@ -154,30 +155,34 @@ if (role === "Organization") {
 }
 
   return (
-        <MultiStepView
-            autoSwipe
-            steps={steps}
-            title={
-                <H2
-                    mt="$5"
-                    animation="bouncy"
-                    y={0}
-                    enterStyle={{ scale: 0.95, y: 4, opacity: 0 }}
-                    exitStyle={{ scale: 0.95, y: 4, opacity: 0 }}
-                    opacity={1}
-                    scale={1}
-                    size="$10"
-                    color="$color9"
-                    selectable={false}
-                    textAlign="center"
-                    $md={{
-                        size: "$10",
-                        mt: "$4"
-                    }}
-                >
-                    Регистрация
-                </H2>
-        }
-        />
+      <KeyBoardAvoidingContainer>
+        <>
+            <MultiStepView
+                autoSwipe
+                steps={steps}
+                title={
+                    <H2
+                        mt="$5"
+                        animation="bouncy"
+                        y={0}
+                        enterStyle={{ scale: 0.95, y: 4, opacity: 0 }}
+                        exitStyle={{ scale: 0.95, y: 4, opacity: 0 }}
+                        opacity={1}
+                        scale={1}
+                        size="$10"
+                        color="$color9"
+                        selectable={false}
+                        textAlign="center"
+                        $md={{
+                            size: "$10",
+                            mt: "$4"
+                        }}
+                    >
+                        Регистрация
+                    </H2>
+            }
+            />
+        </>
+      </KeyBoardAvoidingContainer>
   );
 }
