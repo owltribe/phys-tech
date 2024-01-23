@@ -3,4 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Category = 'Научная организация';
+export type Category =
+    | 'Научная организация'
+    | 'Вуз'
+    | 'Технопарк'
+    | 'Коммерческая Лабораторная компания';

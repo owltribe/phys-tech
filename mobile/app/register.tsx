@@ -1,21 +1,14 @@
-import React, { useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import SegmentedControl from "components/SegmentedControl";
-import { MyButton } from "components/tamagui/MyButton";
-import { MyStack } from "components/tamagui/MyStack";
-import { MyTextInput } from "components/tamagui/MyTextInput";
-import { useAuth } from "providers/AuthProvider";
-import {
-  H2,
-  SizeTokens,
-  Spinner,
-  Text,
-  Theme,
-  ToggleGroup,
-  XStack,
-  YStack
-} from "tamagui";
-import { UserCreate, UserRole } from "types/generated";
+import React, {useState} from "react";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {useAuth} from "providers/AuthProvider";
+import {H2, SizeTokens, Spinner, Text, ToggleGroup, XStack, YStack} from "tamagui";
+import {Category, OrganizationCreate, UserRole, UserWithOrganizationCreate} from "types/generated";
+import {MultiStepView, StepInfo} from "../components/multi-step/MultiStepView";
+import StepOne from "../components/auth/register/StepOne";
+import StepTwo from "../components/auth/register/StepTwo";
+import {MyButton} from "../components/tamagui/MyButton";
+import {MyStack} from "../components/tamagui/MyStack";
+import KeyBoardAvoidingContainer from "../components/KeyBoardAvoidingContainer";
 
 interface FormValues {
   email: string;
@@ -24,6 +17,8 @@ interface FormValues {
   password: string;
   rePassword: string;
   role: UserRole | null;
+
+  organization_data: OrganizationCreate | null;
 }
 
 function ToggleGroupComponent(props: {
@@ -35,20 +30,10 @@ function ToggleGroupComponent(props: {
   return (
     <XStack
       flexDirection={props.orientation === "horizontal" ? "row" : "column"}
-      // alignItems="center"
-      // justifyContent="center"
       space="$4"
       mb="$4"
       width="100%"
     >
-      {/*<Label*/}
-      {/*  paddingRight="$0"*/}
-      {/*  justifyContent="flex-end"*/}
-      {/*  size={props.size}*/}
-      {/*  htmlFor={id}*/}
-      {/*>*/}
-      {/*  {props.type === "single" ? "Single" : "Multiple"}*/}
-      {/*</Label>*/}
 
       <ToggleGroup
         orientation={props.orientation}
@@ -71,40 +56,40 @@ function ToggleGroupComponent(props: {
         >
           <Text width="100%">Клиент</Text>
         </ToggleGroup.Item>
-        {/*<ToggleGroup.Item*/}
-        {/*  value="right"*/}
-        {/*  aria-label="Right aligned"*/}
-        {/*>*/}
-        {/*  <AlignRight />*/}
-        {/*</ToggleGroup.Item>*/}
       </ToggleGroup>
     </XStack>
   );
 }
-
-const options: { label: string; value: UserRole }[] = [
-  { label: "Организация", value: "Organization" },
-  { label: "Клиент", value: "Client" }
-];
 
 export default function Authorization() {
   const {
     onRegister,
     isRegisterLoading
   }: {
-    onRegister: (payload: UserCreate) => void;
+    onRegister: (payload: UserWithOrganizationCreate) => void;
     isRegisterLoading: boolean;
   } = useAuth();
 
   const [role, setRole] = useState<UserRole>("Organization");
+  const [category, setCategory] = useState<Category>("Научная организация");
 
-  const { control, handleSubmit } = useForm<FormValues>({
+  const { control, handleSubmit, trigger } = useForm<FormValues>({
     defaultValues: {
       email: "",
       first_name: "",
       last_name: "",
       password: "",
-      rePassword: ""
+      rePassword: "",
+
+      organization_data: {
+        name: "",
+        bin: "",
+        address: "",
+        contact: "",
+        email: "",
+        description: "",
+        category: "Научная организация",
+      }
     }
   });
 
@@ -112,136 +97,92 @@ export default function Authorization() {
     onRegister({ ...formValues, role: role });
   };
 
-  return (
-    <Theme name="blue">
-      <MyStack
-        backgroundColor="$color3"
-        jc="center"
-      >
-        <H2
-          mt="$5"
-          animation="bouncy"
-          y={0}
-          enterStyle={{ scale: 0.95, y: 4, opacity: 0 }}
-          exitStyle={{ scale: 0.95, y: 4, opacity: 0 }}
-          opacity={1}
-          scale={1}
-          size="$10"
-          color="$color9"
-          selectable={false}
-          textAlign="center"
-          $md={{
-            size: "$10",
-            mt: "$4"
-          }}
-        >
-          Регистрация
-        </H2>
+const validateFirstStep = async () => {
+  return await trigger(["email", "first_name", "last_name", "password", "rePassword"]);
+};
 
-        <YStack mt="$4">
-          <SegmentedControl
-            options={options}
-            selectedOption={role}
-            onOptionPress={setRole as (p: UserRole) => void}
-          />
+let steps: StepInfo[] = [
+  {
+    theme: "blue",
+    validate: validateFirstStep,
+    Content: () => (
+        <MyStack backgroundColor="$color3" jc="center">
+          <YStack mt="$4">
+            <StepOne control={control} role={role} setRole={setRole} />
+            {role === "Client" && (
+                <MyButton
+                    mt="$4"
+                    color="$color1"
+                    backgroundColor="$color9"
+                    icon={isRegisterLoading ? <Spinner /> : undefined}
+                    disabled={isRegisterLoading}
+                    onPress={handleSubmit(onSubmit)}
+                >
+                  Зарегистрироваться
+                </MyButton>
+            )}
+          </YStack>
+        </MyStack>
+    )
+  }
+];
 
-          <Controller
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="email"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
+if (role === "Organization") {
+  steps.push({
+    theme: "blue",
+    Content: () => (
+        <MyStack backgroundColor="$color3" jc="center">
+          <YStack mt="$1">
+            <StepTwo
+                control={control}
+                category={category}
+                setCategory={setCategory}
+            />
+            <MyButton
                 mt="$4"
-                placeholder="Электронная почта"
-                autoComplete="email"
-                inputMode="email"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="first_name"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
-                placeholder="Имя"
-                autoComplete="name"
-                inputMode="text"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="last_name"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
-                placeholder="Фамилия"
-                autoComplete="family-name"
-                inputMode="text"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="password"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
-                placeholder="Пароль"
-                autoComplete="password"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="rePassword"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
-                placeholder="Повтроите пароль"
-                autoComplete="password-new"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
+                color="$color1"
+                backgroundColor="$color9"
+                icon={isRegisterLoading ? <Spinner /> : undefined}
+                disabled={isRegisterLoading}
+                onPress={handleSubmit(onSubmit)}
+            >
+              Зарегистрироваться
+            </MyButton>
+          </YStack>
+        </MyStack>
+    )
+  });
+}
 
-          <MyButton
-            mt="$4"
-            color="$color1"
-            backgroundColor="$color9"
-            icon={isRegisterLoading ? <Spinner /> : undefined}
-            disabled={isRegisterLoading}
-            onPress={handleSubmit(onSubmit)}
-          >
-            Зарегистрироваться
-          </MyButton>
-        </YStack>
-      </MyStack>
-    </Theme>
+  return (
+      <KeyBoardAvoidingContainer>
+        <>
+            <MultiStepView
+                autoSwipe
+                steps={steps}
+                title={
+                    <H2
+                        mt="$5"
+                        animation="bouncy"
+                        y={0}
+                        enterStyle={{ scale: 0.95, y: 4, opacity: 0 }}
+                        exitStyle={{ scale: 0.95, y: 4, opacity: 0 }}
+                        opacity={1}
+                        scale={1}
+                        size="$10"
+                        color="$color9"
+                        selectable={false}
+                        textAlign="center"
+                        $md={{
+                            size: "$10",
+                            mt: "$4"
+                        }}
+                    >
+                        Регистрация
+                    </H2>
+            }
+            />
+        </>
+      </KeyBoardAvoidingContainer>
   );
 }

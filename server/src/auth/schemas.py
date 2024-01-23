@@ -3,8 +3,9 @@ from typing import Optional
 
 from fastapi_users import schemas
 from fastapi_users.models import ID
-from pydantic import EmailStr
+from pydantic import EmailStr, UUID4
 
+from src.organization.schemas import OrganizationCreate, OrganizationRead
 from models.user import UserRole
 
 
@@ -18,6 +19,7 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
     is_superuser: bool = False
     is_verified: bool = False
     full_name: str
+    organization: Optional[OrganizationRead] = None
 
     class Config:
         from_attributes = True
@@ -34,6 +36,10 @@ class UserCreate(schemas.BaseUserCreate):
     is_verified: Optional[bool] = False
 
 
+class UserWithOrganizationCreate(UserCreate):
+    organization_data: Optional[OrganizationCreate] = None
+
+
 class UserUpdate(schemas.BaseUserUpdate):
     email: Optional[EmailStr] = None
     first_name: Optional[str] = None
@@ -43,3 +49,4 @@ class UserUpdate(schemas.BaseUserUpdate):
     is_active: Optional[bool] = None
     is_superuser: Optional[bool] = None
     is_verified: Optional[bool] = None
+    organization_id: Optional[uuid.UUID] = None

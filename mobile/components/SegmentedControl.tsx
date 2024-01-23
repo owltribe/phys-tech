@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   labelContainer: { justifyContent: "center", alignItems: "center" },
   label: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "500"
   }
 });

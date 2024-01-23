@@ -14,5 +14,6 @@ export type UserUpdate = {
     first_name?: (string | null);
     last_name?: (string | null);
     role?: (UserRole | null);
+    organization_id?: (string | null);
 };
 

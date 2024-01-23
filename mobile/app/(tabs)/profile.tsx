@@ -20,9 +20,9 @@ import { useAuth } from "providers/AuthProvider";
 import {
   Avatar,
   Button,
-  ButtonProps,
+  ButtonProps, Card,
   H2,
-  H3,
+  H3, H4,
   Paragraph,
   Separator,
   Sheet,
@@ -40,6 +40,27 @@ interface ChevronButtonProps extends ButtonProps {
 interface FormValues {
   first_name: string;
   last_name: string;
+}
+
+const OrganizationDetails = () => {
+  return (
+    <Card
+        animation="lazy"
+        size="$4"
+        width="100%"
+        scale={0.9}
+        hoverStyle={{ scale: 0.925 }}
+        pressStyle={{ scale: 0.875 }}
+        p="$1"
+        bordered
+        borderRadius="$6"
+    >
+      <Card.Header padded>
+        <H4>Organization Name</H4>
+        <Paragraph theme="alt2">Organization Description</Paragraph>
+      </Card.Header>
+    </Card>
+  )
 }
 
 const ChevronButton = ({
@@ -135,11 +156,6 @@ export default function Profile() {
                 size="$7"
                 marginRight={15}
               >
-                {/*<Avatar.Image*/}
-                {/*  borderRadius="$space.20"*/}
-                {/*  accessibilityLabel="Cam"*/}
-                {/*  src={<User />}*/}
-                {/*/>*/}
                 <Avatar.Fallback
                   borderRadius="$space.20"
                   backgroundColor="$blue6"
@@ -151,38 +167,7 @@ export default function Profile() {
               </YStack>
             </XStack>
           </XStack>
-          {/*<YStack>*/}
-          {/*  <XStack*/}
-          {/*    alignItems="center"*/}
-          {/*    space="$3"*/}
-          {/*  >*/}
-          {/*    <Phone*/}
-          {/*      size={16}*/}
-          {/*      color="$gray9"*/}
-          {/*    />*/}
-          {/*    <Paragraph*/}
-          {/*      size="$5"*/}
-          {/*      color="$gray9"*/}
-          {/*    >*/}
-          {/*      +628992344221*/}
-          {/*    </Paragraph>*/}
-          {/*  </XStack>*/}
-          {/*  <XStack*/}
-          {/*    alignItems="center"*/}
-          {/*    space="$3"*/}
-          {/*  >*/}
-          {/*    <Mail*/}
-          {/*      size={16}*/}
-          {/*      color="$gray9"*/}
-          {/*    />*/}
-          {/*    <Paragraph*/}
-          {/*      size="$5"*/}
-          {/*      color="$gray9"*/}
-          {/*    >*/}
-          {/*      {user.email}*/}
-          {/*    </Paragraph>*/}
-          {/*  </XStack>*/}
-          {/*</YStack>*/}
+          {user.role === "Organization" && <OrganizationDetails />}
         </YStack>
 
         <Separator marginVertical={10} />
