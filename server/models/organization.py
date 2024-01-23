@@ -6,7 +6,7 @@ from sqlalchemy import UUID, Enum, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-class Category(enum.Enum):
+class Category(str, enum.Enum):
     scientific_organization = "Научная организация"
     university = "Вуз"
     technopark = "Технопарк"

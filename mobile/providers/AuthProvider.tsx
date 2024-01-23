@@ -13,8 +13,8 @@ import useRegister from "hooks/auth/useRegister";
 import {
   Body_auth_jwt_login_auth_login_post,
   ErrorModel,
-  UserCreate,
-  UserRead
+  UserRead,
+  UserWithOrganizationCreate
 } from "types/generated";
 import axiosInstance from "utils/axios-instance";
 
@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const onRegister = (formValues: UserCreate) => {
+  const onRegister = (formValues: UserWithOrganizationCreate) => {
     registerMutation.mutate(formValues, {
       onSuccess: () => {
         replaceRoute("/authorization");
@@ -163,7 +163,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (token) {
-      console.log(token, "token");
       axiosInstance.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${token}`;
@@ -174,6 +173,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (data?.data) {
+      console.log(data?.data);
       setUser(data?.data);
     }
   }, [data?.data]);

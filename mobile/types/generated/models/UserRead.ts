@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { OrganizationRead } from './OrganizationRead';
 import type { UserRole } from './UserRole';
 
 export type UserRead = {
@@ -15,6 +16,6 @@ export type UserRead = {
     last_name: string;
     role: UserRole;
     full_name: string;
-    organization_id: string;
+    organization?: (OrganizationRead | null);
 };
 

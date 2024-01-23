@@ -6,7 +6,7 @@ from fastapi_users import BaseUserManager, UUIDIDMixin, schemas, models, excepti
 
 from config import AUTH_SECRET
 from models.user import UserRole
-from src.auth.schemas import UserWithOrganizationCreate
+from src.auth.schemas import UserWithOrganizationCreate, UserRead
 from models.organization import Organization
 
 from database import async_session_maker
@@ -56,11 +56,11 @@ class UserManager(UUIDIDMixin, BaseUserManager[UserWithOrganizationCreate, uuid.
 
         return created_user
 
-    async def on_after_register(self, user: UserWithOrganizationCreate, organization_data: Organization,  request: Optional[Request] = None):
+    async def on_after_register(self, user: UserRead, organization_data: Organization,  request: Optional[Request] = None):
         if user.role == UserRole.Organization:
             async with async_session_maker() as session:  # Using async session for DB operations
                 try:
-                    organization = Organization(**organization_data)
+                    organization = Organization(**organization_data, owner_id=user.id)
                     session.add(organization)
                     await session.commit()
                     await session.refresh(organization)
