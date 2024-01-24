@@ -7,7 +7,7 @@ from sqlalchemy.orm import joinedload
 from database import DbSession
 from models.user import User
 from src.auth.auth_backend import auth_backend, current_active_user
-from src.auth.schemas import UserRead, UserCreate, UserUpdate, UserWithOrganizationCreate
+from src.auth.schemas import UserRead, UserUpdate, UserWithOrganizationCreate, UserReadWithOrganization
 from src.auth.utils import get_user_manager
 
 auth_router = APIRouter(
@@ -29,7 +29,7 @@ auth_router.include_router(
 
 @auth_router.get(
     "/me",
-    response_model=UserRead,
+    response_model=UserReadWithOrganization,
     status_code=status.HTTP_200_OK,
 )
 async def auth_me(current_user: User = Depends(current_active_user)):

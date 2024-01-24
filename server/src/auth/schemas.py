@@ -19,10 +19,13 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
     is_superuser: bool = False
     is_verified: bool = False
     full_name: str
-    organization: Optional[OrganizationRead] = None
 
     class Config:
         from_attributes = True
+
+
+class UserReadWithOrganization(UserRead):
+    organization: Optional[OrganizationRead] = None
 
 
 class UserCreate(schemas.BaseUserCreate):
