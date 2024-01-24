@@ -6,7 +6,7 @@ export default function NavigationBar({
   navigation,
   route,
   options,
-  back,
+  back
 }: StackHeaderProps) {
   const title = getHeaderTitle(options, route.name);
 

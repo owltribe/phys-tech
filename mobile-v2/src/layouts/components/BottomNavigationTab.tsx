@@ -14,8 +14,9 @@ export default function BottomNavigationTab() {
     <Tab.Navigator
       initialRouteName="Home"
       activeColor={theme.colors.primary}
+      activeIndicatorStyle={{ backgroundColor: theme.colors.inverseOnSurface }}
       barStyle={{
-        backgroundColor: theme.colors.primaryContainer,
+        backgroundColor: theme.colors.inverseOnSurface,
         borderColor: theme.colors.outlineVariant,
         borderTopWidth: 1
       }}
@@ -34,14 +35,16 @@ export default function BottomNavigationTab() {
           )
         }}
       />
+
       <Tab.Screen
         name="Services"
         component={Services}
         options={{
-          tabBarLabel: "Сервисы",
+          title: "Мои Услуги",
+          tabBarLabel: "Мои Услуги",
           tabBarIcon: ({ color }) => (
             <Icon
-              source="hand-extended-outline"
+              source="table"
               color={color}
               size={26}
             />

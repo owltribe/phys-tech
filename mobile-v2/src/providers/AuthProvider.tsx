@@ -29,6 +29,8 @@ interface AuthProps {
     formValues: UserWithOrganizationCreate,
     mutateOptions: MutationOptions
   ) => void;
+  loginError: Record<string, string> | string | undefined;
+  loginReset: () => void;
   token: string | null;
 }
 
@@ -166,6 +168,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     onLogin: onLogin,
     onRegister: onRegister,
     onLogout,
+    loginError: loginMutation.error?.response?.data.detail,
+    loginReset: loginMutation.reset,
     token: token
   };
 

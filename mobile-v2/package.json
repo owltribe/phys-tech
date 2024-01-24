@@ -10,6 +10,7 @@
     "generate-types": "curl http://localhost:8000/openapi.json -o schema.yaml && yarn run openapi --input ./schema.yaml --output ./src/types/generated --exportServices=false --exportCore=false --useUnionTypes"
   },
   "dependencies": {
+    "@gorhom/bottom-sheet": "^4",
     "@hookform/resolvers": "^3.3.4",
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-masked-view/masked-view": "0.3.0",

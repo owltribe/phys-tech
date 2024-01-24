@@ -1,3 +1,4 @@
+import { LogBox } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import { AuthProvider } from "providers/AuthProvider";
 import { ReactQueryClientProvider } from "providers/ReactQueryProvider";
@@ -16,3 +17,5 @@ export default function App() {
     </ReactQueryClientProvider>
   );
 }
+
+LogBox.ignoreAllLogs(); //Ignore all log notifications

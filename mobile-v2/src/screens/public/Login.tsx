@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import { Snackbar } from "react-native-paper";
 import { yupResolver } from "@hookform/resolvers/yup";
 import TextField from "components/fields/TextField";
 import PrimaryButton from "components/PrimaryButton";
@@ -31,7 +32,7 @@ interface FormValues {
 }
 
 const Login = ({ navigation }: LoginScreenProps) => {
-  const { onLogin, isLoginLoading } = useAuth();
+  const { onLogin, isLoginLoading, loginError, loginReset } = useAuth();
 
   const {
     control,
@@ -50,7 +51,7 @@ const Login = ({ navigation }: LoginScreenProps) => {
   };
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper withScrollView={false}>
       <KeyboardAvoidingView style={commonStyles.container}>
         <Header>Добро пожаловать.</Header>
 
@@ -113,6 +114,18 @@ const Login = ({ navigation }: LoginScreenProps) => {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
+
+      <Snackbar
+        visible={!!loginError}
+        onDismiss={() => {}}
+        action={{
+          label: "Undo",
+          onPress: loginReset
+        }}
+        duration={Snackbar.DURATION_MEDIUM}
+      >
+        {String(loginError) || "Ошибка входа"}
+      </Snackbar>
     </ScreenWrapper>
   );
 };
@@ -121,6 +134,8 @@ const styles = StyleSheet.create({
   forgotPassword: {
     width: "100%",
     alignItems: "flex-end",
+    alignSelf: "center",
+    justifyContent: "center",
     marginBottom: 24
   },
   row: {
