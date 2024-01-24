@@ -13,11 +13,14 @@ import TextField from "components/fields/TextField";
 import PrimaryButton from "components/PrimaryButton";
 import ScreenWrapper from "components/ScreenWrapper";
 import Header from "components/typography/Header";
+import { Image } from "react-native";
 import { useAuth } from "providers/AuthProvider";
 import { LoginScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
+// import Logo from "../../components/Logo";
 import * as yup from "yup";
+
 
 const schema = yup
   .object({
@@ -53,6 +56,15 @@ const Login = ({ navigation }: LoginScreenProps) => {
   return (
     <ScreenWrapper withScrollView={false}>
       <KeyboardAvoidingView style={commonStyles.container}>
+        <View style={styles.logoContainer}>
+          <Image
+            source={require("../../../assets/logo.png")}
+            style={styles.logoSize}
+            resizeMode="contain"
+          />
+          {/* <Logo></Logo> */}
+        </View>
+       
         <Header>Добро пожаловать.</Header>
 
         <Controller
@@ -150,6 +162,14 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: "bold",
     color: theme.colors.primary
+  },
+  logoContainer: {
+    alignItems: "center",
+    padding: 5,
+  },
+  logoSize: {
+    width: 225, 
+    height: 225,
   }
 });
 
