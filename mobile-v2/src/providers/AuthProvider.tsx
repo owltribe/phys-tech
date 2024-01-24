@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   MutationOptions,
@@ -12,12 +6,10 @@ import {
   useQueryClient,
   UseQueryResult
 } from "@tanstack/react-query";
-import {
-  useMutation,
-  UseMutationResult
-} from "@tanstack/react-query/build/modern";
-import { AxiosError, AxiosInstance, AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import useLogin from "hooks/auth/useLogin";
+import useLogout from "hooks/auth/useLogout";
+import useRegister from "hooks/auth/useRegister";
 import {
   Body_auth_jwt_login_auth_login_post,
   ErrorModel,
@@ -35,11 +27,7 @@ interface AuthProps {
   onLogout: () => void;
   onRegister: (
     formValues: UserWithOrganizationCreate,
-    mutateOptions: MutationOptions<
-      AxiosResponse<UserRead>,
-      AxiosError<ErrorModel>,
-      UserWithOrganizationCreate
-    >
+    mutateOptions: MutationOptions
   ) => void;
   loginError: Record<string, string> | string | undefined;
   loginReset: () => void;
@@ -58,12 +46,13 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
-  const client = useClient();
 
   const [user, setUser] = useState<UserRead | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   const loginMutation = useLogin();
+  const registerMutation = useRegister();
+  const logoutMutation = useLogout();
 
   const fetchProfile = () => {
     return axiosInstance
@@ -116,25 +105,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const registerMutation: UseMutationResult<
-    AxiosResponse<UserRead>,
-    AxiosError<ErrorModel>,
-    UserWithOrganizationCreate
-  > = useMutation({
-    mutationFn: (payload: UserWithOrganizationCreate) =>
-      axiosInstance.post("/auth/register", payload)
-  });
-  const logoutMutation = useMutation({
-    mutationFn: () => client.post("/auth/logout")
-  });
-
   const onRegister = (
     formValues: UserWithOrganizationCreate,
-    mutateOptions: MutationOptions<
-      AxiosResponse<UserRead>,
-      AxiosError<ErrorModel>,
-      UserWithOrganizationCreate
-    >
+    mutateOptions: MutationOptions
   ) => {
     registerMutation.mutate(formValues, mutateOptions);
   };
@@ -202,34 +175,3 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-export function useClient(): AxiosInstance {
-  const { token } = useAuth();
-
-  return useCallback(() => {
-    const cl = axiosInstance;
-
-    cl.interceptors.request.use((config) => {
-      if (token) {
-        config.headers.set("Authorization", `Bearer ${token}`);
-      }
-      return config;
-    });
-
-    // cl.interceptors.response.use(
-    //   (response) => response,
-    //   async (error) => {
-    //     const conf = error.config;
-    //     if (error.response.status === 401 && !conf.token_retry) {
-    //       conf.token_retry = true;
-    //
-    //       return Promise.reject(error);
-    //     }
-    //
-    //     return Promise.reject(error);
-    //   }
-    // );
-
-    return cl;
-  }, [token])();
-}

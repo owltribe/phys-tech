@@ -4,7 +4,7 @@ import {
   useQueryClient
 } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import { useClient } from "providers/AuthProvider";
+import useClient from "hooks/useClient";
 import { ErrorModel, UserRead, UserUpdate } from "types/generated";
 
 export default function useEditMe(): UseMutationResult<

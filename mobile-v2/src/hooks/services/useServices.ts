@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import { useClient } from "providers/AuthProvider";
+import useClient from "hooks/useClient";
 import { ErrorModel, Page_ServiceRead_ } from "types/generated";
 
 export default function useServices({
