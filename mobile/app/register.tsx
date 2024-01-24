@@ -1,14 +1,31 @@
-import React, {useState} from "react";
-import {SubmitHandler, useForm} from "react-hook-form";
-import {useAuth} from "providers/AuthProvider";
-import {H2, SizeTokens, Spinner, Text, ToggleGroup, XStack, YStack} from "tamagui";
-import {Category, OrganizationCreate, UserRole, UserWithOrganizationCreate} from "types/generated";
-import {MultiStepView, StepInfo} from "../components/multi-step/MultiStepView";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useAuth } from "providers/AuthProvider";
+import {
+  H2,
+  SizeTokens,
+  Spinner,
+  Text,
+  ToggleGroup,
+  XStack,
+  YStack
+} from "tamagui";
+import {
+  Category,
+  OrganizationCreate,
+  UserRole,
+  UserWithOrganizationCreate
+} from "types/generated";
+
 import StepOne from "../components/auth/register/StepOne";
 import StepTwo from "../components/auth/register/StepTwo";
-import {MyButton} from "../components/tamagui/MyButton";
-import {MyStack} from "../components/tamagui/MyStack";
 import KeyBoardAvoidingContainer from "../components/KeyBoardAvoidingContainer";
+import {
+  MultiStepView,
+  StepInfo
+} from "../components/multi-step/MultiStepView";
+import { MyButton } from "../components/tamagui/MyButton";
+import { MyStack } from "../components/tamagui/MyStack";
 
 interface FormValues {
   email: string;
@@ -34,7 +51,6 @@ function ToggleGroupComponent(props: {
       mb="$4"
       width="100%"
     >
-
       <ToggleGroup
         orientation={props.orientation}
         id={id}
@@ -88,7 +104,7 @@ export default function Authorization() {
         contact: "",
         email: "",
         description: "",
-        category: "Научная организация",
+        category: "Научная организация"
       }
     }
   });
@@ -97,92 +113,108 @@ export default function Authorization() {
     onRegister({ ...formValues, role: role });
   };
 
-const validateFirstStep = async () => {
-  return await trigger(["email", "first_name", "last_name", "password", "rePassword"]);
-};
+  const validateFirstStep = async () => {
+    return await trigger([
+      "email",
+      "first_name",
+      "last_name",
+      "password",
+      "rePassword"
+    ]);
+  };
 
-let steps: StepInfo[] = [
-  {
-    theme: "blue",
-    validate: validateFirstStep,
-    Content: () => (
-        <MyStack backgroundColor="$color3" jc="center">
+  const steps: StepInfo[] = [
+    {
+      theme: "blue",
+      validate: validateFirstStep,
+      Content: () => (
+        <MyStack
+          backgroundColor="$color3"
+          jc="center"
+        >
           <YStack mt="$4">
-            <StepOne control={control} role={role} setRole={setRole} />
-            {role === "Client" && (
-                <MyButton
-                    mt="$4"
-                    color="$color1"
-                    backgroundColor="$color9"
-                    icon={isRegisterLoading ? <Spinner /> : undefined}
-                    disabled={isRegisterLoading}
-                    onPress={handleSubmit(onSubmit)}
-                >
-                  Зарегистрироваться
-                </MyButton>
-            )}
-          </YStack>
-        </MyStack>
-    )
-  }
-];
-
-if (role === "Organization") {
-  steps.push({
-    theme: "blue",
-    Content: () => (
-        <MyStack backgroundColor="$color3" jc="center">
-          <YStack mt="$1">
-            <StepTwo
-                control={control}
-                category={category}
-                setCategory={setCategory}
+            <StepOne
+              control={control}
+              role={role}
+              setRole={setRole}
             />
-            <MyButton
+            {role === "Client" && (
+              <MyButton
                 mt="$4"
                 color="$color1"
                 backgroundColor="$color9"
                 icon={isRegisterLoading ? <Spinner /> : undefined}
                 disabled={isRegisterLoading}
                 onPress={handleSubmit(onSubmit)}
+              >
+                Зарегистрироваться
+              </MyButton>
+            )}
+          </YStack>
+        </MyStack>
+      )
+    }
+  ];
+
+  if (role === "Organization") {
+    steps.push({
+      theme: "blue",
+      Content: () => (
+        <MyStack
+          backgroundColor="$color3"
+          jc="center"
+        >
+          <YStack mt="$1">
+            <StepTwo
+              control={control}
+              category={category}
+              setCategory={setCategory}
+            />
+            <MyButton
+              mt="$4"
+              color="$color1"
+              backgroundColor="$color9"
+              icon={isRegisterLoading ? <Spinner /> : undefined}
+              disabled={isRegisterLoading}
+              onPress={handleSubmit(onSubmit)}
             >
               Зарегистрироваться
             </MyButton>
           </YStack>
         </MyStack>
-    )
-  });
-}
+      )
+    });
+  }
 
   return (
-      <KeyBoardAvoidingContainer>
-        <>
-            <MultiStepView
-                autoSwipe
-                steps={steps}
-                title={
-                    <H2
-                        mt="$5"
-                        animation="bouncy"
-                        y={0}
-                        enterStyle={{ scale: 0.95, y: 4, opacity: 0 }}
-                        exitStyle={{ scale: 0.95, y: 4, opacity: 0 }}
-                        opacity={1}
-                        scale={1}
-                        size="$10"
-                        color="$color9"
-                        selectable={false}
-                        textAlign="center"
-                        $md={{
-                            size: "$10",
-                            mt: "$4"
-                        }}
-                    >
-                        Регистрация
-                    </H2>
-            }
-            />
-        </>
-      </KeyBoardAvoidingContainer>
+    <KeyBoardAvoidingContainer>
+      <>
+        <MultiStepView
+          autoSwipe
+          steps={steps}
+          title={
+            <H2
+              mt="$5"
+              animation="bouncy"
+              y={0}
+              enterStyle={{ scale: 0.95, y: 4, opacity: 0 }}
+              exitStyle={{ scale: 0.95, y: 4, opacity: 0 }}
+              opacity={1}
+              scale={1}
+              size="$10"
+              color="$color9"
+              selectable={false}
+              textAlign="center"
+              $md={{
+                size: "$10",
+                mt: "$4"
+              }}
+            >
+              Регистрация
+            </H2>
+          }
+        />
+      </>
+    </KeyBoardAvoidingContainer>
   );
 }

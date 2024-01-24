@@ -22,6 +22,7 @@ import {
 import SegmentedControl from "../../components/SegmentedControl";
 import useServiceRequests from "../../hooks/service_requests/useServiceRequests";
 import FlatList = Animated.FlatList;
+import { Picker } from "react-native-ui-lib";
 import dayjs from "dayjs";
 
 export const ServiceCard = ({
@@ -62,8 +63,7 @@ const options = [
 
 export default function Services() {
   const { data } = useServices();
-  const { data: serviceRequestsData, isLoading: isServiceRequestsLoading } =
-    useServiceRequests();
+  const { data: serviceRequestsData } = useServiceRequests();
 
   const [selectedOption, setSelectedOption] = useState(SERVICES);
 
@@ -75,6 +75,12 @@ export default function Services() {
   const handleCloseCreateServiceSheet = () => {
     setIsCreateSheetOpened(false);
   };
+
+  const schemes = [
+    { label: "Default", value: 1 },
+    { label: "Light", value: 2 },
+    { label: "Dark", value: 3 }
+  ];
 
   return (
     <MyStack space="$5">
@@ -88,7 +94,23 @@ export default function Services() {
       {selectedOption === SERVICES && (
         <>
           <MyTextInput placeholder="Поиск" />
-
+          <Picker
+            value={1}
+            onChange={(value) => console.log(value)}
+            label="Color Scheme"
+            placeholder="Filter posts"
+            fieldType={Picker.fieldTypes.form}
+            $backgroundNeutralHeavy={true}
+            $outlinePrimary={true}
+            $backgroundSuccessHeavy={true}
+          >
+            {schemes.map((scheme) => (
+              <Picker.Item
+                key={scheme.value}
+                {...scheme}
+              />
+            ))}
+          </Picker>
           <ScrollView>
             {data?.data ? (
               <YStack>

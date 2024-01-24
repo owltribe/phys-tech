@@ -8,6 +8,8 @@ import { useRouter } from "expo-router";
 import { useAuth } from "providers/AuthProvider";
 import { H2, Separator, Spinner, Theme, YStack } from "tamagui";
 
+import PrimaryButton from "../components/UI/buttons/PrimaryButton";
+import PasswordField from "../components/UI/fields/PasswordField";
 import { black } from "../utils/colors";
 
 interface FormValues {
@@ -95,12 +97,14 @@ export default function Authorization() {
             }}
             name="password"
             render={({ field: { onChange, onBlur, value } }) => (
-              <MyTextInput
+              <PasswordField
                 placeholder="Пароль"
                 autoComplete="password"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                secureTextEntry={true}
+                autoCorrect={false}
               />
             )}
           />
@@ -115,6 +119,8 @@ export default function Authorization() {
           >
             Войти
           </MyButton>
+
+          <PrimaryButton label="Войти" />
 
           <Separator marginVertical={15} />
 

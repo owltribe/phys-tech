@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import SegmentedControl from "../../../components/SegmentedControl";
+import { TextField } from "react-native-ui-lib";
 import { MyStack } from "components/tamagui/MyStack";
 import { MyTextInput } from "components/tamagui/MyTextInput";
 import { useLocalSearchParams } from "expo-router";
 import { Button, Paragraph, ScrollView, XStack } from "tamagui";
-import {Organization} from "./components/organization";
-import {Service} from "./components/service";
+
+import SegmentedControl from "../../../components/SegmentedControl";
+import { gray } from "../../../utils/colors";
+
+import { Organization } from "./components/organization";
+import { Service } from "./components/service";
 
 const filtersMock: { id: number; name: string }[] = [
   {
@@ -42,8 +46,7 @@ export default function Index() {
     { name: "event", title: "Мероприятия" }
   ];
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
-
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const matchedSection = searchControlValues.find(
@@ -63,19 +66,42 @@ export default function Index() {
 
   return (
     <MyStack>
+      <TextField
+        placeholder={"Placeholder"}
+        floatingPlaceholder
+        // onChangeText={onChangeText}
+        fieldStyle={{
+          backgroundColor: gray["900"]
+        }}
+        $outlinePrimary
+        enableErrors
+        validate={["required", "email", (value) => value.length > 6]}
+        validationMessage={[
+          "Field is required",
+          "Email is invalid",
+          "Password is too short"
+        ]}
+        showCharCounter
+        maxLength={30}
+      />
       <MyTextInput
-          placeholder={"Поиск " + searchControlValues[selectedIndex || 0].title}
-          value={searchQuery}
-          onChangeText={(text) => setSearchQuery(text)}
-          mb="$1"
+        placeholder={"Поиск " + searchControlValues[selectedIndex || 0].title}
+        value={searchQuery}
+        onChangeText={(text) => setSearchQuery(text)}
+        mb="$1"
       />
       <SegmentedControl
-          options={searchControlValues.map((a) => ({ label: a.title, value: a.name }))}
-          selectedOption={searchControlValues[selectedIndex].name}
-          onOptionPress={(option: string) => {
-          const matchedIndex = searchControlValues.findIndex((sc) => sc.name === option);
+        options={searchControlValues.map((a) => ({
+          label: a.title,
+          value: a.name
+        }))}
+        selectedOption={searchControlValues[selectedIndex].name}
+        onOptionPress={(option: string) => {
+          const matchedIndex = searchControlValues.findIndex(
+            (sc) => sc.name === option
+          );
           setSelectedIndex(matchedIndex >= 0 ? matchedIndex : 0);
-      }}
+        }}
       />
       <ScrollView>
         <ScrollView
@@ -83,7 +109,7 @@ export default function Index() {
           showsHorizontalScrollIndicator={false}
           ref={scrollViewRef}
           maxHeight={40}
-          mb='$4'
+          mb="$4"
         >
           <XStack space="$3">
             {sortedFilters.map(({ id, name }) => {
@@ -117,8 +143,12 @@ export default function Index() {
             })}
           </XStack>
         </ScrollView>
-        {searchControlValues[selectedIndex].name === "organization" && <Organization nameLike={searchQuery} />}
-        {searchControlValues[selectedIndex].name === "service" && <Service search={searchQuery} />}
+        {searchControlValues[selectedIndex].name === "organization" && (
+          <Organization nameLike={searchQuery} />
+        )}
+        {searchControlValues[selectedIndex].name === "service" && (
+          <Service search={searchQuery} />
+        )}
       </ScrollView>
     </MyStack>
   );

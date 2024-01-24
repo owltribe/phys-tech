@@ -40,7 +40,6 @@ async def auth_me(current_user: User = Depends(current_active_user)):
         .filter(User.id == current_user.id)
         .first()
     )
-    print(user, '>?>?>?>?>? user')
 
     return user
 
