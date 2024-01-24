@@ -14,6 +14,10 @@ class OrganizationService:
     def get_organization(self, organization_id: str):
         return self.session.query(Organization).filter(Organization.id == organization_id).first()
 
+    def get_organization_by_user_id(self, user_id: str):
+        print(user_id, "user asdas-da=s-d0sa=-sd0=-a0ds")
+        return self.session.query(Organization).filter(Organization.owner_id == user_id).first()
+
     def get_organizations(self, organization_filter: OrganizationFilter) -> Page[OrganizationRead]:
         query = select(Organization)
         query = organization_filter.filter(query)

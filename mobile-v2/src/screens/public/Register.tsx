@@ -18,6 +18,7 @@ import { RegisterScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
 import { OrganizationCreate, UserRole } from "types/generated";
+import { showToastWithGravity } from "utils/notifications";
 
 interface FormValues {
   email: string;
@@ -64,8 +65,13 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
     onRegister(
       { ...formValues, role: role },
       {
+        onError: (error) => {
+          console.log(error, "er");
+          showToastWithGravity(error?.message);
+        },
         onSuccess: () => {
           navigation.navigate("Login");
+          showToastWithGravity("Аккаунт успешно создан.");
         }
       }
     );

@@ -1,7 +1,9 @@
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, status, HTTPException, Depends
 from fastapi_filter import FilterDepends
 from fastapi_pagination.links import Page
 
+from models import User, UserRole
+from src.auth.auth_backend import current_active_user
 from src.service.service import ServiceService
 from src.service.schemas import ServiceCreate, ServiceRead, ServiceUpdate, ServiceFilter
 from database import DbSession
@@ -20,8 +22,11 @@ async def list_services(service_filter: ServiceFilter = FilterDepends(ServiceFil
 
 
 @services_router.post("", response_model=ServiceRead)
-def create_service(service_create: ServiceCreate):
-    return service.create_service(service=service_create)
+async def create_service(service_create: ServiceCreate, current_user: User = Depends(current_active_user)):
+    if current_user.role is not UserRole.Organization:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Создание услуг достпуно только для организаций.")
+
+    return service.create_service(service=service_create, current_user=current_user)
 
 
 @services_router.get("/{service_id}", response_model=ServiceRead)

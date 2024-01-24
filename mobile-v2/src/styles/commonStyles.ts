@@ -6,6 +6,7 @@ export const commonStyles = StyleSheet.create({
     width: "100%",
     gap: 12,
     alignSelf: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginVertical: 16
   }
 });

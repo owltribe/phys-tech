@@ -1,15 +1,18 @@
+from fastapi import HTTPException, status
 from fastapi_pagination.links import Page
 from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from models import Service
+from models import Service, User
+from src.organization.service import OrganizationService
 from src.service.schemas import ServiceCreate, ServiceUpdate, ServiceRead, ServiceFilter
 
 
 class ServiceService:
     def __init__(self, session: Session) -> None:
         self.session = session
+        self.organization_service = OrganizationService(session)
 
     def get_services(self, service_filter: ServiceFilter) -> Page[ServiceRead]:
         query = select(Service)
@@ -21,9 +24,15 @@ class ServiceService:
     def get_service(self, service_id: str):
         return self.session.query(Service).filter(Service.id == service_id).first()
 
-    def create_service(self, service: ServiceCreate):
+    def create_service(self, service: ServiceCreate, current_user: User):
+        organization = self.organization_service.get_organization_by_user_id(current_user.id)
+
+        if organization is None:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                detail="К данному пользователю не найдена организация")
+
         db_service = Service(
-            organization_id="e6f3b6f5-05a7-48b5-bdfa-70e2f77f78a1",
+            organization=organization,
             name=service.name,
             description=service.description,
             expected_result=service.expected_result,

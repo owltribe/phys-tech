@@ -121,9 +121,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         await AsyncStorage.removeItem("accessToken");
         setToken(null);
         setUser(null);
-        queryClient.invalidateQueries({
-          queryKey: ["auth"]
-        });
       }
     });
   };

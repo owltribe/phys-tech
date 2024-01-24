@@ -28,12 +28,12 @@ const Services = (props: ServicesScreenProps) => {
 
   return (
     <ScreenWrapper withScrollView={false}>
-      <KeyboardAvoidingView style={commonStyles.container}>
+      <KeyboardAvoidingView style={[commonStyles.container, styles.container]}>
         <Text
           style={styles.text}
           variant="headlineLarge"
         >
-          Мои сервисы
+          Мои Услуги
         </Text>
         <SegmentedControl
           options={options}
@@ -47,6 +47,7 @@ const Services = (props: ServicesScreenProps) => {
               <FlatList
                 data={servicesData?.data.items}
                 keyExtractor={(item) => item.id}
+                style={styles.container}
                 renderItem={({ item }) => {
                   return (
                     <Card
@@ -92,11 +93,14 @@ const Services = (props: ServicesScreenProps) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 32
+  },
   text: {
-    marginVertical: 4
+    marginVertical: 4,
+    fontWeight: "700"
   },
   card: {
-    marginHorizontal: 16,
     marginTop: 16
   },
   content: {
