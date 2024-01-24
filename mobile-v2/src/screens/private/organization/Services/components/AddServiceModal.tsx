@@ -1,85 +1,39 @@
-import {
-  Alert,
-  Modal,
-  ModalProps,
-  Pressable,
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
+import React, { useMemo } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
-interface AddServiceModalProps extends Pick<ModalProps, "visible"> {
-  onClose: () => void;
+interface AddServiceModalProps
+  extends Pick<React.ComponentProps<typeof BottomSheetModal>, "ref"> {
+  // onClose: () => void;
 }
 
-const AddServiceModal = ({ visible, onClose }: AddServiceModalProps) => {
+const AddServiceModal = ({ ref }: AddServiceModalProps) => {
+  const snapPoints = useMemo(() => ["25%", "75%"], []);
+
   return (
-    <Modal
-      animationType="slide"
-      transparent={false}
-      visible={visible}
-      onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-        onClose();
-      }}
-      presentationStyle="formSheet"
+    <BottomSheetModal
+      ref={ref}
+      index={100}
+      snapPoints={snapPoints}
+      enablePanDownToClose
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>Hello World!</Text>
-          <Pressable
-            style={[styles.button, styles.buttonClose]}
-            onPress={onClose}
-          >
-            <Text style={styles.textStyle}>Hide Modal</Text>
-          </Pressable>
-        </View>
+      <View style={styles.contentContainer}>
+        <Text>Awesome 🎉</Text>
       </View>
-    </Modal>
+    </BottomSheetModal>
   );
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  container: {
     flex: 1,
+    padding: 24,
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
+    backgroundColor: "grey"
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF"
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3"
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
+  contentContainer: {
+    flex: 1,
+    alignItems: "center"
   }
 });
 

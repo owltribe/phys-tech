@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { FlatList, KeyboardAvoidingView, StyleSheet } from "react-native";
 import { Card, FAB, Text } from "react-native-paper";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider
+} from "@gorhom/bottom-sheet";
 import ScreenWrapper from "components/ScreenWrapper";
 import SegmentedControl from "components/SegmentedControl";
 import useServiceRequests from "hooks/service_requests/useServiceRequests";
@@ -19,12 +23,15 @@ const options = [
 ];
 
 const Services = (props: ServicesScreenProps) => {
-  const [selectedOption, setSelectedOption] = useState(SERVICES);
-
-  const [isAddServiceModalOpened, setIsAddServiceModalOpened] = useState(false);
-
   const { data: servicesData } = useServices();
   const { data: serviceRequestsData } = useServiceRequests();
+
+  const [selectedOption, setSelectedOption] = useState(SERVICES);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const handlePresentModalPress = () => {
+    bottomSheetModalRef.current?.present();
+  };
 
   return (
     <ScreenWrapper withScrollView={false}>
@@ -79,14 +86,11 @@ const Services = (props: ServicesScreenProps) => {
         label="Добавить услугу"
         icon="plus"
         style={styles.fab}
-        onPress={() => setIsAddServiceModalOpened(true)}
+        onPress={handlePresentModalPress}
         animated
       />
 
-      <AddServiceModal
-        visible={isAddServiceModalOpened}
-        onClose={() => setIsAddServiceModalOpened(false)}
-      />
+      <AddServiceModal ref={bottomSheetModalRef} />
     </ScreenWrapper>
   );
 };

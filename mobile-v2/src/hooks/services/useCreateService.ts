@@ -4,7 +4,7 @@ import {
   useQueryClient
 } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import useClient from "hooks/useClient";
+import { useClient } from "providers/AuthProvider";
 import { ErrorModel, ServiceCreate, ServiceRead } from "types/generated";
 
 export default function useCreateService(): UseMutationResult<
