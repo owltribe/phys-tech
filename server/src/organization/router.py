@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, status, HTTPException, Depends
 from fastapi_pagination.links import Page
 from fastapi import File, UploadFile
 from src.organization.schemas import OrganizationCreate, OrganizationRead, OrganizationUpdate, OrganizationFilter
@@ -23,8 +23,8 @@ async def list_organizations(
 
 
 @organizations_router.post("", response_model=OrganizationRead)
-def create_new_organization(organization: OrganizationCreate, file_obj: UploadFile = File(...)):
-    organization = service.create_organization(organization=organization, file_obj=file_obj)
+async def create_new_organization(organization: OrganizationCreate = Depends(), file_obj: UploadFile = File(...)):
+    organization = await service.create_organization(organization=organization, file_obj=file_obj)
     return organization
 
 

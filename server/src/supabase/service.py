@@ -1,4 +1,5 @@
 import os
+from fastapi import HTTPException, status
 from supabase import create_client, Client
 from sqlalchemy.orm import Session
 
@@ -11,13 +12,16 @@ class SupabaseService:
     def __init__(self, session: Session):
         self.session = session
 
-    async def upload_to_supabase(bucket: str, path: str, file):
-        file_content = await file.read()
-        supabase.storage.from_(bucket).upload(path, file_content, file_options={"content-type": "image/jpeg"})
+    async def upload_image(self, bucket: str, path: str, file) -> str:
+        try:
+            file_content = file.read()
+            supabase.storage.from_(bucket).upload(path, file_content, file_options={"content-type": "image/jpeg"})
+        except Exception as e:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to upload file: {upload_response.error}")
 
-    def get_public_url(bucket: str, path: str) -> str:
-        response = supabase.storage.from_(bucket).get_public_url(path)
-        if response.data:
-            return response.data.get('publicURL')
+        # Get the public URL
+        public_url_response = supabase.storage.from_(bucket).get_public_url(path)
+        if public_url_response:
+            return public_url_response
         else:
-            raise Exception(f"Failed to get public URL: {response.error}")
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to get public URL: {public_url_response.error}")
