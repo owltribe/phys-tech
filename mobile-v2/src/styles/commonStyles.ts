@@ -10,5 +10,8 @@ export const commonStyles = StyleSheet.create({
   },
   defaultHorizontalPadding: {
     paddingHorizontal: 16
+  },
+  defaultHorizontalMargin: {
+    paddingHorizontal: 16
   }
 });

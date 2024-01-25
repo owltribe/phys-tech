@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, StyleSheet, Text } from "react-native";
-import { FAB, Searchbar } from "react-native-paper";
+import { Searchbar } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
 import { useAuth } from "providers/AuthProvider";
 import { HomeScreenProps } from "screens/types";
@@ -22,17 +22,6 @@ export default function Home({ navigation }: HomeScreenProps) {
           // style={styles.searchbar}
         />
         <Text>Home Screen</Text>
-
-        <FAB
-          label="Выйти"
-          style={{
-            position: "absolute",
-            margin: 16,
-            right: 0,
-            bottom: 0
-          }}
-          onPress={onLogout}
-        />
       </KeyboardAvoidingView>
     </ScreenWrapper>
   );

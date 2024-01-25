@@ -1,72 +1,95 @@
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
-import { Avatar, MD3Colors, Text } from "react-native-paper";
+import {
+  Avatar,
+  Button,
+  Divider,
+  List,
+  MD3Colors,
+  Text
+} from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
+import { useAuth } from "providers/AuthProvider";
 import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
 
-import { useAuth } from "../../providers/AuthProvider";
-
 export default function Profile({ navigation }: ProfileScreenProps) {
-  const { user } = useAuth();
+  const { user, onLogout } = useAuth();
+
+  const userAvatarText = `${user?.first_name[0]}${user?.last_name[0]}`;
 
   return (
     <ScreenWrapper>
-      <KeyboardAvoidingView style={commonStyles.container}>
-        <View style={styles.itemContainer}>
+      <KeyboardAvoidingView>
+        <View
+          style={[styles.itemContainer, commonStyles.defaultHorizontalPadding]}
+        >
           <Avatar.Text
             style={[styles.avatar, { backgroundColor: theme.colors.primary }]}
-            label="AP"
+            label={userAvatarText}
             color={MD3Colors.primary100}
             size={60}
           />
-          <View style={styles.itemTextContentContainer}>
-            <View style={styles.itemHeaderContainer}>
-              <Text
-                variant="labelLarge"
-                style={[styles.header]}
-                ellipsizeMode="tail"
-                numberOfLines={1}
-              >
-                {user?.full_name}
-              </Text>
-              <Text
-                variant="labelLarge"
-                style={[styles.date]}
-              >
-                {user?.role}
-              </Text>
-            </View>
-
-            <View style={styles.itemMessageContainer}>
-              <View style={styles.flex}>
-                <Text
-                  variant="labelLarge"
-                  ellipsizeMode="tail"
-                  numberOfLines={1}
-                >
-                  {user?.email}
-                </Text>
-                {user?.organization && (
-                  <Text
-                    variant="labelLarge"
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    {user.organization.name}
-                  </Text>
-                )}
-              </View>
-
-              {/*<Icon*/}
-              {/*  na*/}
-              {/*  color={MD3Colors.neutralVariant70}*/}
-              {/*  size={20}*/}
-              {/*  // onPress={() => setVisible(!visible)}*/}
-              {/*  style={styles.icon}*/}
-              {/*/>*/}
-            </View>
+          <View style={styles.itemHeaderContainer}>
+            <Text
+              variant="titleMedium"
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              style={[styles.name]}
+            >
+              {user?.full_name}
+            </Text>
+            <Text
+              variant="titleMedium"
+              style={[styles.email]}
+              numberOfLines={1}
+            >
+              {user?.email}
+            </Text>
           </View>
+        </View>
+        <List.Section title="Профиль">
+          <List.Item
+            title={user?.role}
+            description="Роль"
+          />
+          <Divider />
+        </List.Section>
+        {user?.organization && (
+          <List.Section title="Организация">
+            <List.Item
+              title={user.organization.category}
+              description="Название"
+            />
+            <List.Item
+              title={user.organization.category}
+              description="Категория"
+            />
+            <List.Item
+              title={user.organization.contact}
+              description="Контакты"
+            />
+            <List.Item
+              title={user.organization.email}
+              description="Почта"
+            />
+            <List.Item
+              title={user?.organization?.bin}
+              description="БИН"
+            />
+          </List.Section>
+        )}
+
+        <View style={commonStyles.container}>
+          <Button
+            mode="contained-tonal"
+            icon="logout"
+            onPress={onLogout}
+            textColor={theme.colors.error}
+            buttonColor={theme.colors.errorContainer}
+          >
+            Выйти
+          </Button>
         </View>
       </KeyboardAvoidingView>
     </ScreenWrapper>
@@ -78,35 +101,20 @@ const styles = StyleSheet.create({
     marginRight: 16,
     marginTop: 8
   },
-  icon: {
-    marginLeft: 16,
-    alignSelf: "flex-end"
-  },
   itemContainer: {
-    marginBottom: 16,
     flexDirection: "row",
-    alignItems: "center"
-  },
-  itemTextContentContainer: {
-    flexDirection: "column",
-    flex: 1
+    alignItems: "center",
+    marginTop: 24
   },
   itemHeaderContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between"
   },
-  itemMessageContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    flexGrow: 1
+  name: {
+    fontWeight: "400"
   },
-  header: {
-    fontSize: 14,
-    marginRight: 8,
-    flex: 1
-  },
-  date: {
-    fontSize: 12
+  email: {
+    fontWeight: "500"
   },
   flex: {
     flex: 1
