@@ -1,5 +1,6 @@
 from fastapi import APIRouter, status, HTTPException
 from fastapi_pagination.links import Page
+from fastapi import File, UploadFile
 from src.organization.schemas import OrganizationCreate, OrganizationRead, OrganizationUpdate, OrganizationFilter
 from database import DbSession
 
@@ -22,8 +23,8 @@ async def list_organizations(
 
 
 @organizations_router.post("", response_model=OrganizationRead)
-def create_new_organization(organization: OrganizationCreate):
-    organization = service.create_organization(organization=organization)
+def create_new_organization(organization: OrganizationCreate, file_obj: UploadFile = File(...)):
+    organization = service.create_organization(organization=organization, file_obj=file_obj)
     return organization
 
 
