@@ -10,6 +10,7 @@ export type RootStackParamList = {
   Main: undefined;
   Home: undefined;
   Services: undefined;
+  Service: { serviceId: string };
   Search: undefined;
   Profile: undefined;
   Settings: undefined;
@@ -32,6 +33,10 @@ export type HomeScreenProps = NativeStackScreenProps<
 export type ServicesScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Services"
+>;
+export type ServiceScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Service"
 >;
 export type ProfileScreenProps = NativeStackScreenProps<
   RootStackParamList,

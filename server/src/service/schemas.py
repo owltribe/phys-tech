@@ -34,6 +34,7 @@ class ServiceUpdate(BaseModel):
 class ServiceFilter(Filter):
     order_by: List[str] = None
     search: Optional[str] = None
+    organization_id: Optional[UUID4] = None
 
     class Constants(Filter.Constants):
         model = Service

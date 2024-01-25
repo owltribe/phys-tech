@@ -24,7 +24,7 @@ async def list_services(service_filter: ServiceFilter = FilterDepends(ServiceFil
 @services_router.post("", response_model=ServiceRead)
 async def create_service(service_create: ServiceCreate, current_user: User = Depends(current_active_user)):
     if current_user.role is not UserRole.Organization:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Создание услуг достпуно только для организаций.")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Создание услуг достпуно только для организаций.")
 
     return service.create_service(service=service_create, current_user=current_user)
 

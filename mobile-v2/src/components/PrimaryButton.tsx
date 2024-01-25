@@ -5,14 +5,18 @@ import theme from "styles/theme";
 
 type PrimaryButtonProps = Omit<
   React.ComponentProps<typeof Button>,
-  "style" | "labelStyle"
+  "labelStyle"
 >;
 
 const PrimaryButton = (props: PrimaryButtonProps) => {
   return (
     <Button
       style={styles.button}
-      labelStyle={[styles.fontStyles, theme.isV3 && styles.md3FontStyles]}
+      labelStyle={[
+        styles.fontStyles,
+        theme.isV3 && styles.md3FontStyles,
+        props.style
+      ]}
       {...props}
     />
   );
@@ -20,7 +24,7 @@ const PrimaryButton = (props: PrimaryButtonProps) => {
 
 const styles = StyleSheet.create({
   button: {
-    margin: 4
+    marginVertical: 4
   },
   md3FontStyles: {
     lineHeight: 32

@@ -2,11 +2,13 @@ import { StyleSheet } from "react-native";
 
 export const commonStyles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: 16,
     width: "100%",
     gap: 12,
     alignSelf: "center",
-    justifyContent: "center",
-    marginVertical: 16
+    justifyContent: "center"
+  },
+  defaultHorizontalPadding: {
+    paddingHorizontal: 16
   }
 });

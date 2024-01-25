@@ -4,9 +4,11 @@ import useClient from "hooks/useClient";
 import { ErrorModel, Page_ServiceRead_ } from "types/generated";
 
 export default function useServices({
-  search
+  search,
+  organizationId
 }: {
   search?: string;
+  organizationId?: string;
 } = {}): UseQueryResult<
   AxiosResponse<Page_ServiceRead_>,
   AxiosError<ErrorModel>
@@ -19,11 +21,14 @@ export default function useServices({
     if (search) {
       params.search = search;
     }
+    if (organizationId) {
+      params.organization_id = organizationId;
+    }
     return client.get("/services", { params: params });
   };
 
   return useQuery({
-    queryKey: ["services", search],
+    queryKey: ["services", search, organizationId],
     queryFn: fetchServices
   });
 }

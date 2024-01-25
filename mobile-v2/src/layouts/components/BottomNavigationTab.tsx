@@ -1,13 +1,15 @@
 import { Icon } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import Home from "screens/private/Home";
+import Services from "screens/private/organization/Services";
 import Profile from "screens/private/Profile";
 import Search from "screens/private/Search";
-import Services from "screens/private/Services";
 import { RootStackParamList } from "screens/types";
 import theme from "styles/theme";
 
 const Tab = createMaterialBottomTabNavigator<RootStackParamList>();
+
+function useUserBottomNavigationRoutes() {}
 
 export default function BottomNavigationTab() {
   return (

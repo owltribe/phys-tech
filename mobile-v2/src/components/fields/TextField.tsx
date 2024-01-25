@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { HelperText, TextInput } from "react-native-paper";
 
 interface TextFieldProps
