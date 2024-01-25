@@ -2,6 +2,7 @@ import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import { Icon, Surface, Text } from "react-native-paper";
 import PrimaryButton from "components/PrimaryButton";
 import ScreenWrapper from "components/ScreenWrapper";
+import useCreateServiceRequest from "hooks/service_requests/useCreateServiceRequest";
 import useService from "hooks/services/useService";
 import { useAuth } from "providers/AuthProvider";
 import { ServiceScreenProps } from "screens/types";
@@ -14,7 +15,20 @@ const ServiceDetail = ({
 }: ServiceScreenProps) => {
   const { user } = useAuth();
 
-  const { data } = useService(serviceId);
+  const { data, isSuccess, isLoading } = useService(serviceId);
+
+  const createServiceRequestMutation = useCreateServiceRequest();
+
+  const handleSubmit = () => {
+    if (isSuccess && data?.data) {
+      createServiceRequestMutation.mutate(
+        { service_id: serviceId },
+        {
+          onSuccess: () => {}
+        }
+      );
+    }
+  };
 
   return (
     <ScreenWrapper>
@@ -51,8 +65,9 @@ const ServiceDetail = ({
         <View style={styles.button}>
           <PrimaryButton
             mode="contained"
-            disabled={user?.role === "Organization"}
-            onPress={() => {}}
+            loading={createServiceRequestMutation.isPending}
+            disabled={isLoading || user?.role === "Organization"}
+            onPress={handleSubmit}
           >
             Запросить услугу
           </PrimaryButton>

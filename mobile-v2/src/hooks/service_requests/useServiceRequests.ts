@@ -3,14 +3,34 @@ import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
 import { ErrorModel, Page_ServiceRequestRead_ } from "types/generated";
 
-export default function useServiceRequests(): UseQueryResult<
+export default function useServiceRequests({
+  search,
+  organizationId,
+  requestedById
+}: {
+  search?: string;
+  organizationId?: string;
+  requestedById?: string;
+} = {}): UseQueryResult<
   AxiosResponse<Page_ServiceRequestRead_>,
   AxiosError<ErrorModel>
 > {
   const client = useClient();
 
   const fetchServiceRequests = () => {
-    return client.get("/service-requests");
+    const params = {} as Record<string, string>;
+
+    if (search) {
+      params.search = search;
+    }
+    if (organizationId) {
+      params.organization_id = organizationId;
+    }
+    if (requestedById) {
+      params.requested_by_id = requestedById;
+    }
+
+    return client.get("/service-requests", { params });
   };
 
   return useQuery({

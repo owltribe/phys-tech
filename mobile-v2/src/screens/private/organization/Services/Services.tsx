@@ -25,10 +25,14 @@ const Services = ({ navigation }: ServicesScreenProps) => {
   const [selectedOption, setSelectedOption] = useState(SERVICES);
   const [isAddServiceModalOpened, setIsAddServiceModalOpened] = useState(false);
 
+  const isOrganization = user?.role === "Organization";
+
   const { data: servicesData } = useServices({
     organizationId: user?.organization?.id
   });
-  const { data: serviceRequestsData } = useServiceRequests();
+  const { data: serviceRequestsData } = useServiceRequests({
+    organizationId: isOrganization ? user?.organization?.id : undefined
+  });
 
   return (
     <ScreenWrapper withScrollView={false}>
@@ -64,10 +68,6 @@ const Services = ({ navigation }: ServicesScreenProps) => {
                   style={styles.card}
                 >
                   <Card.Content style={styles.content}>
-                    {/*<Card.Cover*/}
-                    {/*  style={styles.cover}*/}
-                    {/*  source={item.}*/}
-                    {/*/>*/}
                     <Card.Title
                       title={item.name}
                       subtitle={item.description}
@@ -92,18 +92,21 @@ const Services = ({ navigation }: ServicesScreenProps) => {
         </>
       )}
 
-      <FAB
-        label="Добавить услугу"
-        icon="plus"
-        style={styles.fab}
-        onPress={() => setIsAddServiceModalOpened(true)}
-        animated
-      />
-
-      <AddServiceModal
-        visible={isAddServiceModalOpened}
-        onClose={() => setIsAddServiceModalOpened(false)}
-      />
+      {isOrganization && (
+        <>
+          <FAB
+            label="Добавить услугу"
+            icon="plus"
+            style={styles.fab}
+            onPress={() => setIsAddServiceModalOpened(true)}
+            animated
+          />
+          <AddServiceModal
+            visible={isAddServiceModalOpened}
+            onClose={() => setIsAddServiceModalOpened(false)}
+          />
+        </>
+      )}
     </ScreenWrapper>
   );
 };
