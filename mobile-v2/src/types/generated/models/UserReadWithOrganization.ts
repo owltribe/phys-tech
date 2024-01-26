@@ -2,8 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { OrganizationRead } from './OrganizationRead';
 import type { UserRole } from './UserRole';
-export type UserRead = {
+export type UserReadWithOrganization = {
     id: any;
     email: string;
     is_active?: boolean;
@@ -13,5 +14,6 @@ export type UserRead = {
     last_name: string;
     role: UserRole;
     full_name: string;
+    organization?: (OrganizationRead | null);
 };
 

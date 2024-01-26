@@ -7,20 +7,19 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import { Image } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { yupResolver } from "@hookform/resolvers/yup";
 import TextField from "components/fields/TextField";
 import PrimaryButton from "components/PrimaryButton";
 import ScreenWrapper from "components/ScreenWrapper";
 import Header from "components/typography/Header";
-import { Image } from "react-native";
 import { useAuth } from "providers/AuthProvider";
 import { LoginScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
 // import Logo from "../../components/Logo";
 import * as yup from "yup";
-
 
 const schema = yup
   .object({
@@ -64,7 +63,7 @@ const Login = ({ navigation }: LoginScreenProps) => {
           />
           {/* <Logo></Logo> */}
         </View>
-       
+
         <Header>Добро пожаловать.</Header>
 
         <Controller
@@ -131,7 +130,7 @@ const Login = ({ navigation }: LoginScreenProps) => {
         visible={!!loginError}
         onDismiss={() => {}}
         action={{
-          label: "Undo",
+          label: "Закрыть",
           onPress: loginReset
         }}
         duration={Snackbar.DURATION_MEDIUM}
@@ -165,11 +164,11 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: "center",
-    padding: 5,
+    padding: 5
   },
   logoSize: {
-    width: 225, 
-    height: 225,
+    width: 225,
+    height: 225
   }
 });
 

@@ -13,13 +13,13 @@ import useRegister from "hooks/auth/useRegister";
 import {
   Body_auth_jwt_login_auth_login_post,
   ErrorModel,
-  UserRead,
+  UserReadWithOrganization,
   UserWithOrganizationCreate
 } from "types/generated";
 import axiosInstance from "utils/axios-instance";
 
 interface AuthProps {
-  user: UserRead | null;
+  user: UserReadWithOrganization | null;
   isLoading: boolean;
   isLoginLoading: boolean;
   isRegisterLoading: boolean;
@@ -47,7 +47,7 @@ export function useAuth() {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
 
-  const [user, setUser] = useState<UserRead | null>(null);
+  const [user, setUser] = useState<UserReadWithOrganization | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   const loginMutation = useLogin();
@@ -71,13 +71,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     isLoading,
     isSuccess,
     refetch
-  }: UseQueryResult<AxiosResponse<UserRead>, AxiosError<ErrorModel>> = useQuery(
-    {
-      queryKey: ["auth"],
-      queryFn: fetchProfile,
-      enabled: !!token
-    }
-  );
+  }: UseQueryResult<
+    AxiosResponse<UserReadWithOrganization>,
+    AxiosError<ErrorModel>
+  > = useQuery({
+    queryKey: ["auth"],
+    queryFn: fetchProfile,
+    enabled: !!token
+  });
 
   const onLogin = (formValues: Body_auth_jwt_login_auth_login_post) => {
     loginMutation.mutate(formValues, {
@@ -88,7 +89,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       onSuccess: async (response) => {
         const accessToken = response.data.access_token;
         const userData = await refetch();
-        setUser((userData?.data?.data as UserRead) || null);
+        setUser((userData?.data?.data as UserReadWithOrganization) || null);
 
         if (accessToken) {
           AsyncStorage.setItem("accessToken", accessToken);

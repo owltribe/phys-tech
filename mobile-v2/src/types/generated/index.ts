@@ -26,6 +26,7 @@ export type { ServiceRequestStatus } from './models/ServiceRequestStatus';
 export type { ServiceRequestUpdate } from './models/ServiceRequestUpdate';
 export type { ServiceUpdate } from './models/ServiceUpdate';
 export type { UserRead } from './models/UserRead';
+export type { UserReadWithOrganization } from './models/UserReadWithOrganization';
 export type { UserRole } from './models/UserRole';
 export type { UserUpdate } from './models/UserUpdate';
 export type { UserWithOrganizationCreate } from './models/UserWithOrganizationCreate';

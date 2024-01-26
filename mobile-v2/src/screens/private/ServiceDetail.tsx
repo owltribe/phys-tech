@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
-import { Icon, Surface, Text } from "react-native-paper";
+import { Icon, Snackbar, Surface, Text } from "react-native-paper";
 import PrimaryButton from "components/PrimaryButton";
 import ScreenWrapper from "components/ScreenWrapper";
 import useCreateServiceRequest from "hooks/service_requests/useCreateServiceRequest";
@@ -15,6 +16,10 @@ const ServiceDetail = ({
 }: ServiceScreenProps) => {
   const { user } = useAuth();
 
+  const [serviceRequestResponse, setServiceRequestResponse] = useState<
+    string | null
+  >(null);
+
   const { data, isSuccess, isLoading } = useService(serviceId);
 
   const createServiceRequestMutation = useCreateServiceRequest();
@@ -24,24 +29,26 @@ const ServiceDetail = ({
       createServiceRequestMutation.mutate(
         { service_id: serviceId },
         {
-          onSuccess: () => {}
+          onSuccess: (response) => {
+            setServiceRequestResponse(
+              `Заявка на услугу "${response.data.service.name}" была создана. Переключитесь на вкладку заявки, чтобы посмотреть актуальный статус.`
+            );
+          },
+          onError: (error) => {
+            setServiceRequestResponse(
+              `Ошибка создания заявки на услугу. Повторите позже. ${String(
+                error.response?.data.detail
+              )}`
+            );
+          }
         }
       );
     }
   };
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper withScrollView={false}>
       <KeyboardAvoidingView style={commonStyles.container}>
-        {/*<Image*/}
-        {/*  source={{*/}
-        {/*    uri: "https://sev.severance.healthcare/_res/yuhs/sev-en/img/ihc/medical-service/img-medical-service.jpg"*/}
-        {/*  }}*/}
-        {/*  width="100%"*/}
-        {/*  height={200}*/}
-        {/*  borderRadius="$space.4"*/}
-        {/*/>*/}
-
         <Surface
           style={styles.surface}
           mode="flat"
@@ -73,6 +80,18 @@ const ServiceDetail = ({
           </PrimaryButton>
         </View>
       </KeyboardAvoidingView>
+
+      <Snackbar
+        visible={!!serviceRequestResponse}
+        onDismiss={() => setServiceRequestResponse(null)}
+        action={{
+          label: "Закрыть",
+          onPress: () => setServiceRequestResponse(null)
+        }}
+        duration={Snackbar.DURATION_LONG}
+      >
+        {serviceRequestResponse}
+      </Snackbar>
     </ScreenWrapper>
   );
 };

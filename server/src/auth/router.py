@@ -26,6 +26,9 @@ auth_router.include_router(
 auth_router.include_router(
     fastapi_users.get_register_router(UserRead, UserWithOrganizationCreate),
 )
+auth_router.include_router(
+    fastapi_users.get_users_router(UserRead, UserUpdate),
+)
 
 @auth_router.get(
     "/me",
@@ -42,9 +45,5 @@ async def auth_me(current_user: User = Depends(current_active_user)):
     )
 
     return user
-
-auth_router.include_router(
-    fastapi_users.get_users_router(UserRead, UserUpdate),
-)
 
 

@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { FlatList, KeyboardAvoidingView, StyleSheet } from "react-native";
-import { Card, FAB, IconButton, Text } from "react-native-paper";
+import { FAB, Text } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
 import SegmentedControl from "components/SegmentedControl";
 import useServiceRequests from "hooks/service_requests/useServiceRequests";
 import useServices from "hooks/services/useServices";
+import { useRefreshOnFocus } from "hooks/useRefreshOnFocus";
 import { useAuth } from "providers/AuthProvider";
 import { ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
 import AddServiceModal from "./components/AddServiceModal";
+import ServiceCard from "./components/ServiceCard";
+import ServiceRequestCard from "./components/ServiceRequestCard";
 
 const SERVICES = "Services";
 const SERVICE_REQUESTS = "ServiceRequests";
@@ -27,12 +30,17 @@ const Services = ({ navigation }: ServicesScreenProps) => {
 
   const isOrganization = user?.role === "Organization";
 
-  const { data: servicesData } = useServices({
+  const { data: servicesData, refetch: refetchServicesData } = useServices({
     organizationId: user?.organization?.id
   });
-  const { data: serviceRequestsData } = useServiceRequests({
-    organizationId: isOrganization ? user?.organization?.id : undefined
-  });
+  const { data: serviceRequestsData, refetch: refetchServiceRequestsData } =
+    useServiceRequests({
+      organizationId: isOrganization ? user?.organization?.id : undefined,
+      requestedById: !isOrganization ? user?.id : undefined
+    });
+
+  useRefreshOnFocus(refetchServicesData);
+  useRefreshOnFocus(refetchServiceRequestsData);
 
   return (
     <ScreenWrapper withScrollView={false}>
@@ -49,6 +57,7 @@ const Services = ({ navigation }: ServicesScreenProps) => {
           onOptionPress={setSelectedOption}
         />
       </KeyboardAvoidingView>
+
       {selectedOption === SERVICES && (
         <>
           {servicesData?.data && (
@@ -63,29 +72,41 @@ const Services = ({ navigation }: ServicesScreenProps) => {
                 styles.container
               ]}
               renderItem={({ item }) => (
-                <Card
-                  mode="contained"
-                  style={styles.card}
-                >
-                  <Card.Content style={styles.content}>
-                    <Card.Title
-                      title={item.name}
-                      subtitle={item.description}
-                      titleVariant="titleMedium"
-                      style={styles.title}
-                      right={() => (
-                        <IconButton
-                          icon="chevron-right"
-                          onPress={() =>
-                            navigation.navigate("Service", {
-                              serviceId: item.id
-                            })
-                          }
-                        />
-                      )}
-                    />
-                  </Card.Content>
-                </Card>
+                <ServiceCard
+                  serviceData={item}
+                  onPress={() =>
+                    navigation.navigate("Service", {
+                      serviceId: item.id
+                    })
+                  }
+                />
+              )}
+            />
+          )}
+        </>
+      )}
+      {selectedOption === SERVICE_REQUESTS && (
+        <>
+          {serviceRequestsData?.data && (
+            <FlatList
+              data={serviceRequestsData?.data.items}
+              keyExtractor={(item) => item.id}
+              onEndReachedThreshold={0}
+              scrollEventThrottle={16}
+              style={styles.container}
+              contentContainerStyle={[
+                commonStyles.defaultHorizontalPadding,
+                styles.container
+              ]}
+              renderItem={({ item }) => (
+                <ServiceRequestCard
+                  serviceRequest={item}
+                  onPress={() =>
+                    navigation.navigate("Service", {
+                      serviceId: item.service.id
+                    })
+                  }
+                />
               )}
             />
           )}
@@ -119,22 +140,9 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     fontWeight: "700"
   },
-  card: {
-    marginTop: 16
-  },
-  content: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 0,
-    paddingVertical: 0
-  },
   cover: {
     width: 72,
     height: 72
-  },
-  title: {
-    flexShrink: 1,
-    marginVertical: 0
   },
   fab: {
     position: "absolute",

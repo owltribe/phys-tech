@@ -24,7 +24,6 @@ class ServiceRequestRead(BaseModel):
     class Config:
         from_attributes = True
 
-
 class ServiceRequestUpdate(BaseModel):
     status: Optional[ServiceRequestStatus]
     service_id: Optional[str]
@@ -35,7 +34,7 @@ class ServiceRequestFilter(Filter):
     order_by: List[str] = None
     search: Optional[str] = None
     status: Optional[ServiceRequestStatus] = None
-    requested_by_id__eq: Optional[str] = None
+    requested_by_id: Optional[str] = None
 
     class Constants(Filter.Constants):
         model = ServiceRequest
