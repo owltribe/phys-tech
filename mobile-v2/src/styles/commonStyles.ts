@@ -11,7 +11,10 @@ export const commonStyles = StyleSheet.create({
   defaultHorizontalPadding: {
     paddingHorizontal: 16
   },
-  defaultHorizontalMargin: {
-    paddingHorizontal: 16
+  defaultVerticalPadding: {
+    paddingVertical: 16
+  },
+  defaultListGap: {
+    gap: 16
   }
 });

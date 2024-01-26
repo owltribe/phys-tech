@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
@@ -6,16 +6,21 @@ import SegmentedControl from "components/SegmentedControl";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
+import OrganizationsList from "./components/OrganizationsList";
+
 const options = [
   { label: "Организации", value: "organization" },
   { label: "Услуги", value: "service" },
   { label: "Мероприятия", value: "event" }
 ];
 type OptionsType = "organization" | "service" | "event";
+
 export default function Search({ route: { params } }: SearchScreenProps) {
   const [selectedOption, setSelectedOption] = useState<OptionsType>(
     params?.defaultOption || "organization"
   );
+
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (!!params?.defaultOption && selectedOption !== params?.defaultOption) {
@@ -24,24 +29,24 @@ export default function Search({ route: { params } }: SearchScreenProps) {
   }, [params?.defaultOption]);
 
   return (
-    <ScreenWrapper>
-      <KeyboardAvoidingView style={[commonStyles.container, styles.container]}>
-        <Searchbar
-          placeholder="Поиск..."
-          value=""
-          // onChangeText={(query) =>
-          //   setSearchQuery({ ...searchQueries, searchBarMode: query })
-          // }
-          // value={searchQueries.searchBarMode}
-          // style={styles.searchbar}
-        />
-
-        <SegmentedControl
-          options={options}
-          selectedOption={selectedOption}
-          onOptionPress={(o) => setSelectedOption(o as OptionsType)}
-        />
+    <ScreenWrapper withScrollView={false}>
+      <KeyboardAvoidingView style={[styles.container]}>
+        <View style={commonStyles.container}>
+          <Searchbar
+            placeholder="Поиск..."
+            value={search}
+            onChangeText={setSearch}
+          />
+          <SegmentedControl
+            options={options}
+            selectedOption={selectedOption}
+            onOptionPress={(o) => setSelectedOption(o as OptionsType)}
+          />
+        </View>
       </KeyboardAvoidingView>
+      {selectedOption === "organization" && (
+        <OrganizationsList search={search} />
+      )}
     </ScreenWrapper>
   );
 }

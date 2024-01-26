@@ -3,7 +3,7 @@ import { createMaterialBottomTabNavigator } from "react-native-paper/react-navig
 import Home from "screens/private/Home";
 import Services from "screens/private/organization/Services";
 import Profile from "screens/private/Profile";
-import Search from "screens/private/Search";
+import Search from "screens/private/Search/Search";
 import { RootStackParamList } from "screens/types";
 import theme from "styles/theme";
 

@@ -43,14 +43,10 @@ class OrganizationUpdate(BaseModel):
 
 
 class OrganizationFilter(Filter):
-    name: Optional[str] = None
-    name__ilike: Optional[str] = None
-    name__like: Optional[str] = None
-    name__neq: Optional[str] = None
-
     order_by: List[str] = None
     search: Optional[str] = None
+    category__in: Optional[List[Category]] = None
 
     class Constants(Filter.Constants):
         model = Organization
-        search_model_fields = ["name"]
+        search_model_fields = ["name", "description", "email", "contact", "bin"]
