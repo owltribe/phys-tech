@@ -31,7 +31,7 @@ auth_router.include_router(
 )
 
 @auth_router.get(
-    "/me",
+    "/me/profile",
     response_model=UserReadWithOrganization,
     status_code=status.HTTP_200_OK,
 )

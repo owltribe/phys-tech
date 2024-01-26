@@ -11,7 +11,7 @@ export default function useMe({
   const client = useClient();
 
   const fetchProfile = () => {
-    return client.get("/auth/me", {
+    return client.get("/auth/me/profile", {
       headers: {
         Authorization: `Bearer ${token}`
       }

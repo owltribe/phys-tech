@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchProfile = () => {
     return axiosInstance
-      .get("/auth/me", {
+      .get("/auth/me/profile", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -159,7 +159,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!isLoading && !isFetching && isSuccess && !!data?.data) {
       setUser(data?.data);
     }
-  }, [isSuccess, data?.data]);
+  }, [isLoading, isFetching, isSuccess, data?.data]);
 
   const value = {
     user: user,

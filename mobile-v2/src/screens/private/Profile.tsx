@@ -18,6 +18,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
 
   const userAvatarText = `${user?.first_name[0]}${user?.last_name[0]}`;
 
+  console.log(user, "user");
   return (
     <ScreenWrapper>
       <KeyboardAvoidingView>
