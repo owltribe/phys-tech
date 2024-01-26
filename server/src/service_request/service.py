@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi_pagination.ext.sqlalchemy import paginate
 from fastapi_pagination.links import Page
 from sqlalchemy import select
@@ -52,3 +54,9 @@ class ServiceRequestService:
             self.session.commit()
 
         return instance
+
+    def get_services_for_user(self, user: User) -> List[ServiceRequestRead]:
+        result = self.session.query(ServiceRequest).filter(ServiceRequest.requested_by_id == user.id).all()
+
+        return result
+

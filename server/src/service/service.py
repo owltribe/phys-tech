@@ -7,17 +7,27 @@ from sqlalchemy.orm import Session
 from models import Service, User
 from src.organization.service import OrganizationService
 from src.service.schemas import ServiceCreate, ServiceUpdate, ServiceRead, ServiceFilter
+from src.service_request.service import ServiceRequestService
 
 
 class ServiceService:
     def __init__(self, session: Session) -> None:
         self.session = session
         self.organization_service = OrganizationService(session)
+        self.service_request_service = ServiceRequestService(session)
 
     def get_services(self, service_filter: ServiceFilter) -> Page[ServiceRead]:
         query = select(Service)
         query = service_filter.filter(query)
         query = service_filter.sort(query)
+
+        return paginate(self.session, query)
+
+    def get_services_for_user_requests(self, current_user: User) -> Page[ServiceRead]:
+        requested_services = self.service_request_service.get_services_for_user(current_user)
+        requested_service_ids = [req_service.service.id for req_service in requested_services]
+
+        query = select(Service).filter(Service.id.in_(requested_service_ids))
 
         return paginate(self.session, query)
 

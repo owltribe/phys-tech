@@ -21,10 +21,16 @@ async def list_services(service_filter: ServiceFilter = FilterDepends(ServiceFil
     return service.get_services(service_filter)
 
 
+@services_router.get("/for-user-requests", response_model=Page[ServiceRead])
+async def list_services_by_requested_services(current_user: User = Depends(current_active_user)):
+    return service.get_services_for_user_requests(current_user)
+
+
 @services_router.post("", response_model=ServiceRead)
 async def create_service(service_create: ServiceCreate, current_user: User = Depends(current_active_user)):
     if current_user.role is not UserRole.Organization:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Создание услуг достпуно только для организаций.")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="Создание услуг достпуно только для организаций.")
 
     return service.create_service(service=service_create, current_user=current_user)
 

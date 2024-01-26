@@ -66,7 +66,6 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       { ...formValues, role: role },
       {
         onError: (error) => {
-          console.log(error, "er");
           showToastWithGravity(error?.message);
         },
         onSuccess: () => {

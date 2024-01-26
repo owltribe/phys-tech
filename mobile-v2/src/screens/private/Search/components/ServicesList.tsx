@@ -1,7 +1,7 @@
 import { FlatList } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import useServices from "hooks/services/useServices";
-import ServiceCard from "screens/private/organization/Services/components/ServiceCard";
+import ServiceCard from "screens/private/Services/components/ServiceCard";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
