@@ -10,6 +10,17 @@ const ServiceRequestCard = ({
   serviceRequest: ServiceRequestRead;
   onPress: () => void;
 }) => {
+  const getBadgeColor = (status: string) => {
+    if (status === "Ожидается") {
+      return MD2Colors.orange500;
+    }
+    if (status === "Отклонено") {
+      return MD2Colors.red500;
+    }
+
+    return MD2Colors.green500;
+  };
+
   return (
     <View>
       <Card
@@ -34,7 +45,10 @@ const ServiceRequestCard = ({
         </Card.Content>
       </Card>
       <Badge
-        style={styles.badge}
+        style={[
+          styles.badge,
+          { backgroundColor: getBadgeColor(serviceRequest.status) }
+        ]}
         size={24}
       >
         {serviceRequest.status}
@@ -62,8 +76,7 @@ const styles = StyleSheet.create({
     zIndex: 5,
     top: 4,
     right: 0,
-    paddingHorizontal: 6,
-    backgroundColor: MD2Colors.green500
+    paddingHorizontal: 6
   }
 });
 

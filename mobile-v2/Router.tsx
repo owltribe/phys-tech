@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import BottomNavigationTab from "./src/layouts/components/BottomNavigationTab";
 import NavigationBar from "./src/layouts/components/NavigationBar";
 import { useAuth } from "./src/providers/AuthProvider";
+import ServiceRequestDetail from "./src/screens/private/organization/ServiceRequestDetail/ServiceRequestDetail";
 import ServiceDetail from "./src/screens/private/ServiceDetail";
 import Login from "./src/screens/public/Login";
 import Register from "./src/screens/public/Register";
@@ -31,8 +32,15 @@ export default function Router() {
             <Stack.Screen
               name="Service"
               component={ServiceDetail}
-              options={{ title: "Детальная страница сервиса" }}
+              options={{ title: "Сервис" }}
             />
+            {user.role === "Organization" && (
+              <Stack.Screen
+                name="ServiceRequest"
+                component={ServiceRequestDetail}
+                options={{ title: "Заявка на услугу" }}
+              />
+            )}
           </>
         ) : (
           <>

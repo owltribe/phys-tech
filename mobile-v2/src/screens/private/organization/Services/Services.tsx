@@ -22,10 +22,12 @@ const options = [
   { label: "Заявки", value: SERVICE_REQUESTS }
 ];
 
+type OptionsType = "Services" | "ServiceRequests";
+
 const Services = ({ navigation }: ServicesScreenProps) => {
   const { user } = useAuth();
 
-  const [selectedOption, setSelectedOption] = useState(SERVICES);
+  const [selectedOption, setSelectedOption] = useState<OptionsType>(SERVICES);
   const [isAddServiceModalOpened, setIsAddServiceModalOpened] = useState(false);
 
   const isOrganization = user?.role === "Organization";
@@ -54,7 +56,7 @@ const Services = ({ navigation }: ServicesScreenProps) => {
         <SegmentedControl
           options={options}
           selectedOption={selectedOption}
-          onOptionPress={setSelectedOption}
+          onOptionPress={(o) => setSelectedOption(o as OptionsType)}
         />
       </KeyboardAvoidingView>
 
@@ -101,11 +103,17 @@ const Services = ({ navigation }: ServicesScreenProps) => {
               renderItem={({ item }) => (
                 <ServiceRequestCard
                   serviceRequest={item}
-                  onPress={() =>
-                    navigation.navigate("Service", {
-                      serviceId: item.service.id
-                    })
-                  }
+                  onPress={() => {
+                    if (isOrganization) {
+                      navigation.navigate("ServiceRequest", {
+                        serviceRequestId: item.id
+                      });
+                    } else {
+                      navigation.navigate("Service", {
+                        serviceId: item.service.id
+                      });
+                    }
+                  }}
                 />
               )}
             />
@@ -113,7 +121,7 @@ const Services = ({ navigation }: ServicesScreenProps) => {
         </>
       )}
 
-      {isOrganization && (
+      {isOrganization && selectedOption === SERVICES && (
         <>
           <FAB
             label="Добавить услугу"

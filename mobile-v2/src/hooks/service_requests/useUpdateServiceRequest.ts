@@ -7,26 +7,30 @@ import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
 import {
   ErrorModel,
-  ServiceRequestCreate,
-  ServiceRequestRead
+  ServiceRequestRead,
+  ServiceRequestUpdate
 } from "types/generated";
 
-export default function useCreateServiceRequest(): UseMutationResult<
+export default function useUpdateServiceRequest(
+  serviceRequestId: string
+): UseMutationResult<
   AxiosResponse<ServiceRequestRead>,
   AxiosError<ErrorModel>,
-  ServiceRequestCreate
+  ServiceRequestUpdate
 > {
   const queryClient = useQueryClient();
   const client = useClient();
 
-  const createServiceRequest = (payload: ServiceRequestCreate) => {
-    return client.post("/service-requests", payload);
+  const createServiceRequest = (payload: ServiceRequestUpdate) => {
+    return client.put(`/service-requests/${serviceRequestId}`, payload);
   };
 
   return useMutation({
     mutationFn: createServiceRequest,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["serviceRequests"] });
+      queryClient.invalidateQueries({
+        queryKey: ["serviceRequests", serviceRequestId]
+      });
     }
   });
 }

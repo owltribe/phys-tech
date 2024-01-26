@@ -16,9 +16,7 @@ const ServiceDetail = ({
 }: ServiceScreenProps) => {
   const { user } = useAuth();
 
-  const [serviceRequestResponse, setServiceRequestResponse] = useState<
-    string | null
-  >(null);
+  const [snackbarContent, setSnackbarContent] = useState<string | null>(null);
 
   const { data, isSuccess, isLoading } = useService(serviceId);
 
@@ -30,12 +28,12 @@ const ServiceDetail = ({
         { service_id: serviceId },
         {
           onSuccess: (response) => {
-            setServiceRequestResponse(
+            setSnackbarContent(
               `Заявка на услугу "${response.data.service.name}" была создана. Переключитесь на вкладку заявки, чтобы посмотреть актуальный статус.`
             );
           },
           onError: (error) => {
-            setServiceRequestResponse(
+            setSnackbarContent(
               `Ошибка создания заявки на услугу. Повторите позже. ${String(
                 error.response?.data.detail
               )}`
@@ -68,6 +66,7 @@ const ServiceDetail = ({
         </Text>
         <Text variant="titleMedium">{`Ожидаемый результат: ${data?.data.expected_result}`}</Text>
         <Text variant="titleMedium">{data?.data.description}</Text>
+        <Text variant="titleMedium">{`Цена: ${data?.data.cost} KZT`}</Text>
 
         <View style={styles.button}>
           <PrimaryButton
@@ -82,15 +81,15 @@ const ServiceDetail = ({
       </KeyboardAvoidingView>
 
       <Snackbar
-        visible={!!serviceRequestResponse}
-        onDismiss={() => setServiceRequestResponse(null)}
+        visible={!!snackbarContent}
+        onDismiss={() => setSnackbarContent(null)}
         action={{
           label: "Закрыть",
-          onPress: () => setServiceRequestResponse(null)
+          onPress: () => setSnackbarContent(null)
         }}
         duration={Snackbar.DURATION_LONG}
       >
-        {serviceRequestResponse}
+        {snackbarContent}
       </Snackbar>
     </ScreenWrapper>
   );
