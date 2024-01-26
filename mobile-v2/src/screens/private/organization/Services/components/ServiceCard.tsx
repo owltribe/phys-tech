@@ -11,7 +11,7 @@ const ServiceCard = ({
 }) => {
   return (
     <Card
-      mode="contained"
+      mode="elevated"
       style={styles.card}
     >
       <Card.Content style={styles.content}>

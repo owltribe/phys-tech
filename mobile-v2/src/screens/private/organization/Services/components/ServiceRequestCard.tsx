@@ -13,7 +13,7 @@ const ServiceRequestCard = ({
   return (
     <View>
       <Card
-        mode="contained"
+        mode="elevated"
         style={styles.card}
       >
         <Card.Content style={styles.content}>
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   },
   badge: {
     position: "absolute",
+    zIndex: 5,
     top: 4,
     right: 0,
     paddingHorizontal: 6,

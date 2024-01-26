@@ -61,11 +61,13 @@ export default function Home({ navigation }: HomeScreenProps) {
             >
               <Card.Title
                 title={item.label}
-                titleVariant="titleMedium"
-                style={styles.title}
-                left={(props) => (
+                titleVariant="labelLarge"
+                subtitle={item.description}
+                subtitleNumberOfLines={3}
+                style={styles.cardTitle}
+                left={() => (
                   <Avatar.Icon
-                    {...props}
+                    size={46}
                     icon={item.icon}
                     style={{ backgroundColor: item.background }}
                   />
@@ -77,14 +79,6 @@ export default function Home({ navigation }: HomeScreenProps) {
                   />
                 )}
               />
-              <Card.Content>
-                <Text
-                  variant="bodyMedium"
-                  style={styles.card}
-                >
-                  {item.description}
-                </Text>
-              </Card.Content>
             </Card>
           )}
         />
@@ -107,12 +101,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 0
   },
-  title: {
-    flexShrink: 1,
-    marginVertical: 0,
-    fontSize: 42
-  },
   flatlistContainer: {
     paddingBottom: 16
+  },
+  cardTitle: {
+    paddingVertical: 16,
+    gap: 12
   }
 });

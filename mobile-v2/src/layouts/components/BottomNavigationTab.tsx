@@ -32,7 +32,7 @@ export default function BottomNavigationTab() {
             <Icon
               source="home-outline"
               color={color}
-              size={26}
+              size={30}
             />
           )
         }}
@@ -48,7 +48,7 @@ export default function BottomNavigationTab() {
             <Icon
               source="table"
               color={color}
-              size={26}
+              size={30}
             />
           )
         }}
@@ -62,7 +62,7 @@ export default function BottomNavigationTab() {
             <Icon
               source="magnify"
               color={color}
-              size={26}
+              size={30}
             />
           )
         }}
@@ -77,7 +77,7 @@ export default function BottomNavigationTab() {
             <Icon
               source="account-outline"
               color={color}
-              size={26}
+              size={30}
             />
           )
         }}
