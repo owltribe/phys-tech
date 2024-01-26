@@ -18,6 +18,8 @@ import {
 } from "types/generated";
 import axiosInstance from "utils/axios-instance";
 
+import { showToastWithGravityAndOffset } from "../utils/notifications";
+
 interface AuthProps {
   user: UserReadWithOrganization | null;
   isLoading: boolean;
@@ -69,6 +71,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const {
     data,
     isLoading,
+    isFetching,
     isSuccess,
     refetch
   }: UseQueryResult<
@@ -115,8 +118,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const onLogout = () => {
     logoutMutation.mutate(undefined, {
-      onError: (e) => {
-        console.error("Error during logout", e);
+      onError: () => {
+        showToastWithGravityAndOffset("Ошибка выхода из аккаунта");
       },
       onSuccess: async () => {
         await AsyncStorage.removeItem("accessToken");
@@ -153,7 +156,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [token]);
 
   useEffect(() => {
-    if (isSuccess && !!data?.data) {
+    if (!isLoading && !isFetching && isSuccess && !!data?.data) {
       setUser(data?.data);
     }
   }, [isSuccess, data?.data]);

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
 import SegmentedControl from "components/SegmentedControl";
+import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
 const options = [
@@ -10,9 +11,17 @@ const options = [
   { label: "Услуги", value: "service" },
   { label: "Мероприятия", value: "event" }
 ];
+type OptionsType = "organization" | "service" | "event";
+export default function Search({ route: { params } }: SearchScreenProps) {
+  const [selectedOption, setSelectedOption] = useState<OptionsType>(
+    params?.defaultOption || "organization"
+  );
 
-export default function Search() {
-  const [selectedOption, setSelectedOption] = useState("organization");
+  useEffect(() => {
+    if (!!params?.defaultOption && selectedOption !== params?.defaultOption) {
+      setSelectedOption(params?.defaultOption);
+    }
+  }, [params?.defaultOption]);
 
   return (
     <ScreenWrapper>
@@ -30,7 +39,7 @@ export default function Search() {
         <SegmentedControl
           options={options}
           selectedOption={selectedOption}
-          onOptionPress={setSelectedOption}
+          onOptionPress={(o) => setSelectedOption(o as OptionsType)}
         />
       </KeyboardAvoidingView>
     </ScreenWrapper>
