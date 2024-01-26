@@ -9,3 +9,7 @@ React Native Paper Docs:
 Examples of using:
 * https://snack.expo.dev/@react-native-paper/react-native-paper-example_v5
 * P.S. you can download this app from app store or play market 
+
+
+To build apk:
+- eas build -p android --profile preview_apk
