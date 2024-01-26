@@ -7,6 +7,7 @@ import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
 import OrganizationsList from "./components/OrganizationsList";
+import ServicesList from "./components/ServicesList";
 
 const options = [
   { label: "Организации", value: "organization" },
@@ -15,7 +16,10 @@ const options = [
 ];
 type OptionsType = "organization" | "service" | "event";
 
-export default function Search({ route: { params } }: SearchScreenProps) {
+export default function Search({
+  navigation,
+  route: { params }
+}: SearchScreenProps) {
   const [selectedOption, setSelectedOption] = useState<OptionsType>(
     params?.defaultOption || "organization"
   );
@@ -44,8 +48,15 @@ export default function Search({ route: { params } }: SearchScreenProps) {
           />
         </View>
       </KeyboardAvoidingView>
+
       {selectedOption === "organization" && (
         <OrganizationsList search={search} />
+      )}
+      {selectedOption === "service" && (
+        <ServicesList
+          search={search}
+          navigation={navigation}
+        />
       )}
     </ScreenWrapper>
   );

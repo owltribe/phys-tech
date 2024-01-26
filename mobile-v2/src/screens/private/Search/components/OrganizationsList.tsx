@@ -74,7 +74,7 @@ const OrganizationsList = ({ search }: { search: string }) => {
             />
             <Card.Content>
               <View style={styles.rowWithoutPadding}>
-                <Chip style={{ backgroundColor: MD2Colors.deepPurple100 }}>
+                <Chip style={{ backgroundColor: MD2Colors.deepPurple300 }}>
                   {item.category}
                 </Chip>
               </View>

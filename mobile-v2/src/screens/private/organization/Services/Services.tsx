@@ -71,7 +71,8 @@ const Services = ({ navigation }: ServicesScreenProps) => {
               style={styles.container}
               contentContainerStyle={[
                 commonStyles.defaultHorizontalPadding,
-                styles.container
+                styles.container,
+                commonStyles.defaultListGap
               ]}
               renderItem={({ item }) => (
                 <ServiceCard
@@ -98,6 +99,7 @@ const Services = ({ navigation }: ServicesScreenProps) => {
               style={styles.container}
               contentContainerStyle={[
                 commonStyles.defaultHorizontalPadding,
+                commonStyles.defaultListGap,
                 styles.container
               ]}
               renderItem={({ item }) => (

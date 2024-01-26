@@ -10,10 +10,7 @@ const ServiceCard = ({
   onPress: () => void;
 }) => {
   return (
-    <Card
-      mode="elevated"
-      style={styles.card}
-    >
+    <Card mode="elevated">
       <Card.Content style={styles.content}>
         <Card.Title
           title={serviceData.name}
@@ -33,9 +30,6 @@ const ServiceCard = ({
 };
 
 const styles = StyleSheet.create({
-  card: {
-    marginTop: 16
-  },
   content: {
     flexDirection: "row",
     alignItems: "center",

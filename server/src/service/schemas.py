@@ -38,4 +38,4 @@ class ServiceFilter(Filter):
 
     class Constants(Filter.Constants):
         model = Service
-        search_model_fields = ["name", "description", "result"]
+        search_model_fields = ["name", "description", "expected_result"]
