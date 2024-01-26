@@ -4,8 +4,7 @@ import {
   Card,
   IconButton,
   MD2Colors,
-  Searchbar,
-  Text
+  Searchbar
 } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
 import { HomeScreenProps } from "screens/types";

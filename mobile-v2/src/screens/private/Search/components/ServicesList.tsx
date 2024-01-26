@@ -1,5 +1,5 @@
-import { FlatList, StyleSheet } from "react-native";
-import { ActivityIndicator, Card } from "react-native-paper";
+import { FlatList } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import useServices from "hooks/services/useServices";
 import ServiceCard from "screens/private/organization/Services/components/ServiceCard";
 import { SearchScreenProps } from "screens/types";
@@ -39,20 +39,5 @@ const ServicesList = ({
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  chip: {
-    margin: 4
-  },
-  row: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    paddingHorizontal: 12
-  },
-  rowWithoutPadding: {
-    flexDirection: "row",
-    flexWrap: "wrap"
-  }
-});
 
 export default ServicesList;

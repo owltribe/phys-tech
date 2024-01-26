@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { ActivityIndicator, Card, Chip, MD2Colors } from "react-native-paper";
-import {
-  deepPurple50,
-  deepPurple200,
-  deepPurple300
-} from "react-native-paper/src/styles/themes/v2/colors";
 import useOrganizations from "hooks/organization/useOrganizations";
 import { commonStyles } from "styles/commonStyles";
 
