@@ -15,6 +15,7 @@ export type { Links } from './models/Links';
 export type { OrganizationCreate } from './models/OrganizationCreate';
 export type { OrganizationRead } from './models/OrganizationRead';
 export type { OrganizationUpdate } from './models/OrganizationUpdate';
+export type { Page_EventRead_ } from './models/Page_EventRead_';
 export type { Page_OrganizationRead_ } from './models/Page_OrganizationRead_';
 export type { Page_ServiceRead_ } from './models/Page_ServiceRead_';
 export type { Page_ServiceRequestRead_ } from './models/Page_ServiceRequestRead_';
