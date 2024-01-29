@@ -1,6 +1,9 @@
-from typing import Optional
+from typing import Optional, List
 from datetime import date, time
 from pydantic import BaseModel, UUID4
+from fastapi_filter.contrib.sqlalchemy import Filter
+
+from models import Event
 
 
 class EventCreate(BaseModel):
@@ -32,3 +35,11 @@ class EventUpdate(BaseModel):
     start_time: Optional[time] = None
     duration: Optional[int] = None
     location: Optional[str] = None
+
+class EventFilter(Filter):
+    order_by: List[str] = None
+    search: Optional[str] = None
+
+    class Constants(Filter.Constants):
+        model = Event
+        search_model_fields = ["name", "description", "location"]
