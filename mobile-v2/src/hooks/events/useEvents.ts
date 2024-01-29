@@ -5,10 +5,12 @@ import { ErrorModel, Page_EventRead_ } from "types/generated";
 
 export default function useEvents({
   search,
-  start_date
+  startDate,
+  eventName
 }: {
   search?: string;
-  start_date?: string[];
+  startDate?: string;
+  eventName?: string;
 }): UseQueryResult<
   AxiosResponse<Page_EventRead_>,
   AxiosError<ErrorModel>
@@ -21,15 +23,17 @@ export default function useEvents({
     if (search) {
       params.search = search;
     }
-    if (!!start_date && !!start_date.length) {
-      params.start_date = start_date.join(",");
+    if (startDate) {
+      params.start_date = startDate;
     }
-
+    if (eventName) {
+      params.name = eventName;
+    }
     return client.get(`/events`, { params: params });
   };
 
   return useQuery({
-    queryKey: ["event", search, start_date],
+    queryKey: ["event", search, startDate, eventName],
     queryFn: fetchEvents
   });
 }

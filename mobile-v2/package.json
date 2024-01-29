@@ -21,6 +21,7 @@
     "dayjs": "^1.11.10",
     "expo": "~50.0.3",
     "expo-status-bar": "~1.11.1",
+    "moment": "^2.30.1",
     "react": "18.2.0",
     "react-hook-form": "^7.49.3",
     "react-native": "0.73.2",
