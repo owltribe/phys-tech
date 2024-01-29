@@ -7,6 +7,7 @@ from models.user import User
 from src.auth.admin import UserAdmin, admin_authentication_backend
 from src.auth.auth_backend import current_active_user
 from src.auth.router import auth_router
+from src.event.admin import EventAdmin
 from src.organization.admin import OrganizationAdmin
 from src.service.admin import ServiceAdmin
 from src.service.router import services_router
@@ -31,6 +32,7 @@ admin.add_view(UserAdmin)
 admin.add_view(OrganizationAdmin)
 admin.add_view(ServiceAdmin)
 admin.add_view(ServiceRequestAdmin)
+admin.add_view(EventAdmin)
 
 # Routers
 app.include_router(auth_router)
