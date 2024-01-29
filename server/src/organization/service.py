@@ -45,12 +45,12 @@ class OrganizationService:
         self.session.refresh(db_organization)
         return db_organization
 
-    async def update_organization(self, organization_id: str, updated_organization: OrganizationUpdate, user: User, photo: UploadFile = None):
+    async def update_organization(self, organization_id: str, updated_organization: OrganizationUpdate, user: User):
         db_organization = self.session.query(Organization).filter(Organization.id == organization_id).first()
         if db_organization.owner_id != user.id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Only the organization owner can update/f the organization",
+                detail="Only the organization owner can update the organization",
             )
 
         for key, value in updated_organization.dict().items():
@@ -61,6 +61,18 @@ class OrganizationService:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Organization name is required and cannot be null."
+            )
+
+        self.session.commit()
+        self.session.refresh(db_organization)
+        return db_organization
+
+    async def update_organization_photo(self, organization_id: str, photo: UploadFile, user: User):
+        db_organization = self.session.query(Organization).filter(Organization.id == organization_id).first()
+        if db_organization.owner_id != user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Only the organization owner can update the organization photo",
             )
 
         if photo is not None:

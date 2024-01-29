@@ -25,6 +25,7 @@ interface AddServiceModalProps extends Pick<ModalProps, "visible"> {
 }
 
 interface FormValues {
+    id: string;
     name: string;
     bin: string;
     address: string;
@@ -32,8 +33,6 @@ interface FormValues {
     email: string;
     description: string;
     category: (Category | null);
-
-    photo: any | null;
 }
 
 interface UpdateOrganizationModelProps extends Pick<ModalProps, "visible"> {
@@ -51,10 +50,9 @@ const UpdateOrganizationModel = ({ visible, onClose, organization }: UpdateOrgan
         handleSubmit,
         reset,
         formState: { errors },
-        setValue,
-        getValues,
     } = useForm<FormValues>({
         defaultValues: {
+            id: organization.id,
             name: organization.name,
             bin: organization.bin || '',
             address: organization.address || '',
@@ -62,32 +60,12 @@ const UpdateOrganizationModel = ({ visible, onClose, organization }: UpdateOrgan
             email: organization.email,
             description: organization.description,
             category: organization.category || 'Научная организация',
-            photo: null,
         }
     });
 
-
-    const openImagePicker = async () => {
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        if (!result.canceled && Array.isArray(result?.assets)) {
-            setValue('photo', result.assets[0]);
-        }
-    };
-
     const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-        const payload = {
-            organizationId: organization.id,
-            updatedOrganization: {id: organization.id, ...formValues},
-            photo: formValues.photo || null
-        };
 
-        updateOrganization.mutate(payload, {
+        updateOrganization.mutate(formValues, {
             onError: (error) => {
                 showToastWithGravity(String(error.response?.data.detail));
             },
@@ -123,24 +101,6 @@ const UpdateOrganizationModel = ({ visible, onClose, organization }: UpdateOrgan
                             onPress={onClose}
                         />
                     </View>
-
-                    {getValues('photo') ? (
-                        <Avatar.Image size={24} source={{ uri: getValues('photo').uri }} />
-                    ): (
-                        <Avatar.Text
-                            style={{
-                                backgroundColor: theme.colors.primary,
-                                marginRight: 16,
-                                marginTop: 8,
-                                marginHorizontal: 'auto'
-                            }}
-                            label={'O'}
-                            color={MD3Colors.primary100}
-                            size={60}
-                        />
-                    )
-                    }
-                    <Button mode="contained" onPress={openImagePicker}>Загрузить фото</Button>
                     <Controller
                         control={control}
                         rules={{ required: true }}

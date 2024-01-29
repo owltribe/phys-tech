@@ -70,7 +70,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
             </Button>
             <List.Section title="Организация">
               <List.Item
-                title={user.organization.category}
+                title={user.organization.name}
                 description="Название"
               />
               <List.Item

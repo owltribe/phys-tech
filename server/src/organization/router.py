@@ -38,8 +38,7 @@ async def create_new_organization(organization: OrganizationCreate = Depends()):
 @organizations_router.put("/{organization_id}", response_model=OrganizationRead)
 async def update_organization(
         organization_id: str,
-        updated_organization: OrganizationUpdate = Depends(),
-        photo: UploadFile = None,
+        updated_organization: OrganizationUpdate,
         user: User = Depends(current_active_user)
 ):
     existing_organization = service.get_organization(organization_id)
@@ -50,12 +49,36 @@ async def update_organization(
             detail="Организации не найдена",
         )
 
-    updated_organization_instance = await service.update_organization(organization_id, updated_organization, user, photo)
+    updated_organization_instance = await service.update_organization(organization_id, updated_organization, user)
 
     if updated_organization_instance is None:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Ошибка обновления организации",
+        )
+
+    return updated_organization_instance
+
+@organizations_router.post("/{organization_id}/photo", response_model=OrganizationRead)
+async def upload_photo(
+        organization_id: str,
+        photo: UploadFile = File(...),
+        user: User = Depends(current_active_user)
+):
+    existing_organization = service.get_organization(organization_id)
+
+    if existing_organization is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Организации не найдена",
+        )
+
+    updated_organization_instance = await service.update_organization_photo(organization_id, photo, user)
+
+    if updated_organization_instance is None:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Ошибка обновления фотографии организации",
         )
 
     return updated_organization_instance
