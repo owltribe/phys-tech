@@ -6,9 +6,9 @@ import SegmentedControl from "components/SegmentedControl";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
+import EventsList from "./components/EventsList";
 import OrganizationsList from "./components/OrganizationsList";
 import ServicesList from "./components/ServicesList";
-import EventsList from "./components/EventsList";
 
 const options = [
   { label: "Организации", value: "organization" },
@@ -61,9 +61,8 @@ export default function Search({
       )}
       {selectedOption === "event" && (
         <EventsList
-        search={search}
-        navigation={navigation}
-        
+          search={search}
+          navigation={navigation}
         />
       )}
     </ScreenWrapper>

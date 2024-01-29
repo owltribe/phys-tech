@@ -1,9 +1,9 @@
 import { FlatList } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import useEvents from "hooks/events/useEvents";
 import EventCard from "screens/private/Events/components/EventCard";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
-import useEvents from "hooks/events/useEvents";
 
 const EventsList = ({
   search,
@@ -30,9 +30,7 @@ const EventsList = ({
         renderItem={({ item }) => (
           <EventCard
             eventData={item}
-            onPress={() =>
-              navigation.navigate("Event", { eventId: item.id })
-            }
+            onPress={() => navigation.navigate("Event", { eventId: item.id })}
           />
         )}
       />

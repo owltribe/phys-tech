@@ -1,23 +1,24 @@
-import { StyleSheet, View } from "react-native";
-import { Card, IconButton, Avatar, Text } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { Avatar, Card, IconButton } from "react-native-paper";
+import dayjs from "dayjs";
 import { EventRead } from "types/generated";
 import { transparent } from "utils/colors";
-import moment from "moment"; 
+
 const localImage = require("../../../../../assets/calendar.png");
+
 const EventCard = ({
   eventData,
   onPress
 }: {
   eventData: EventRead;
   onPress: () => void;
-  
 }) => {
   return (
     <Card mode="elevated">
       <Card.Content style={styles.content}>
         <Card.Title
           title={eventData.name}
-          subtitle={moment(eventData.start_date).format("DD MMMM YYYY")}
+          subtitle={dayjs(eventData.start_date).format("DD MMMM YYYY")}
           titleVariant="titleMedium"
           style={styles.title}
           left={() => (

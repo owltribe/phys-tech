@@ -1,20 +1,15 @@
-import { useState } from "react";
-import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
-import { Icon, Snackbar, Surface, Text } from "react-native-paper";
-import PrimaryButton from "components/PrimaryButton";
+import { KeyboardAvoidingView, StyleSheet } from "react-native";
+import { Icon, Surface, Text } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
-import { useAuth } from "providers/AuthProvider";
+import useEvent from "hooks/events/useEvent";
 import { EventScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
-import useEvent from "hooks/events/useEvent";
 
 const EventDetail = ({
   route: {
     params: { eventId }
   }
 }: EventScreenProps) => {
-  const { user } = useAuth();
-
   const { data } = useEvent(eventId);
 
   return (
