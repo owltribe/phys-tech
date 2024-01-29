@@ -3,11 +3,12 @@ from fastapi_pagination.links import Page
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from src.supabase.service import SupabaseService
-from fastapi import UploadFile
+from fastapi import UploadFile, HTTPException, status
+from sqlalchemy.sql import text
 
 import uuid
 
-from models import Organization
+from models import Organization, User
 from src.organization.schemas import OrganizationCreate, OrganizationUpdate, OrganizationRead, OrganizationFilter
 
 
@@ -29,13 +30,7 @@ class OrganizationService:
 
         return paginate(self.session, query)
 
-    async def create_organization(self, organization: OrganizationCreate, file_obj: UploadFile):
-        bucket = "photos"
-        filename = str(uuid.uuid4())
-        path = f"{organization.name}/{filename}"
-
-        file_url = await self.supabase_service.upload_image(bucket, path, file_obj.file)
-
+    async def create_organization(self, organization: OrganizationCreate):
         db_organization = Organization(
             name=organization.name,
             bin=organization.bin,
@@ -44,18 +39,38 @@ class OrganizationService:
             email=organization.email,
             description=organization.description,
             category=organization.category,
-            photo=file_url,
         )
         self.session.add(db_organization)
         self.session.commit()
         self.session.refresh(db_organization)
         return db_organization
 
-    def update_organization(self, organization_id: str, updated_organization: OrganizationUpdate):
+    async def update_organization(self, organization_id: str, updated_organization: OrganizationUpdate, user: User, photo: UploadFile = None):
         db_organization = self.session.query(Organization).filter(Organization.id == organization_id).first()
-        if db_organization:
-            for key, value in updated_organization.dict().items():
+        if db_organization.owner_id != user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Only the organization owner can update/f the organization",
+            )
+
+        for key, value in updated_organization.dict().items():
+            if value is not None:
                 setattr(db_organization, key, value)
-            self.session.commit()
-            self.session.refresh(db_organization)
+
+        if db_organization.name is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Organization name is required and cannot be null."
+            )
+
+        if photo is not None:
+            bucket = "photos"
+            filename = str(uuid.uuid4())
+            path = f"{db_organization.name}/{filename}"
+
+            file_url = await self.supabase_service.upload_image(bucket, path, photo.file)
+            db_organization.photo = file_url
+
+        self.session.commit()
+        self.session.refresh(db_organization)
         return db_organization

@@ -19,7 +19,7 @@ export default function useLogin(): UseMutationResult<
 
     return axiosInstance.post("/auth/login", formData, {
       headers: {
-        "Content-Type": "multipart/form-data"
+        "content-Type": "multipart/form-data"
       }
     });
   };

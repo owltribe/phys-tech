@@ -3,6 +3,8 @@ from fastapi_pagination.links import Page
 from fastapi import File, UploadFile
 from src.organization.schemas import OrganizationCreate, OrganizationRead, OrganizationUpdate, OrganizationFilter
 from database import DbSession
+from src.auth.auth_backend import current_active_user
+from models import User
 
 from fastapi_filter import FilterDepends
 
@@ -28,18 +30,17 @@ async def create_new_organization(organization: OrganizationCreate = Depends(), 
     return organization
 
 
-@organizations_router.get("/{organization_id}", response_model=OrganizationRead)
-def read_organization(organization_id: str):
-    db_organization = service.get_organization(organization_id=organization_id)
-    if db_organization is None:
-        raise HTTPException(status_code=404, detail="Организация не найдена")
-    return db_organization
-
+@organizations_router.post("", response_model=OrganizationRead)
+async def create_new_organization(organization: OrganizationCreate = Depends()):
+    organization = await service.create_organization(organization=organization)
+    return organization
 
 @organizations_router.put("/{organization_id}", response_model=OrganizationRead)
-def update_organization(
+async def update_organization(
         organization_id: str,
-        updated_organization: OrganizationUpdate,
+        updated_organization: OrganizationUpdate = Depends(),
+        photo: UploadFile = None,
+        user: User = Depends(current_active_user)
 ):
     existing_organization = service.get_organization(organization_id)
 
@@ -49,7 +50,7 @@ def update_organization(
             detail="Организации не найдена",
         )
 
-    updated_organization_instance = service.update_organization(organization_id, updated_organization)
+    updated_organization_instance = await service.update_organization(organization_id, updated_organization, user, photo)
 
     if updated_organization_instance is None:
         raise HTTPException(

@@ -12,9 +12,14 @@ import { useAuth } from "providers/AuthProvider";
 import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
+import AddServiceModal from "./Services/components/AddServiceModal";
+import {useState} from "react";
+import UpdateOrganizationModal from "./organization/ServiceRequestDetail/components/UpdateOrganizationModal";
 
 export default function Profile({ navigation }: ProfileScreenProps) {
   const { user, onLogout } = useAuth();
+  const [isUpdateOrganizationModalOpen, setIsUpdateOrganizationModalOpened] = useState(false);
+
 
   const userAvatarText = `${user?.first_name[0]}${user?.last_name[0]}`;
 
@@ -56,28 +61,36 @@ export default function Profile({ navigation }: ProfileScreenProps) {
           <Divider />
         </List.Section>
         {user?.organization && (
-          <List.Section title="Организация">
-            <List.Item
-              title={user.organization.category}
-              description="Название"
-            />
-            <List.Item
-              title={user.organization.category}
-              description="Категория"
-            />
-            <List.Item
-              title={user.organization.contact}
-              description="Контакты"
-            />
-            <List.Item
-              title={user.organization.email}
-              description="Почта"
-            />
-            <List.Item
-              title={user?.organization?.bin}
-              description="БИН"
-            />
-          </List.Section>
+          <>
+            <Button
+                mode="contained-tonal"
+                onPress={() => setIsUpdateOrganizationModalOpened(true)}
+            >
+              Редактировать организацию
+            </Button>
+            <List.Section title="Организация">
+              <List.Item
+                title={user.organization.category}
+                description="Название"
+              />
+              <List.Item
+                title={user.organization.category}
+                description="Категория"
+              />
+              <List.Item
+                title={user.organization.contact}
+                description="Контакты"
+              />
+              <List.Item
+                title={user.organization.email}
+                description="Почта"
+              />
+              <List.Item
+                title={user?.organization?.bin}
+                description="БИН"
+              />
+            </List.Section>
+          </>
         )}
 
         <View style={commonStyles.container}>
@@ -92,6 +105,13 @@ export default function Profile({ navigation }: ProfileScreenProps) {
           </Button>
         </View>
       </KeyboardAvoidingView>
+      {user?.organization && (
+          <UpdateOrganizationModal
+              visible={isUpdateOrganizationModalOpen}
+              onClose={() => setIsUpdateOrganizationModalOpened(false)}
+              organization={user?.organization}
+          />
+      )}
     </ScreenWrapper>
   );
 }

@@ -5,6 +5,8 @@
 
 export type { BearerResponse } from './models/BearerResponse';
 export type { Body_auth_jwt_login_auth_login_post } from './models/Body_auth_jwt_login_auth_login_post';
+export type { Body_create_new_organization_organizations_post } from './models/Body_create_new_organization_organizations_post';
+export type { Body_update_organization_organizations__organization_id__put } from './models/Body_update_organization_organizations__organization_id__put';
 export type { Category } from './models/Category';
 export type { ErrorModel } from './models/ErrorModel';
 export type { EventCreate } from './models/EventCreate';
@@ -14,8 +16,6 @@ export type { HTTPValidationError } from './models/HTTPValidationError';
 export type { Links } from './models/Links';
 export type { OrganizationCreate } from './models/OrganizationCreate';
 export type { OrganizationRead } from './models/OrganizationRead';
-export type { OrganizationUpdate } from './models/OrganizationUpdate';
-export type { Page_EventRead_ } from './models/Page_EventRead_';
 export type { Page_OrganizationRead_ } from './models/Page_OrganizationRead_';
 export type { Page_ServiceRead_ } from './models/Page_ServiceRead_';
 export type { Page_ServiceRequestRead_ } from './models/Page_ServiceRequestRead_';
