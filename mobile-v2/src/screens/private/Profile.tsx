@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import {
   Avatar,
@@ -8,20 +9,47 @@ import {
   Text
 } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
+import * as ImagePicker from "expo-image-picker";
+import useUploadOrganizationAvatar from "hooks/organization/useUploadOrganizationAvatar";
 import { useAuth } from "providers/AuthProvider";
 import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
-import AddServiceModal from "./Services/components/AddServiceModal";
-import {useState} from "react";
+
 import UpdateOrganizationModal from "./organization/ServiceRequestDetail/components/UpdateOrganizationModal";
 
 export default function Profile({ navigation }: ProfileScreenProps) {
   const { user, onLogout } = useAuth();
-  const [isUpdateOrganizationModalOpen, setIsUpdateOrganizationModalOpened] = useState(false);
 
+  const uploadOrganizationAvatarMutation = useUploadOrganizationAvatar();
+
+  const [isUpdateOrganizationModalOpen, setIsUpdateOrganizationModalOpened] =
+    useState(false);
 
   const userAvatarText = `${user?.first_name[0]}${user?.last_name[0]}`;
+
+  const handleUpdateOrganizationAvatar = async () => {
+    const options: ImagePicker.ImagePickerOptions = {
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 0.75
+    };
+
+    const result = await ImagePicker.launchImageLibraryAsync(options);
+
+    // Save image if not cancelled
+    if (!result.canceled) {
+      const formData = new FormData();
+      // @ts-ignore
+      formData.append("photo", {
+        uri: result.assets[0].uri,
+        type: "image/png",
+        name: "profile-image"
+      });
+
+      uploadOrganizationAvatarMutation.mutate(formData);
+    }
+  };
 
   return (
     <ScreenWrapper>
@@ -62,12 +90,26 @@ export default function Profile({ navigation }: ProfileScreenProps) {
         </List.Section>
         {user?.organization && (
           <>
-            <Button
+            <View
+              style={[
+                commonStyles.defaultHorizontalPadding,
+                commonStyles.defaultListGap
+              ]}
+            >
+              <Button
                 mode="contained-tonal"
                 onPress={() => setIsUpdateOrganizationModalOpened(true)}
-            >
-              Редактировать организацию
-            </Button>
+              >
+                Редактировать организацию
+              </Button>
+              <Button
+                mode="contained-tonal"
+                loading={uploadOrganizationAvatarMutation.isPending}
+                onPress={handleUpdateOrganizationAvatar}
+              >
+                Обновить фото организации
+              </Button>
+            </View>
             <List.Section title="Организация">
               <List.Item
                 title={user.organization.name}
@@ -106,11 +148,11 @@ export default function Profile({ navigation }: ProfileScreenProps) {
         </View>
       </KeyboardAvoidingView>
       {user?.organization && (
-          <UpdateOrganizationModal
-              visible={isUpdateOrganizationModalOpen}
-              onClose={() => setIsUpdateOrganizationModalOpened(false)}
-              organization={user?.organization}
-          />
+        <UpdateOrganizationModal
+          visible={isUpdateOrganizationModalOpen}
+          onClose={() => setIsUpdateOrganizationModalOpened(false)}
+          organization={user?.organization}
+        />
       )}
     </ScreenWrapper>
   );
