@@ -1,24 +1,22 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, status, HTTPException
-from fastapi_pagination.links import Page
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_filter import FilterDepends
+from fastapi_pagination.links import Page
 from sqlalchemy.orm import Session
 
-from src.event.schemas import EventCreate, EventRead, EventUpdate, EventFilter
 from database import DbSession
+from src.event.schemas import EventCreate, EventFilter, EventRead, EventUpdate
 from src.event.service import EventService
 
-events_router = APIRouter(
-    prefix="/events",
-    tags=["Events"]
-)
+events_router = APIRouter(prefix="/events", tags=["Events"])
 service = EventService(session=DbSession)
 
 
 @events_router.get("", response_model=Page[EventRead])
 async def list_events(event_filter: EventFilter = FilterDepends(EventFilter)):
     return service.get_events(event_filter)
+
 
 @events_router.post("", response_model=EventRead)
 async def create_new_event(event: EventCreate):
@@ -36,8 +34,8 @@ async def read_event(event_id: str):
 
 @events_router.put("/{event_id}", response_model=EventRead)
 def update_event(
-        event_id: str,
-        updated_event: EventUpdate,
+    event_id: str,
+    updated_event: EventUpdate,
 ):
     existing_event = service.get_event(event_id)
 
@@ -58,9 +56,11 @@ def update_event(
     return updated_event_instance
 
 
-@events_router.delete("/{event_id}", response_model=None, status_code=status.HTTP_204_NO_CONTENT)
+@events_router.delete(
+    "/{event_id}", response_model=None, status_code=status.HTTP_204_NO_CONTENT
+)
 def delete_event(
-        event_id: str,
+    event_id: str,
 ):
     deleted_event = service.delete_event(event_id)
 

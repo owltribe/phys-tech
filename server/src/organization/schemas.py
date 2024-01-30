@@ -1,11 +1,10 @@
-from typing import Optional
-from typing import List
-
-from pydantic import BaseModel, UUID4
-from models.organization import Category
-from models import Organization
+from typing import List, Optional
 
 from fastapi_filter.contrib.sqlalchemy import Filter
+from pydantic import UUID4, BaseModel
+
+from models import Organization
+from models.organization import Category
 
 
 class OrganizationCreate(BaseModel):
@@ -50,4 +49,10 @@ class OrganizationFilter(Filter):
 
     class Constants(Filter.Constants):
         model = Organization
-        search_model_fields = ["name", "description", "email", "contact", "bin"]
+        search_model_fields = [
+            "name",
+            "description",
+            "email",
+            "contact",
+            "bin",
+        ]

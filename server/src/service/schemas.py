@@ -1,7 +1,7 @@
-from typing import Optional, List
+from typing import List, Optional
 
 from fastapi_filter.contrib.sqlalchemy import Filter
-from pydantic import BaseModel, UUID4
+from pydantic import UUID4, BaseModel
 
 from models import Service
 
