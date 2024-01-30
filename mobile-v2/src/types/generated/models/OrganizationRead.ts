@@ -12,5 +12,6 @@ export type OrganizationRead = {
     email: string;
     description: string;
     category: (Category | null);
+    photo: (string | null);
 };
 
