@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List, Optional
 
 from fastapi_filter.contrib.sqlalchemy import Filter
-from pydantic import BaseModel, UUID4
+from pydantic import UUID4, BaseModel
 
 from models import ServiceRequest, ServiceRequestStatus
 from src.auth.schemas import UserRead
@@ -23,6 +23,7 @@ class ServiceRequestRead(BaseModel):
 
     class Config:
         from_attributes = True
+
 
 class ServiceRequestUpdate(BaseModel):
     status: Optional[ServiceRequestStatus]

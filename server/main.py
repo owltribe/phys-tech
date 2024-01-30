@@ -7,8 +7,8 @@ from sqladmin import Admin
 from database import engine
 from src.auth.admin import UserAdmin, admin_authentication_backend
 from src.auth.router import auth_router
-from src.event.router import events_router
 from src.event.admin import EventAdmin
+from src.event.router import events_router
 from src.organization.admin import OrganizationAdmin
 from src.organization.router import organizations_router
 from src.service.admin import ServiceAdmin

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import {
   Avatar,
@@ -8,19 +9,50 @@ import {
   Text
 } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
+import * as ImagePicker from "expo-image-picker";
+import useUploadOrganizationAvatar from "hooks/organization/useUploadOrganizationAvatar";
 import { useAuth } from "providers/AuthProvider";
 import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
 import { Linking } from 'react-native';
 
+import UpdateOrganizationModal from "./organization/ServiceRequestDetail/components/UpdateOrganizationModal";
+
 export default function Profile({ navigation }: ProfileScreenProps) {
   const { user, onLogout } = useAuth();
 
-  const userAvatarText = `${user?.first_name[0]}${user?.last_name[0]}`;
+  const uploadOrganizationAvatarMutation = useUploadOrganizationAvatar();
 
+  const [isUpdateOrganizationModalOpen, setIsUpdateOrganizationModalOpened] =
+    useState(false);
+
+  const userAvatarText = `${user?.first_name[0]}${user?.last_name[0]}`;
+  
   const openLink = (url: string): void => {
-    Linking.openURL(url).catch((err) => console.error('Error opening URL: ', err));
+    Linking.openURL(url).catch((err) => console.error('Error opening URL: ', err)); }
+
+  const handleUpdateOrganizationAvatar = async () => {
+    const options: ImagePicker.ImagePickerOptions = {
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 0.75
+    };
+
+    const result = await ImagePicker.launchImageLibraryAsync(options);
+
+    // Save image if not cancelled
+    if (!result.canceled) {
+      const formData = new FormData();
+      // @ts-ignore
+      formData.append("photo", {
+        uri: result.assets[0].uri,
+        type: "image/png",
+        name: "profile-image"
+      });
+
+      uploadOrganizationAvatarMutation.mutate(formData);
+    }
   };
 
   return (
@@ -61,28 +93,90 @@ export default function Profile({ navigation }: ProfileScreenProps) {
           <Divider />
         </List.Section>
         {user?.organization && (
-          <List.Section title="Организация">
-            <List.Item
-              title={user.organization.category}
-              description="Название"
-            />
-            <List.Item
-              title={user.organization.category}
-              description="Категория"
-            />
-            <List.Item
-              title={user.organization.contact}
-              description="Контакты"
-            />
-            <List.Item
-              title={user.organization.email}
-              description="Почта"
-            />
-            <List.Item
-              title={user?.organization?.bin}
-              description="БИН"
-            />
-          </List.Section>
+          <>
+            <List.Section title="Организация">
+              <View
+                style={[
+                  styles.itemContainer,
+                  commonStyles.defaultHorizontalPadding
+                ]}
+              >
+                {user.organization.photo ? (
+                  <Avatar.Image
+                    style={[
+                      styles.avatar,
+                      { backgroundColor: theme.colors.primary }
+                    ]}
+                    source={{ uri: user.organization.photo }}
+                    size={60}
+                  />
+                ) : (
+                  <Avatar.Text
+                    style={[
+                      styles.avatar,
+                      { backgroundColor: theme.colors.primary }
+                    ]}
+                    label={userAvatarText}
+                    color={MD3Colors.primary100}
+                    size={60}
+                  />
+                )}
+
+                <View style={styles.itemHeaderContainer}>
+                  <Text
+                    variant="titleMedium"
+                    ellipsizeMode="tail"
+                    numberOfLines={1}
+                    style={[styles.name]}
+                  >
+                    {user.organization.name}
+                  </Text>
+                  <Text
+                    variant="titleMedium"
+                    style={[styles.email]}
+                    numberOfLines={1}
+                  >
+                    {user.organization.email}
+                  </Text>
+                </View>
+              </View>
+
+              <View
+                style={[
+                  commonStyles.defaultHorizontalPadding,
+                  commonStyles.defaultListGap,
+                  { marginTop: 16 }
+                ]}
+              >
+                <Button
+                  mode="contained-tonal"
+                  onPress={() => setIsUpdateOrganizationModalOpened(true)}
+                >
+                  Редактировать организацию
+                </Button>
+                <Button
+                  mode="contained-tonal"
+                  loading={uploadOrganizationAvatarMutation.isPending}
+                  onPress={handleUpdateOrganizationAvatar}
+                >
+                  Обновить фото организации
+                </Button>
+              </View>
+
+              <List.Item
+                title={user.organization.category}
+                description="Категория"
+              />
+              <List.Item
+                title={user.organization.contact}
+                description="Контакты"
+              />
+              <List.Item
+                title={user?.organization?.bin}
+                description="БИН"
+              />
+            </List.Section>
+          </>
         )}
 
         <List.Section>
@@ -111,6 +205,13 @@ export default function Profile({ navigation }: ProfileScreenProps) {
         </View>
        
       </KeyboardAvoidingView>
+      {user?.organization && (
+        <UpdateOrganizationModal
+          visible={isUpdateOrganizationModalOpen}
+          onClose={() => setIsUpdateOrganizationModalOpened(false)}
+          organization={user?.organization}
+        />
+      )}
     </ScreenWrapper>
   );
 }

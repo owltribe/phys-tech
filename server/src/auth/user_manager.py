@@ -1,17 +1,25 @@
 import uuid
 from typing import Optional
 
-from fastapi import Request, status, HTTPException
-from fastapi_users import BaseUserManager, UUIDIDMixin, schemas, models, exceptions
+from fastapi import HTTPException, Request, status
+from fastapi_users import (
+    BaseUserManager,
+    UUIDIDMixin,
+    exceptions,
+    models,
+    schemas,
+)
 
 from config import AUTH_SECRET
-from models.user import UserRole
-from src.auth.schemas import UserWithOrganizationCreate, UserRead
-from models.organization import Organization
-
 from database import async_session_maker
+from models.organization import Organization
+from models.user import UserRole
+from src.auth.schemas import UserRead, UserWithOrganizationCreate
 
-class UserManager(UUIDIDMixin, BaseUserManager[UserWithOrganizationCreate, uuid.UUID]):
+
+class UserManager(
+    UUIDIDMixin, BaseUserManager[UserWithOrganizationCreate, uuid.UUID]
+):
     reset_password_token_secret = AUTH_SECRET
     verification_token_secret = AUTH_SECRET
 
@@ -48,7 +56,6 @@ class UserManager(UUIDIDMixin, BaseUserManager[UserWithOrganizationCreate, uuid.
         password = user_dict.pop("password")
         user_dict["hashed_password"] = self.password_helper.hash(password)
 
-
         organization_data = user_dict.pop("organization_data", None)
         created_user = await self.user_db.create(user_dict)
 
@@ -56,11 +63,18 @@ class UserManager(UUIDIDMixin, BaseUserManager[UserWithOrganizationCreate, uuid.
 
         return created_user
 
-    async def on_after_register(self, user: UserRead, organization_data: Organization,  request: Optional[Request] = None):
+    async def on_after_register(
+        self,
+        user: UserRead,
+        organization_data: Organization,
+        request: Optional[Request] = None,
+    ):
         if user.role == UserRole.Organization:
             async with async_session_maker() as session:  # Using async session for DB operations
                 try:
-                    organization = Organization(**organization_data, owner_id=user.id)
+                    organization = Organization(
+                        **organization_data, owner_id=user.id
+                    )
                     session.add(organization)
                     await session.commit()
                     await session.refresh(organization)
@@ -73,7 +87,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[UserWithOrganizationCreate, uuid.
                         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                         detail="Ошибка при созданий организации",
                     )
-                    #await session.rollback()
+                    # await session.rollback()
 
     # async def on_after_forgot_password(
     #     self, user: User, token: str, request: Optional[Request] = None

@@ -1,11 +1,10 @@
-from typing import Optional
-from typing import List
-
-from pydantic import BaseModel, UUID4
-from models.organization import Category
-from models import Organization
+from typing import List, Optional
 
 from fastapi_filter.contrib.sqlalchemy import Filter
+from pydantic import UUID4, BaseModel
+
+from models import Organization
+from models.organization import Category
 
 
 class OrganizationCreate(BaseModel):
@@ -27,19 +26,20 @@ class OrganizationRead(BaseModel):
     email: str
     description: str
     category: Optional[Category]
+    photo: Optional[str]
 
     class Config:
         from_attributes = True
 
 
 class OrganizationUpdate(BaseModel):
-    name: Optional[str]
-    bin: Optional[str]
-    address: Optional[str]
-    contact: Optional[str]
-    email: Optional[str]
-    description: Optional[str]
-    category: Optional[Category]
+    name: Optional[str] = None
+    bin: Optional[str] = None
+    address: Optional[str] = None
+    contact: Optional[str] = None
+    email: Optional[str] = None
+    description: Optional[str] = None
+    category: Optional[str] = None
 
 
 class OrganizationFilter(Filter):
@@ -49,4 +49,10 @@ class OrganizationFilter(Filter):
 
     class Constants(Filter.Constants):
         model = Organization
-        search_model_fields = ["name", "description", "email", "contact", "bin"]
+        search_model_fields = [
+            "name",
+            "description",
+            "email",
+            "contact",
+            "bin",
+        ]

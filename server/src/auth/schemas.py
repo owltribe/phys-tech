@@ -3,10 +3,10 @@ from typing import Optional
 
 from fastapi_users import schemas
 from fastapi_users.models import ID
-from pydantic import EmailStr, UUID4
+from pydantic import UUID4, EmailStr
 
-from src.organization.schemas import OrganizationCreate, OrganizationRead
 from models.user import UserRole
+from src.organization.schemas import OrganizationCreate, OrganizationRead
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):

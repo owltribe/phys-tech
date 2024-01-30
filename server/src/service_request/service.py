@@ -6,15 +6,21 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from models import ServiceRequest, ServiceRequestStatus, User
-from src.service_request.schemas import ServiceRequestFilter, ServiceRequestCreate, ServiceRequestUpdate, \
-    ServiceRequestRead
+from src.service_request.schemas import (
+    ServiceRequestCreate,
+    ServiceRequestFilter,
+    ServiceRequestRead,
+    ServiceRequestUpdate,
+)
 
 
 class ServiceRequestService:
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def list(self, service_request_filter: ServiceRequestFilter) -> Page[ServiceRequestRead]:
+    def list(
+        self, service_request_filter: ServiceRequestFilter
+    ) -> Page[ServiceRequestRead]:
         query = select(ServiceRequest)
         query = service_request_filter.filter(query)
         query = service_request_filter.sort(query)
@@ -22,9 +28,15 @@ class ServiceRequestService:
         return paginate(self.session, query)
 
     def retrieve(self, service_request_id: str) -> ServiceRequestRead | None:
-        return self.session.query(ServiceRequest).filter(ServiceRequest.id == service_request_id).first()
+        return (
+            self.session.query(ServiceRequest)
+            .filter(ServiceRequest.id == service_request_id)
+            .first()
+        )
 
-    def create(self, service_request_create: ServiceRequestCreate, requested_by: User) -> ServiceRequestRead:
+    def create(
+        self, service_request_create: ServiceRequestCreate, requested_by: User
+    ) -> ServiceRequestRead:
         instance = ServiceRequest(
             status=ServiceRequestStatus.PENDING,
             service_id=service_request_create.service_id,
@@ -35,8 +47,16 @@ class ServiceRequestService:
         self.session.refresh(instance)
         return instance
 
-    def update(self, service_request_id: str, service_request_update: ServiceRequestUpdate) -> ServiceRequestRead:
-        instance = self.session.query(ServiceRequest).filter(ServiceRequest.id == service_request_id).first()
+    def update(
+        self,
+        service_request_id: str,
+        service_request_update: ServiceRequestUpdate,
+    ) -> ServiceRequestRead:
+        instance = (
+            self.session.query(ServiceRequest)
+            .filter(ServiceRequest.id == service_request_id)
+            .first()
+        )
 
         if instance:
             for key, value in service_request_update.dict().items():
@@ -47,7 +67,11 @@ class ServiceRequestService:
         return instance
 
     def delete(self, service_request_id: str) -> ServiceRequestRead | None:
-        instance = self.session.query(ServiceRequest).filter(ServiceRequest.id == service_request_id).first()
+        instance = (
+            self.session.query(ServiceRequest)
+            .filter(ServiceRequest.id == service_request_id)
+            .first()
+        )
 
         if instance:
             self.session.delete(instance)
@@ -56,7 +80,10 @@ class ServiceRequestService:
         return instance
 
     def get_services_for_user(self, user: User) -> List[ServiceRequestRead]:
-        result = self.session.query(ServiceRequest).filter(ServiceRequest.requested_by_id == user.id).all()
+        result = (
+            self.session.query(ServiceRequest)
+            .filter(ServiceRequest.requested_by_id == user.id)
+            .all()
+        )
 
         return result
-

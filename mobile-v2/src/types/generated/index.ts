@@ -5,6 +5,8 @@
 
 export type { BearerResponse } from './models/BearerResponse';
 export type { Body_auth_jwt_login_auth_login_post } from './models/Body_auth_jwt_login_auth_login_post';
+export type { Body_create_new_organization_organizations_post } from './models/Body_create_new_organization_organizations_post';
+export type { Body_upload_photo_organizations_photo_post } from './models/Body_upload_photo_organizations_photo_post';
 export type { Category } from './models/Category';
 export type { ErrorModel } from './models/ErrorModel';
 export type { EventCreate } from './models/EventCreate';
