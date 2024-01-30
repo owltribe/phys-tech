@@ -32,9 +32,10 @@ const EventDetail = ({
         >
           {data?.data.name}
         </Text>
-        <Text variant="titleMedium">{data?.data.name}</Text>
-        <Text variant="titleMedium">{data?.data.description}</Text>
-        <Text variant="titleMedium">{`Date: ${data?.data.start_date}`}</Text>
+        <Text variant="titleMedium">{`Описание: ${data?.data.description}`}</Text>
+        <Text variant="titleMedium">{`Запланировано на: ${data?.data.start_date} в ${data?.data.start_time}`}</Text>
+        <Text variant="titleMedium">{`Место проведения: ${data?.data.location}`}</Text>
+        <Text variant="titleMedium">{`Примерная продолжительность: ${data?.data.duration} минут`}</Text>
       </KeyboardAvoidingView>
     </ScreenWrapper>
   );

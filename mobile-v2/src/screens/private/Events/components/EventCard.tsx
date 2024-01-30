@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Avatar, Card, IconButton } from "react-native-paper";
 import dayjs from "dayjs";
+import "dayjs/locale/ru";
 import { EventRead } from "types/generated";
 import { transparent } from "utils/colors";
 
@@ -18,7 +19,7 @@ const EventCard = ({
       <Card.Content style={styles.content}>
         <Card.Title
           title={eventData.name}
-          subtitle={dayjs(eventData.start_date).format("DD MMMM YYYY")}
+          subtitle={dayjs(eventData.start_date).locale("ru").format("DD MMMM YYYY")}
           titleVariant="titleMedium"
           style={styles.title}
           left={() => (
