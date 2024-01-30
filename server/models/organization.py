@@ -23,6 +23,7 @@ class Organization(Base):
     contact: Mapped[str] = mapped_column(String)
     email: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)
+    photo: Mapped[str] = mapped_column(String, nullable=True)
 
     category: Mapped[Category] = mapped_column(Enum(Category), nullable=False)
 

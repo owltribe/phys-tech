@@ -27,19 +27,20 @@ class OrganizationRead(BaseModel):
     email: str
     description: str
     category: Optional[Category]
+    photo: Optional[str]
 
     class Config:
         from_attributes = True
 
 
 class OrganizationUpdate(BaseModel):
-    name: Optional[str]
-    bin: Optional[str]
-    address: Optional[str]
-    contact: Optional[str]
-    email: Optional[str]
-    description: Optional[str]
-    category: Optional[Category]
+    name: Optional[str] = None
+    bin: Optional[str] = None
+    address: Optional[str] = None
+    contact: Optional[str] = None
+    email: Optional[str] = None
+    description: Optional[str] = None
+    category: Optional[str] = None
 
 
 class OrganizationFilter(Filter):
