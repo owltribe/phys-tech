@@ -1,7 +1,7 @@
 import { FlatList } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import useEvents from "hooks/events/useEvents";
-import EventCard from "screens/private/Events/components/EventCard";
+import EventCard from "screens/private/Search/components/EventCard";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 

@@ -5,7 +5,7 @@ import { useAuth } from "providers/AuthProvider";
 import { EventsScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
-import EventCard from "./EventCard";
+import EventCard from "../../Search/components/EventCard";
 
 const EventList = ({
   navigation
