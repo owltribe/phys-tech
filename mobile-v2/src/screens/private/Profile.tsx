@@ -12,11 +12,16 @@ import { useAuth } from "providers/AuthProvider";
 import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
+import { Linking } from 'react-native';
 
 export default function Profile({ navigation }: ProfileScreenProps) {
   const { user, onLogout } = useAuth();
 
   const userAvatarText = `${user?.first_name[0]}${user?.last_name[0]}`;
+
+  const openLink = (url: string): void => {
+    Linking.openURL(url).catch((err) => console.error('Error opening URL: ', err));
+  };
 
   return (
     <ScreenWrapper>
@@ -80,6 +85,19 @@ export default function Profile({ navigation }: ProfileScreenProps) {
           </List.Section>
         )}
 
+        <List.Section>
+          <List.Item
+            title="Privacy Policy"
+            description="Read our Privacy Policy"
+            onPress={() => openLink('https://kamigard.space/privacy-policy')}
+          />
+          <List.Item
+            title="Terms and Conditions"
+            description="Read our Terms and Conditions"
+            onPress={() => openLink('https://kamigard.space/terms-and-conditions')}
+          />
+        </List.Section>
+
         <View style={commonStyles.container}>
           <Button
             mode="contained-tonal"
@@ -91,6 +109,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
             Выйти
           </Button>
         </View>
+       
       </KeyboardAvoidingView>
     </ScreenWrapper>
   );
