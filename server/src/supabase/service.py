@@ -1,11 +1,10 @@
-import os
 from fastapi import HTTPException, status
 from supabase import create_client, Client
 from sqlalchemy.orm import Session
 
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
-supabase: Client = create_client(url, key)
+from config import SUPABASE_URL, SUPABASE_KEY
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
 class SupabaseService:
