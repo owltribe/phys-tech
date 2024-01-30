@@ -35,6 +35,7 @@ async def create_new_organization(organization: OrganizationCreate = Depends()):
     organization = await service.create_organization(organization=organization)
     return organization
 
+
 @organizations_router.put("/{organization_id}", response_model=OrganizationRead)
 async def update_organization(
         organization_id: str,
@@ -59,13 +60,13 @@ async def update_organization(
 
     return updated_organization_instance
 
-@organizations_router.post("/{organization_id}/photo", response_model=OrganizationRead)
+
+@organizations_router.post("/photo", response_model=OrganizationRead)
 async def upload_photo(
-        organization_id: str,
         photo: UploadFile = File(...),
         user: User = Depends(current_active_user)
 ):
-    existing_organization = service.get_organization(organization_id)
+    existing_organization = service.get_organization_by_user_id(user.id)
 
     if existing_organization is None:
         raise HTTPException(
@@ -73,7 +74,7 @@ async def upload_photo(
             detail="Организации не найдена",
         )
 
-    updated_organization_instance = await service.update_organization_photo(organization_id, photo, user)
+    updated_organization_instance = await service.update_organization_photo(existing_organization.id, photo, user)
 
     if updated_organization_instance is None:
         raise HTTPException(

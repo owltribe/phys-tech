@@ -27,6 +27,7 @@ class OrganizationRead(BaseModel):
     email: str
     description: str
     category: Optional[Category]
+    photo: Optional[str]
 
     class Config:
         from_attributes = True

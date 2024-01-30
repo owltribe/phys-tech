@@ -4,7 +4,6 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from src.supabase.service import SupabaseService
 from fastapi import UploadFile, HTTPException, status
-from sqlalchemy.sql import text
 
 import uuid
 
@@ -20,7 +19,7 @@ class OrganizationService:
     def get_organization(self, organization_id: str):
         return self.session.query(Organization).filter(Organization.id == organization_id).first()
 
-    def get_organization_by_user_id(self, user_id: str):
+    def get_organization_by_user_id(self, user_id: str) -> Organization:
         return self.session.query(Organization).filter(Organization.owner_id == user_id).first()
 
     def get_organizations(self, organization_filter: OrganizationFilter) -> Page[OrganizationRead]:
@@ -68,8 +67,9 @@ class OrganizationService:
         return db_organization
 
     async def update_organization_photo(self, organization_id: str, photo: UploadFile, user: User):
-        db_organization = self.session.query(Organization).filter(Organization.id == organization_id).first()
-        if db_organization.owner_id != user.id:
+        found_organization = self.get_organization(organization_id)
+
+        if found_organization.owner_id != user.id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Only the organization owner can update the organization photo",
@@ -78,11 +78,15 @@ class OrganizationService:
         if photo is not None:
             bucket = "photos"
             filename = str(uuid.uuid4())
-            path = f"{db_organization.name}/{filename}"
+            path = f"{found_organization.name}/{filename}"
+
+            if found_organization.photo:
+                path_to_remove = f"{found_organization.name}/{found_organization.photo}"
+                self.supabase_service.remove_image(bucket, path_to_remove)
 
             file_url = await self.supabase_service.upload_image(bucket, path, photo.file)
-            db_organization.photo = file_url
+            found_organization.photo = file_url
 
         self.session.commit()
-        self.session.refresh(db_organization)
-        return db_organization
+        self.session.refresh(found_organization)
+        return found_organization
