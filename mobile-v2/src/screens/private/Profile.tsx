@@ -90,31 +90,75 @@ export default function Profile({ navigation }: ProfileScreenProps) {
         </List.Section>
         {user?.organization && (
           <>
-            <View
-              style={[
-                commonStyles.defaultHorizontalPadding,
-                commonStyles.defaultListGap
-              ]}
-            >
-              <Button
-                mode="contained-tonal"
-                onPress={() => setIsUpdateOrganizationModalOpened(true)}
-              >
-                Редактировать организацию
-              </Button>
-              <Button
-                mode="contained-tonal"
-                loading={uploadOrganizationAvatarMutation.isPending}
-                onPress={handleUpdateOrganizationAvatar}
-              >
-                Обновить фото организации
-              </Button>
-            </View>
             <List.Section title="Организация">
-              <List.Item
-                title={user.organization.name}
-                description="Название"
-              />
+              <View
+                style={[
+                  styles.itemContainer,
+                  commonStyles.defaultHorizontalPadding
+                ]}
+              >
+                {user.organization.photo ? (
+                  <Avatar.Image
+                    style={[
+                      styles.avatar,
+                      { backgroundColor: theme.colors.primary }
+                    ]}
+                    source={{ uri: user.organization.photo }}
+                    size={60}
+                  />
+                ) : (
+                  <Avatar.Text
+                    style={[
+                      styles.avatar,
+                      { backgroundColor: theme.colors.primary }
+                    ]}
+                    label={userAvatarText}
+                    color={MD3Colors.primary100}
+                    size={60}
+                  />
+                )}
+
+                <View style={styles.itemHeaderContainer}>
+                  <Text
+                    variant="titleMedium"
+                    ellipsizeMode="tail"
+                    numberOfLines={1}
+                    style={[styles.name]}
+                  >
+                    {user.organization.name}
+                  </Text>
+                  <Text
+                    variant="titleMedium"
+                    style={[styles.email]}
+                    numberOfLines={1}
+                  >
+                    {user.organization.email}
+                  </Text>
+                </View>
+              </View>
+
+              <View
+                style={[
+                  commonStyles.defaultHorizontalPadding,
+                  commonStyles.defaultListGap,
+                  { marginTop: 16 }
+                ]}
+              >
+                <Button
+                  mode="contained-tonal"
+                  onPress={() => setIsUpdateOrganizationModalOpened(true)}
+                >
+                  Редактировать организацию
+                </Button>
+                <Button
+                  mode="contained-tonal"
+                  loading={uploadOrganizationAvatarMutation.isPending}
+                  onPress={handleUpdateOrganizationAvatar}
+                >
+                  Обновить фото организации
+                </Button>
+              </View>
+
               <List.Item
                 title={user.organization.category}
                 description="Категория"
@@ -122,10 +166,6 @@ export default function Profile({ navigation }: ProfileScreenProps) {
               <List.Item
                 title={user.organization.contact}
                 description="Контакты"
-              />
-              <List.Item
-                title={user.organization.email}
-                description="Почта"
               />
               <List.Item
                 title={user?.organization?.bin}

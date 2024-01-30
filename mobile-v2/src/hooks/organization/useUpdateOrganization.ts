@@ -5,18 +5,24 @@ import {
 } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
-import { ErrorModel, OrganizationRead } from "types/generated";
+import {
+  ErrorModel,
+  OrganizationRead,
+  OrganizationUpdate
+} from "types/generated";
 
-export default function useUpdateOrganization(): UseMutationResult<
+export default function useUpdateOrganization(
+  organizationId: string
+): UseMutationResult<
   AxiosResponse<OrganizationRead>,
   AxiosError<ErrorModel>,
-  OrganizationRead
+  OrganizationUpdate
 > {
   const queryClient = useQueryClient();
   const client = useClient();
 
-  const updateOrganization = (payload: OrganizationRead) => {
-    return client.put(`/organizations/${payload.id}`, payload);
+  const updateOrganization = (payload: OrganizationUpdate) => {
+    return client.put(`/organizations/${organizationId}`, payload);
   };
 
   return useMutation({
