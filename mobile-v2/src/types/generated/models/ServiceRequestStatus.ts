@@ -2,4 +2,4 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type ServiceRequestStatus = 'Ожидается';
+export type ServiceRequestStatus = 'Pending' | 'Approved' | 'Rejected' | 'Completed';

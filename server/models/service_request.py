@@ -8,10 +8,10 @@ from database import Base
 
 
 class ServiceRequestStatus(enum.Enum):
-    PENDING = "Ожидается"
-    APPROVED = "Утверждено"
-    REJECTED = "Отклонено"
-    COMPLETED = "Завершено"
+    PENDING = "Pending"
+    APPROVED = "Approved"
+    REJECTED = "Rejected"
+    COMPLETED = "Completed"
 
 
 class ServiceRequest(Base):

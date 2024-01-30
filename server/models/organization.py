@@ -8,10 +8,10 @@ from database import Base
 
 
 class Category(str, enum.Enum):
-    scientific_organization = "Научная организация"
-    university = "Вуз"
-    technopark = "Технопарк"
-    commercial_laboratory_company = "Коммерческая Лабораторная компания"
+    scientific_organization = "Scientific Organization"
+    university = "University"
+    technopark = "Technopark"
+    commercial_laboratory_company = "Commercial laboratory company"
 
 
 class Organization(Base):

@@ -56,7 +56,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
         contact: "",
         email: "",
         description: "",
-        category: "Научная организация"
+        category: "Scientific Organization"
       }
     }
   });
@@ -299,10 +299,10 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
                   list={[
                     {
                       label: "Научная организация",
-                      value: "Научная организация"
+                      value: "Scientific Organization"
                     },
-                    { label: "Вуз", value: "Вуз" },
-                    { label: "Технопарк", value: "Технопарк" },
+                    { label: "Вуз", value: "University" },
+                    { label: "Технопарк", value: "Technopark" },
                     {
                       label: "Лаборатория",
                       value: "Коммерческая Лабораторная компания"
