@@ -8,6 +8,7 @@ import { commonStyles } from "styles/commonStyles";
 
 import OrganizationsList from "./components/OrganizationsList";
 import ServicesList from "./components/ServicesList";
+import EventsList from "./components/EventsList";
 
 const options = [
   { label: "Организации", value: "organization" },
@@ -54,6 +55,12 @@ export default function Search({
       )}
       {selectedOption === "service" && (
         <ServicesList
+          search={search}
+          navigation={navigation}
+        />
+      )}
+      {selectedOption === "event" && (
+        <EventsList
           search={search}
           navigation={navigation}
         />
