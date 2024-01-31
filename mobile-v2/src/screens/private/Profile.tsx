@@ -16,7 +16,7 @@ import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
 import { Linking } from 'react-native';
-
+import { PrivacyPolicyLink, TermsAndConditionsLink } from '../../utils/links';
 import UpdateOrganizationModal from "./organization/ServiceRequestDetail/components/UpdateOrganizationModal";
 
 export default function Profile({ navigation }: ProfileScreenProps) {
@@ -183,12 +183,12 @@ export default function Profile({ navigation }: ProfileScreenProps) {
           <List.Item
             title="Privacy Policy"
             description="Read our Privacy Policy"
-            onPress={() => openLink('https://kamigard.space/privacy-policy')}
+            onPress={() => openLink(PrivacyPolicyLink)}
           />
           <List.Item
             title="Terms and Conditions"
             description="Read our Terms and Conditions"
-            onPress={() => openLink('https://kamigard.space/terms-and-conditions')}
+            onPress={() => openLink(TermsAndConditionsLink)}
           />
         </List.Section>
 
