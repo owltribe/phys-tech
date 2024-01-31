@@ -28,31 +28,19 @@ class ServiceService:
 
         return paginate(self.session, query)
 
-    def get_services_for_user_requests(
-        self, current_user: User
-    ) -> Page[ServiceRead]:
-        requested_services = (
-            self.service_request_service.get_services_for_user(current_user)
-        )
-        requested_service_ids = [
-            req_service.service.id for req_service in requested_services
-        ]
+    def get_services_for_user_requests(self, current_user: User) -> Page[ServiceRead]:
+        requested_services = self.service_request_service.get_services_for_user(current_user)
+        requested_service_ids = [req_service.service.id for req_service in requested_services]
 
         query = select(Service).filter(Service.id.in_(requested_service_ids))
 
         return paginate(self.session, query)
 
     def get_service(self, service_id: str):
-        return (
-            self.session.query(Service)
-            .filter(Service.id == service_id)
-            .first()
-        )
+        return self.session.query(Service).filter(Service.id == service_id).first()
 
     def create_service(self, service: ServiceCreate, current_user: User):
-        organization = self.organization_service.get_organization_by_user_id(
-            current_user.id
-        )
+        organization = self.organization_service.get_organization_by_user_id(current_user.id)
 
         if organization is None:
             raise HTTPException(
@@ -73,11 +61,7 @@ class ServiceService:
         return db_service
 
     def update_service(self, service_id: str, updated_service: ServiceUpdate):
-        db_service = (
-            self.session.query(Service)
-            .filter(Service.id == service_id)
-            .first()
-        )
+        db_service = self.session.query(Service).filter(Service.id == service_id).first()
         if db_service:
             for key, value in updated_service.dict().items():
                 setattr(db_service, key, value)
@@ -86,11 +70,7 @@ class ServiceService:
         return db_service
 
     def delete_service(self, service_id: str):
-        db_service = (
-            self.session.query(Service)
-            .filter(Service.id == service_id)
-            .first()
-        )
+        db_service = self.session.query(Service).filter(Service.id == service_id).first()
         if db_service:
             self.session.delete(db_service)
             self.session.commit()

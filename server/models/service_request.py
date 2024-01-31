@@ -17,9 +17,7 @@ class ServiceRequestStatus(enum.Enum):
 class ServiceRequest(Base):
     __tablename__ = "service_request"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID, primary_key=True, default=uuid.uuid4
-    )
+    id: Mapped[uuid.UUID] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
     status: Mapped[ServiceRequestStatus] = mapped_column(
         Enum(ServiceRequestStatus, name="servicerequest_status_enum"),
         default=ServiceRequestStatus.PENDING,
@@ -34,9 +32,7 @@ class ServiceRequest(Base):
 
     requested_by_id: Mapped[uuid.UUID] = mapped_column(
         UUID,
-        ForeignKey(
-            "user.id", name="fk_service_request_user", ondelete="CASCADE"
-        ),
+        ForeignKey("user.id", name="fk_service_request_user", ondelete="CASCADE"),
         nullable=False,
     )
     requested_by = relationship(

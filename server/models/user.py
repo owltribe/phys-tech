@@ -18,27 +18,15 @@ class UserRole(enum.Enum):
 class User(SQLAlchemyBaseUserTableUUID, Base):
     __tablename__ = "user"
 
-    id: Mapped[UUID_ID] = mapped_column(
-        UUID, primary_key=True, default=uuid.uuid4
-    )
+    id: Mapped[UUID_ID] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
     role = mapped_column(Enum(UserRole, name="user_role_enum"), nullable=False)
-    email: Mapped[str] = mapped_column(
-        String(length=320), unique=True, index=True, nullable=False
-    )
+    email: Mapped[str] = mapped_column(String(length=320), unique=True, index=True, nullable=False)
     first_name: Mapped[str] = mapped_column(String, nullable=False)
     last_name: Mapped[str] = mapped_column(String, nullable=False)
-    hashed_password: Mapped[str] = mapped_column(
-        String(length=1024), nullable=False
-    )
-    is_active: Mapped[bool] = mapped_column(
-        Boolean, default=True, nullable=False
-    )
-    is_superuser: Mapped[bool] = mapped_column(
-        Boolean, default=False, nullable=False
-    )
-    is_verified: Mapped[bool] = mapped_column(
-        Boolean, default=False, nullable=False
-    )
+    hashed_password: Mapped[str] = mapped_column(String(length=1024), nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    is_superuser: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    is_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 
     requested_services = relationship(
         "ServiceRequest",
