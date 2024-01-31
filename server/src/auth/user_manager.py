@@ -63,7 +63,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[UserWithOrganizationCreate, uuid.
         organization_data: Organization,
         request: Optional[Request] = None,
     ):
-        if user.role == UserRole.Organization:
+        if user.role == UserRole.ORGANIZATION:
             async with async_session_maker() as session:  # Using async session for DB operations
                 try:
                     organization = Organization(**organization_data, owner_id=user.id)

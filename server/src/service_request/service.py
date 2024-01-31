@@ -1,4 +1,4 @@
-from typing import List
+from typing import Type
 
 from fastapi_pagination.ext.sqlalchemy import paginate
 from fastapi_pagination.links import Page
@@ -18,17 +18,17 @@ class ServiceRequestService:
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def list(self, service_request_filter: ServiceRequestFilter) -> Page[ServiceRequestRead]:
+    def paginated_list(self, service_request_filter: ServiceRequestFilter) -> Page[ServiceRequestRead]:
         query = select(ServiceRequest)
         query = service_request_filter.filter(query)
         query = service_request_filter.sort(query)
 
         return paginate(self.session, query)
 
-    def retrieve(self, service_request_id: str) -> ServiceRequestRead | None:
+    def retrieve(self, service_request_id: str) -> ServiceRequest | None:
         return self.session.query(ServiceRequest).filter(ServiceRequest.id == service_request_id).first()
 
-    def create(self, service_request_create: ServiceRequestCreate, requested_by: User) -> ServiceRequestRead:
+    def create(self, service_request_create: ServiceRequestCreate, requested_by: User) -> ServiceRequest:
         instance = ServiceRequest(
             status=ServiceRequestStatus.PENDING,
             service_id=service_request_create.service_id,
@@ -43,8 +43,8 @@ class ServiceRequestService:
         self,
         service_request_id: str,
         service_request_update: ServiceRequestUpdate,
-    ) -> ServiceRequestRead:
-        instance = self.session.query(ServiceRequest).filter(ServiceRequest.id == service_request_id).first()
+    ) -> ServiceRequest | None:
+        instance = self.retrieve(service_request_id)
 
         if instance:
             for key, value in service_request_update.dict().items():
@@ -54,8 +54,8 @@ class ServiceRequestService:
 
         return instance
 
-    def delete(self, service_request_id: str) -> ServiceRequestRead | None:
-        instance = self.session.query(ServiceRequest).filter(ServiceRequest.id == service_request_id).first()
+    def delete(self, service_request_id: str) -> ServiceRequest | None:
+        instance = self.retrieve(service_request_id)
 
         if instance:
             self.session.delete(instance)
@@ -63,7 +63,7 @@ class ServiceRequestService:
 
         return instance
 
-    def get_services_for_user(self, user: User) -> List[ServiceRequestRead]:
+    def get_services_for_user(self, user: User) -> list[Type[ServiceRequest]]:
         result = self.session.query(ServiceRequest).filter(ServiceRequest.requested_by_id == user.id).all()
 
         return result

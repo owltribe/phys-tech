@@ -22,7 +22,7 @@ service = ServiceRequestService(session=DbSession)
 def paginated_list(
     service_request_filter: ServiceRequestFilter = FilterDepends(ServiceRequestFilter),
 ):
-    return service.list(service_request_filter)
+    return service.paginated_list(service_request_filter)
 
 
 @service_request_router.post("", response_model=ServiceRequestRead)

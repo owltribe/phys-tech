@@ -37,7 +37,7 @@ async def create_service(
     service_create: ServiceCreate,
     current_user: User = Depends(current_active_user),
 ):
-    if current_user.role is not UserRole.Organization:
+    if current_user.role is not UserRole.ORGANIZATION:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Создание услуг достпуно только для организаций.",
