@@ -16,7 +16,7 @@ import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
 
-import UpdateOrganizationModal from "./organization/ServiceRequestDetail/components/UpdateOrganizationModal";
+import UpdateOrganizationModal from "./components/UpdateOrganizationModal";
 
 export default function Profile({ navigation }: ProfileScreenProps) {
   const { user, onLogout } = useAuth();
