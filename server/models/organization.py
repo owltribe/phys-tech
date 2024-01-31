@@ -7,11 +7,11 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import Base
 
 
-class Category(str, enum.Enum):
-    scientific_organization = "Scientific Organization"
-    university = "University"
-    technopark = "Technopark"
-    commercial_laboratory_company = "Commercial laboratory company"
+class OrganizationCategory(str, enum.Enum):
+    SCIENTIFIC_ORGANIZATION = "Scientific Organization"
+    UNIVERSITY = "University"
+    TECHNOPARK = "Technopark"
+    COMMERCIAL_LABORATORY_COMPANY = "Commercial Laboratory Company"
 
 
 class Organization(Base):
@@ -28,7 +28,11 @@ class Organization(Base):
     description: Mapped[str] = mapped_column(String)
     photo: Mapped[str] = mapped_column(String, nullable=True)
 
-    category: Mapped[Category] = mapped_column(Enum(Category), nullable=False)
+    category: Mapped[OrganizationCategory] = mapped_column(
+        Enum(OrganizationCategory, name="organization_category_enum"),
+        default=OrganizationCategory.SCIENTIFIC_ORGANIZATION,
+        nullable=False,
+    )
 
     owner_id: Mapped[uuid.UUID] = mapped_column(
         UUID,

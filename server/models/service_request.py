@@ -21,7 +21,8 @@ class ServiceRequest(Base):
         UUID, primary_key=True, default=uuid.uuid4
     )
     status: Mapped[ServiceRequestStatus] = mapped_column(
-        Enum(ServiceRequestStatus), default=ServiceRequestStatus.PENDING
+        Enum(ServiceRequestStatus, name="servicerequest_status_enum"),
+        default=ServiceRequestStatus.PENDING,
     )
 
     service_id: Mapped[uuid.UUID] = mapped_column(

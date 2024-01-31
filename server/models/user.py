@@ -11,8 +11,8 @@ from database import Base
 
 
 class UserRole(enum.Enum):
-    Organization = "Organization"
-    Client = "Client"
+    ORGANIZATION = "Organization"
+    CLIENT = "Client"
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
