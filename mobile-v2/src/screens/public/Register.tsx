@@ -23,8 +23,13 @@ import {
   OrganizationCreate,
   UserRole
 } from "types/generated";
-import { showToastWithGravity } from "utils/notifications";
+import {
+  showToastWithGravity,
+  showToastWithGravityAndOffset
+} from "utils/notifications";
 import * as yup from "yup";
+
+import { getFormattedError } from "../../utils/error-helper";
 
 interface FormValues {
   email: string;
@@ -113,7 +118,11 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       { ...formValues, role: role },
       {
         onError: (error) => {
-          showToastWithGravity(String(error.response?.data.detail) || "Error");
+          showToastWithGravityAndOffset(
+            getFormattedError(
+              error.response?.data.detail || "Ошибка регистрации"
+            )
+          );
         },
         onSuccess: () => {
           navigation.navigate("Login");

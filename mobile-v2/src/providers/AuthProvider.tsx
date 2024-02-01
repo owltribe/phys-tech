@@ -18,8 +18,8 @@ import {
   UserWithOrganizationCreate
 } from "types/generated";
 import axiosInstance from "utils/axios-instance";
-
-import { showToastWithGravityAndOffset } from "../utils/notifications";
+import { getFormattedError } from "utils/error-helper";
+import { showToastWithGravityAndOffset } from "utils/notifications";
 
 interface AuthProps {
   user: UserReadWithOrganization | null;
@@ -93,6 +93,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       onError: async (e) => {
         await AsyncStorage.removeItem("accessToken");
         setToken(null);
+        showToastWithGravityAndOffset(
+          getFormattedError(e.response?.data.detail || "Ошибка авторизации")
+        );
       },
       onSuccess: async (response) => {
         const accessToken = response.data.access_token;
