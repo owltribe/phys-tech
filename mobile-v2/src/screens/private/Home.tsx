@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
   },
   card: {
     marginTop: 16,
-    gap: 0
+    gap: 0,
+    backgroundColor: MD2Colors.white
   },
   content: {
     flexDirection: "row",

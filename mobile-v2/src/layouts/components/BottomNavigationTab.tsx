@@ -1,4 +1,4 @@
-import { Icon } from "react-native-paper";
+import { Icon, MD2Colors } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import {
   Home as HomeIcon,
@@ -20,9 +20,9 @@ export default function BottomNavigationTab() {
     <Tab.Navigator
       initialRouteName="Home"
       activeColor={theme.colors.primary}
-      activeIndicatorStyle={{ backgroundColor: theme.colors.inverseOnSurface }}
+      activeIndicatorStyle={{ backgroundColor: MD2Colors.white }}
       barStyle={{
-        backgroundColor: theme.colors.inverseOnSurface,
+        backgroundColor: MD2Colors.white,
         borderColor: theme.colors.outlineVariant,
         borderTopWidth: 1
       }}
