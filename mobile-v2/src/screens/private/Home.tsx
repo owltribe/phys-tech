@@ -7,6 +7,7 @@ import {
   Searchbar
 } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
+import { Atom, Calendar, HeartHandshake } from "lucide-react-native";
 import { HomeScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
@@ -16,7 +17,7 @@ export default function Home({ navigation }: HomeScreenProps) {
       label: "Организации",
       description: "Профили научных организаций с детальной информацией",
       background: MD2Colors.indigoA700,
-      icon: "atom-variant",
+      Icon: Atom,
       onPress: () =>
         navigation.navigate("Search", { defaultOption: "organization" })
     },
@@ -24,14 +25,14 @@ export default function Home({ navigation }: HomeScreenProps) {
       label: "Услуги",
       description: "Каталог научных услуг от каждой организации",
       background: MD2Colors.deepPurpleA700,
-      icon: "hand-heart",
+      Icon: HeartHandshake,
       onPress: () => navigation.navigate("Search", { defaultOption: "service" })
     },
     {
       label: "Мероприятия",
       description: "Календарь семинаров, конференций и других мероприятий",
       background: MD2Colors.deepOrangeA700,
-      icon: "calendar",
+      Icon: Calendar,
       onPress: () => navigation.navigate("Search", { defaultOption: "event" })
     }
   ];
@@ -65,10 +66,10 @@ export default function Home({ navigation }: HomeScreenProps) {
                 subtitleNumberOfLines={3}
                 style={styles.cardTitle}
                 left={() => (
-                  <Avatar.Icon
-                    size={46}
-                    icon={item.icon}
-                    style={{ backgroundColor: item.background }}
+                  <item.Icon
+                    strokeWidth={1}
+                    size={42}
+                    color={item.background}
                   />
                 )}
                 right={() => (
@@ -92,7 +93,8 @@ const styles = StyleSheet.create({
   },
   card: {
     marginTop: 16,
-    gap: 0
+    gap: 0,
+    backgroundColor: MD2Colors.white
   },
   content: {
     flexDirection: "row",

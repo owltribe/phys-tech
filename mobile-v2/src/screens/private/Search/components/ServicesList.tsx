@@ -5,6 +5,8 @@ import ServiceCard from "screens/private/Services/components/ServiceCard";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
+import EmptyStatement from "../../../../components/EmptyStatement";
+
 const ServicesList = ({
   search,
   navigation
@@ -12,13 +14,17 @@ const ServicesList = ({
   search: string;
   navigation: SearchScreenProps["navigation"];
 }) => {
-  const { data, isLoading, isFetching } = useServices({
+  const { data, isLoading, isFetching, isSuccess } = useServices({
     search: search
   });
 
   return (
     <>
       {(isLoading || isFetching) && <ActivityIndicator size="large" />}
+
+      {isSuccess && !data?.data.items.length && (
+        <EmptyStatement description="Нет доступных услуг" />
+      )}
 
       <FlatList
         data={data?.data.items}

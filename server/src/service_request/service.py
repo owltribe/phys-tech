@@ -63,7 +63,7 @@ class ServiceRequestService:
 
         return instance
 
-    def get_services_for_user(self, user: User) -> list[Type[ServiceRequest]]:
+    def get_users_service_requests(self, user: User) -> list[Type[ServiceRequest]]:
         result = self.session.query(ServiceRequest).filter(ServiceRequest.requested_by_id == user.id).all()
 
         return result

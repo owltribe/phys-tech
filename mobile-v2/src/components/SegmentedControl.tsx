@@ -47,7 +47,7 @@ const SegmentedControl = ({
         styles.container,
         {
           width: segmentedControlWidth,
-          borderRadius: 20,
+          borderRadius: 26,
           paddingLeft: internalPadding / 2
         }
       ]}
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   activeBox: {
     position: "absolute",
-    borderRadius: 20,
+    borderRadius: 26,
     shadowColor: "black",
     shadowOffset: {
       width: 0,

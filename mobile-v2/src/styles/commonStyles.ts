@@ -16,5 +16,8 @@ export const commonStyles = StyleSheet.create({
   },
   defaultListGap: {
     gap: 16
+  },
+  loadderMargin: {
+    margin: 12
   }
 });

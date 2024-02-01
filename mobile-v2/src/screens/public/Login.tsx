@@ -8,7 +8,6 @@ import {
   View
 } from "react-native";
 import { Image } from "react-native";
-import { Snackbar } from "react-native-paper";
 import { yupResolver } from "@hookform/resolvers/yup";
 import TextField from "components/fields/TextField";
 import PrimaryButton from "components/PrimaryButton";
@@ -18,7 +17,6 @@ import { useAuth } from "providers/AuthProvider";
 import { LoginScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
-// import Logo from "../../components/Logo";
 import * as yup from "yup";
 
 const schema = yup
@@ -34,7 +32,7 @@ interface FormValues {
 }
 
 const Login = ({ navigation }: LoginScreenProps) => {
-  const { onLogin, isLoginLoading, loginError, loginReset } = useAuth();
+  const { onLogin, isLoginLoading } = useAuth();
 
   const {
     control,
@@ -125,18 +123,6 @@ const Login = ({ navigation }: LoginScreenProps) => {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-
-      <Snackbar
-        visible={!!loginError}
-        onDismiss={() => {}}
-        action={{
-          label: "Закрыть",
-          onPress: loginReset
-        }}
-        duration={Snackbar.DURATION_MEDIUM}
-      >
-        {String(loginError) || "Ошибка входа"}
-      </Snackbar>
     </ScreenWrapper>
   );
 };
