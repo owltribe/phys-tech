@@ -1,5 +1,11 @@
 import { Icon } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
+import {
+  Home as HomeIcon,
+  Search as SearchIcon,
+  Table2,
+  UserCircle
+} from "lucide-react-native";
 import Home from "screens/private/Home";
 import Profile from "screens/private/Profile";
 import Search from "screens/private/Search/Search";
@@ -26,11 +32,11 @@ export default function BottomNavigationTab() {
         component={Home}
         options={{
           tabBarLabel: "Главное",
-          tabBarIcon: ({ color }) => (
-            <Icon
-              source="home-outline"
+          tabBarIcon: ({ color, focused }) => (
+            <HomeIcon
               color={color}
               size={30}
+              strokeWidth={focused ? 1.7 : 1.2}
             />
           )
         }}
@@ -42,11 +48,11 @@ export default function BottomNavigationTab() {
         options={{
           title: "Мои Услуги",
           tabBarLabel: "Мои Услуги",
-          tabBarIcon: ({ color }) => (
-            <Icon
-              source="table"
+          tabBarIcon: ({ color, focused }) => (
+            <Table2
               color={color}
               size={30}
+              strokeWidth={focused ? 1.7 : 1.2}
             />
           )
         }}
@@ -56,11 +62,11 @@ export default function BottomNavigationTab() {
         component={Search}
         options={{
           tabBarLabel: "Поиск",
-          tabBarIcon: ({ color }) => (
-            <Icon
-              source="magnify"
+          tabBarIcon: ({ color, focused }) => (
+            <SearchIcon
               color={color}
               size={30}
+              strokeWidth={focused ? 1.7 : 1.2}
             />
           )
         }}
@@ -71,11 +77,11 @@ export default function BottomNavigationTab() {
         component={Profile}
         options={{
           tabBarLabel: "Профиль",
-          tabBarIcon: ({ color }) => (
-            <Icon
-              source="account-outline"
+          tabBarIcon: ({ color, focused }) => (
+            <UserCircle
               color={color}
               size={30}
+              strokeWidth={focused ? 1.7 : 1.2}
             />
           )
         }}

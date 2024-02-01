@@ -4,10 +4,12 @@ import { ActivityIndicator, Card, Chip, MD2Colors } from "react-native-paper";
 import useOrganizations from "hooks/organization/useOrganizations";
 import { commonStyles } from "styles/commonStyles";
 
+import EmptyStatement from "../../../../components/EmptyStatement";
+
 const OrganizationsList = ({ search }: { search: string }) => {
   const [categories, setCategories] = useState<string[]>([]);
 
-  const { data, isLoading, isFetching } = useOrganizations({
+  const { data, isLoading, isFetching, isSuccess } = useOrganizations({
     search: search,
     category__in: categories
   });
@@ -50,7 +52,16 @@ const OrganizationsList = ({ search }: { search: string }) => {
         ))}
       </View>
 
-      {(isLoading || isFetching) && <ActivityIndicator size="large" />}
+      {(isLoading || isFetching) && (
+        <ActivityIndicator
+          size="large"
+          style={commonStyles.loadderMargin}
+        />
+      )}
+
+      {isSuccess && !data?.data.items.length && (
+        <EmptyStatement description="Нет организаций" />
+      )}
 
       <FlatList
         data={data?.data.items}
