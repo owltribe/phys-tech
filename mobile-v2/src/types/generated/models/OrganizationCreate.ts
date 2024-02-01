@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Category } from './Category';
+import type { OrganizationCategory } from './OrganizationCategory';
 export type OrganizationCreate = {
     name: string;
     bin: (string | null);
@@ -10,6 +10,6 @@ export type OrganizationCreate = {
     contact: (string | null);
     email: string;
     description: string;
-    category: (Category | null);
+    category: (OrganizationCategory | null);
 };
 

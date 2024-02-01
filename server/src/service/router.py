@@ -37,15 +37,13 @@ async def create_service(
     service_create: ServiceCreate,
     current_user: User = Depends(current_active_user),
 ):
-    if current_user.role is not UserRole.Organization:
+    if current_user.role is not UserRole.ORGANIZATION:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Создание услуг достпуно только для организаций.",
         )
 
-    return service.create_service(
-        service=service_create, current_user=current_user
-    )
+    return service.create_service(service=service_create, current_user=current_user)
 
 
 @services_router.get("/{service_id}", response_model=ServiceRead)
@@ -69,9 +67,7 @@ def update_service(
             detail="Услуга не найдена",
         )
 
-    updated_service_instance = service.update_service(
-        service_id, service_update
-    )
+    updated_service_instance = service.update_service(service_id, service_update)
 
     if updated_service_instance is None:
         raise HTTPException(

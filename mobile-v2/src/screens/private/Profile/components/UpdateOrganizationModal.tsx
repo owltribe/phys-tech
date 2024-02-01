@@ -7,28 +7,15 @@ import {
   StyleSheet,
   View
 } from "react-native";
-import {
-  Avatar,
-  Button,
-  IconButton,
-  MD3Colors,
-  Text
-} from "react-native-paper";
+import { IconButton, Text } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import TextField from "components/fields/TextField";
 import PrimaryButton from "components/PrimaryButton";
 import ScreenWrapper from "components/ScreenWrapper";
-import * as ImagePicker from "expo-image-picker";
+import useUpdateOrganization from "hooks/organization/useUpdateOrganization";
 import { commonStyles } from "styles/commonStyles";
+import { OrganizationCategory, OrganizationRead } from "types/generated";
 import { showToastWithGravity } from "utils/notifications";
-
-import useUpdateOrganization from "../../../../../hooks/organization/useUpdateOrganization";
-import theme from "../../../../../styles/theme";
-import { Category, OrganizationRead } from "../../../../../types/generated";
-
-interface AddServiceModalProps extends Pick<ModalProps, "visible"> {
-  onClose: () => void;
-}
 
 interface FormValues {
   id: string;
@@ -38,7 +25,7 @@ interface FormValues {
   contact: string;
   email: string;
   description: string;
-  category: Category | null;
+  category: OrganizationCategory | null;
 }
 
 interface UpdateOrganizationModelProps extends Pick<ModalProps, "visible"> {
@@ -55,12 +42,7 @@ const UpdateOrganizationModel = ({
 
   const [showCategoryDropDown, setShowCategoryDropDown] = useState(false);
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm<FormValues>({
+  const { control, handleSubmit, reset, formState } = useForm<FormValues>({
     defaultValues: {
       id: organization.id,
       name: organization.name,
@@ -69,7 +51,7 @@ const UpdateOrganizationModel = ({
       contact: organization.contact || "",
       email: organization.email,
       description: organization.description,
-      category: organization.category || "Научная организация"
+      category: organization.category || undefined
     }
   });
 
@@ -78,7 +60,7 @@ const UpdateOrganizationModel = ({
       onError: (error) => {
         showToastWithGravity(String(error.response?.data.detail));
       },
-      onSuccess: (response) => {
+      onSuccess: () => {
         onClose();
         reset();
         showToastWithGravity(`Организация обновлена.`);

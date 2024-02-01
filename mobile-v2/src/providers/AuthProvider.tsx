@@ -13,6 +13,7 @@ import useRegister from "hooks/auth/useRegister";
 import {
   Body_auth_jwt_login_auth_login_post,
   ErrorModel,
+  UserRead,
   UserReadWithOrganization,
   UserWithOrganizationCreate
 } from "types/generated";
@@ -29,7 +30,11 @@ interface AuthProps {
   onLogout: () => void;
   onRegister: (
     formValues: UserWithOrganizationCreate,
-    mutateOptions: MutationOptions
+    mutateOptions: MutationOptions<
+      AxiosResponse<UserRead>,
+      AxiosError<ErrorModel>,
+      UserWithOrganizationCreate
+    >
   ) => void;
   loginError: Record<string, string> | string | undefined;
   loginReset: () => void;
@@ -111,7 +116,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const onRegister = (
     formValues: UserWithOrganizationCreate,
-    mutateOptions: MutationOptions
+    mutateOptions: MutationOptions<
+      AxiosResponse<UserRead>,
+      AxiosError<ErrorModel>,
+      UserWithOrganizationCreate
+    >
   ) => {
     registerMutation.mutate(formValues, mutateOptions);
   };

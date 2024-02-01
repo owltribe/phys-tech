@@ -74,7 +74,7 @@ const ServiceRequestDetail = ({
     updateServiceRequestMutation.mutate(
       {
         // @ts-ignore
-        status: "Завершено",
+        status: "Completed",
         requested_by_id: data?.data.requested_by.id || null,
         service_id: data?.data.service.id || null
       },
@@ -137,7 +137,7 @@ const ServiceRequestDetail = ({
       </List.Section>
 
       <View style={commonStyles.container}>
-        {data?.data.status === "Ожидается" && (
+        {data?.data.status === "Pending" && (
           <>
             <Button
               mode="contained"

@@ -12,10 +12,7 @@ class AdminAuth(AuthenticationBackend):
         username, password = form["username"], form["password"]
 
         # user = await fastapi_users.get_user_manager(user)
-        if (
-            not username == "owl@owltribe.dev"
-            or not password == "12OwnerPass34"
-        ):
+        if not username == "owl@owltribe.dev" or not password == "12OwnerPass34":
             return False
 
         # Validate username/password credentials

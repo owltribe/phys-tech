@@ -17,9 +17,7 @@ from models.user import UserRole
 from src.auth.schemas import UserRead, UserWithOrganizationCreate
 
 
-class UserManager(
-    UUIDIDMixin, BaseUserManager[UserWithOrganizationCreate, uuid.UUID]
-):
+class UserManager(UUIDIDMixin, BaseUserManager[UserWithOrganizationCreate, uuid.UUID]):
     reset_password_token_secret = AUTH_SECRET
     verification_token_secret = AUTH_SECRET
 
@@ -48,11 +46,7 @@ class UserManager(
         if existing_user is not None:
             raise exceptions.UserAlreadyExists()
 
-        user_dict = (
-            user_create.create_update_dict()
-            if safe
-            else user_create.create_update_dict_superuser()
-        )
+        user_dict = user_create.create_update_dict() if safe else user_create.create_update_dict_superuser()
         password = user_dict.pop("password")
         user_dict["hashed_password"] = self.password_helper.hash(password)
 
@@ -69,12 +63,10 @@ class UserManager(
         organization_data: Organization,
         request: Optional[Request] = None,
     ):
-        if user.role == UserRole.Organization:
+        if user.role == UserRole.ORGANIZATION:
             async with async_session_maker() as session:  # Using async session for DB operations
                 try:
-                    organization = Organization(
-                        **organization_data, owner_id=user.id
-                    )
+                    organization = Organization(**organization_data, owner_id=user.id)
                     session.add(organization)
                     await session.commit()
                     await session.refresh(organization)

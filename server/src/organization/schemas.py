@@ -4,7 +4,7 @@ from fastapi_filter.contrib.sqlalchemy import Filter
 from pydantic import UUID4, BaseModel
 
 from models import Organization
-from models.organization import Category
+from models.organization import OrganizationCategory
 
 
 class OrganizationCreate(BaseModel):
@@ -14,7 +14,7 @@ class OrganizationCreate(BaseModel):
     contact: Optional[str]
     email: str
     description: str
-    category: Optional[Category]
+    category: Optional[OrganizationCategory]
 
 
 class OrganizationRead(BaseModel):
@@ -25,7 +25,7 @@ class OrganizationRead(BaseModel):
     contact: Optional[str]
     email: str
     description: str
-    category: Optional[Category]
+    category: Optional[OrganizationCategory]
     photo: Optional[str]
 
     class Config:
@@ -45,7 +45,7 @@ class OrganizationUpdate(BaseModel):
 class OrganizationFilter(Filter):
     order_by: List[str] = None
     search: Optional[str] = None
-    category__in: Optional[List[Category]] = None
+    category__in: Optional[List[OrganizationCategory]] = None
 
     class Constants(Filter.Constants):
         model = Organization

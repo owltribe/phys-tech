@@ -13,20 +13,16 @@ from src.service_request.schemas import (
 )
 from src.service_request.service import ServiceRequestService
 
-service_request_router = APIRouter(
-    prefix="/service-requests", tags=["Service Requests"]
-)
+service_request_router = APIRouter(prefix="/service-requests", tags=["Service Requests"])
 
 service = ServiceRequestService(session=DbSession)
 
 
 @service_request_router.get("", response_model=Page[ServiceRequestRead])
 def paginated_list(
-    service_request_filter: ServiceRequestFilter = FilterDepends(
-        ServiceRequestFilter
-    ),
+    service_request_filter: ServiceRequestFilter = FilterDepends(ServiceRequestFilter),
 ):
-    return service.list(service_request_filter)
+    return service.paginated_list(service_request_filter)
 
 
 @service_request_router.post("", response_model=ServiceRequestRead)
@@ -34,27 +30,19 @@ def create(
     service_request_create: ServiceRequestCreate,
     user: User = Depends(current_active_user),
 ):
-    return service.create(
-        service_request_create=service_request_create, requested_by=user
-    )
+    return service.create(service_request_create=service_request_create, requested_by=user)
 
 
-@service_request_router.get(
-    "/{service_request_id}", response_model=ServiceRequestRead
-)
+@service_request_router.get("/{service_request_id}", response_model=ServiceRequestRead)
 def retrieve(service_request_id: str):
     instance = service.retrieve(service_request_id=service_request_id)
 
     if instance is None:
-        raise HTTPException(
-            status_code=404, detail="Запрос на услугу не найден"
-        )
+        raise HTTPException(status_code=404, detail="Запрос на услугу не найден")
     return instance
 
 
-@service_request_router.put(
-    "/{service_request_id}", response_model=ServiceRequestRead
-)
+@service_request_router.put("/{service_request_id}", response_model=ServiceRequestRead)
 def update(
     service_request_id: str,
     service_request_update: ServiceRequestUpdate,
@@ -67,9 +55,7 @@ def update(
             detail="Запрос на услугу не найден",
         )
 
-    updated_instance = service.update(
-        service_request_id, service_request_update
-    )
+    updated_instance = service.update(service_request_id, service_request_update)
 
     if updated_instance is None:
         raise HTTPException(
