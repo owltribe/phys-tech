@@ -357,8 +357,8 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
                     { label: "Вуз", value: "University" },
                     { label: "Технопарк", value: "Technopark" },
                     {
-                      label: "Лаборатория",
-                      value: "Коммерческая Лабораторная компания"
+                      label: "Коммерческая Лабораторная компания",
+                      value: "Commercial Laboratory Company"
                     }
                   ]}
                 />

@@ -1,7 +1,8 @@
 import { StyleSheet, View } from "react-native";
 import { Badge, Card, IconButton, MD2Colors } from "react-native-paper";
 import dayjs from "dayjs";
-import { ServiceRequestRead } from "types/generated";
+import { ServiceRequestRead, ServiceRequestStatus } from "types/generated";
+import { getServiceRequestStatusLabel } from "utils/enum-helpers";
 
 const ServiceRequestCard = ({
   serviceRequest,
@@ -10,11 +11,14 @@ const ServiceRequestCard = ({
   serviceRequest: ServiceRequestRead;
   onPress: () => void;
 }) => {
-  const getBadgeColor = (status: string) => {
-    if (status === "Ожидается") {
+  const getBadgeColor = (status: ServiceRequestStatus) => {
+    if (status === "Pending") {
       return MD2Colors.orange500;
     }
-    if (status === "Отклонено") {
+    if (status === "Approved") {
+      return MD2Colors.blue500;
+    }
+    if (status === "Rejected") {
       return MD2Colors.red500;
     }
 
@@ -51,7 +55,7 @@ const ServiceRequestCard = ({
         ]}
         size={24}
       >
-        {serviceRequest.status}
+        {getServiceRequestStatusLabel(serviceRequest.status)}
       </Badge>
     </View>
   );

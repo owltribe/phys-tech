@@ -16,6 +16,8 @@ import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
 
+import { getUserRoleLabel } from "../../../utils/enum-helpers";
+
 import UpdateOrganizationModal from "./components/UpdateOrganizationModal";
 
 export default function Profile({ navigation }: ProfileScreenProps) {
@@ -83,7 +85,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
         </View>
         <List.Section title="Профиль">
           <List.Item
-            title={user?.role}
+            title={user?.role ? getUserRoleLabel(user?.role) : "-"}
             description="Роль"
           />
           <Divider />
