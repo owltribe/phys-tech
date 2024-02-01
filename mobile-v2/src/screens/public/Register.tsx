@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Divider, SegmentedButtons } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
+import { yupResolver } from "@hookform/resolvers/yup";
 import TextField from "components/fields/TextField";
 import PrimaryButton from "components/PrimaryButton";
 import ScreenWrapper from "components/ScreenWrapper";
@@ -17,8 +18,18 @@ import { useAuth } from "providers/AuthProvider";
 import { RegisterScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
-import { OrganizationCreate, UserRole } from "types/generated";
-import { showToastWithGravity } from "utils/notifications";
+import {
+  OrganizationCategory,
+  OrganizationCreate,
+  UserRole
+} from "types/generated";
+import {
+  showToastWithGravity,
+  showToastWithGravityAndOffset
+} from "utils/notifications";
+import * as yup from "yup";
+
+import { getFormattedError } from "../../utils/error-helper";
 
 interface FormValues {
   email: string;
@@ -26,10 +37,50 @@ interface FormValues {
   last_name: string;
   password: string;
   rePassword: string;
-  role: UserRole | null;
 
   organization_data: OrganizationCreate | null;
 }
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .required("Пожалуйста, введите адрес электронной почты")
+    .email("Некорректный формат адреса электронной почты"),
+  first_name: yup.string().required("Введите свое имя"),
+  last_name: yup.string().required("Введите свою фамилию"),
+  password: yup
+    .string()
+    .required("Пожалуйста, введите пароль")
+    .min(8, "Пароль должен содержать минимум 8 символов"),
+  rePassword: yup
+    .string()
+    .required("Пожалуйста, подтвердите пароль")
+    .oneOf([yup.ref("password")], "Пароли должны совпадать"),
+
+  organization_data: yup.object().shape({
+    name: yup.string(),
+    bin: yup.string(),
+    address: yup.string(),
+    contact: yup.string(),
+    email: yup
+      .string()
+      .nullable()
+      .email("Некорректный формат адреса электронной почты"),
+    description: yup.string().nullable(),
+    category: yup
+      .string()
+      .nullable()
+      .oneOf<OrganizationCategory>(
+        [
+          "Scientific Organization",
+          "University",
+          "Technopark",
+          "Commercial Laboratory Company"
+        ],
+        "Выберите категорию организации"
+      )
+  })
+});
 
 const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const { onRegister, isRegisterLoading } = useAuth();
@@ -41,7 +92,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormValues>({
+  } = useForm({
     defaultValues: {
       email: "",
       first_name: "",
@@ -55,18 +106,23 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
         address: "",
         contact: "",
         email: "",
-        description: "",
-        category: "Научная организация"
+        description: " ",
+        category: "Scientific Organization"
       }
-    }
+    },
+    resolver: yupResolver(schema)
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (formValues) => {
+  const onSubmit = (formValues: FormValues) => {
     onRegister(
       { ...formValues, role: role },
       {
         onError: (error) => {
-          showToastWithGravity(error?.message);
+          showToastWithGravityAndOffset(
+            getFormattedError(
+              error.response?.data.detail || "Ошибка регистрации"
+            )
+          );
         },
         onSuccess: () => {
           navigation.navigate("Login");
@@ -173,6 +229,9 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
               onChangeText={onChange}
               value={value}
               error={errors.password?.message}
+              secureTextEntry
+              autoCorrect={false}
+              autoCapitalize="none"
             />
           )}
         />
@@ -191,6 +250,9 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
               onChangeText={onChange}
               value={value}
               error={errors.rePassword?.message}
+              secureTextEntry
+              autoCorrect={false}
+              autoCapitalize="none"
             />
           )}
         />
@@ -265,7 +327,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
                   label="Почта"
                   onBlur={onBlur}
                   onChangeText={onChange}
-                  value={value}
+                  value={value || undefined}
                 />
               )}
             />
@@ -279,7 +341,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
                   label="Описание организаций"
                   onBlur={onBlur}
                   onChangeText={onChange}
-                  value={value}
+                  value={value || undefined}
                 />
               )}
             />
@@ -299,13 +361,13 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
                   list={[
                     {
                       label: "Научная организация",
-                      value: "Научная организация"
+                      value: "Scientific Organization"
                     },
-                    { label: "Вуз", value: "Вуз" },
-                    { label: "Технопарк", value: "Технопарк" },
+                    { label: "Вуз", value: "University" },
+                    { label: "Технопарк", value: "Technopark" },
                     {
-                      label: "Лаборатория",
-                      value: "Коммерческая Лабораторная компания"
+                      label: "Коммерческая Лабораторная компания",
+                      value: "Commercial Laboratory Company"
                     }
                   ]}
                 />
@@ -317,9 +379,9 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
         <PrimaryButton
           mode="contained"
           loading={isRegisterLoading}
-          onPress={handleSubmit(onSubmit)}
+          onPress={handleSubmit((fv) => onSubmit(fv as FormValues))}
         >
-          Регистрация
+          Зарегистрировать
         </PrimaryButton>
 
         <View style={styles.row}>

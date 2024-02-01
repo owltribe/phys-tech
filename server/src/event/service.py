@@ -36,9 +36,7 @@ class EventService:
         return db_event
 
     def update_event(self, event_id: str, updated_event: EventUpdate):
-        db_event = (
-            self.session.query(Event).filter(Event.id == event_id).first()
-        )
+        db_event = self.session.query(Event).filter(Event.id == event_id).first()
         if db_event:
             for key, value in updated_event.dict().items():
                 setattr(db_event, key, value)
@@ -47,9 +45,7 @@ class EventService:
         return db_event
 
     def delete_event(self, event_id: str):
-        db_event = (
-            self.session.query(Event).filter(Event.id == event_id).first()
-        )
+        db_event = self.session.query(Event).filter(Event.id == event_id).first()
         if db_event:
             self.session.delete(db_event)
             self.session.commit()

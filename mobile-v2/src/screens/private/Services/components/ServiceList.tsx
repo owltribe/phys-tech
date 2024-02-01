@@ -16,7 +16,7 @@ const ServiceList = ({
 }) => {
   const { user } = useAuth();
 
-  const isClientRole = user?.role === "Client";
+  const isClientRole = !!user?.role && user.role === "Client";
 
   const { data: servicesData, refetch: refetchServicesData } = useServices({
     organizationId: user?.organization?.id,

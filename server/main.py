@@ -45,13 +45,9 @@ app.include_router(service_request_router)
 
 @app.get("/privacy-policy", response_class=HTMLResponse)
 def privacy_policy(request: Request):
-    return templates.TemplateResponse(
-        name="privacy-policy.html", context={"request": request}
-    )
+    return templates.TemplateResponse(name="privacy-policy.html", context={"request": request})
 
 
 @app.get("/terms-and-conditions", response_class=HTMLResponse)
 async def terms_and_conditions(request: Request):
-    return templates.TemplateResponse(
-        name="terms-and-conditions.html", context={"request": request}
-    )
+    return templates.TemplateResponse(name="terms-and-conditions.html", context={"request": request})

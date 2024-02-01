@@ -13,17 +13,13 @@ from src.organization.schemas import (
 )
 from src.organization.service import OrganizationService
 
-organizations_router = APIRouter(
-    prefix="/organizations", tags=["Organizations"]
-)
+organizations_router = APIRouter(prefix="/organizations", tags=["Organizations"])
 service = OrganizationService(session=DbSession)
 
 
 @organizations_router.get("", response_model=Page[OrganizationRead])
 async def list_organizations(
-    organization_filter: OrganizationFilter = FilterDepends(
-        OrganizationFilter
-    ),
+    organization_filter: OrganizationFilter = FilterDepends(OrganizationFilter),
 ):
     return service.get_organizations(organization_filter)
 
@@ -33,9 +29,7 @@ async def create_new_organization(
     organization: OrganizationCreate = Depends(),
     file_obj: UploadFile = File(...),
 ):
-    organization = await service.create_organization(
-        organization=organization, file_obj=file_obj
-    )
+    organization = await service.create_organization(organization=organization, file_obj=file_obj)
     return organization
 
 
@@ -47,9 +41,7 @@ async def create_new_organization(
     return organization
 
 
-@organizations_router.put(
-    "/{organization_id}", response_model=OrganizationRead
-)
+@organizations_router.put("/{organization_id}", response_model=OrganizationRead)
 async def update_organization(
     organization_id: str,
     updated_organization: OrganizationUpdate,
@@ -77,9 +69,7 @@ async def update_organization(
 
 
 @organizations_router.post("/photo", response_model=OrganizationRead)
-async def upload_photo(
-    photo: UploadFile = File(...), user: User = Depends(current_active_user)
-):
+async def upload_photo(photo: UploadFile = File(...), user: User = Depends(current_active_user)):
     existing_organization = service.get_organization_by_user_id(user.id)
 
     if existing_organization is None:

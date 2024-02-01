@@ -13,12 +13,13 @@ import useRegister from "hooks/auth/useRegister";
 import {
   Body_auth_jwt_login_auth_login_post,
   ErrorModel,
+  UserRead,
   UserReadWithOrganization,
   UserWithOrganizationCreate
 } from "types/generated";
 import axiosInstance from "utils/axios-instance";
-
-import { showToastWithGravityAndOffset } from "../utils/notifications";
+import { getFormattedError } from "utils/error-helper";
+import { showToastWithGravityAndOffset } from "utils/notifications";
 
 interface AuthProps {
   user: UserReadWithOrganization | null;
@@ -29,7 +30,11 @@ interface AuthProps {
   onLogout: () => void;
   onRegister: (
     formValues: UserWithOrganizationCreate,
-    mutateOptions: MutationOptions
+    mutateOptions: MutationOptions<
+      AxiosResponse<UserRead>,
+      AxiosError<ErrorModel>,
+      UserWithOrganizationCreate
+    >
   ) => void;
   loginError: Record<string, string> | string | undefined;
   loginReset: () => void;
@@ -88,6 +93,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       onError: async (e) => {
         await AsyncStorage.removeItem("accessToken");
         setToken(null);
+        showToastWithGravityAndOffset(
+          getFormattedError(e.response?.data.detail || "Ошибка авторизации")
+        );
       },
       onSuccess: async (response) => {
         const accessToken = response.data.access_token;
@@ -111,7 +119,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const onRegister = (
     formValues: UserWithOrganizationCreate,
-    mutateOptions: MutationOptions
+    mutateOptions: MutationOptions<
+      AxiosResponse<UserRead>,
+      AxiosError<ErrorModel>,
+      UserWithOrganizationCreate
+    >
   ) => {
     registerMutation.mutate(formValues, mutateOptions);
   };

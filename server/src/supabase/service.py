@@ -25,9 +25,7 @@ class SupabaseService:
             )
 
         # Get the public URL
-        public_url_response = supabase.storage.from_(bucket).get_public_url(
-            path
-        )
+        public_url_response = supabase.storage.from_(bucket).get_public_url(path)
         if public_url_response:
             return public_url_response
         else:

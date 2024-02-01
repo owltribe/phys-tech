@@ -28,11 +28,11 @@
   * example to create docker container
     * `docker run --name phys-tech-db -e POSTGRES_PASSWORD=mysecretpassword -d postgres`
 
-###  Admin panel access:
+### PhysTech Admin panel - Access:
   * [Click here for Admin Panel](http://78.40.216.114:8000/admin)
   * or copy this `http://78.40.216.114:8000/admin`
  
-### PhyTech Admin navigation:
+### PhysTech Admin - Navigation:
   * Users
     * View all current users
     * Export selected/all users

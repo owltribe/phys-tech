@@ -1,14 +1,18 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import { ErrorModel, UserCreate, UserRead } from "types/generated";
+import {
+  ErrorModel,
+  UserRead,
+  UserWithOrganizationCreate
+} from "types/generated";
 import axiosInstance from "utils/axios-instance";
 
 export default function useRegister(): UseMutationResult<
   AxiosResponse<UserRead>,
   AxiosError<ErrorModel>,
-  UserCreate
+  UserWithOrganizationCreate
 > {
-  const register = (payload: UserCreate) => {
+  const register = (payload: UserWithOrganizationCreate) => {
     return axiosInstance.post("/auth/register", payload);
   };
 

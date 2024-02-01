@@ -22,22 +22,12 @@ class OrganizationService:
         self.supabase_service = SupabaseService(session)
 
     def get_organization(self, organization_id: str):
-        return (
-            self.session.query(Organization)
-            .filter(Organization.id == organization_id)
-            .first()
-        )
+        return self.session.query(Organization).filter(Organization.id == organization_id).first()
 
     def get_organization_by_user_id(self, user_id: str) -> Organization:
-        return (
-            self.session.query(Organization)
-            .filter(Organization.owner_id == user_id)
-            .first()
-        )
+        return self.session.query(Organization).filter(Organization.owner_id == user_id).first()
 
-    def get_organizations(
-        self, organization_filter: OrganizationFilter
-    ) -> Page[OrganizationRead]:
+    def get_organizations(self, organization_filter: OrganizationFilter) -> Page[OrganizationRead]:
         query = select(Organization)
         query = organization_filter.filter(query)
         query = organization_filter.sort(query)
@@ -65,11 +55,7 @@ class OrganizationService:
         updated_organization: OrganizationUpdate,
         user: User,
     ):
-        db_organization = (
-            self.session.query(Organization)
-            .filter(Organization.id == organization_id)
-            .first()
-        )
+        db_organization = self.session.query(Organization).filter(Organization.id == organization_id).first()
         if db_organization.owner_id != user.id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
@@ -90,9 +76,7 @@ class OrganizationService:
         self.session.refresh(db_organization)
         return db_organization
 
-    async def update_organization_photo(
-        self, organization_id: str, photo: UploadFile, user: User
-    ):
+    async def update_organization_photo(self, organization_id: str, photo: UploadFile, user: User):
         found_organization = self.get_organization(organization_id)
 
         if found_organization.owner_id != user.id:
@@ -107,14 +91,10 @@ class OrganizationService:
             path = f"{found_organization.name}/{filename}"
 
             if found_organization.photo:
-                path_to_remove = (
-                    f"{found_organization.name}/{found_organization.photo}"
-                )
+                path_to_remove = f"{found_organization.name}/{found_organization.photo}"
                 self.supabase_service.remove_image(bucket, path_to_remove)
 
-            file_url = await self.supabase_service.upload_image(
-                bucket, path, photo.file
-            )
+            file_url = await self.supabase_service.upload_image(bucket, path, photo.file)
             found_organization.photo = file_url
 
         self.session.commit()

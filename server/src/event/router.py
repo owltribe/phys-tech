@@ -56,9 +56,7 @@ def update_event(
     return updated_event_instance
 
 
-@events_router.delete(
-    "/{event_id}", response_model=None, status_code=status.HTTP_204_NO_CONTENT
-)
+@events_router.delete("/{event_id}", response_model=None, status_code=status.HTTP_204_NO_CONTENT)
 def delete_event(
     event_id: str,
 ):

@@ -16,8 +16,11 @@ import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
 import { Linking } from 'react-native';
-import { PrivacyPolicyLink, TermsAndConditionsLink } from '../../utils/links';
-import UpdateOrganizationModal from "./organization/ServiceRequestDetail/components/UpdateOrganizationModal";
+import { PrivacyPolicyLink, TermsAndConditionsLink } from '../../../utils/links';
+
+import { getUserRoleLabel } from "../../../utils/enum-helpers";
+
+import UpdateOrganizationModal from "./components/UpdateOrganizationModal";
 
 export default function Profile({ navigation }: ProfileScreenProps) {
   const { user, onLogout } = useAuth();
@@ -87,7 +90,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
         </View>
         <List.Section title="Профиль">
           <List.Item
-            title={user?.role}
+            title={user?.role ? getUserRoleLabel(user?.role) : "-"}
             description="Роль"
           />
           <Divider />
