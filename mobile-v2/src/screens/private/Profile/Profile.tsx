@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
+import { Linking } from "react-native";
 import {
   Avatar,
   Button,
@@ -15,10 +16,15 @@ import { useAuth } from "providers/AuthProvider";
 import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
-import { Linking } from 'react-native';
-import { PrivacyPolicyLink, TermsAndConditionsLink } from '../../../utils/links';
 
-import { getUserRoleLabel } from "../../../utils/enum-helpers";
+import {
+  getOrganizationCategoryLabel,
+  getUserRoleLabel
+} from "../../../utils/enum-helpers";
+import {
+  PrivacyPolicyLink,
+  TermsAndConditionsLink
+} from "../../../utils/links";
 
 import UpdateOrganizationModal from "./components/UpdateOrganizationModal";
 
@@ -31,9 +37,12 @@ export default function Profile({ navigation }: ProfileScreenProps) {
     useState(false);
 
   const userAvatarText = `${user?.first_name[0]}${user?.last_name[0]}`;
-  
+
   const openLink = (url: string): void => {
-    Linking.openURL(url).catch((err) => console.error('Error opening URL: ', err)); }
+    Linking.openURL(url).catch((err) =>
+      console.error("Error opening URL: ", err)
+    );
+  };
 
   const handleUpdateOrganizationAvatar = async () => {
     const options: ImagePicker.ImagePickerOptions = {
@@ -167,7 +176,11 @@ export default function Profile({ navigation }: ProfileScreenProps) {
               </View>
 
               <List.Item
-                title={user.organization.category}
+                title={
+                  user.organization.category
+                    ? getOrganizationCategoryLabel(user.organization.category)
+                    : "-"
+                }
                 description="Категория"
               />
               <List.Item
@@ -184,14 +197,24 @@ export default function Profile({ navigation }: ProfileScreenProps) {
 
         <List.Section>
           <List.Item
-            title="Privacy Policy"
-            description="Read our Privacy Policy"
+            title="Политика конфиденциальности"
             onPress={() => openLink(PrivacyPolicyLink)}
+            left={(props) => (
+              <List.Icon
+                {...props}
+                icon="shield-key"
+              />
+            )}
           />
           <List.Item
-            title="Terms and Conditions"
-            description="Read our Terms and Conditions"
+            title="Условия и положения"
             onPress={() => openLink(TermsAndConditionsLink)}
+            left={(props) => (
+              <List.Icon
+                {...props}
+                icon="text-box"
+              />
+            )}
           />
         </List.Section>
 
@@ -206,7 +229,6 @@ export default function Profile({ navigation }: ProfileScreenProps) {
             Выйти
           </Button>
         </View>
-       
       </KeyboardAvoidingView>
       {user?.organization && (
         <UpdateOrganizationModal
