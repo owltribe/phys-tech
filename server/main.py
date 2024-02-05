@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi_pagination import add_pagination
 from sqladmin import Admin
 
-from database import engine
+from database import sync_engine
 from src.auth.admin import UserAdmin, admin_authentication_backend
 from src.auth.router import auth_router
 from src.event.admin import EventAdmin
@@ -22,7 +22,7 @@ app = FastAPI()
 add_pagination(app)
 admin = Admin(
     app,
-    engine,
+    sync_engine,
     authentication_backend=admin_authentication_backend,
     title="PhysTech Admin",
 )

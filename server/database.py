@@ -19,13 +19,13 @@ from config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 ASYNC_SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={}, future=True)
+sync_engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={}, future=True)
 async_engine = create_async_engine(ASYNC_SQLALCHEMY_DATABASE_URL)
 
 async_session_maker = async_sessionmaker(async_engine, expire_on_commit=False)
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True)
-DbSession = Session(engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=sync_engine, future=True)
+DbSession = Session(sync_engine)
 
 
 class Base(DeclarativeBase):
