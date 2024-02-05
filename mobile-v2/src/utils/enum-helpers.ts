@@ -33,12 +33,12 @@ export const organizationCategories = [
     label: "Научная организация",
     value: "Scientific Organization"
   },
-  { label: "Вуз", value: "University" },
   { label: "Технопарк", value: "Technopark" },
   {
     label: "Коммерческая Лабораторная компания",
     value: "Commercial Laboratory Company"
-  }
+  },
+  { label: "Вуз", value: "University" }
 ];
 
 export const getOrganizationCategoryLabel = (
