@@ -51,7 +51,7 @@ const Login = ({ navigation }: LoginScreenProps) => {
   };
 
   return (
-    <ScreenWrapper withScrollView={false}>
+    <ScreenWrapper>
       <KeyboardAvoidingView style={commonStyles.container}>
         <View style={styles.logoContainer}>
           <Image
