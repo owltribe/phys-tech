@@ -19,7 +19,6 @@ const EventsList = ({
 
   return (
     <>
-      {(isLoading || isFetching) && <ActivityIndicator size="large" />}
       {isSuccess && !data?.data.items.length && (
         <EmptyStatement description="Нет мероприятий" />
       )}
@@ -38,6 +37,8 @@ const EventsList = ({
           />
         )}
       />
+
+      {(isLoading || isFetching) && <ActivityIndicator size="large" />}
     </>
   );
 };

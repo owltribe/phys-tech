@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -23,13 +23,13 @@ import {
   OrganizationCreate,
   UserRole
 } from "types/generated";
+import { organizationCategories } from "utils/enum-helpers";
+import { getFormattedError } from "utils/error-helper";
 import {
   showToastWithGravity,
   showToastWithGravityAndOffset
 } from "utils/notifications";
 import * as yup from "yup";
-
-import { getFormattedError } from "../../utils/error-helper";
 
 interface FormValues {
   email: string;
@@ -358,18 +358,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
                   onDismiss={() => setShowCategoryDropDown(false)}
                   value={value}
                   setValue={(v) => onChange(v)}
-                  list={[
-                    {
-                      label: "Научная организация",
-                      value: "Scientific Organization"
-                    },
-                    { label: "Вуз", value: "University" },
-                    { label: "Технопарк", value: "Technopark" },
-                    {
-                      label: "Коммерческая Лабораторная компания",
-                      value: "Commercial Laboratory Company"
-                    }
-                  ]}
+                  list={organizationCategories}
                 />
               )}
             />

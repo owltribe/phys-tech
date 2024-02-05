@@ -15,6 +15,7 @@ import ScreenWrapper from "components/ScreenWrapper";
 import useUpdateOrganization from "hooks/organization/useUpdateOrganization";
 import { commonStyles } from "styles/commonStyles";
 import { OrganizationCategory, OrganizationRead } from "types/generated";
+import { organizationCategories } from "utils/enum-helpers";
 import { showToastWithGravity } from "utils/notifications";
 
 interface FormValues {
@@ -189,18 +190,7 @@ const UpdateOrganizationModel = ({
                 onDismiss={() => setShowCategoryDropDown(false)}
                 value={value}
                 setValue={(v) => onChange(v)}
-                list={[
-                  {
-                    label: "Научная организация",
-                    value: "Научная организация"
-                  },
-                  { label: "Вуз", value: "Вуз" },
-                  { label: "Технопарк", value: "Технопарк" },
-                  {
-                    label: "Лаборатория",
-                    value: "Коммерческая Лабораторная компания"
-                  }
-                ]}
+                list={organizationCategories}
               />
             )}
           />

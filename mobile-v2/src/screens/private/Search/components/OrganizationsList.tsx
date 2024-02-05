@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { ActivityIndicator, Card, Chip, MD2Colors } from "react-native-paper";
+import EmptyStatement from "components/EmptyStatement";
 import useOrganizations from "hooks/organization/useOrganizations";
 import { commonStyles } from "styles/commonStyles";
-
-import EmptyStatement from "../../../../components/EmptyStatement";
+import { organizationCategories } from "utils/enum-helpers";
 
 const OrganizationsList = ({ search }: { search: string }) => {
   const [categories, setCategories] = useState<string[]>([]);
@@ -33,31 +33,19 @@ const OrganizationsList = ({ search }: { search: string }) => {
   return (
     <>
       <View style={styles.row}>
-        {[
-          "Вуз",
-          "Технопарк",
-          "Коммерческая Лабораторная компания",
-          "Научная организация"
-        ].map((category) => (
+        {organizationCategories.map((category) => (
           <Chip
-            key={category}
-            selected={categories.includes(category)}
+            key={category.value}
+            selected={categories.includes(category.value)}
             mode="outlined"
             showSelectedOverlay
-            onPress={() => toggleCategory(category)}
+            onPress={() => toggleCategory(category.value)}
             style={styles.chip}
           >
-            {category}
+            {category.label}
           </Chip>
         ))}
       </View>
-
-      {(isLoading || isFetching) && (
-        <ActivityIndicator
-          size="large"
-          style={commonStyles.loadderMargin}
-        />
-      )}
 
       {isSuccess && !data?.data.items.length && (
         <EmptyStatement description="Нет организаций" />
@@ -88,6 +76,13 @@ const OrganizationsList = ({ search }: { search: string }) => {
           </Card>
         )}
       />
+
+      {(isLoading || isFetching) && (
+        <ActivityIndicator
+          size="large"
+          style={commonStyles.loadderMargin}
+        />
+      )}
     </>
   );
 };

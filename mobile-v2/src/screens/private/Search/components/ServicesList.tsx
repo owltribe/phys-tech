@@ -1,11 +1,10 @@
 import { FlatList } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import EmptyStatement from "components/EmptyStatement";
 import useServices from "hooks/services/useServices";
 import ServiceCard from "screens/private/Services/components/ServiceCard";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
-
-import EmptyStatement from "../../../../components/EmptyStatement";
 
 const ServicesList = ({
   search,
@@ -20,8 +19,6 @@ const ServicesList = ({
 
   return (
     <>
-      {(isLoading || isFetching) && <ActivityIndicator size="large" />}
-
       {isSuccess && !data?.data.items.length && (
         <EmptyStatement description="Нет доступных услуг" />
       )}
@@ -42,6 +39,8 @@ const ServicesList = ({
           />
         )}
       />
+
+      {(isLoading || isFetching) && <ActivityIndicator size="large" />}
     </>
   );
 };
