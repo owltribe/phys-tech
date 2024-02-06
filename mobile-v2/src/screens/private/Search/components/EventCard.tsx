@@ -1,11 +1,12 @@
+import "dayjs/locale/ru";
+
 import { StyleSheet } from "react-native";
 import { Avatar, Card, IconButton } from "react-native-paper";
 import dayjs from "dayjs";
-import "dayjs/locale/ru";
 import { EventRead } from "types/generated";
 import { transparent } from "utils/colors";
 
-const localImage = require("../../../../../assets/calendar.png");
+const localImage = require("icons/calendar.png");
 
 const EventCard = ({
   eventData,
@@ -15,11 +16,16 @@ const EventCard = ({
   onPress: () => void;
 }) => {
   return (
-    <Card mode="elevated">
+    <Card
+      mode="elevated"
+      onPress={onPress}
+    >
       <Card.Content style={styles.content}>
         <Card.Title
           title={eventData.name}
-          subtitle={dayjs(eventData.start_date).locale("ru").format("DD MMMM YYYY")}
+          subtitle={dayjs(eventData.start_date)
+            .locale("ru")
+            .format("DD MMMM YYYY")}
           titleVariant="titleMedium"
           style={styles.title}
           left={() => (
@@ -29,12 +35,7 @@ const EventCard = ({
               style={styles.squareAvatar}
             />
           )}
-          right={() => (
-            <IconButton
-              icon="chevron-right"
-              onPress={onPress}
-            />
-          )}
+          right={() => <IconButton icon="chevron-right" />}
         />
       </Card.Content>
     </Card>
