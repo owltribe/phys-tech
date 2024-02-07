@@ -23,18 +23,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.asgard.scienceservices"
+      "package": "com.asgard.sciencephysservices",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "experiments": {
       "tsconfigPaths": false
-    },
-    "extra": {
-      "eas": {
-        "projectId": "4333cd96-2de8-41bb-870a-58a8e91e695d"
-      }
     },
     "plugins": [
       [
@@ -43,6 +41,12 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "owner": "asgard",
+    "extra": {
+      "eas": {
+        "projectId": "6bbde1de-e315-41b2-a78c-c9d520aa4cd1"
+      }
+    }
   }
 }
