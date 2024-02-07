@@ -20,11 +20,11 @@ import theme from "styles/theme";
 import {
   getOrganizationCategoryLabel,
   getUserRoleLabel
-} from "../../../utils/enum-helpers";
+} from "../../../../utils/enum-helpers";
 import {
   PrivacyPolicyLink,
   TermsAndConditionsLink
-} from "../../../utils/links";
+} from "../../../../utils/links";
 
 import UpdateOrganizationModal from "./components/UpdateOrganizationModal";
 

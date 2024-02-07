@@ -11,11 +11,11 @@ import AddServiceModal from "./components/AddServiceModal";
 import ServiceList from "./components/ServiceList";
 import ServiceRequestsList from "./components/ServiceRequestsList";
 
-const SERVICES = "Services";
+const MyServices = "Services";
 const SERVICE_REQUESTS = "ServiceRequests";
 
 const options = [
-  { label: "Услуги", value: SERVICES },
+  { label: "Услуги", value: MyServices },
   { label: "Заявки", value: SERVICE_REQUESTS }
 ];
 
@@ -24,7 +24,7 @@ type OptionsType = "Services" | "ServiceRequests";
 const Services = ({ navigation }: ServicesScreenProps) => {
   const { user } = useAuth();
 
-  const [selectedOption, setSelectedOption] = useState<OptionsType>(SERVICES);
+  const [selectedOption, setSelectedOption] = useState<OptionsType>(MyServices);
   const [isAddServiceModalOpened, setIsAddServiceModalOpened] = useState(false);
 
   const isOrganization = user?.role === "Organization";
@@ -34,7 +34,7 @@ const Services = ({ navigation }: ServicesScreenProps) => {
       <KeyboardAvoidingView style={[commonStyles.container]}>
         <Text
           style={styles.text}
-          variant="headlineLarge"
+          variant="headlineMedium"
         >
           Мои Услуги
         </Text>
@@ -45,12 +45,12 @@ const Services = ({ navigation }: ServicesScreenProps) => {
         />
       </KeyboardAvoidingView>
 
-      {selectedOption === SERVICES && <ServiceList navigation={navigation} />}
+      {selectedOption === MyServices && <ServiceList navigation={navigation} />}
       {selectedOption === SERVICE_REQUESTS && (
         <ServiceRequestsList navigation={navigation} />
       )}
 
-      {isOrganization && selectedOption === SERVICES && (
+      {isOrganization && selectedOption === MyServices && (
         <>
           <FAB
             label="Добавить услугу"
@@ -71,7 +71,8 @@ const Services = ({ navigation }: ServicesScreenProps) => {
 
 const styles = StyleSheet.create({
   text: {
-    marginVertical: 4,
+    marginTop: 16,
+    marginBottom: 4,
     fontWeight: "700"
   },
   cover: {

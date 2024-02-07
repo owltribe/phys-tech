@@ -4,9 +4,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import BottomNavigationTab from "./src/layouts/components/BottomNavigationTab";
 import NavigationBar from "./src/layouts/components/NavigationBar";
 import { useAuth } from "./src/providers/AuthProvider";
-import EventDetail from "./src/screens/private/EventDetail";
-import ServiceRequestDetail from "./src/screens/private/organization/ServiceRequestDetail/ServiceRequestDetail";
-import ServiceDetail from "./src/screens/private/ServiceDetail";
+import EventDetail from "./src/screens/private/common/EventDetail";
+import ServiceDetail from "./src/screens/private/common/ServiceDetail";
+import ServiceRequestDetail from "./src/screens/private/common/ServiceRequestDetail/ServiceRequestDetail";
 import Login from "./src/screens/public/Login";
 import Register from "./src/screens/public/Register";
 import { RootStackParamList } from "./src/screens/types";
@@ -35,13 +35,11 @@ export default function Router() {
               component={ServiceDetail}
               options={{ title: "Сервис" }}
             />
-            {user.role === "Organization" && (
-              <Stack.Screen
-                name="ServiceRequest"
-                component={ServiceRequestDetail}
-                options={{ title: "Заявка на услугу" }}
-              />
-            )}
+            <Stack.Screen
+              name="ServiceRequest"
+              component={ServiceRequestDetail}
+              options={{ title: "Заявка на услугу" }}
+            />
             <Stack.Screen
               name="Event"
               component={EventDetail}

@@ -10,6 +10,8 @@ import { ServiceRequestStatus } from "types/generated";
 import { getServiceRequestStatusLabel } from "utils/enum-helpers";
 import { showToastWithGravityAndOffset } from "utils/notifications";
 
+import { useAuth } from "../../../../providers/AuthProvider";
+
 import ApproveModal from "./components/ApproveModal";
 
 const ServiceRequestDetail = ({
@@ -17,6 +19,8 @@ const ServiceRequestDetail = ({
     params: { serviceRequestId }
   }
 }: ServiceRequestScreenProps) => {
+  const { user } = useAuth();
+
   const { data, isSuccess } = useServiceRequest(serviceRequestId);
   const updateServiceRequestMutation =
     useUpdateServiceRequest(serviceRequestId);
@@ -24,6 +28,8 @@ const ServiceRequestDetail = ({
   const [isApproveModalVisible, setIsApproveModalVisible] = useState(false);
   const [isDeclineModalVisible, setIsDeclineModalVisible] = useState(false);
   const [isCompletedModalVisible, setIsCompletedModalVisible] = useState(false);
+
+  const actionButtonsVisible = user?.role === "Organization";
 
   const handleSubmit = (status: ServiceRequestStatus) => {
     if (isSuccess && data?.data) {
@@ -120,32 +126,34 @@ const ServiceRequestDetail = ({
         />
       </List.Section>
 
-      <View style={commonStyles.container}>
-        {data?.data.status === "Pending" && (
-          <>
+      {actionButtonsVisible && (
+        <View style={commonStyles.container}>
+          {data?.data.status === "Pending" && (
+            <>
+              <Button
+                mode="contained"
+                onPress={() => setIsApproveModalVisible(true)}
+              >
+                Утвердить
+              </Button>
+              <Button
+                mode="outlined"
+                onPress={() => setIsDeclineModalVisible(true)}
+              >
+                Отклонить
+              </Button>
+            </>
+          )}
+          {data?.data.status === "Approved" && (
             <Button
               mode="contained"
-              onPress={() => setIsApproveModalVisible(true)}
+              onPress={() => setIsCompletedModalVisible(true)}
             >
-              Утвердить
+              Завершить
             </Button>
-            <Button
-              mode="outlined"
-              onPress={() => setIsDeclineModalVisible(true)}
-            >
-              Отклонить
-            </Button>
-          </>
-        )}
-        {data?.data.status === "Approved" && (
-          <Button
-            mode="contained"
-            onPress={() => setIsCompletedModalVisible(true)}
-          >
-            Завершить
-          </Button>
-        )}
-      </View>
+          )}
+        </View>
+      )}
 
       <ApproveModal
         visible={isApproveModalVisible}

@@ -5,7 +5,7 @@ import { useAuth } from "providers/AuthProvider";
 import { ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
-import useServicesForUserRequests from "../../../../hooks/services/useServicesForUserRequests";
+import useServicesForUserRequests from "../../../../../hooks/services/useServicesForUserRequests";
 
 import ServiceCard from "./ServiceCard";
 
@@ -38,8 +38,8 @@ const ServiceList = ({
       style={styles.container}
       contentContainerStyle={[
         commonStyles.defaultHorizontalPadding,
-        styles.container,
-        commonStyles.defaultListGap
+        commonStyles.defaultListGap,
+        styles.container
       ]}
       renderItem={({ item }) => (
         <ServiceCard

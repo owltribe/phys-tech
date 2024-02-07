@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Card, IconButton } from "react-native-paper";
+import { Card, IconButton, MD2Colors } from "react-native-paper";
 import { ServiceRead } from "types/generated";
 
 const ServiceCard = ({
@@ -10,19 +10,18 @@ const ServiceCard = ({
   onPress: () => void;
 }) => {
   return (
-    <Card mode="elevated">
+    <Card
+      mode="elevated"
+      style={styles.card}
+      onPress={onPress}
+    >
       <Card.Content style={styles.content}>
         <Card.Title
           title={serviceData.name}
           subtitle={serviceData.description}
           titleVariant="titleMedium"
           style={styles.title}
-          right={() => (
-            <IconButton
-              icon="chevron-right"
-              onPress={onPress}
-            />
-          )}
+          right={() => <IconButton icon="chevron-right" />}
         />
       </Card.Content>
     </Card>
@@ -30,6 +29,10 @@ const ServiceCard = ({
 };
 
 const styles = StyleSheet.create({
+  card: {
+    marginTop: 16,
+    backgroundColor: MD2Colors.white
+  },
   content: {
     flexDirection: "row",
     alignItems: "center",

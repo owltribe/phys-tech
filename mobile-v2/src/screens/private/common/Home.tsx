@@ -58,6 +58,7 @@ export default function Home({ navigation }: HomeScreenProps) {
             <Card
               mode="elevated"
               style={styles.card}
+              onPress={item.onPress}
             >
               <Card.Title
                 title={item.label}
@@ -72,12 +73,7 @@ export default function Home({ navigation }: HomeScreenProps) {
                     color={item.background}
                   />
                 )}
-                right={() => (
-                  <IconButton
-                    icon="chevron-right"
-                    onPress={item.onPress}
-                  />
-                )}
+                right={() => <IconButton icon="chevron-right" />}
               />
             </Card>
           )}

@@ -30,6 +30,7 @@ const ServiceRequestCard = ({
       <Card
         mode="elevated"
         style={styles.card}
+        onPress={onPress}
       >
         <Card.Content style={styles.content}>
           <Card.Title
@@ -39,12 +40,7 @@ const ServiceRequestCard = ({
             )}`}
             titleVariant="titleMedium"
             style={styles.title}
-            right={() => (
-              <IconButton
-                icon="chevron-right"
-                onPress={onPress}
-              />
-            )}
+            right={() => <IconButton icon="chevron-right" />}
           />
         </Card.Content>
       </Card>
@@ -63,7 +59,8 @@ const ServiceRequestCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    marginTop: 16
+    marginTop: 16,
+    backgroundColor: MD2Colors.white
   },
   content: {
     flexDirection: "row",

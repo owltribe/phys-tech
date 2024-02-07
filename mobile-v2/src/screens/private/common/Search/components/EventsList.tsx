@@ -1,26 +1,26 @@
 import { FlatList } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import EmptyStatement from "components/EmptyStatement";
-import useServices from "hooks/services/useServices";
-import ServiceCard from "screens/private/Services/components/ServiceCard";
+import useEvents from "hooks/events/useEvents";
+import EventCard from "screens/private/common/Search/components/EventCard";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
-const ServicesList = ({
+const EventsList = ({
   search,
   navigation
 }: {
   search: string;
   navigation: SearchScreenProps["navigation"];
 }) => {
-  const { data, isLoading, isFetching, isSuccess } = useServices({
+  const { data, isLoading, isFetching, isSuccess } = useEvents({
     search: search
   });
 
   return (
     <>
       {isSuccess && !data?.data.items.length && (
-        <EmptyStatement description="Нет доступных услуг" />
+        <EmptyStatement description="Нет мероприятий" />
       )}
 
       <FlatList
@@ -31,11 +31,9 @@ const ServicesList = ({
           commonStyles.defaultListGap
         ]}
         renderItem={({ item }) => (
-          <ServiceCard
-            serviceData={item}
-            onPress={() =>
-              navigation.navigate("Service", { serviceId: item.id })
-            }
+          <EventCard
+            eventData={item}
+            onPress={() => navigation.navigate("Event", { eventId: item.id })}
           />
         )}
       />
@@ -45,4 +43,4 @@ const ServicesList = ({
   );
 };
 
-export default ServicesList;
+export default EventsList;

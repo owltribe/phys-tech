@@ -1,7 +1,7 @@
 import "dayjs/locale/ru";
 
 import { StyleSheet } from "react-native";
-import { Avatar, Card, IconButton } from "react-native-paper";
+import { Avatar, Card, IconButton, MD2Colors } from "react-native-paper";
 import dayjs from "dayjs";
 import { EventRead } from "types/generated";
 import { transparent } from "utils/colors";
@@ -15,17 +15,20 @@ const EventCard = ({
   eventData: EventRead;
   onPress: () => void;
 }) => {
+  const fullStartDate = dayjs(`${eventData.start_date}T${eventData.start_time}`)
+    .locale("ru")
+    .format("DD MMMM YYYY HH:MM");
+
   return (
     <Card
       mode="elevated"
       onPress={onPress}
+      style={{ backgroundColor: MD2Colors.white }}
     >
       <Card.Content style={styles.content}>
         <Card.Title
           title={eventData.name}
-          subtitle={dayjs(eventData.start_date)
-            .locale("ru")
-            .format("DD MMMM YYYY")}
+          subtitle={fullStartDate}
           titleVariant="titleMedium"
           style={styles.title}
           left={() => (
@@ -59,7 +62,8 @@ const styles = StyleSheet.create({
   },
   squareAvatar: {
     borderRadius: 10,
-    backgroundColor: transparent
+    backgroundColor: transparent,
+    marginRight: 12
   }
 });
 

@@ -62,7 +62,10 @@ const OrganizationsList = ({ search }: { search: string }) => {
           commonStyles.defaultListGap
         ]}
         renderItem={({ item }) => (
-          <Card mode="elevated">
+          <Card
+            mode="elevated"
+            style={{ backgroundColor: MD2Colors.white }}
+          >
             <Card.Title
               title={item.name}
               titleVariant="bodyLarge"

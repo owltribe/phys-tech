@@ -10,9 +10,10 @@ export type RootStackParamList = {
   Main: undefined;
   Home: undefined;
   Services: undefined;
-  Service: { serviceId: string };
+  ServiceRequests: undefined;
   Events: undefined;
   Event: { eventId: string };
+  Service: { serviceId: string };
   ServiceRequest: { serviceRequestId: string };
   Search?: { defaultOption?: "organization" | "service" | "event" };
   Profile: undefined;
@@ -36,6 +37,10 @@ export type HomeScreenProps = NativeStackScreenProps<
 export type ServicesScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Services"
+>;
+export type ServiceRequestsScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "ServiceRequests"
 >;
 export type ServiceScreenProps = NativeStackScreenProps<
   RootStackParamList,

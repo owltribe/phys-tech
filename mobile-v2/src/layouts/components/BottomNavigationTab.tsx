@@ -1,21 +1,28 @@
-import { Icon, MD2Colors } from "react-native-paper";
+import { MD2Colors } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import {
+  Files,
   Home as HomeIcon,
   Search as SearchIcon,
   Table2,
   UserCircle
 } from "lucide-react-native";
-import Home from "screens/private/Home";
-import Profile from "screens/private/Profile";
-import Search from "screens/private/Search/Search";
-import Services from "screens/private/Services";
+import { useAuth } from "providers/AuthProvider";
+import Home from "screens/private/common/Home";
+import Profile from "screens/private/common/Profile";
+import Search from "screens/private/common/Search/Search";
+import Services from "screens/private/organization/MyServices";
 import { RootStackParamList } from "screens/types";
 import theme from "styles/theme";
+
+import MyServiceRequests from "../../screens/private/client/MyServiceRequests";
 
 const Tab = createMaterialBottomTabNavigator<RootStackParamList>();
 
 export default function BottomNavigationTab() {
+  const { user } = useAuth();
+  const isOrganization = user?.role === "Organization";
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -42,21 +49,40 @@ export default function BottomNavigationTab() {
         }}
       />
 
-      <Tab.Screen
-        name="Services"
-        component={Services}
-        options={{
-          title: "Мои Услуги",
-          tabBarLabel: "Мои Услуги",
-          tabBarIcon: ({ color, focused }) => (
-            <Table2
-              color={color}
-              size={30}
-              strokeWidth={focused ? 1.7 : 1.2}
-            />
-          )
-        }}
-      />
+      {isOrganization ? (
+        <Tab.Screen
+          name="Services"
+          component={Services}
+          options={{
+            title: "Мои Услуги",
+            tabBarLabel: "Мои Услуги",
+            tabBarIcon: ({ color, focused }) => (
+              <Table2
+                color={color}
+                size={30}
+                strokeWidth={focused ? 1.7 : 1.2}
+              />
+            )
+          }}
+        />
+      ) : (
+        <Tab.Screen
+          name="ServiceRequests"
+          component={MyServiceRequests}
+          options={{
+            title: "Мои заявки",
+            tabBarLabel: "Мои заявки",
+            tabBarIcon: ({ color, focused }) => (
+              <Files
+                color={color}
+                size={30}
+                strokeWidth={focused ? 1.7 : 1.2}
+              />
+            )
+          }}
+        />
+      )}
+
       <Tab.Screen
         name="Search"
         component={Search}

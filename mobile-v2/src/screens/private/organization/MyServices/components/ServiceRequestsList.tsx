@@ -1,9 +1,8 @@
 import { FlatList, StyleSheet } from "react-native";
 import useServiceRequests from "hooks/service_requests/useServiceRequests";
-import useServices from "hooks/services/useServices";
 import { useRefreshOnFocus } from "hooks/useRefreshOnFocus";
 import { useAuth } from "providers/AuthProvider";
-import { ServicesScreenProps } from "screens/types";
+import { ServiceRequestsScreenProps, ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
 import ServiceRequestCard from "./ServiceRequestCard";
@@ -11,7 +10,9 @@ import ServiceRequestCard from "./ServiceRequestCard";
 const ServiceRequestsList = ({
   navigation
 }: {
-  navigation: ServicesScreenProps["navigation"];
+  navigation:
+    | ServicesScreenProps["navigation"]
+    | ServiceRequestsScreenProps["navigation"];
 }) => {
   const { user } = useAuth();
 
@@ -41,15 +42,9 @@ const ServiceRequestsList = ({
         <ServiceRequestCard
           serviceRequest={item}
           onPress={() => {
-            if (isOrganization) {
-              navigation.navigate("ServiceRequest", {
-                serviceRequestId: item.id
-              });
-            } else {
-              navigation.navigate("Service", {
-                serviceId: item.service.id
-              });
-            }
+            navigation.navigate("ServiceRequest", {
+              serviceRequestId: item.id
+            });
           }}
         />
       )}
