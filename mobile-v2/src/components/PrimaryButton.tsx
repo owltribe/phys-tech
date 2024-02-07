@@ -12,11 +12,7 @@ const PrimaryButton = (props: PrimaryButtonProps) => {
   return (
     <Button
       style={styles.button}
-      labelStyle={[
-        styles.fontStyles,
-        theme.isV3 && styles.md3FontStyles,
-        props.style
-      ]}
+      labelStyle={[styles.fontStyles, styles.md3FontStyles, props.style]}
       {...props}
     />
   );
@@ -31,7 +27,7 @@ const styles = StyleSheet.create({
   },
   fontStyles: {
     fontWeight: "800",
-    fontSize: 24
+    fontSize: 18
   }
 });
 

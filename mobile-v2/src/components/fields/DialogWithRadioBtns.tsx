@@ -44,6 +44,7 @@ const DialogWithRadioBtns = ({
         {...textField}
         value={valueLabel}
         mode="outlined"
+        caretHidden={true}
         onPressIn={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -60,7 +61,7 @@ const DialogWithRadioBtns = ({
         >
           <Dialog.Title>{textField?.label || "Выберите опцию"}</Dialog.Title>
           <Dialog.ScrollArea style={styles.container}>
-            <ScrollView>
+            <ScrollView persistentScrollbar>
               <View>
                 {items.map((i) => (
                   <TouchableRipple
