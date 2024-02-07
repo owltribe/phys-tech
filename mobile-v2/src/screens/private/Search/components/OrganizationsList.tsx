@@ -4,7 +4,10 @@ import { ActivityIndicator, Card, Chip, MD2Colors } from "react-native-paper";
 import EmptyStatement from "components/EmptyStatement";
 import useOrganizations from "hooks/organization/useOrganizations";
 import { commonStyles } from "styles/commonStyles";
-import { organizationCategories } from "utils/enum-helpers";
+import {
+  getOrganizationCategoryLabel,
+  organizationCategories
+} from "utils/enum-helpers";
 
 const OrganizationsList = ({ search }: { search: string }) => {
   const [categories, setCategories] = useState<string[]>([]);
@@ -66,13 +69,13 @@ const OrganizationsList = ({ search }: { search: string }) => {
               subtitle={item.description}
               subtitleNumberOfLines={2}
             />
-            <Card.Content>
-              <View style={styles.rowWithoutPadding}>
-                <Chip style={{ backgroundColor: MD2Colors.deepPurple300 }}>
-                  {item.category}
-                </Chip>
-              </View>
-            </Card.Content>
+            {item.category && (
+              <Card.Content>
+                <View style={styles.rowWithoutPadding}>
+                  <Chip>{getOrganizationCategoryLabel(item.category)}</Chip>
+                </View>
+              </Card.Content>
+            )}
           </Card>
         )}
       />
