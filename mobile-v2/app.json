@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "science-services",
-    "slug": "science-services",
+    "name": "Science Услуги",
+    "slug": "science-phys-services",
     "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
