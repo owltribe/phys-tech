@@ -10,6 +10,7 @@ import {
 import { Divider, SegmentedButtons } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import { yupResolver } from "@hookform/resolvers/yup";
+import DialogWithRadioBtns from "components/fields/DialogWithRadioBtns";
 import TextField from "components/fields/TextField";
 import PrimaryButton from "components/PrimaryButton";
 import ScreenWrapper from "components/ScreenWrapper";
@@ -86,7 +87,6 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const { onRegister, isRegisterLoading } = useAuth();
 
   const [role, setRole] = useState<UserRole>("Client");
-  const [showCategoryDropDown, setShowCategoryDropDown] = useState(false);
 
   const {
     control,
@@ -350,15 +350,13 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
               rules={{ required: true }}
               name="organization_data.category"
               render={({ field: { onChange, value } }) => (
-                <DropDown
-                  label="Категория Организации"
-                  mode="outlined"
-                  visible={showCategoryDropDown}
-                  showDropDown={() => setShowCategoryDropDown(true)}
-                  onDismiss={() => setShowCategoryDropDown(false)}
-                  value={value}
-                  setValue={(v) => onChange(v)}
-                  list={organizationCategories}
+                <DialogWithRadioBtns
+                  textField={{
+                    label: "Категория Организации",
+                    value: value || undefined
+                  }}
+                  items={organizationCategories}
+                  onSubmit={(v) => onChange(v)}
                 />
               )}
             />
