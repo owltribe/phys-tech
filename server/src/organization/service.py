@@ -1,4 +1,5 @@
 import uuid
+from typing import Type
 
 from fastapi import HTTPException, UploadFile, status
 from fastapi_pagination.ext.sqlalchemy import paginate
@@ -21,21 +22,47 @@ class OrganizationService:
         self.session = session
         self.supabase_service = SupabaseService(session)
 
-    def get_organization(self, organization_id: str):
-        return self.session.query(Organization).filter(Organization.id == organization_id).first()
-
-    def get_organization_by_user_id(self, user_id: str) -> Organization:
-        return self.session.query(Organization).filter(Organization.owner_id == user_id).first()
-
-    def get_organizations(self, organization_filter: OrganizationFilter) -> Page[OrganizationRead]:
+    def paginated_list(
+        self, organization_filter: OrganizationFilter
+    ) -> Page[OrganizationRead]:
         query = select(Organization)
         query = organization_filter.filter(query)
         query = organization_filter.sort(query)
 
         return paginate(self.session, query)
 
-    async def create_organization(self, organization: OrganizationCreate):
-        db_organization = Organization(
+    def retrieve(self, organization_id: str) -> Type[Organization]:
+        instance = (
+            self.session.query(Organization)
+            .filter(Organization.id == organization_id)
+            .first()
+        )
+
+        if instance is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Организация не найдена.",
+            )
+
+        return instance
+
+    def retrieve_by_user_id(self, user_id: str) -> Type[Organization] | None:
+        instance = (
+            self.session.query(Organization)
+            .filter(Organization.owner_id == user_id)
+            .first()
+        )
+
+        if instance is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Организация не найдена.",
+            )
+
+        return instance
+
+    def create(self, organization: OrganizationCreate):
+        instance = Organization(
             name=organization.name,
             bin=organization.bin,
             address=organization.address,
@@ -44,59 +71,58 @@ class OrganizationService:
             description=organization.description,
             category=organization.category,
         )
-        self.session.add(db_organization)
+        self.session.add(instance)
         self.session.commit()
-        self.session.refresh(db_organization)
-        return db_organization
+        self.session.refresh(instance)
+        return instance
 
-    async def update_organization(
+    def update(
         self,
         organization_id: str,
-        updated_organization: OrganizationUpdate,
+        organization_update: OrganizationUpdate,
         user: User,
     ):
-        db_organization = self.session.query(Organization).filter(Organization.id == organization_id).first()
-        if db_organization.owner_id != user.id:
+        instance = self.retrieve(organization_id)
+
+        if instance.owner_id != user.id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Only the organization owner can update the organization",
+                detail="У вас нет организации, что редактировать ее.",
             )
 
-        for key, value in updated_organization.dict().items():
+        for key, value in organization_update.dict().items():
             if value is not None:
-                setattr(db_organization, key, value)
-
-        if db_organization.name is None:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Organization name is required and cannot be null.",
-            )
+                setattr(instance, key, value)
 
         self.session.commit()
-        self.session.refresh(db_organization)
-        return db_organization
+        self.session.refresh(instance)
+        return instance
 
-    async def update_organization_photo(self, organization_id: str, photo: UploadFile, user: User):
-        found_organization = self.get_organization(organization_id)
+    async def update_avatar(
+        self, organization_id: str, photo: UploadFile, user: User
+    ):
+        instance = self.retrieve(organization_id)
 
-        if found_organization.owner_id != user.id:
+        if instance.owner_id != user.id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Only the organization owner can update the organization photo",
+                detail="Только владелец организации может обновить фотографию организации.",
             )
 
         if photo is not None:
             bucket = "photos"
             filename = str(uuid.uuid4())
-            path = f"{found_organization.name}/{filename}"
+            path = f"{instance.name}/{filename}"
 
-            if found_organization.photo:
-                path_to_remove = f"{found_organization.name}/{found_organization.photo}"
+            if instance.photo:
+                path_to_remove = f"{instance.name}/{instance.photo}"
                 self.supabase_service.remove_image(bucket, path_to_remove)
 
-            file_url = await self.supabase_service.upload_image(bucket, path, photo.file)
-            found_organization.photo = file_url
+            file_url = await self.supabase_service.upload_image(
+                bucket, path, photo.file
+            )
+            instance.photo = file_url
 
         self.session.commit()
-        self.session.refresh(found_organization)
-        return found_organization
+        self.session.refresh(instance)
+        return instance

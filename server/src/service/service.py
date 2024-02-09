@@ -45,7 +45,7 @@ class ServiceService:
         return instance
 
     def create(self, service: ServiceCreate, current_user: User):
-        organization = self.organization_service.get_organization_by_user_id(
+        organization = self.organization_service.retrieve_by_user_id(
             current_user.id
         )
 

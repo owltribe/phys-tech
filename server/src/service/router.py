@@ -47,7 +47,7 @@ async def retrieve(service_id: str):
 @services_router.put("/{service_id}", response_model=ServiceRead)
 @rbac(
     roles=[UserRole.ORGANIZATION],
-    error_message="Редактировать услуги могут только для организации.",
+    error_message="Редактировать услуги могут только организации.",
 )
 async def update(
     service_id: str,
