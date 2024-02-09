@@ -5,8 +5,6 @@ import { useAuth } from "providers/AuthProvider";
 import { ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
-import useServicesForUserRequests from "../../../../../hooks/services/useServicesForUserRequests";
-
 import ServiceCard from "./ServiceCard";
 
 const ServiceList = ({
@@ -16,22 +14,15 @@ const ServiceList = ({
 }) => {
   const { user } = useAuth();
 
-  const isClientRole = !!user?.role && user.role === "Client";
-
   const { data: servicesData, refetch: refetchServicesData } = useServices({
-    organizationId: user?.organization?.id,
-    enabled: !isClientRole
-  });
-  const { data, refetch } = useServicesForUserRequests({
-    enabled: isClientRole
+    organizationId: user?.organization?.id
   });
 
   useRefreshOnFocus(refetchServicesData);
-  useRefreshOnFocus(refetch);
 
   return (
     <FlatList
-      data={isClientRole ? data?.data.items : servicesData?.data.items}
+      data={servicesData?.data.items}
       keyExtractor={(item) => item.id}
       onEndReachedThreshold={0}
       scrollEventThrottle={16}

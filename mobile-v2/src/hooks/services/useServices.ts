@@ -5,12 +5,10 @@ import { ErrorModel, Page_ServiceRead_ } from "types/generated";
 
 export default function useServices({
   search,
-  organizationId,
-  enabled = true
+  organizationId
 }: {
   search?: string;
   organizationId?: string;
-  enabled?: boolean;
 } = {}): UseQueryResult<
   AxiosResponse<Page_ServiceRead_>,
   AxiosError<ErrorModel>
@@ -30,8 +28,7 @@ export default function useServices({
   };
 
   return useQuery({
-    queryKey: ["services", search, organizationId, enabled],
-    queryFn: fetchServices,
-    enabled: enabled
+    queryKey: ["services", search, organizationId],
+    queryFn: fetchServices
   });
 }
