@@ -7,5 +7,12 @@ const axiosInstance = axios.create({
   },
   withCredentials: true
 });
+export const authAxiosInstance = axios.create({
+  baseURL: process.env.EXPO_PUBLIC_BACKEND_URL,
+  headers: {
+    "Content-Type": "application/json"
+  },
+  withCredentials: true
+});
 
 export default axiosInstance;

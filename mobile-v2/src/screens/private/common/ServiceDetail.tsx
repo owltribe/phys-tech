@@ -50,10 +50,6 @@ const ServiceDetail = ({
     }
   };
 
-  useEffect(() => {
-    console.log(snackbarContent);
-  }, [snackbarContent]);
-
   return (
     <>
       <ScreenWrapper>

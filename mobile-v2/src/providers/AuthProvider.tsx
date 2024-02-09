@@ -1,14 +1,9 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  MutationOptions,
-  useQuery,
-  useQueryClient,
-  UseQueryResult
-} from "@tanstack/react-query";
+import React, { createContext, useContext, useState } from "react";
+import { MutationOptions } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import useLogin from "hooks/auth/useLogin";
 import useLogout from "hooks/auth/useLogout";
+import useMeProfile from "hooks/auth/useMeProfile";
 import useRegister from "hooks/auth/useRegister";
 import {
   Body_auth_jwt_login_auth_login_post,
@@ -23,7 +18,6 @@ import { showToastWithGravityAndOffset } from "utils/notifications";
 
 interface AuthProps {
   user: UserReadWithOrganization | null;
-  isLoading: boolean;
   isLoginLoading: boolean;
   isRegisterLoading: boolean;
   onLogin: (formValues: Body_auth_jwt_login_auth_login_post) => void;
@@ -36,7 +30,6 @@ interface AuthProps {
       UserWithOrganizationCreate
     >
   ) => void;
-  token: string | null;
 }
 
 export const AuthContext = createContext<AuthProps>({} as AuthProps);
@@ -50,66 +43,38 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const queryClient = useQueryClient();
-
   const [user, setUser] = useState<UserReadWithOrganization | null>(null);
-  const [token, setToken] = useState<string | null>(null);
 
+  const profileMutation = useMeProfile();
   const loginMutation = useLogin();
   const registerMutation = useRegister();
   const logoutMutation = useLogout();
 
-  const fetchProfile = () => {
-    return axiosInstance
-      .get("/auth/me/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      .catch(async (e) => {
-        await AsyncStorage.removeItem("accessToken");
-      });
-  };
-
-  const {
-    data,
-    isLoading,
-    isFetching,
-    isSuccess,
-    refetch
-  }: UseQueryResult<
-    AxiosResponse<UserReadWithOrganization>,
-    AxiosError<ErrorModel>
-  > = useQuery({
-    queryKey: ["auth"],
-    queryFn: fetchProfile,
-    enabled: !!token
-  });
-
   const onLogin = (formValues: Body_auth_jwt_login_auth_login_post) => {
     loginMutation.mutate(formValues, {
       onError: async (e) => {
-        await AsyncStorage.removeItem("accessToken");
-        setToken(null);
         showToastWithGravityAndOffset(
           getFormattedError(e.response?.data.detail || "Ошибка авторизации")
         );
       },
-      onSuccess: async (response) => {
-        const accessToken = response.data.access_token;
-        const userData = await refetch();
-        setUser((userData?.data?.data as UserReadWithOrganization) || null);
+      onSuccess: (res) => {
+        const accessToken = res.data.access_token;
 
-        if (accessToken) {
-          AsyncStorage.setItem("accessToken", accessToken);
-          setToken(accessToken);
-          axiosInstance.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${accessToken}`;
-        }
+        profileMutation.mutate(accessToken, {
+          onError: (error) => {
+            showToastWithGravityAndOffset(
+              getFormattedError(
+                error.response?.data.detail || "Ошибка авторизации"
+              )
+            );
+          },
+          onSuccess: (profileData) => {
+            axiosInstance.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${accessToken}`;
 
-        queryClient.invalidateQueries({
-          queryKey: ["auth"]
+            setUser(profileData.data);
+          }
         });
       }
     });
@@ -132,54 +97,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         showToastWithGravityAndOffset("Ошибка выхода из аккаунта");
       },
       onSuccess: async () => {
-        await AsyncStorage.removeItem("accessToken");
-        setToken(null);
+        axiosInstance.defaults.headers.common["Authorization"] = null;
         setUser(null);
       }
     });
   };
 
-  useEffect(() => {
-    const loadToken = async () => {
-      const accessToken = await AsyncStorage.getItem("accessToken");
-
-      if (accessToken) {
-        axiosInstance.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${accessToken}`;
-
-        setToken(accessToken);
-      }
-    };
-
-    loadToken();
-  }, []);
-
-  useEffect(() => {
-    if (token) {
-      axiosInstance.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${token}`;
-
-      setToken(token);
-    }
-  }, [token]);
-
-  useEffect(() => {
-    if (!isLoading && !isFetching && isSuccess && !!data?.data) {
-      setUser(data?.data);
-    }
-  }, [isLoading, isFetching, isSuccess, data?.data]);
-
   const value = {
     user: user,
-    isLoading: isLoading,
-    isLoginLoading: loginMutation.isPending,
+    isLoginLoading: loginMutation.isPending || profileMutation.isPending,
     isRegisterLoading: registerMutation.isPending,
     onLogin: onLogin,
     onRegister: onRegister,
-    onLogout,
-    token: token
+    onLogout
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

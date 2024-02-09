@@ -1,20 +1,16 @@
 import { useCallback } from "react";
 import { AxiosInstance } from "axios";
-import { useAuth } from "providers/AuthProvider";
 import axiosInstance from "utils/axios-instance";
 
 export default function useClient(): AxiosInstance {
-  const { token } = useAuth();
-
   return useCallback(() => {
     const cl = axiosInstance;
 
-    cl.interceptors.request.use((config) => {
-      if (token) {
-        config.headers.set("Authorization", `Bearer ${token}`);
-      }
-      return config;
-    });
+    // cl.interceptors.request.use((config) => {
+    //   config.headers.set("Authorization", token ? `Bearer ${token}` : null);
+    //
+    //   return config;
+    // });
 
     // cl.interceptors.response.use(
     //   (response) => response,
@@ -31,5 +27,5 @@ export default function useClient(): AxiosInstance {
     // );
 
     return cl;
-  }, [token])();
+  }, [])();
 }
