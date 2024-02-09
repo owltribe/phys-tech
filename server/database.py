@@ -19,6 +19,7 @@ from config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 SYNC_SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 ASYNC_SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
+# https://stackoverflow.com/questions/55457069/how-to-fix-operationalerror-psycopg2-operationalerror-server-closed-the-conn
 sync_engine = create_engine(
     SYNC_SQLALCHEMY_DATABASE_URL,
     pool_size=10,
