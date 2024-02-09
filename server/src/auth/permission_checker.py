@@ -1,4 +1,4 @@
-from fastapi import HTTPException, status, Depends
+from fastapi import Depends, HTTPException, status
 
 from models import User, UserRole
 from src.auth.auth_backend import current_active_user
