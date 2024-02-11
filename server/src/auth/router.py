@@ -42,6 +42,11 @@ auth_router.include_router(
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
 async def auth_me(current_user: User = Depends(current_active_user)):
     session = SessionLocal()
-    user = session.query(User).options(joinedload(User.organization)).filter(User.id == current_user.id).first()
+    user = (
+        session.query(User)
+        .options(joinedload(User.organization))
+        .filter(User.id == current_user.id)
+        .first()
+    )
 
     return user

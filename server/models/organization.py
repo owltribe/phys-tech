@@ -17,7 +17,9 @@ class OrganizationCategory(str, enum.Enum):
 class Organization(Base):
     __tablename__ = "organization"
 
-    id: Mapped[uuid.UUID] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID, primary_key=True, default=uuid.uuid4
+    )
     name: Mapped[str] = mapped_column(String, nullable=False)
     bin: Mapped[str] = mapped_column(String, nullable=False)
     address: Mapped[str] = mapped_column(String, nullable=False)
@@ -34,7 +36,9 @@ class Organization(Base):
 
     owner_id: Mapped[uuid.UUID] = mapped_column(
         UUID,
-        ForeignKey("user.id", ondelete="CASCADE", name="fk_organization_owner"),
+        ForeignKey(
+            "user.id", ondelete="CASCADE", name="fk_organization_owner"
+        ),
         nullable=True,
     )
     owner = relationship(

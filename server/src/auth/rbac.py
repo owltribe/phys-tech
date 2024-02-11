@@ -6,7 +6,9 @@ from fastapi import HTTPException, status
 from models import User, UserRole
 
 
-def rbac(roles: list[UserRole], error_message: Optional[str] = "Доступ запрещен"):
+def rbac(
+    roles: list[UserRole], error_message: Optional[str] = "Доступ запрещен"
+):
     def decorator_permission(func):
         @wraps(func)
         async def wrapper_permission(*args, **kwargs):

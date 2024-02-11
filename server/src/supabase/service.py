@@ -18,14 +18,15 @@ class SupabaseService:
                 path, file_content, file_options={"content-type": "image/jpeg"}
             )
         except Exception as e:
-            # breakpoint()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Failed to upload file: {e}",
             )
 
         # Get the public URL
-        public_url_response = supabase.storage.from_(bucket).get_public_url(path)
+        public_url_response = supabase.storage.from_(bucket).get_public_url(
+            path
+        )
         if public_url_response:
             return public_url_response
         else:
@@ -38,7 +39,6 @@ class SupabaseService:
         try:
             supabase.storage.from_(bucket).remove(path)
         except Exception as e:
-            # breakpoint()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Failed to remove file: {e}",
