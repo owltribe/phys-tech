@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 from fastapi_filter import FilterDepends
 from fastapi_pagination.links import Page
 
@@ -13,14 +13,18 @@ from src.service_request.schemas import (
 )
 from src.service_request.service import ServiceRequestService
 
-service_request_router = APIRouter(prefix="/service-requests", tags=["Service Requests"])
+service_request_router = APIRouter(
+    prefix="/service-requests", tags=["Service Requests"]
+)
 
 service = ServiceRequestService(session=DbSession)
 
 
 @service_request_router.get("", response_model=Page[ServiceRequestRead])
 def paginated_list(
-    service_request_filter: ServiceRequestFilter = FilterDepends(ServiceRequestFilter),
+    service_request_filter: ServiceRequestFilter = FilterDepends(
+        ServiceRequestFilter
+    ),
 ):
     return service.paginated_list(service_request_filter)
 
@@ -30,40 +34,26 @@ def create(
     service_request_create: ServiceRequestCreate,
     user: User = Depends(current_active_user),
 ):
-    return service.create(service_request_create=service_request_create, requested_by=user)
+    return service.create(
+        service_request_create=service_request_create, requested_by=user
+    )
 
 
-@service_request_router.get("/{service_request_id}", response_model=ServiceRequestRead)
+@service_request_router.get(
+    "/{service_request_id}", response_model=ServiceRequestRead
+)
 def retrieve(service_request_id: str):
-    instance = service.retrieve(service_request_id=service_request_id)
-
-    if instance is None:
-        raise HTTPException(status_code=404, detail="Запрос на услугу не найден")
-    return instance
+    return service.retrieve(service_request_id=service_request_id)
 
 
-@service_request_router.put("/{service_request_id}", response_model=ServiceRequestRead)
+@service_request_router.put(
+    "/{service_request_id}", response_model=ServiceRequestRead
+)
 def update(
     service_request_id: str,
     service_request_update: ServiceRequestUpdate,
 ):
-    instance = service.retrieve(service_request_id)
-
-    if instance is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Запрос на услугу не найден",
-        )
-
-    updated_instance = service.update(service_request_id, service_request_update)
-
-    if updated_instance is None:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Ошибка обновления запроса услуги",
-        )
-
-    return updated_instance
+    return service.update(service_request_id, service_request_update)
 
 
 @service_request_router.delete(
@@ -72,12 +62,4 @@ def update(
     status_code=status.HTTP_204_NO_CONTENT,
 )
 def delete(service_request_id: str):
-    deleted_instance = service.delete(service_request_id)
-
-    if deleted_instance is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Запрос на услугу не найден",
-        )
-
-    return None
+    return service.delete(service_request_id)
