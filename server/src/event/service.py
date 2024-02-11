@@ -1,3 +1,4 @@
+from fastapi import HTTPException, status
 from fastapi_pagination.ext.sqlalchemy import paginate
 from fastapi_pagination.links import Page
 from sqlalchemy import select
@@ -11,18 +12,26 @@ class EventService:
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def get_event(self, event_id: str):
-        return self.session.query(Event).filter(Event.id == event_id).first()
+    def retrieve(self, event_id: str):
+        instance = (
+            self.session.query(Event).filter(Event.id == event_id).first()
+        )
+        if not instance:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Событие не найдено",
+            )
+        return instance
 
-    def get_events(self, event_filter: EventFilter) -> Page[EventRead]:
+    def paginated_list(self, event_filter: EventFilter) -> Page[EventRead]:
         query = select(Event)
         query = event_filter.filter(query)
         query = event_filter.sort(query)
 
         return paginate(self.session, query)
 
-    def create_event(self, event: EventCreate):
-        db_event = Event(
+    def create(self, event: EventCreate):
+        instance = Event(
             name=event.name,
             description=event.description,
             start_date=event.start_date,
@@ -30,23 +39,23 @@ class EventService:
             duration=event.duration,
             location=event.location,
         )
-        self.session.add(db_event)
+        self.session.add(instance)
         self.session.commit()
-        self.session.refresh(db_event)
-        return db_event
+        self.session.refresh(instance)
+        return instance
 
-    def update_event(self, event_id: str, updated_event: EventUpdate):
-        db_event = self.session.query(Event).filter(Event.id == event_id).first()
-        if db_event:
-            for key, value in updated_event.dict().items():
-                setattr(db_event, key, value)
+    def update(self, event_id: str, event_update: EventUpdate):
+        instance = self.retrieve(event_id)
+        if instance:
+            for key, value in event_update.dict().items():
+                setattr(instance, key, value)
             self.session.commit()
-            self.session.refresh(db_event)
-        return db_event
+            self.session.refresh(instance)
+        return instance
 
-    def delete_event(self, event_id: str):
-        db_event = self.session.query(Event).filter(Event.id == event_id).first()
-        if db_event:
-            self.session.delete(db_event)
+    def destroy(self, event_id: str):
+        instance = self.retrieve(event_id)
+        if instance:
+            self.session.delete(instance)
             self.session.commit()
-        return db_event
+        return instance
