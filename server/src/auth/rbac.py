@@ -1,9 +1,10 @@
 from functools import wraps
 from typing import Optional
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Depends
 
 from models import User, UserRole
+from src.auth.auth_backend import current_active_user
 
 
 def rbac(
@@ -11,15 +12,16 @@ def rbac(
 ):
     def decorator_permission(func):
         @wraps(func)
-        async def wrapper_permission(*args, **kwargs):
-            user: User = kwargs.get("current_user")
-            if user.role not in roles:
+        def wrapper_permission(
+            current_user: User = Depends(current_active_user), *args, **kwargs
+        ):
+            if not current_user or current_user.role not in roles:
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail=error_message,
                 )
 
-            return await func(*args, **kwargs)
+            return func(*args, **kwargs)
 
         return wrapper_permission
 

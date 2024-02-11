@@ -22,20 +22,18 @@ service = OrganizationService(session=DbSession)
 
 @organizations_router.get("", response_model=Page[OrganizationRead])
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
-async def paginated_list(
+def paginated_list(
     organization_filter: OrganizationFilter = FilterDepends(
         OrganizationFilter
     ),
-    current_user: User = Depends(current_active_user),
 ):
     return service.paginated_list(organization_filter)
 
 
 @organizations_router.post("", response_model=OrganizationRead)
 @rbac(roles=[UserRole.ORGANIZATION])
-async def create(
+def create(
     organization: OrganizationCreate = Depends(),
-    current_user: User = Depends(current_active_user),
 ):
     return service.create(organization=organization)
 
@@ -44,7 +42,7 @@ async def create(
     "/{organization_id}", response_model=OrganizationRead
 )
 @rbac(roles=[UserRole.ORGANIZATION])
-async def update_organization(
+def update_organization(
     organization_id: str,
     updated_organization: OrganizationUpdate,
     current_user: User = Depends(current_active_user),

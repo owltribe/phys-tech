@@ -20,7 +20,10 @@ service = ServiceService(session=DbSession)
 
 
 @services_router.get("", response_model=Page[ServiceRead])
-async def paginated_list(
+@rbac(
+    roles=[UserRole.ORGANIZATION, UserRole.CLIENT],
+)
+def paginated_list(
     service_filter: ServiceFilter = FilterDepends(ServiceFilter),
 ):
     return service.paginated_list(service_filter)
@@ -31,7 +34,7 @@ async def paginated_list(
     roles=[UserRole.ORGANIZATION],
     error_message="Создавать услуги могут только для организации.",
 )
-async def create(
+def create(
     service_create: ServiceCreate,
     current_user: User = Depends(current_active_user),
 ):
@@ -40,7 +43,7 @@ async def create(
 
 @services_router.get("/{service_id}", response_model=ServiceRead)
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
-async def retrieve(service_id: str):
+def retrieve(service_id: str):
     return service.retrieve(service_id=service_id)
 
 
@@ -49,7 +52,7 @@ async def retrieve(service_id: str):
     roles=[UserRole.ORGANIZATION],
     error_message="Редактировать услуги могут только организации.",
 )
-async def update(
+def update(
     service_id: str,
     service_update: ServiceUpdate,
 ):
@@ -65,5 +68,5 @@ async def update(
     roles=[UserRole.ORGANIZATION],
     error_message="Удалять услуги могут только организации.",
 )
-async def destroy(service_id: str):
+def destroy(service_id: str):
     return service.destroy(service_id)

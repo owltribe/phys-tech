@@ -3,8 +3,9 @@ from fastapi_filter import FilterDepends
 from fastapi_pagination.links import Page
 
 from database import DbSession
-from models import User
+from models import User, UserRole
 from src.auth.auth_backend import current_active_user
+from src.auth.rbac import rbac
 from src.service_request.schemas import (
     ServiceRequestCreate,
     ServiceRequestFilter,
@@ -21,6 +22,9 @@ service = ServiceRequestService(session=DbSession)
 
 
 @service_request_router.get("", response_model=Page[ServiceRequestRead])
+@rbac(
+    roles=[UserRole.ORGANIZATION, UserRole.CLIENT],
+)
 def paginated_list(
     service_request_filter: ServiceRequestFilter = FilterDepends(
         ServiceRequestFilter
@@ -30,17 +34,23 @@ def paginated_list(
 
 
 @service_request_router.post("", response_model=ServiceRequestRead)
+@rbac(
+    roles=[UserRole.CLIENT],
+)
 def create(
     service_request_create: ServiceRequestCreate,
-    user: User = Depends(current_active_user),
+    current_user: User = Depends(current_active_user),
 ):
     return service.create(
-        service_request_create=service_request_create, requested_by=user
+        service_request_create=service_request_create, requested_by=current_user
     )
 
 
 @service_request_router.get(
     "/{service_request_id}", response_model=ServiceRequestRead
+)
+@rbac(
+    roles=[UserRole.ORGANIZATION, UserRole.CLIENT],
 )
 def retrieve(service_request_id: str):
     return service.retrieve(service_request_id=service_request_id)

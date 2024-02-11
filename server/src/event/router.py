@@ -15,24 +15,21 @@ service = EventService(session=DbSession)
 
 @events_router.get("", response_model=Page[EventRead])
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
-async def paginated_list(
+def paginated_list(
     event_filter: EventFilter = FilterDepends(EventFilter),
-    current_user: User = Depends(current_active_user),
 ):
     return service.paginated_list(event_filter)
 
 
 @events_router.post("", response_model=EventRead)
 @rbac(roles=[UserRole.ORGANIZATION])
-async def create(event: EventCreate):
+def create(event: EventCreate):
     return service.create(event=event)
 
 
 @events_router.get("/{event_id}", response_model=EventRead)
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
-async def retrieve(
-    event_id: str, current_user: User = Depends(current_active_user)
-):
+def retrieve(event_id: str):
     return service.retrieve(event_id)
 
 
@@ -41,7 +38,6 @@ async def retrieve(
 def update(
     event_id: str,
     updated_event: EventUpdate,
-    current_user: User = Depends(current_active_user),
 ):
     return service.update(event_id, updated_event)
 
@@ -50,5 +46,5 @@ def update(
     "/{event_id}", response_model=None, status_code=status.HTTP_204_NO_CONTENT
 )
 @rbac(roles=[UserRole.ORGANIZATION])
-def destroy(event_id: str, current_user: User = Depends(current_active_user)):
+def destroy(event_id: str):
     return service.destroy(event_id)
