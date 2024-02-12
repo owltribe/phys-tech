@@ -1,7 +1,16 @@
-###  Getting started: 
-  - Activate env: `poetry shell`
+###  Getting started:
+  #### Running manually
+  - Add .env file with given credentials  
+  - Activate venv: `poetry shell`
   - Install dependencies: `pip install -r requirements.txt`
   - Run server: `uvicorn main:app --reload`
+
+  #### Running using Docker
+  - Add .env file with given credentials
+  - `docker-compose -f docker-compose.dev.yml up --build`
+
+
+---
  
 ### Migration generate:
   - `alembic revision --rev-id=<revisionId> --autogenerate -m 'your_message'`
