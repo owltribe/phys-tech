@@ -3,15 +3,18 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { ActivityIndicator, Card, Chip, MD2Colors } from "react-native-paper";
 import EmptyStatement from "components/EmptyStatement";
 import useOrganizations from "hooks/organization/useOrganizations";
-import { commonStyles } from "styles/commonStyles";
-import {
-  getOrganizationCategoryLabel,
-  organizationCategories
-} from "utils/enum-helpers";
-import { SearchScreenProps } from "screens/types";
 import OrganizationCard from "screens/private/organization/MyServices/components/OrganizationCard";
+import { SearchScreenProps } from "screens/types";
+import { commonStyles } from "styles/commonStyles";
+import { organizationCategories } from "utils/enum-helpers";
 
-const OrganizationsList = ({ search, navigation }: { search: string; navigation: SearchScreenProps["navigation"]; }) => {
+const OrganizationsList = ({
+  search,
+  navigation
+}: {
+  search: string;
+  navigation: SearchScreenProps["navigation"];
+}) => {
   const [categories, setCategories] = useState<string[]>([]);
 
   const { data, isLoading, isFetching, isSuccess } = useOrganizations({
@@ -65,11 +68,11 @@ const OrganizationsList = ({ search, navigation }: { search: string; navigation:
         ]}
         renderItem={({ item }) => (
           <OrganizationCard
-          organizationData={item}
-          onPress={() =>
-            navigation.navigate("Organization", { organizationId: item.id })
-          }
-        />
+            organizationData={item}
+            onPress={() =>
+              navigation.navigate("Organization", { organizationId: item.id })
+            }
+          />
         )}
       />
 
