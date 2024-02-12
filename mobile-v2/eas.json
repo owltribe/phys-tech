@@ -9,13 +9,13 @@
     },
     "preview": {
       "env": {
-        "EXPO_PUBLIC_BACKEND_URL": "https://kamigard.space"
+        "EXPO_PUBLIC_BACKEND_URL": "https://science-services-fastapi-zki4d.ondigitalocean.app"
       },
       "distribution": "internal"
     },
     "preview_apk": {
       "env": {
-        "EXPO_PUBLIC_BACKEND_URL": "https://kamigard.space"
+        "EXPO_PUBLIC_BACKEND_URL": "https://science-services-fastapi-zki4d.ondigitalocean.app"
       },
       "android": {
         "buildType": "apk"
