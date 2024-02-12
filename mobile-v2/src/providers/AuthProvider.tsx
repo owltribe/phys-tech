@@ -1,9 +1,12 @@
 import React, { createContext, useContext, useState } from "react";
-import { MutationOptions } from "@tanstack/react-query";
+import {
+  MutationOptions,
+  useQuery,
+  UseQueryResult
+} from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import useLogin from "hooks/auth/useLogin";
 import useLogout from "hooks/auth/useLogout";
-import useMeProfile from "hooks/auth/useMeProfile";
 import useRegister from "hooks/auth/useRegister";
 import {
   Body_auth_jwt_login_auth_login_post,
@@ -12,7 +15,7 @@ import {
   UserReadWithOrganization,
   UserWithOrganizationCreate
 } from "types/generated";
-import axiosInstance from "utils/axios-instance";
+import axiosInstance, { authAxiosInstance } from "utils/axios-instance";
 import { getFormattedError } from "utils/error-helper";
 import { showToastWithGravityAndOffset } from "utils/notifications";
 
@@ -44,8 +47,42 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserReadWithOrganization | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
-  const profileMutation = useMeProfile();
+  function useProfile(
+    accessToken: string | null
+  ): UseQueryResult<AxiosResponse<UserRead>, AxiosError<ErrorModel>> {
+    const fetchProfile = () => {
+      return authAxiosInstance
+        .get("/auth/me/profile", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+        .then((res: AxiosResponse<UserRead>) => {
+          axiosInstance.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${accessToken}`;
+
+          setUser(res.data);
+        })
+        .catch((error) => {
+          showToastWithGravityAndOffset(
+            getFormattedError(
+              error.response?.data.detail || "Ошибка авторизации"
+            )
+          );
+        });
+    };
+
+    return useQuery({
+      queryKey: ["auth", accessToken],
+      queryFn: fetchProfile,
+      enabled: !!accessToken
+    });
+  }
+
+  const { isLoading: profileIsLoading } = useProfile(token);
   const loginMutation = useLogin();
   const registerMutation = useRegister();
   const logoutMutation = useLogout();
@@ -59,23 +96,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       },
       onSuccess: (res) => {
         const accessToken = res.data.access_token;
-
-        profileMutation.mutate(accessToken, {
-          onError: (error) => {
-            showToastWithGravityAndOffset(
-              getFormattedError(
-                error.response?.data.detail || "Ошибка авторизации"
-              )
-            );
-          },
-          onSuccess: (profileData) => {
-            axiosInstance.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${accessToken}`;
-
-            setUser(profileData.data);
-          }
-        });
+        setToken(accessToken);
       }
     });
   };
@@ -105,7 +126,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value = {
     user: user,
-    isLoginLoading: loginMutation.isPending || profileMutation.isPending,
+    isLoginLoading: loginMutation.isPending || profileIsLoading,
     isRegisterLoading: registerMutation.isPending,
     onLogin: onLogin,
     onRegister: onRegister,
