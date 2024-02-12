@@ -6,6 +6,7 @@ import NavigationBar from "./src/layouts/components/NavigationBar";
 import { useAuth } from "./src/providers/AuthProvider";
 import EventDetail from "./src/screens/private/common/EventDetail";
 import ServiceDetail from "./src/screens/private/common/ServiceDetail";
+import OrganizationDetail from "screens/private/common/OrganizationDetail";
 import ServiceRequestDetail from "./src/screens/private/common/ServiceRequestDetail/ServiceRequestDetail";
 import Login from "./src/screens/public/Login";
 import Register from "./src/screens/public/Register";
@@ -44,6 +45,11 @@ export default function Router() {
               name="Event"
               component={EventDetail}
               options={{ title: "Мероприятие" }}
+            />
+            <Stack.Screen
+              name="Organization"
+              component={OrganizationDetail}
+              options={{ title: "Организация" }}
             />
           </>
         ) : (

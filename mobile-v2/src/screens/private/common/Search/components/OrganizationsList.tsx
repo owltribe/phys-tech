@@ -8,8 +8,10 @@ import {
   getOrganizationCategoryLabel,
   organizationCategories
 } from "utils/enum-helpers";
+import { SearchScreenProps } from "screens/types";
+import OrganizationCard from "screens/private/organization/MyServices/components/OrganizationCard";
 
-const OrganizationsList = ({ search }: { search: string }) => {
+const OrganizationsList = ({ search, navigation }: { search: string; navigation: SearchScreenProps["navigation"]; }) => {
   const [categories, setCategories] = useState<string[]>([]);
 
   const { data, isLoading, isFetching, isSuccess } = useOrganizations({
@@ -62,24 +64,12 @@ const OrganizationsList = ({ search }: { search: string }) => {
           commonStyles.defaultListGap
         ]}
         renderItem={({ item }) => (
-          <Card
-            mode="elevated"
-            style={{ backgroundColor: MD2Colors.white }}
-          >
-            <Card.Title
-              title={item.name}
-              titleVariant="bodyLarge"
-              subtitle={item.description}
-              subtitleNumberOfLines={2}
-            />
-            {item.category && (
-              <Card.Content>
-                <View style={styles.rowWithoutPadding}>
-                  <Chip>{getOrganizationCategoryLabel(item.category)}</Chip>
-                </View>
-              </Card.Content>
-            )}
-          </Card>
+          <OrganizationCard
+          organizationData={item}
+          onPress={() =>
+            navigation.navigate("Organization", { organizationId: item.id })
+          }
+        />
         )}
       />
 
