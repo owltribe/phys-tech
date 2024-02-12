@@ -29,6 +29,7 @@ def paginated_list(
     service_request_filter: ServiceRequestFilter = FilterDepends(
         ServiceRequestFilter
     ),
+    current_user: User = Depends(current_active_user),
 ):
     return service.paginated_list(service_request_filter)
 
@@ -53,16 +54,23 @@ def create(
 @rbac(
     roles=[UserRole.ORGANIZATION, UserRole.CLIENT],
 )
-def retrieve(service_request_id: str):
+def retrieve(
+    service_request_id: str,
+    current_user: User = Depends(current_active_user),
+):
     return service.retrieve(service_request_id=service_request_id)
 
 
 @service_request_router.put(
     "/{service_request_id}", response_model=ServiceRequestRead
 )
+@rbac(
+    roles=[UserRole.ORGANIZATION],
+)
 def update(
     service_request_id: str,
     service_request_update: ServiceRequestUpdate,
+    current_user: User = Depends(current_active_user),
 ):
     return service.update(service_request_id, service_request_update)
 
@@ -72,5 +80,11 @@ def update(
     response_model=None,
     status_code=status.HTTP_204_NO_CONTENT,
 )
-def delete(service_request_id: str):
+@rbac(
+    roles=[UserRole.ORGANIZATION],
+)
+def delete(
+    service_request_id: str,
+    current_user: User = Depends(current_active_user),
+):
     return service.delete(service_request_id)
