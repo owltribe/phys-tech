@@ -30,7 +30,6 @@ const ServiceCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    marginTop: 16,
     backgroundColor: MD2Colors.white
   },
   content: {

@@ -1,4 +1,6 @@
 import { FlatList, StyleSheet } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
+import EmptyStatement from "components/EmptyStatement";
 import useServiceRequests from "hooks/service_requests/useServiceRequests";
 import { useRefreshOnFocus } from "hooks/useRefreshOnFocus";
 import { useAuth } from "providers/AuthProvider";
@@ -18,37 +20,50 @@ const ServiceRequestsList = ({
 
   const isOrganization = user?.role === "Organization";
 
-  const { data: serviceRequestsData, refetch: refetchServiceRequestsData } =
+  const { data, refetch, isSuccess, isLoading, isFetching } =
     useServiceRequests({
       organizationId: isOrganization ? user?.organization?.id : undefined,
       requestedById: !isOrganization ? user?.id : undefined
     });
 
-  useRefreshOnFocus(refetchServiceRequestsData);
+  useRefreshOnFocus(refetch);
 
   return (
-    <FlatList
-      data={serviceRequestsData?.data.items}
-      keyExtractor={(item) => item.id}
-      onEndReachedThreshold={0}
-      scrollEventThrottle={16}
-      style={styles.container}
-      contentContainerStyle={[
-        commonStyles.defaultHorizontalPadding,
-        commonStyles.defaultListGap,
-        styles.container
-      ]}
-      renderItem={({ item }) => (
-        <ServiceRequestCard
-          serviceRequest={item}
-          onPress={() => {
-            navigation.navigate("ServiceRequest", {
-              serviceRequestId: item.id
-            });
-          }}
+    <>
+      {isSuccess && !data?.data.items.length && (
+        <EmptyStatement description="Нет организаций" />
+      )}
+
+      <FlatList
+        data={data?.data.items}
+        keyExtractor={(item) => item.id}
+        onEndReachedThreshold={0}
+        scrollEventThrottle={16}
+        style={styles.container}
+        contentContainerStyle={[
+          commonStyles.defaultVerticalPadding,
+          commonStyles.defaultHorizontalPadding,
+          commonStyles.defaultListGap,
+          styles.container
+        ]}
+        renderItem={({ item }) => (
+          <ServiceRequestCard
+            serviceRequest={item}
+            onPress={() => {
+              navigation.navigate("ServiceRequest", {
+                serviceRequestId: item.id
+              });
+            }}
+          />
+        )}
+      />
+      {(isLoading || isFetching) && (
+        <ActivityIndicator
+          size="large"
+          style={commonStyles.loadderMargin}
         />
       )}
-    />
+    </>
   );
 };
 
