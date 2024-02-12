@@ -25,11 +25,11 @@ export default function useOrganizations({
       params.category__in = category__in.join(",");
     }
 
-    return client.get(`/organizations`, { params: params });
+    return client.get(`/organizations/`, { params: params });
   };
 
   return useQuery({
-    queryKey: ["organization", search, category__in],
+    queryKey: ["organizations", search, category__in],
     queryFn: fetchOrganizations
   });
 }

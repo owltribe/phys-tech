@@ -3,13 +3,18 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { ActivityIndicator, Card, Chip, MD2Colors } from "react-native-paper";
 import EmptyStatement from "components/EmptyStatement";
 import useOrganizations from "hooks/organization/useOrganizations";
+import OrganizationCard from "screens/private/organization/MyServices/components/OrganizationCard";
+import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
-import {
-  getOrganizationCategoryLabel,
-  organizationCategories
-} from "utils/enum-helpers";
+import { organizationCategories } from "utils/enum-helpers";
 
-const OrganizationsList = ({ search }: { search: string }) => {
+const OrganizationsList = ({
+  search,
+  navigation
+}: {
+  search: string;
+  navigation: SearchScreenProps["navigation"];
+}) => {
   const [categories, setCategories] = useState<string[]>([]);
 
   const { data, isLoading, isFetching, isSuccess } = useOrganizations({
@@ -62,24 +67,12 @@ const OrganizationsList = ({ search }: { search: string }) => {
           commonStyles.defaultListGap
         ]}
         renderItem={({ item }) => (
-          <Card
-            mode="elevated"
-            style={{ backgroundColor: MD2Colors.white }}
-          >
-            <Card.Title
-              title={item.name}
-              titleVariant="bodyLarge"
-              subtitle={item.description}
-              subtitleNumberOfLines={2}
-            />
-            {item.category && (
-              <Card.Content>
-                <View style={styles.rowWithoutPadding}>
-                  <Chip>{getOrganizationCategoryLabel(item.category)}</Chip>
-                </View>
-              </Card.Content>
-            )}
-          </Card>
+          <OrganizationCard
+            organizationData={item}
+            onPress={() =>
+              navigation.navigate("Organization", { organizationId: item.id })
+            }
+          />
         )}
       />
 
