@@ -14,7 +14,6 @@ export type RootStackParamList = {
   Events: undefined;
   Event: { eventId: string };
   Organization: {organizationId: string};
-  Organizations: undefined;
   Service: { serviceId: string };
   ServiceRequest: { serviceRequestId: string };
   Search?: { defaultOption?: "organization" | "service" | "event" };
@@ -55,10 +54,6 @@ export type EventsScreenProps = NativeStackScreenProps<
 export type EventScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Event"
->;
-export type OrganizationsScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  "Organizations"
 >;
 export type OrganizationScreenProps = NativeStackScreenProps<
   RootStackParamList,
