@@ -25,6 +25,7 @@ service = ServiceService(session=DbSession)
 )
 def paginated_list(
     service_filter: ServiceFilter = FilterDepends(ServiceFilter),
+    current_user: User = Depends(current_active_user),
 ):
     return service.paginated_list(service_filter)
 
@@ -43,7 +44,9 @@ def create(
 
 @services_router.get("/{service_id}", response_model=ServiceRead)
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
-def retrieve(service_id: str):
+def retrieve(
+    service_id: str, current_user: User = Depends(current_active_user)
+):
     return service.retrieve(service_id=service_id)
 
 
@@ -55,6 +58,7 @@ def retrieve(service_id: str):
 def update(
     service_id: str,
     service_update: ServiceUpdate,
+    current_user: User = Depends(current_active_user),
 ):
     return service.update(service_id, service_update)
 
@@ -68,5 +72,7 @@ def update(
     roles=[UserRole.ORGANIZATION],
     error_message="Удалять услуги могут только организации.",
 )
-def destroy(service_id: str):
+def destroy(
+    service_id: str, current_user: User = Depends(current_active_user)
+):
     return service.destroy(service_id)

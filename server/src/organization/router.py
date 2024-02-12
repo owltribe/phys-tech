@@ -26,6 +26,7 @@ def paginated_list(
     organization_filter: OrganizationFilter = FilterDepends(
         OrganizationFilter
     ),
+    current_user: User = Depends(current_active_user),
 ):
     return service.paginated_list(organization_filter)
 
@@ -34,6 +35,7 @@ def paginated_list(
 @rbac(roles=[UserRole.ORGANIZATION])
 def create(
     organization: OrganizationCreate = Depends(),
+    current_user: User = Depends(current_active_user),
 ):
     return service.create(organization=organization)
 
@@ -42,7 +44,7 @@ def create(
     "/{organization_id}", response_model=OrganizationRead
 )
 @rbac(roles=[UserRole.ORGANIZATION])
-def update_organization(
+def update(
     organization_id: str,
     updated_organization: OrganizationUpdate,
     current_user: User = Depends(current_active_user),

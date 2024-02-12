@@ -42,7 +42,8 @@ def create(
     current_user: User = Depends(current_active_user),
 ):
     return service.create(
-        service_request_create=service_request_create, requested_by=current_user
+        service_request_create=service_request_create,
+        requested_by=current_user,
     )
 
 

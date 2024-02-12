@@ -40,7 +40,7 @@ auth_router.include_router(
     status_code=status.HTTP_200_OK,
 )
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
-async def auth_me(current_user: User = Depends(current_active_user)):
+def auth_me(current_user: User = Depends(current_active_user)):
     session = SessionLocal()
     user = (
         session.query(User)
