@@ -3,10 +3,11 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { ActivityIndicator, Card, Chip, MD2Colors } from "react-native-paper";
 import EmptyStatement from "components/EmptyStatement";
 import useOrganizations from "hooks/organization/useOrganizations";
-import OrganizationCard from "screens/private/organization/MyServices/components/OrganizationCard";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import { organizationCategories } from "utils/enum-helpers";
+
+import OrganizationCard from "./OrganizationCard";
 
 const OrganizationsList = ({
   search,
