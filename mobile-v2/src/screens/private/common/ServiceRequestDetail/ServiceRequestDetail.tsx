@@ -77,7 +77,15 @@ const ServiceRequestDetail = ({
             showToastWithGravityAndOffset(errorMessage);
           },
           onSettled: () => {
-            setIsApproveModalVisible(false);
+            if (status === "Approved") {
+              setIsApproveModalVisible(false);
+            }
+            if (status === "Rejected") {
+              setIsDeclineModalVisible(false);
+            }
+            if (status === "Completed") {
+              setIsCompletedModalVisible(false);
+            }
           }
         }
       );

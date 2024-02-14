@@ -29,6 +29,7 @@ const ServiceList = ({
       style={styles.container}
       contentContainerStyle={[
         commonStyles.defaultHorizontalPadding,
+        commonStyles.defaultVerticalPadding,
         commonStyles.defaultListGap,
         styles.container
       ]}

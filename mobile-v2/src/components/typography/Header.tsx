@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import { StyleSheet, Text } from "react-native";
+import { TextStyle } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 import {
   COLOR_TEXT_DEFAULT,
   VERTICAL_PADDING_SMALL_DEFAULT
@@ -7,10 +8,11 @@ import {
 
 type Props = {
   children: React.ReactNode;
+  align?: TextStyle["textAlign"];
 };
 
-const Header = ({ children }: Props) => (
-  <Text style={styles.header}>{children}</Text>
+const Header = ({ children, align = "center" }: Props) => (
+  <Text style={[styles.header, { textAlign: align }]}>{children}</Text>
 );
 
 const styles = StyleSheet.create({
@@ -20,8 +22,7 @@ const styles = StyleSheet.create({
     lineHeight: 42,
     width: "100%",
     color: COLOR_TEXT_DEFAULT,
-    marginBottom: VERTICAL_PADDING_SMALL_DEFAULT,
-    textAlign: "center"
+    marginBottom: VERTICAL_PADDING_SMALL_DEFAULT
   }
 });
 
