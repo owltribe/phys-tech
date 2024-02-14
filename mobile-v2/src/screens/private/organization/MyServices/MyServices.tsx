@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { KeyboardAvoidingView, StyleSheet } from "react-native";
-import { FAB, Text } from "react-native-paper";
+import { FAB } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
 import SegmentedControl from "components/SegmentedControl";
+import Header from "components/typography/Header";
 import { useAuth } from "providers/AuthProvider";
 import { ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
@@ -32,12 +33,7 @@ const Services = ({ navigation }: ServicesScreenProps) => {
   return (
     <ScreenWrapper withScrollView={false}>
       <KeyboardAvoidingView style={[commonStyles.container]}>
-        <Text
-          style={styles.text}
-          variant="headlineMedium"
-        >
-          Мои Услуги
-        </Text>
+        <Header align="left">Мои Услуги</Header>
         <SegmentedControl
           options={options}
           selectedOption={selectedOption}
@@ -70,11 +66,6 @@ const Services = ({ navigation }: ServicesScreenProps) => {
 };
 
 const styles = StyleSheet.create({
-  text: {
-    marginTop: 16,
-    marginBottom: 4,
-    fontWeight: "700"
-  },
   cover: {
     width: 72,
     height: 72

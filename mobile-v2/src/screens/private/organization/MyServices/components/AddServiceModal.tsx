@@ -71,8 +71,8 @@ const AddServiceModal = ({ visible, onClose }: AddServiceModalProps) => {
         <KeyboardAvoidingView style={commonStyles.container}>
           <View style={styles.buttonClose}>
             <Text
-              variant="headlineMedium"
-              style={{ fontWeight: "800" }}
+              variant="titleLarge"
+              style={{ fontWeight: "700", lineHeight: 42 }}
             >
               Создание сервиса
             </Text>
@@ -155,7 +155,7 @@ const AddServiceModal = ({ visible, onClose }: AddServiceModalProps) => {
               loading={createServiceMutation.isPending}
               onPress={handleSubmit(onSubmit)}
             >
-              Создать Услугу
+              Добавить
             </PrimaryButton>
           </View>
         </KeyboardAvoidingView>
