@@ -72,6 +72,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               error.response?.data.detail || "Ошибка авторизации"
             )
           );
+          setUser(null);
+          setToken(null);
         });
     };
 
