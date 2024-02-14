@@ -8,6 +8,7 @@ import {
   View
 } from "react-native";
 import { Image } from "react-native";
+import { PrimaryButton as OnboardPrimaryButton } from "react-native-onboard";
 import { yupResolver } from "@hookform/resolvers/yup";
 import TextField from "components/fields/TextField";
 import PrimaryButton from "components/PrimaryButton";
@@ -59,10 +60,9 @@ const Login = ({ navigation }: LoginScreenProps) => {
             style={styles.logoSize}
             resizeMode="contain"
           />
-          {/* <Logo></Logo> */}
         </View>
 
-        <Header>Добро пожаловать.</Header>
+        <Header>Добро пожаловать</Header>
 
         <Controller
           control={control}

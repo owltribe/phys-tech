@@ -4,6 +4,7 @@
 import { NativeStackScreenProps } from "react-native-screens/native-stack";
 
 export type RootStackParamList = {
+  Onboarding: undefined;
   Login: undefined;
   Register: undefined;
 
@@ -13,7 +14,7 @@ export type RootStackParamList = {
   ServiceRequests: undefined;
   Events: undefined;
   Event: { eventId: string };
-  Organization: {organizationId: string};
+  Organization: { organizationId: string };
   Service: { serviceId: string };
   ServiceRequest: { serviceRequestId: string };
   Search?: { defaultOption?: "organization" | "service" | "event" };
@@ -22,6 +23,10 @@ export type RootStackParamList = {
   // Place: { placeId: number };
 };
 
+export type OnboardingScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Onboarding"
+>;
 export type LoginScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Login"

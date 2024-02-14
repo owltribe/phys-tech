@@ -23,15 +23,17 @@ const OrganizationCard = ({
         subtitleNumberOfLines={2}
         style={styles.title}
         right={() => (
-            <View style={styles.iconContainer}>
-              <IconButton icon="chevron-right" />
-            </View>
-          )}
+          <View style={styles.iconContainer}>
+            <IconButton icon="chevron-right" />
+          </View>
+        )}
       />
       {organizationData.category && (
         <Card.Content>
           <View style={styles.rowWithoutPadding}>
-            <Chip>{getOrganizationCategoryLabel(organizationData.category)}</Chip>
+            <Chip>
+              {getOrganizationCategoryLabel(organizationData.category)}
+            </Chip>
           </View>
         </Card.Content>
       )}
@@ -41,8 +43,7 @@ const OrganizationCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    marginTop: 16,
-    backgroundColor: MD2Colors.white,
+    backgroundColor: MD2Colors.white
   },
   title: {
     flexShrink: 1,
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap"
   },
   iconContainer: {
-    paddingTop: 50,
+    paddingTop: 50
   }
 });
 

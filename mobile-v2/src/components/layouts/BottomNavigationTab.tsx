@@ -8,14 +8,13 @@ import {
   UserCircle
 } from "lucide-react-native";
 import { useAuth } from "providers/AuthProvider";
+import MyServiceRequests from "screens/private/client/MyServiceRequests";
 import Home from "screens/private/common/Home";
 import Profile from "screens/private/common/Profile";
 import Search from "screens/private/common/Search/Search";
 import Services from "screens/private/organization/MyServices";
 import { RootStackParamList } from "screens/types";
 import theme from "styles/theme";
-
-import MyServiceRequests from "../../screens/private/client/MyServiceRequests";
 
 const Tab = createMaterialBottomTabNavigator<RootStackParamList>();
 

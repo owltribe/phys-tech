@@ -11,10 +11,7 @@ export default function useEvents({
   search?: string;
   startDate?: string;
   eventName?: string;
-}): UseQueryResult<
-  AxiosResponse<Page_EventRead_>,
-  AxiosError<ErrorModel>
-> {
+}): UseQueryResult<AxiosResponse<Page_EventRead_>, AxiosError<ErrorModel>> {
   const client = useClient();
 
   const fetchEvents = () => {
