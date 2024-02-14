@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { EventRead } from "types/generated";
 import { transparent } from "utils/colors";
 
-const localImage = require("icons/calendar.png");
+const localImage = require("images/icons/calendar.png");
 
 const EventCard = ({
   eventData,

@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet } from "react-native";
 import useEvents from "hooks/events/useEvents";
 import { useRefreshOnFocus } from "hooks/useRefreshOnFocus";
-import { useAuth } from "providers/AuthProvider";
 import { EventsScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
@@ -12,12 +11,10 @@ const EventList = ({
 }: {
   navigation: EventsScreenProps["navigation"];
 }) => {
-  const { user } = useAuth();
-  
   const { data: eventsData, refetch: refetchEventsData } = useEvents({
-    eventName: undefined,
+    eventName: undefined
   });
- 
+
   useRefreshOnFocus(refetchEventsData);
 
   return (

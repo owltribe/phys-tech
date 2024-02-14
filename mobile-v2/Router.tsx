@@ -1,14 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import BottomNavigationTab from "components/layouts/BottomNavigationTab";
+import NavigationBar from "components/layouts/NavigationBar";
+import { useAuth } from "providers/AuthProvider";
 
-import BottomNavigationTab from "./src/layouts/components/BottomNavigationTab";
-import NavigationBar from "./src/layouts/components/NavigationBar";
-import { useAuth } from "./src/providers/AuthProvider";
 import EventDetail from "./src/screens/private/common/EventDetail";
+import OrganizationDetail from "./src/screens/private/common/OrganizationDetail";
 import ServiceDetail from "./src/screens/private/common/ServiceDetail";
-import OrganizationDetail from "screens/private/common/OrganizationDetail";
 import ServiceRequestDetail from "./src/screens/private/common/ServiceRequestDetail/ServiceRequestDetail";
 import Login from "./src/screens/public/Login";
+import Onboarding from "./src/screens/public/Onboarding";
 import Register from "./src/screens/public/Register";
 import { RootStackParamList } from "./src/screens/types";
 
@@ -55,9 +56,14 @@ export default function Router() {
         ) : (
           <>
             <Stack.Screen
+              name="Onboarding"
+              component={Onboarding}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name="Login"
               component={Login}
-              options={{ title: "Вход" }}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="Register"

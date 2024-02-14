@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import { ActivityIndicator, Card, Chip, MD2Colors } from "react-native-paper";
+import { ActivityIndicator, Chip } from "react-native-paper";
 import EmptyStatement from "components/EmptyStatement";
 import useOrganizations from "hooks/organization/useOrganizations";
 import { SearchScreenProps } from "screens/types";
