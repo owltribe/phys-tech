@@ -25,7 +25,7 @@ export default function useOrganizations({
       params.category__in = category__in.join(",");
     }
 
-    return client.get(`/organizations/`, { params: params });
+    return client.get(`/organizations`, { params: params });
   };
 
   return useQuery({
