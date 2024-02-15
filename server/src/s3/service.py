@@ -73,3 +73,16 @@ class S3Service:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Ошибка загрузки изображения в хранилище.",
             )
+
+    def upload_service_image(self, service_image_id: str, file: UploadFile = File(...)):
+        bucket_name = "service-image"
+        key = f"{service_image_id}.png"
+        response, url = self.__put_object(bucket_name, key, file)
+
+        if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
+            return url
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Ошибка загрузки изображения в хранилище.",
+            )

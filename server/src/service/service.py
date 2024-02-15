@@ -1,13 +1,15 @@
+import uuid
 from typing import Type
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, UploadFile, File
 from fastapi_pagination.ext.sqlalchemy import paginate
 from fastapi_pagination.links import Page
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
-from models import Service, User
+from models import Service, User, ServiceImage
 from src.organization.service import OrganizationService
+from src.s3.service import S3Service
 from src.service.schemas import (
     ServiceCreate,
     ServiceFilter,
@@ -22,6 +24,7 @@ class ServiceService:
         self.session = session
         self.organization_service = OrganizationService(session)
         self.service_request_service = ServiceRequestService(session)
+        self.s3_service = S3Service()
 
     def paginated_list(
         self, service_filter: ServiceFilter
@@ -36,6 +39,7 @@ class ServiceService:
         instance = (
             self.session.query(Service)
             .filter(Service.id == service_id)
+            .options(joinedload(Service.service_images))
             .first()
         )
 
@@ -84,3 +88,20 @@ class ServiceService:
             self.session.delete(instance)
             self.session.commit()
         return None
+
+    def upload_service_image(self, service_id: str, image: UploadFile = File(...)):
+        instance = self.retrieve(service_id)
+
+        if instance:
+            service_image_id = str(uuid.uuid4())
+
+            service_image_url = self.s3_service.upload_service_image(service_image_id, image)
+            ServiceImage(
+                id=service_image_id,
+                url=service_image_url,
+                service_id=instance.id,
+            )
+            self.session.commit()
+            self.session.refresh(instance)
+
+        return instance
