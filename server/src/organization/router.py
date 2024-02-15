@@ -62,18 +62,10 @@ def update(
     return service.update(organization_id, updated_organization, current_user)
 
 
-@organizations_router.post("/photo", response_model=OrganizationRead)
+@organizations_router.post("/photo", response_model=None)
 @rbac(roles=[UserRole.ORGANIZATION])
-async def upload_photo(
+def upload_profile_picture(
     photo: UploadFile = File(...),
     current_user: User = Depends(current_active_user),
 ):
-    existing_organization = service.retrieve_by_user_id(current_user.id)
-
-    if existing_organization is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Организации не найдена",
-        )
-
-    return service.update_avatar(existing_organization.id, photo, current_user)
+    return service.upload_profile_picture(current_user, file=photo)

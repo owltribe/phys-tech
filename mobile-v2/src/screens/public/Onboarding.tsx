@@ -44,7 +44,7 @@ const Onboarding = ({ navigation }: OnboardingScreenProps) => {
           primaryButtonTitle: "Авторизоваться"
         }
       ]}
-      type={"fullscreen"}
+      type="fullscreen"
       onDone={() => {
         navigation.navigate("Login");
       }}
