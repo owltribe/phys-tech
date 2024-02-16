@@ -8,7 +8,6 @@ import {
   View
 } from "react-native";
 import { Image } from "react-native";
-import { PrimaryButton as OnboardPrimaryButton } from "react-native-onboard";
 import { yupResolver } from "@hookform/resolvers/yup";
 import TextField from "components/fields/TextField";
 import PrimaryButton from "components/PrimaryButton";
@@ -22,8 +21,11 @@ import * as yup from "yup";
 
 const schema = yup
   .object({
-    username: yup.string().email().required(),
-    password: yup.string().required()
+    username: yup
+      .string()
+      .email("Введите почту корректно")
+      .required("Введите электронную почту"),
+    password: yup.string().required("Введите пароль")
   })
   .required();
 

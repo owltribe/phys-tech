@@ -16,25 +16,17 @@ import { useAuth } from "providers/AuthProvider";
 import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
-
+import { OrganizationRead } from "types/generated";
 import {
   getOrganizationCategoryLabel,
   getUserRoleLabel
-} from "../../../../utils/enum-helpers";
-import {
-  PrivacyPolicyLink,
-  TermsAndConditionsLink
-} from "../../../../utils/links";
-
-import UpdateOrganizationModal from "./components/UpdateOrganizationModal";
+} from "utils/enum-helpers";
+import { PrivacyPolicyLink, TermsAndConditionsLink } from "utils/links";
 
 export default function Profile({ navigation }: ProfileScreenProps) {
   const { user, onLogout } = useAuth();
 
   const uploadOrganizationAvatarMutation = useUploadOrganizationAvatar();
-
-  const [isUpdateOrganizationModalOpen, setIsUpdateOrganizationModalOpened] =
-    useState(false);
 
   const userAvatarText = `${user?.first_name[0]}${user?.last_name[0]}`;
 
@@ -160,12 +152,19 @@ export default function Profile({ navigation }: ProfileScreenProps) {
                   { marginTop: 16 }
                 ]}
               >
-                <Button
-                  mode="contained-tonal"
-                  onPress={() => setIsUpdateOrganizationModalOpened(true)}
-                >
-                  Редактировать организацию
-                </Button>
+                {user?.organization && (
+                  <Button
+                    mode="contained-tonal"
+                    onPress={() =>
+                      navigation.navigate("OrganizationEdit", {
+                        organization: user.organization as OrganizationRead
+                      })
+                    }
+                  >
+                    Редактировать организацию
+                  </Button>
+                )}
+
                 <Button
                   mode="contained-tonal"
                   loading={uploadOrganizationAvatarMutation.isPending}
@@ -230,13 +229,6 @@ export default function Profile({ navigation }: ProfileScreenProps) {
           </Button>
         </View>
       </KeyboardAvoidingView>
-      {user?.organization && (
-        <UpdateOrganizationModal
-          visible={isUpdateOrganizationModalOpen}
-          onClose={() => setIsUpdateOrganizationModalOpened(false)}
-          organization={user?.organization}
-        />
-      )}
     </ScreenWrapper>
   );
 }

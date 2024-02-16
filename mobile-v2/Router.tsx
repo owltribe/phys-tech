@@ -8,6 +8,7 @@ import EventDetail from "./src/screens/private/common/EventDetail";
 import OrganizationDetail from "./src/screens/private/common/OrganizationDetail";
 import ServiceDetail from "./src/screens/private/common/ServiceDetail";
 import ServiceRequestDetail from "./src/screens/private/common/ServiceRequestDetail/ServiceRequestDetail";
+import EditOrganization from "./src/screens/private/organization/OrganizationEdit";
 import Login from "./src/screens/public/Login";
 import Onboarding from "./src/screens/public/Onboarding";
 import Register from "./src/screens/public/Register";
@@ -52,6 +53,13 @@ export default function Router() {
               component={OrganizationDetail}
               options={{ title: "Организация" }}
             />
+            {user.role === "Organization" && (
+              <Stack.Screen
+                name="OrganizationEdit"
+                component={EditOrganization}
+                options={{ title: "Редактирование организации" }}
+              />
+            )}
           </>
         ) : (
           <>

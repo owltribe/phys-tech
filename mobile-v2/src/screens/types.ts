@@ -3,6 +3,8 @@
 
 import { NativeStackScreenProps } from "react-native-screens/native-stack";
 
+import { OrganizationRead } from "../types/generated";
+
 export type RootStackParamList = {
   Onboarding: undefined;
   Login: undefined;
@@ -15,6 +17,7 @@ export type RootStackParamList = {
   Events: undefined;
   Event: { eventId: string };
   Organization: { organizationId: string };
+  OrganizationEdit: { organization: OrganizationRead };
   Service: { serviceId: string };
   ServiceRequest: { serviceRequestId: string };
   Search?: { defaultOption?: "organization" | "service" | "event" };
@@ -63,6 +66,10 @@ export type EventScreenProps = NativeStackScreenProps<
 export type OrganizationScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Organization"
+>;
+export type OrganizationEditScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "OrganizationEdit"
 >;
 export type ServiceRequestScreenProps = NativeStackScreenProps<
   RootStackParamList,
