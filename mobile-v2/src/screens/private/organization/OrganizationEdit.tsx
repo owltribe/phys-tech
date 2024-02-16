@@ -23,7 +23,7 @@ interface FormValues {
   category: OrganizationCategory | null;
 }
 
-const EditOrganization = ({
+const OrganizationEdit = ({
   navigation,
   route: {
     params: { organization }
@@ -185,4 +185,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EditOrganization;
+export default OrganizationEdit;

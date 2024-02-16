@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import { Linking } from "react-native";
 import {
@@ -89,7 +88,24 @@ export default function Profile({ navigation }: ProfileScreenProps) {
             </Text>
           </View>
         </View>
-        <List.Section title="Профиль">
+
+        {user && (
+          <View
+            style={[
+              commonStyles.defaultHorizontalPadding,
+              commonStyles.defaultVerticalPadding
+            ]}
+          >
+            <Button
+              mode="elevated"
+              onPress={() => navigation.navigate("ProfileEdit", { user: user })}
+            >
+              Редактировать профиль
+            </Button>
+          </View>
+        )}
+
+        <List.Section>
           <List.Item
             title={user?.role ? getUserRoleLabel(user?.role) : "-"}
             description="Роль"
@@ -154,7 +170,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
               >
                 {user?.organization && (
                   <Button
-                    mode="contained-tonal"
+                    mode="elevated"
                     onPress={() =>
                       navigation.navigate("OrganizationEdit", {
                         organization: user.organization as OrganizationRead
@@ -166,7 +182,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
                 )}
 
                 <Button
-                  mode="contained-tonal"
+                  mode="elevated"
                   loading={uploadOrganizationAvatarMutation.isPending}
                   onPress={handleUpdateOrganizationAvatar}
                 >
