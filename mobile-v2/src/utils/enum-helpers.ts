@@ -35,7 +35,7 @@ export const organizationCategories = [
   },
   { label: "Технопарк", value: "Technopark" },
   {
-    label: "Коммерческая Лабораторная компания",
+    label: "Коммерческая лаборатория",
     value: "Commercial Laboratory Company"
   },
   { label: "Вуз", value: "University" }
@@ -54,6 +54,6 @@ export const getOrganizationCategoryLabel = (
     return "Технопарк";
   }
   if (category === "Commercial Laboratory Company") {
-    return "Коммерческая Лабораторная компания";
+    return "Коммерческая лаборатория";
   }
 };

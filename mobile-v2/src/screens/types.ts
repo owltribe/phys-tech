@@ -1,7 +1,5 @@
-// import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-// import type { NativeStackScreenProps } from "@react-navigation/stack";
-
 import { NativeStackScreenProps } from "react-native-screens/native-stack";
+import { OrganizationRead, UserReadWithOrganization } from "types/generated";
 
 export type RootStackParamList = {
   Onboarding: undefined;
@@ -15,10 +13,12 @@ export type RootStackParamList = {
   Events: undefined;
   Event: { eventId: string };
   Organization: { organizationId: string };
+  OrganizationEdit: { organization: OrganizationRead };
   Service: { serviceId: string };
   ServiceRequest: { serviceRequestId: string };
   Search?: { defaultOption?: "organization" | "service" | "event" };
   Profile: undefined;
+  ProfileEdit: { user: UserReadWithOrganization };
   Settings: undefined;
   // Place: { placeId: number };
 };
@@ -64,6 +64,10 @@ export type OrganizationScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Organization"
 >;
+export type OrganizationEditScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "OrganizationEdit"
+>;
 export type ServiceRequestScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "ServiceRequest"
@@ -75,6 +79,10 @@ export type SearchScreenProps = NativeStackScreenProps<
 export type ProfileScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Profile"
+>;
+export type ProfileEditScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "ProfileEdit"
 >;
 
 // export type PlaceScreenProps = NativeStackScreenProps<
