@@ -10,5 +10,6 @@ export type ServiceRead = {
     expected_result: (string | null);
     cost: number;
     service_images?: Array<ServiceImageRead>;
+    is_editable?: boolean;
 };
 

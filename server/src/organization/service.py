@@ -54,12 +54,6 @@ class OrganizationService:
             .first()
         )
 
-        if instance is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Организация не найдена.",
-            )
-
         return instance
 
     def create(self, organization: OrganizationCreate):
@@ -104,18 +98,23 @@ class OrganizationService:
     ):
         instance = self.retrieve_by_user_id(user_id=current_user.id)
 
-        if instance:
-            if instance.owner_id != current_user.id:
-                raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Только владелец организации может обновить фотографию организации.",
-                )
-
-            photo_url = self.s3_service.upload_organization_profile_picture(
-                organization_id=instance.id, file=file
+        if not instance:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Организация не найдена.",
             )
-            instance.photo = photo_url
-            self.session.commit()
-            self.session.refresh(instance)
+
+        if instance.owner_id != current_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Только владелец организации может обновить фотографию организации.",
+            )
+
+        photo_url = self.s3_service.upload_organization_profile_picture(
+            organization_id=instance.id, file=file
+        )
+        instance.photo = photo_url
+        self.session.commit()
+        self.session.refresh(instance)
 
         return instance

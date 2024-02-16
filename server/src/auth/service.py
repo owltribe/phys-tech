@@ -15,7 +15,9 @@ class UserService:
     def retrieve(self, user_id: str) -> Type[User]:
         instance = (
             self.session.query(User)
-            .options(joinedload(User.organization))  # Organization relation fetch
+            .options(
+                joinedload(User.organization)
+            )  # Organization relation fetch
             .filter(User.id == user_id)
             .first()
         )

@@ -21,7 +21,7 @@ const ServiceList = ({
 
   const ListFooter = () => {
     if (isSuccess && !data?.data.items.length) {
-      return <EmptyStatement description="Нет заявок" />;
+      return <EmptyStatement description="У вас пока нет услуг" />;
     }
     if (isLoading || isFetching) {
       return (
