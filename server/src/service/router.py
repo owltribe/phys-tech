@@ -57,7 +57,7 @@ def upload_service_image(
 def retrieve(
     service_id: str, current_user: User = Depends(current_active_user)
 ):
-    return service.retrieve(service_id=service_id)
+    return service.retrieve(service_id=service_id, current_user=current_user)
 
 
 @services_router.put("/{service_id}", response_model=ServiceRead)

@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
+import EmptyStatement from "components/EmptyStatement";
 import useServices from "hooks/services/useServices";
-import { useRefreshOnFocus } from "hooks/useRefreshOnFocus";
 import { useAuth } from "providers/AuthProvider";
 import { ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
@@ -14,15 +15,29 @@ const ServiceList = ({
 }) => {
   const { user } = useAuth();
 
-  const { data: servicesData, refetch: refetchServicesData } = useServices({
+  const { data, isLoading, isFetching, isSuccess } = useServices({
     organizationId: user?.organization?.id
   });
 
-  useRefreshOnFocus(refetchServicesData);
+  const ListFooter = () => {
+    if (isSuccess && !data?.data.items.length) {
+      return <EmptyStatement description="У вас пока нет услуг" />;
+    }
+    if (isLoading || isFetching) {
+      return (
+        <ActivityIndicator
+          size="large"
+          style={commonStyles.loadderMargin}
+        />
+      );
+    }
+
+    return null;
+  };
 
   return (
     <FlatList
-      data={servicesData?.data.items}
+      data={data?.data.items}
       keyExtractor={(item) => item.id}
       onEndReachedThreshold={0}
       scrollEventThrottle={16}
@@ -43,6 +58,7 @@ const ServiceList = ({
           }
         />
       )}
+      ListFooterComponent={ListFooter}
     />
   );
 };

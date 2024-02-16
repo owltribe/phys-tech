@@ -17,29 +17,38 @@ const EventsList = ({
     search: search
   });
 
+  const ListFooter = () => {
+    if (isSuccess && !data?.data.items.length) {
+      return <EmptyStatement description="Нет мероприятий" />;
+    }
+    if (isLoading || isFetching) {
+      return (
+        <ActivityIndicator
+          size="large"
+          style={commonStyles.loadderMargin}
+        />
+      );
+    }
+
+    return null;
+  };
+
   return (
-    <>
-      {isSuccess && !data?.data.items.length && (
-        <EmptyStatement description="Нет мероприятий" />
+    <FlatList
+      data={data?.data.items}
+      contentContainerStyle={[
+        commonStyles.defaultHorizontalPadding,
+        commonStyles.defaultVerticalPadding,
+        commonStyles.defaultListGap
+      ]}
+      renderItem={({ item }) => (
+        <EventCard
+          eventData={item}
+          onPress={() => navigation.navigate("Event", { eventId: item.id })}
+        />
       )}
-
-      <FlatList
-        data={data?.data.items}
-        contentContainerStyle={[
-          commonStyles.defaultHorizontalPadding,
-          commonStyles.defaultVerticalPadding,
-          commonStyles.defaultListGap
-        ]}
-        renderItem={({ item }) => (
-          <EventCard
-            eventData={item}
-            onPress={() => navigation.navigate("Event", { eventId: item.id })}
-          />
-        )}
-      />
-
-      {(isLoading || isFetching) && <ActivityIndicator size="large" />}
-    </>
+      ListFooterComponent={ListFooter}
+    />
   );
 };
 

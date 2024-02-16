@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { COLOR_MUTED_TEXT_DEFAULT } from "react-native-onboard/lib/OnboardFlow/constants";
 import { Text } from "react-native-paper";
 import Svg, { Circle, Path } from "react-native-svg";
 
@@ -72,7 +73,12 @@ const EmptyStatement = ({
         />
       </Svg>
 
-      <Text variant="bodyLarge">{description}</Text>
+      <Text
+        variant="bodyLarge"
+        style={styles.description}
+      >
+        {description}
+      </Text>
     </View>
   );
 };
@@ -85,6 +91,11 @@ const styles = StyleSheet.create({
     marginTop: 52,
     marginBottom: 36,
     gap: 32
+  },
+  description: {
+    fontWeight: "700",
+    fontSize: 18,
+    color: COLOR_MUTED_TEXT_DEFAULT
   }
 });
 

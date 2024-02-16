@@ -1,5 +1,5 @@
 import uuid
-from typing import Type
+from typing import Type, Optional
 
 from fastapi import File, HTTPException, UploadFile, status
 from fastapi_pagination.ext.sqlalchemy import paginate
@@ -27,7 +27,7 @@ class ServiceService:
         self.s3_service = S3Service()
 
     def paginated_list(
-        self, service_filter: ServiceFilter
+            self, service_filter: ServiceFilter
     ) -> Page[ServiceRead]:
         query = select(Service)
         query = service_filter.filter(query)
@@ -35,13 +35,25 @@ class ServiceService:
 
         return paginate(self.session, query)
 
-    def retrieve(self, service_id: str) -> Type[Service]:
+    def list_by_user_id(self, user_id: str) -> list[Type[Service]]:
+        organization = self.organization_service.retrieve_by_user_id(user_id)
+
+        if organization:
+            return self.session.query(Service).filter(Service.organization_id == organization.id).all()
+        return []
+
+    def retrieve(
+            self, service_id: str, current_user: Optional[User]
+    ) -> Type[Service]:
         instance = (
             self.session.query(Service)
             .filter(Service.id == service_id)
             .options(joinedload(Service.service_images))
             .first()
         )
+
+        if instance in self.list_by_user_id(current_user.id):
+            instance.is_editable = True
 
         if instance is None:
             raise HTTPException(status_code=404, detail="Услуга не найдена")
@@ -90,7 +102,7 @@ class ServiceService:
         return None
 
     def upload_service_image(
-        self, service_id: str, image: UploadFile = File(...)
+            self, service_id: str, image: UploadFile = File(...)
     ):
         instance = self.retrieve(service_id)
 

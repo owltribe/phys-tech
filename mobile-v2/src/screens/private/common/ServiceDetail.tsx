@@ -7,7 +7,7 @@ import {
   View
 } from "react-native";
 import { COLOR_TEXT_DEFAULT } from "react-native-onboard/lib/OnboardFlow/constants";
-import { Icon, Snackbar, Surface, Text } from "react-native-paper";
+import { Snackbar, Surface, Text } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
 import PrimaryButton from "components/PrimaryButton";
 import ScreenWrapper from "components/ScreenWrapper";
@@ -148,7 +148,7 @@ const ServiceDetail = ({
           <Text variant="titleMedium">{`Цена: ${data?.data.cost} KZT`}</Text>
 
           <View style={styles.button}>
-            {isOrganization ? (
+            {isOrganization && data?.data.is_editable && (
               <PrimaryButton
                 mode="contained"
                 icon={(props) => (
@@ -163,7 +163,8 @@ const ServiceDetail = ({
               >
                 Добавить изображение
               </PrimaryButton>
-            ) : (
+            )}
+            {!isOrganization && (
               <PrimaryButton
                 mode="contained"
                 loading={createServiceRequestMutation.isPending}

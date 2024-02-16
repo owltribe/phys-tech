@@ -2,7 +2,6 @@ import { FlatList, StyleSheet } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import EmptyStatement from "components/EmptyStatement";
 import useServiceRequests from "hooks/service_requests/useServiceRequests";
-import { useRefreshOnFocus } from "hooks/useRefreshOnFocus";
 import { useAuth } from "providers/AuthProvider";
 import { ServiceRequestsScreenProps, ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
@@ -20,20 +19,29 @@ const ServiceRequestsList = ({
 
   const isOrganization = user?.role === "Organization";
 
-  const { data, refetch, isSuccess, isLoading, isFetching } =
-    useServiceRequests({
-      organizationId: isOrganization ? user?.organization?.id : undefined,
-      requestedById: !isOrganization ? user?.id : undefined
-    });
+  const { data, isSuccess, isLoading, isFetching } = useServiceRequests({
+    organizationId: isOrganization ? user?.organization?.id : undefined,
+    requestedById: !isOrganization ? user?.id : undefined
+  });
 
-  useRefreshOnFocus(refetch);
+  const ListFooter = () => {
+    if (isSuccess && !data?.data.items.length) {
+      return <EmptyStatement description="Нет заявок" />;
+    }
+    if (isLoading || isFetching) {
+      return (
+        <ActivityIndicator
+          size="large"
+          style={commonStyles.loadderMargin}
+        />
+      );
+    }
+
+    return null;
+  };
 
   return (
     <>
-      {isSuccess && !data?.data.items.length && (
-        <EmptyStatement description="Нет организаций" />
-      )}
-
       <FlatList
         data={data?.data.items}
         keyExtractor={(item) => item.id}
@@ -56,13 +64,8 @@ const ServiceRequestsList = ({
             }}
           />
         )}
+        ListFooterComponent={ListFooter}
       />
-      {(isLoading || isFetching) && (
-        <ActivityIndicator
-          size="large"
-          style={commonStyles.loadderMargin}
-        />
-      )}
     </>
   );
 };

@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
+import { useRefreshOnFocus } from "hooks/useRefreshOnFocus";
 import { ErrorModel, Page_EventRead_ } from "types/generated";
 
 export default function useEvents({
@@ -28,6 +29,8 @@ export default function useEvents({
     }
     return client.get(`/events`, { params: params });
   };
+
+  useRefreshOnFocus(fetchEvents);
 
   return useQuery({
     queryKey: ["event", search, startDate, eventName],
