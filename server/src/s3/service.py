@@ -74,9 +74,14 @@ class S3Service:
                 detail="Ошибка загрузки изображения в хранилище.",
             )
 
-    def upload_service_image(self, service_image_id: str, file: UploadFile = File(...)):
+    def upload_service_image(
+        self,
+        service_id: str,
+        service_image_id: str,
+        file: UploadFile = File(...),
+    ):
         bucket_name = "service-image"
-        key = f"{service_image_id}.png"
+        key = f"{service_id}/{service_image_id}.png"
         response, url = self.__put_object(bucket_name, key, file)
 
         if response["ResponseMetadata"]["HTTPStatusCode"] == 200:

@@ -13,6 +13,7 @@ from src.organization.admin import OrganizationAdmin
 from src.organization.router import organizations_router
 from src.service.admin import ServiceAdmin
 from src.service.router import services_router
+from src.service_image.admin import ServiceImageAdmin
 from src.service_request.admin import ServiceRequestAdmin
 from src.service_request.router import service_request_router
 
@@ -32,6 +33,7 @@ templates = Jinja2Templates(directory="templates")
 admin.add_view(UserAdmin)
 admin.add_view(OrganizationAdmin)
 admin.add_view(ServiceAdmin)
+admin.add_view(ServiceImageAdmin)
 admin.add_view(ServiceRequestAdmin)
 admin.add_view(EventAdmin)
 
