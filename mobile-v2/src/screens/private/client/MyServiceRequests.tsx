@@ -9,7 +9,7 @@ const MyServiceRequests = ({ navigation }: ServiceRequestsScreenProps) => {
   return (
     <ScreenWrapper withScrollView={false}>
       <KeyboardAvoidingView style={[commonStyles.container]}>
-        <Header>Мои заявки</Header>
+        <Header align="left">Мои заявки</Header>
       </KeyboardAvoidingView>
 
       <ServiceRequestsList navigation={navigation} />

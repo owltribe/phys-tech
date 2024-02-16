@@ -3,6 +3,8 @@ import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
 import { ErrorModel, Page_ServiceRequestRead_ } from "types/generated";
 
+import { useRefreshOnFocus } from "../useRefreshOnFocus";
+
 export default function useServiceRequests({
   search,
   organizationId,
@@ -32,6 +34,8 @@ export default function useServiceRequests({
 
     return client.get("/service-requests", { params });
   };
+
+  useRefreshOnFocus(fetchServiceRequests);
 
   return useQuery({
     queryKey: ["serviceRequests"],

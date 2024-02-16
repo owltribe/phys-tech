@@ -17,31 +17,38 @@ const ServicesList = ({
     search: search
   });
 
+  const ListFooter = () => {
+    if (isSuccess && !data?.data.items.length) {
+      return <EmptyStatement description="Нет доступных услуг" />;
+    }
+    if (isLoading || isFetching) {
+      return (
+        <ActivityIndicator
+          size="large"
+          style={commonStyles.loadderMargin}
+        />
+      );
+    }
+
+    return null;
+  };
+
   return (
-    <>
-      {isSuccess && !data?.data.items.length && (
-        <EmptyStatement description="Нет доступных услуг" />
+    <FlatList
+      data={data?.data.items}
+      contentContainerStyle={[
+        commonStyles.defaultHorizontalPadding,
+        commonStyles.defaultVerticalPadding,
+        commonStyles.defaultListGap
+      ]}
+      renderItem={({ item }) => (
+        <ServiceCard
+          serviceData={item}
+          onPress={() => navigation.navigate("Service", { serviceId: item.id })}
+        />
       )}
-
-      <FlatList
-        data={data?.data.items}
-        contentContainerStyle={[
-          commonStyles.defaultHorizontalPadding,
-          commonStyles.defaultVerticalPadding,
-          commonStyles.defaultListGap
-        ]}
-        renderItem={({ item }) => (
-          <ServiceCard
-            serviceData={item}
-            onPress={() =>
-              navigation.navigate("Service", { serviceId: item.id })
-            }
-          />
-        )}
-      />
-
-      {(isLoading || isFetching) && <ActivityIndicator size="large" />}
-    </>
+      ListFooterComponent={ListFooter}
+    />
   );
 };
 

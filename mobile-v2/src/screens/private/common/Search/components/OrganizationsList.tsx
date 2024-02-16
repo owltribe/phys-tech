@@ -39,6 +39,22 @@ const OrganizationsList = ({
     }
   };
 
+  const ListFooter = () => {
+    if (isSuccess && !data?.data.items.length) {
+      return <EmptyStatement description="Нет организаций" />;
+    }
+    if (isLoading || isFetching) {
+      return (
+        <ActivityIndicator
+          size="large"
+          style={commonStyles.loadderMargin}
+        />
+      );
+    }
+
+    return null;
+  };
+
   return (
     <>
       <View style={styles.row}>
@@ -56,10 +72,6 @@ const OrganizationsList = ({
         ))}
       </View>
 
-      {isSuccess && !data?.data.items.length && (
-        <EmptyStatement description="Нет организаций" />
-      )}
-
       <FlatList
         data={data?.data.items}
         contentContainerStyle={[
@@ -75,14 +87,8 @@ const OrganizationsList = ({
             }
           />
         )}
+        ListFooterComponent={ListFooter}
       />
-
-      {(isLoading || isFetching) && (
-        <ActivityIndicator
-          size="large"
-          style={commonStyles.loadderMargin}
-        />
-      )}
     </>
   );
 };
