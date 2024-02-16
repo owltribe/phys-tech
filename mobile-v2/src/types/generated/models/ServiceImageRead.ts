@@ -2,7 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Body_create_new_organization_organizations_post = {
-    file_obj: Blob;
+export type ServiceImageRead = {
+    id: string;
+    url: string;
+    service_id: string;
 };
 

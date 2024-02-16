@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
+import { useRefreshOnFocus } from "hooks/useRefreshOnFocus";
 import { ErrorModel, ServiceRead } from "types/generated";
 
 export default function useService(
@@ -11,6 +12,8 @@ export default function useService(
   const fetchServices = () => {
     return client.get(`/services/${serviceId}`);
   };
+
+  useRefreshOnFocus(fetchServices);
 
   return useQuery({
     queryKey: ["services", serviceId],

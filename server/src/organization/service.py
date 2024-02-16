@@ -1,7 +1,6 @@
-import uuid
 from typing import Type
 
-from fastapi import HTTPException, UploadFile, status
+from fastapi import File, HTTPException, UploadFile, status
 from fastapi_pagination.ext.sqlalchemy import paginate
 from fastapi_pagination.links import Page
 from sqlalchemy import select
@@ -14,6 +13,7 @@ from src.organization.schemas import (
     OrganizationRead,
     OrganizationUpdate,
 )
+from src.s3.service import S3Service
 from src.supabase.service import SupabaseService
 
 
@@ -21,6 +21,7 @@ class OrganizationService:
     def __init__(self, session: Session) -> None:
         self.session = session
         self.supabase_service = SupabaseService(session)
+        self.s3_service = S3Service()
 
     def paginated_list(
         self, organization_filter: OrganizationFilter
@@ -98,31 +99,23 @@ class OrganizationService:
         self.session.refresh(instance)
         return instance
 
-    async def update_avatar(
-        self, organization_id: str, photo: UploadFile, user: User
+    def upload_profile_picture(
+        self, current_user: User, file: UploadFile = File(...)
     ):
-        instance = self.retrieve(organization_id)
+        instance = self.retrieve_by_user_id(user_id=current_user.id)
 
-        if instance.owner_id != user.id:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Только владелец организации может обновить фотографию организации.",
+        if instance:
+            if instance.owner_id != current_user.id:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Только владелец организации может обновить фотографию организации.",
+                )
+
+            photo_url = self.s3_service.upload_organization_profile_picture(
+                organization_id=instance.id, file=file
             )
+            instance.photo = photo_url
+            self.session.commit()
+            self.session.refresh(instance)
 
-        if photo is not None:
-            bucket = "photos"
-            filename = str(uuid.uuid4())
-            path = f"{instance.name}/{filename}"
-
-            if instance.photo:
-                path_to_remove = f"{instance.name}/{instance.photo}"
-                self.supabase_service.remove_image(bucket, path_to_remove)
-
-            file_url = await self.supabase_service.upload_image(
-                bucket, path, photo.file
-            )
-            instance.photo = file_url
-
-        self.session.commit()
-        self.session.refresh(instance)
         return instance

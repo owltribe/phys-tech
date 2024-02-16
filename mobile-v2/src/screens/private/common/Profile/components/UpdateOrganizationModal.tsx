@@ -78,7 +78,7 @@ const UpdateOrganizationModel = ({
     >
       <ScreenWrapper withScrollView={false}>
         <KeyboardAvoidingView style={commonStyles.container}>
-          <View style={styles.buttonClose}>
+          <View style={styles.buttonCloseContainer}>
             <Text
               variant="headlineMedium"
               style={{ fontWeight: "800" }}

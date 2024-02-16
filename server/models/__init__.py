@@ -1,6 +1,7 @@
 from .event import *
 from .organization import *
 from .service import *
+from .service_image import *
 from .service_request import *
 from .user import *
 

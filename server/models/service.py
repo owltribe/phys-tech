@@ -30,3 +30,6 @@ class Service(Base):
     service_requests = relationship(
         "ServiceRequest", back_populates="service", uselist=True
     )
+    service_images = relationship(
+        "ServiceImage", back_populates="service", uselist=True
+    )

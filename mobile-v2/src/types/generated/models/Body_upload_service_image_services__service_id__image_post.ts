@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Body_upload_photo_organizations_photo_post = {
-    photo: Blob;
+export type Body_upload_service_image_services__service_id__image_post = {
+    image: Blob;
 };
 

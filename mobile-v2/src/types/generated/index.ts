@@ -5,8 +5,8 @@
 
 export type { BearerResponse } from './models/BearerResponse';
 export type { Body_auth_jwt_login_auth_login_post } from './models/Body_auth_jwt_login_auth_login_post';
-export type { Body_create_new_organization_organizations_post } from './models/Body_create_new_organization_organizations_post';
-export type { Body_upload_photo_organizations_photo_post } from './models/Body_upload_photo_organizations_photo_post';
+export type { Body_upload_profile_picture_organizations_photo_post } from './models/Body_upload_profile_picture_organizations_photo_post';
+export type { Body_upload_service_image_services__service_id__image_post } from './models/Body_upload_service_image_services__service_id__image_post';
 export type { ErrorModel } from './models/ErrorModel';
 export type { EventCreate } from './models/EventCreate';
 export type { EventRead } from './models/EventRead';
@@ -22,6 +22,7 @@ export type { Page_OrganizationRead_ } from './models/Page_OrganizationRead_';
 export type { Page_ServiceRead_ } from './models/Page_ServiceRead_';
 export type { Page_ServiceRequestRead_ } from './models/Page_ServiceRequestRead_';
 export type { ServiceCreate } from './models/ServiceCreate';
+export type { ServiceImageRead } from './models/ServiceImageRead';
 export type { ServiceRead } from './models/ServiceRead';
 export type { ServiceRequestCreate } from './models/ServiceRequestCreate';
 export type { ServiceRequestRead } from './models/ServiceRequestRead';

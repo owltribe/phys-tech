@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, File, UploadFile, status
 from fastapi_filter import FilterDepends
 from fastapi_pagination.links import Page
 
@@ -40,6 +40,16 @@ def create(
     current_user: User = Depends(current_active_user),
 ):
     return service.create(service=service_create, current_user=current_user)
+
+
+@services_router.post("/{service_id}/image", response_model=ServiceRead)
+@rbac(roles=[UserRole.ORGANIZATION])
+def upload_service_image(
+    service_id: str,
+    image: UploadFile = File(...),
+    current_user: User = Depends(current_active_user),
+):
+    return service.upload_service_image(service_id, image)
 
 
 @services_router.get("/{service_id}", response_model=ServiceRead)

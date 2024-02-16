@@ -4,6 +4,7 @@ from fastapi_filter.contrib.sqlalchemy import Filter
 from pydantic import UUID4, BaseModel
 
 from models import Service
+from src.service_image.schemas import ServiceImageRead
 
 
 class ServiceCreate(BaseModel):
@@ -19,6 +20,7 @@ class ServiceRead(BaseModel):
     description: Optional[str]
     expected_result: Optional[str]
     cost: int
+    service_images: List[ServiceImageRead] = []
 
     class Config:
         from_attributes = True
