@@ -11,6 +11,9 @@ const TextField = ({ error, ...props }: TextFieldProps) => {
   return (
     <View>
       <TextInput
+        outlineStyle={{
+          borderRadius: 12
+        }}
         error={!!error}
         {...props}
       />
