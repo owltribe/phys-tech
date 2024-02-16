@@ -1,7 +1,6 @@
 import { Image } from "react-native";
 import { OnboardFlow } from "react-native-onboard";
 import { OnboardingScreenProps } from "screens/types";
-import theme from "styles/theme";
 
 const Onboarding = ({ navigation }: OnboardingScreenProps) => {
   return (

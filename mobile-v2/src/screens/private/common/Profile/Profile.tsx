@@ -10,6 +10,7 @@ import {
 } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
 import * as ImagePicker from "expo-image-picker";
+import useUploadAvatar from "hooks/auth/useUploadAvatar";
 import useUploadOrganizationAvatar from "hooks/organization/useUploadOrganizationAvatar";
 import { useAuth } from "providers/AuthProvider";
 import { ProfileScreenProps } from "screens/types";
@@ -26,6 +27,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
   const { user, onLogout } = useAuth();
 
   const uploadOrganizationAvatarMutation = useUploadOrganizationAvatar();
+  const uploadAvatarMutation = useUploadAvatar();
 
   const userAvatarText = `${user?.first_name[0]}${user?.last_name[0]}`;
 
@@ -58,18 +60,50 @@ export default function Profile({ navigation }: ProfileScreenProps) {
     }
   };
 
+  const handleUploadAvatar = async () => {
+    const options: ImagePicker.ImagePickerOptions = {
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 0.75
+    };
+
+    const result = await ImagePicker.launchImageLibraryAsync(options);
+
+    // Save image if not cancelled
+    if (!result.canceled) {
+      const formData = new FormData();
+      // @ts-ignore
+      formData.append("image", {
+        uri: result.assets[0].uri,
+        type: "image/png",
+        name: "profile-image"
+      });
+
+      uploadAvatarMutation.mutate(formData);
+    }
+  };
+
   return (
     <ScreenWrapper>
       <KeyboardAvoidingView>
         <View
           style={[styles.itemContainer, commonStyles.defaultHorizontalPadding]}
         >
-          <Avatar.Text
-            style={[styles.avatar, { backgroundColor: theme.colors.primary }]}
-            label={userAvatarText}
-            color={MD3Colors.primary100}
-            size={60}
-          />
+          {user?.avatar ? (
+            <Avatar.Image
+              style={[styles.avatar, { backgroundColor: theme.colors.primary }]}
+              source={{ uri: user.avatar + "?" + new Date() }}
+              size={60}
+            />
+          ) : (
+            <Avatar.Text
+              style={[styles.avatar, { backgroundColor: theme.colors.primary }]}
+              label={userAvatarText}
+              color={MD3Colors.primary100}
+              size={60}
+            />
+          )}
+
           <View style={styles.itemHeaderContainer}>
             <Text
               variant="titleMedium"
@@ -93,7 +127,8 @@ export default function Profile({ navigation }: ProfileScreenProps) {
           <View
             style={[
               commonStyles.defaultHorizontalPadding,
-              commonStyles.defaultVerticalPadding
+              commonStyles.defaultVerticalPadding,
+              commonStyles.defaultListGap
             ]}
           >
             <Button
@@ -101,6 +136,14 @@ export default function Profile({ navigation }: ProfileScreenProps) {
               onPress={() => navigation.navigate("ProfileEdit", { user: user })}
             >
               Редактировать профиль
+            </Button>
+
+            <Button
+              mode="elevated"
+              loading={uploadAvatarMutation.isPending}
+              onPress={handleUploadAvatar}
+            >
+              Обновить фото профиля
             </Button>
           </View>
         )}
@@ -127,7 +170,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
                       styles.avatar,
                       { backgroundColor: theme.colors.primary }
                     ]}
-                    source={{ uri: user.organization.photo }}
+                    source={{ uri: user.organization.photo + "?" + new Date() }}
                     size={60}
                   />
                 ) : (

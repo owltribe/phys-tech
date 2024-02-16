@@ -10,6 +10,7 @@ export type UserReadWithOrganization = {
     is_active?: boolean;
     is_superuser?: boolean;
     is_verified?: boolean;
+    avatar?: (string | null);
     first_name: string;
     last_name: string;
     role: UserRole;

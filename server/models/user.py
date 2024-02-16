@@ -21,6 +21,7 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     id: Mapped[UUID_ID] = mapped_column(
         UUID, primary_key=True, default=uuid.uuid4
     )
+    avatar: Mapped[str] = mapped_column(String, nullable=True)
     role = mapped_column(Enum(UserRole, name="user_role_enum"), nullable=False)
     email: Mapped[str] = mapped_column(
         String(length=320), unique=True, index=True, nullable=False

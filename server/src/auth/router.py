@@ -1,10 +1,10 @@
 import uuid
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, File, UploadFile, status
 from fastapi_users import FastAPIUsers
 from sqlalchemy.orm import joinedload
 
-from database import SessionLocal
+from database import DbSession, SessionLocal
 from models.user import User, UserRole
 from src.auth.auth_backend import auth_backend, current_active_user
 from src.auth.rbac import rbac
@@ -14,9 +14,11 @@ from src.auth.schemas import (
     UserUpdate,
     UserWithOrganizationCreate,
 )
+from src.auth.service import UserService
 from src.auth.utils import get_user_manager
 
 auth_router = APIRouter(prefix="/auth", tags=["Auth"])
+service = UserService(session=DbSession)
 
 fastapi_users = FastAPIUsers[User, uuid.UUID](
     get_user_manager,
@@ -41,12 +43,17 @@ auth_router.include_router(
 )
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
 def auth_me(current_user: User = Depends(current_active_user)):
-    session = SessionLocal()
-    user = (
-        session.query(User)
-        .options(joinedload(User.organization))
-        .filter(User.id == current_user.id)
-        .first()
-    )
+    return service.retrieve(current_user.id)
 
-    return user
+
+@auth_router.post(
+    "/me/avatar",
+    response_model=UserRead,
+    status_code=status.HTTP_200_OK,
+)
+@rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
+def upload_my_avatar(
+    image: UploadFile = File(...),
+    current_user: User = Depends(current_active_user),
+):
+    return service.upload_avatar(current_user, image)

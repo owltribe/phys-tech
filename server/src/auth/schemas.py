@@ -11,6 +11,7 @@ from src.organization.schemas import OrganizationCreate, OrganizationRead
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
     id: ID
+    avatar: Optional[str] = None
     email: EmailStr
     first_name: str
     last_name: str

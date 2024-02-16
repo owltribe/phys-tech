@@ -62,7 +62,7 @@ class S3Service:
             )
 
     def upload_user_avatar(self, user_id: str, file: UploadFile = File(...)):
-        bucket_name = "user-profile-picture"
+        bucket_name = "user-avatar"
         key = f"{user_id}.png"
         response, url = self.__put_object(bucket_name, key, file)
 
