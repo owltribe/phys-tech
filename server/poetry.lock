@@ -235,17 +235,6 @@ urllib3 = {version = ">=1.25.4,<2.1", markers = "python_version >= \"3.10\""}
 crt = ["awscrt (==0.19.19)"]
 
 [[package]]
-name = "certifi"
-version = "2023.11.17"
-description = "Python package for providing Mozilla's CA Bundle."
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "certifi-2023.11.17-py3-none-any.whl", hash = "sha256:e036ab49d5b79556f99cfc2d9320b34cfbe5be05c5871b51de9329f0603b0474"},
-    {file = "certifi-2023.11.17.tar.gz", hash = "sha256:9b469f3a900bf28dc19b8cfbf8019bf47f7fdd1a65a1d4ffb98fc14166beb4d1"},
-]
-
-[[package]]
 name = "cffi"
 version = "1.16.0"
 description = "Foreign Function Interface for Python calling C code."
@@ -378,20 +367,6 @@ sdist = ["build"]
 ssh = ["bcrypt (>=3.1.5)"]
 test = ["pretend", "pytest (>=6.2.0)", "pytest-benchmark", "pytest-cov", "pytest-xdist"]
 test-randomorder = ["pytest-randomly"]
-
-[[package]]
-name = "deprecation"
-version = "2.1.0"
-description = "A library to handle automated deprecations"
-optional = false
-python-versions = "*"
-files = [
-    {file = "deprecation-2.1.0-py2.py3-none-any.whl", hash = "sha256:a10811591210e1fb0e768a8c25517cabeabcba6f0bf96564f8ff45189f90b14a"},
-    {file = "deprecation-2.1.0.tar.gz", hash = "sha256:72b3bde64e5d778694b0cf68178aed03d15e15477116add3fb773e581f9518ff"},
-]
-
-[package.dependencies]
-packaging = "*"
 
 [[package]]
 name = "dnspython"
@@ -542,21 +517,6 @@ fastapi-users = ">=10.0.0"
 sqlalchemy = {version = ">=2.0.0,<2.1.0", extras = ["asyncio"]}
 
 [[package]]
-name = "gotrue"
-version = "2.1.0"
-description = "Python Client Library for GoTrue"
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "gotrue-2.1.0-py3-none-any.whl", hash = "sha256:6483d9a3ac9be1d1ad510be24171e133aa1cec702cc10a8f323b9e7519642447"},
-    {file = "gotrue-2.1.0.tar.gz", hash = "sha256:b21d48ee64f0f6a1ed111efe4871a83e542529f1a75a264833b50e6433cd3c98"},
-]
-
-[package.dependencies]
-httpx = ">=0.23,<0.26"
-pydantic = ">=1.10,<3"
-
-[[package]]
 name = "greenlet"
 version = "3.0.1"
 description = "Lightweight in-process concurrent programming"
@@ -638,27 +598,6 @@ files = [
 ]
 
 [[package]]
-name = "httpcore"
-version = "1.0.2"
-description = "A minimal low-level HTTP client."
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "httpcore-1.0.2-py3-none-any.whl", hash = "sha256:096cc05bca73b8e459a1fc3dcf585148f63e534eae4339559c9b8a8d6399acc7"},
-    {file = "httpcore-1.0.2.tar.gz", hash = "sha256:9fc092e4799b26174648e54b74ed5f683132a464e95643b226e00c2ed2fa6535"},
-]
-
-[package.dependencies]
-certifi = "*"
-h11 = ">=0.13,<0.15"
-
-[package.extras]
-asyncio = ["anyio (>=4.0,<5.0)"]
-http2 = ["h2 (>=3,<5)"]
-socks = ["socksio (==1.*)"]
-trio = ["trio (>=0.22.0,<0.23.0)"]
-
-[[package]]
 name = "httptools"
 version = "0.6.1"
 description = "A collection of framework independent HTTP protocol utils."
@@ -705,30 +644,6 @@ files = [
 
 [package.extras]
 test = ["Cython (>=0.29.24,<0.30.0)"]
-
-[[package]]
-name = "httpx"
-version = "0.25.2"
-description = "The next generation HTTP client."
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "httpx-0.25.2-py3-none-any.whl", hash = "sha256:a05d3d052d9b2dfce0e3896636467f8a5342fb2b902c819428e1ac65413ca118"},
-    {file = "httpx-0.25.2.tar.gz", hash = "sha256:8b8fcaa0c8ea7b05edd69a094e63a2094c4efcb48129fb757361bc423c0ad9e8"},
-]
-
-[package.dependencies]
-anyio = "*"
-certifi = "*"
-httpcore = "==1.*"
-idna = "*"
-sniffio = "*"
-
-[package.extras]
-brotli = ["brotli", "brotlicffi"]
-cli = ["click (==8.*)", "pygments (==2.*)", "rich (>=10,<14)"]
-http2 = ["h2 (>=3,<5)"]
-socks = ["socksio (==1.*)"]
 
 [[package]]
 name = "idna"
@@ -950,23 +865,6 @@ files = [
 [package.extras]
 docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx (>=7.1.1)", "sphinx-autodoc-typehints (>=1.24)"]
 test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4)", "pytest-cov (>=4.1)", "pytest-mock (>=3.11.1)"]
-
-[[package]]
-name = "postgrest"
-version = "0.15.0"
-description = "PostgREST client for Python. This library provides an ORM interface to PostgREST."
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "postgrest-0.15.0-py3-none-any.whl", hash = "sha256:f405b3c4adfa3fe61732fabb1d5d7c55111159d25fc595663ea75ff992cafd5b"},
-    {file = "postgrest-0.15.0.tar.gz", hash = "sha256:2e6b4b2b721be2c4e2dbc8de49f8b6a8ed74663b3b0f6b04976c04e222b283cb"},
-]
-
-[package.dependencies]
-deprecation = ">=2.1.0,<3.0.0"
-httpx = ">=0.24,<0.26"
-pydantic = ">=1.9,<3.0"
-strenum = ">=0.4.9,<0.5.0"
 
 [[package]]
 name = "psycopg2-binary"
@@ -1318,22 +1216,6 @@ files = [
 ]
 
 [[package]]
-name = "realtime"
-version = "1.0.2"
-description = ""
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "realtime-1.0.2-py3-none-any.whl", hash = "sha256:8f8375199fd917cd0ded818702321f91b208ab72794ade0a33cee9d55ae30f11"},
-    {file = "realtime-1.0.2.tar.gz", hash = "sha256:776170a4329edc869b91e104c554cda02c8bf8e052cbb93c377e22482870959c"},
-]
-
-[package.dependencies]
-python-dateutil = ">=2.8.1,<3.0.0"
-typing-extensions = ">=4.2.0,<5.0.0"
-websockets = ">=11.0,<12.0"
-
-[[package]]
 name = "s3transfer"
 version = "0.10.0"
 description = "An Amazon S3 Transfer Manager"
@@ -1513,71 +1395,6 @@ anyio = ">=3.4.0,<5"
 
 [package.extras]
 full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart", "pyyaml"]
-
-[[package]]
-name = "storage3"
-version = "0.7.0"
-description = "Supabase Storage client for Python."
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "storage3-0.7.0-py3-none-any.whl", hash = "sha256:dd2d6e68f7a3dc038047ed62fa8bdc5c2e3d6b6e56ee2951195d084bcce71605"},
-    {file = "storage3-0.7.0.tar.gz", hash = "sha256:9ddecc775cdc04514413bd44b9ec61bc25aad9faadabefdb6e6e88b33756f5fd"},
-]
-
-[package.dependencies]
-httpx = ">=0.24,<0.26"
-python-dateutil = ">=2.8.2,<3.0.0"
-typing-extensions = ">=4.2.0,<5.0.0"
-
-[[package]]
-name = "strenum"
-version = "0.4.15"
-description = "An Enum that inherits from str."
-optional = false
-python-versions = "*"
-files = [
-    {file = "StrEnum-0.4.15-py3-none-any.whl", hash = "sha256:a30cda4af7cc6b5bf52c8055bc4bf4b2b6b14a93b574626da33df53cf7740659"},
-    {file = "StrEnum-0.4.15.tar.gz", hash = "sha256:878fb5ab705442070e4dd1929bb5e2249511c0bcf2b0eeacf3bcd80875c82eff"},
-]
-
-[package.extras]
-docs = ["myst-parser[linkify]", "sphinx", "sphinx-rtd-theme"]
-release = ["twine"]
-test = ["pylint", "pytest", "pytest-black", "pytest-cov", "pytest-pylint"]
-
-[[package]]
-name = "supabase"
-version = "2.3.4"
-description = "Supabase client for Python."
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "supabase-2.3.4-py3-none-any.whl", hash = "sha256:976a0f1a21e103395e6c90086bade56aff40144f3e8a99e47a8da8ea0816025a"},
-    {file = "supabase-2.3.4.tar.gz", hash = "sha256:2a19b2de2bc1571213658cd1239c2f2b01ddc188e64afcbb9dd46336df4b817f"},
-]
-
-[package.dependencies]
-gotrue = ">=1.3,<3.0"
-httpx = ">=0.24,<0.26"
-postgrest = ">=0.10.8,<0.16.0"
-realtime = ">=1.0.0,<2.0.0"
-storage3 = ">=0.5.3,<0.8.0"
-supafunc = ">=0.3.1,<0.4.0"
-
-[[package]]
-name = "supafunc"
-version = "0.3.3"
-description = "Library for Supabase Functions"
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "supafunc-0.3.3-py3-none-any.whl", hash = "sha256:8260b4742335932f9cab64c8f66fb6998681b7e8ca7a46b559a4eb640cc0af80"},
-    {file = "supafunc-0.3.3.tar.gz", hash = "sha256:c35897a2f40465b40d7a08ae11f872f08eb8d1390c3ebc72c80e27d33ba91b99"},
-]
-
-[package.dependencies]
-httpx = ">=0.24,<0.26"
 
 [[package]]
 name = "typing-extensions"
@@ -1862,4 +1679,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "527c58ebc0c5baf80968264da15d9c1ed8f8789df8a9a036abd8a4af55d2ab39"
+content-hash = "9c3b487396521730c9a1179e3ba36b5ab94c8cac5414f1e355a733568fc5635d"

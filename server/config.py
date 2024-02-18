@@ -10,8 +10,6 @@ DB_NAME = os.environ.get("DB_NAME")
 DB_USER = os.environ.get("DB_USER")
 DB_PASS = os.environ.get("DB_PASS")
 AUTH_SECRET = os.environ.get("AUTH_SECRET")
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 
 S3_ENDPOINT_URL = os.environ.get("S3_ENDPOINT_URL")
 S3_REGION_NAME = os.environ.get("S3_REGION_NAME")
