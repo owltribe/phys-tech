@@ -14,13 +14,11 @@ from src.organization.schemas import (
     OrganizationUpdate,
 )
 from src.s3.service import S3Service
-from src.supabase.service import SupabaseService
 
 
 class OrganizationService:
     def __init__(self, session: Session) -> None:
         self.session = session
-        self.supabase_service = SupabaseService(session)
         self.s3_service = S3Service()
 
     def paginated_list(
