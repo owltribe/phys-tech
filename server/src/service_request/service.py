@@ -6,7 +6,7 @@ from fastapi_pagination.links import Page
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from models import ServiceRequest, ServiceRequestStatus, User
+from models import Service, ServiceRequest, ServiceRequestStatus, User
 from src.service_request.schemas import (
     ServiceRequestCreate,
     ServiceRequestFilter,
@@ -22,7 +22,7 @@ class ServiceRequestService:
     def paginated_list(
         self, service_request_filter: ServiceRequestFilter
     ) -> Page[ServiceRequestRead]:
-        query = select(ServiceRequest)
+        query = select(ServiceRequest).outerjoin(Service)
         query = service_request_filter.filter(query)
         query = service_request_filter.sort(query)
 

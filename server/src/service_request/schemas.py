@@ -1,12 +1,13 @@
 from datetime import datetime
 from typing import List, Optional
 
+from fastapi_filter import FilterDepends, with_prefix
 from fastapi_filter.contrib.sqlalchemy import Filter
 from pydantic import UUID4, BaseModel
 
 from models import ServiceRequest, ServiceRequestStatus
 from src.auth.schemas import UserRead
-from src.service.schemas import ServiceRead
+from src.service.schemas import ServiceFilter, ServiceRead
 
 
 class ServiceRequestCreate(BaseModel):
@@ -36,6 +37,9 @@ class ServiceRequestFilter(Filter):
     search: Optional[str] = None
     status: Optional[ServiceRequestStatus] = None
     requested_by_id: Optional[str] = None
+    service: Optional[ServiceFilter] = FilterDepends(
+        with_prefix("service", ServiceFilter)
+    )
 
     class Constants(Filter.Constants):
         model = ServiceRequest
