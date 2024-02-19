@@ -1,11 +1,14 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import useClient from "hooks/useClient";
-import { ErrorModel, ServiceRequestRead } from "types/generated";
+import { ErrorModel, ServiceRequestRetrieve } from "types/generated";
 
 export default function useServiceRequest(
   serviceRequestId: string
-): UseQueryResult<AxiosResponse<ServiceRequestRead>, AxiosError<ErrorModel>> {
+): UseQueryResult<
+  AxiosResponse<ServiceRequestRetrieve>,
+  AxiosError<ErrorModel>
+> {
   const client = useClient();
 
   const fetchServiceRequests = () => {

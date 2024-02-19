@@ -10,6 +10,7 @@ from src.service_request.schemas import (
     ServiceRequestCreate,
     ServiceRequestFilter,
     ServiceRequestRead,
+    ServiceRequestRetrieve,
     ServiceRequestUpdate,
 )
 from src.service_request.service import ServiceRequestService
@@ -49,7 +50,7 @@ def create(
 
 
 @service_request_router.get(
-    "/{service_request_id}", response_model=ServiceRequestRead
+    "/{service_request_id}", response_model=ServiceRequestRetrieve
 )
 @rbac(
     roles=[UserRole.ORGANIZATION, UserRole.CLIENT],

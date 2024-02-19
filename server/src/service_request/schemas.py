@@ -7,7 +7,7 @@ from pydantic import UUID4, BaseModel
 
 from models import ServiceRequest, ServiceRequestStatus
 from src.auth.schemas import UserRead
-from src.service.schemas import ServiceFilter, ServiceRead
+from src.service.schemas import ServiceFilter, ServiceRead, ServiceRetrieve
 
 
 class ServiceRequestCreate(BaseModel):
@@ -19,6 +19,17 @@ class ServiceRequestRead(BaseModel):
     id: UUID4
     status: ServiceRequestStatus
     service: ServiceRead
+    requested_by: UserRead
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class ServiceRequestRetrieve(BaseModel):
+    id: UUID4
+    status: ServiceRequestStatus
+    service: ServiceRetrieve
     requested_by: UserRead
     created_at: datetime
 

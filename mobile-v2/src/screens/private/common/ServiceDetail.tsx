@@ -132,6 +132,7 @@ const ServiceDetail = ({
             >
               <ImageIcon
                 size={42}
+                strokeWidth={1.2}
                 color={COLOR_TEXT_DEFAULT}
               />
             </Surface>

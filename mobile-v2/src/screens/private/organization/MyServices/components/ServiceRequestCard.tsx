@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
   badge: {
     position: "absolute",
     zIndex: 5,
-    top: 4,
-    right: 0,
+    top: -8,
+    right: 4,
     paddingHorizontal: 6
   }
 });

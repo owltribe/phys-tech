@@ -4,13 +4,12 @@ import { Button, Divider, List } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
 import useServiceRequest from "hooks/service_requests/useServiceRequest";
 import useUpdateServiceRequest from "hooks/service_requests/useUpdateServiceRequest";
+import { useAuth } from "providers/AuthProvider";
 import { ServiceRequestScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import { ServiceRequestStatus } from "types/generated";
 import { getServiceRequestStatusLabel } from "utils/enum-helpers";
 import { showToastWithGravityAndOffset } from "utils/notifications";
-
-import { useAuth } from "../../../../providers/AuthProvider";
 
 import ApproveModal from "./components/ApproveModal";
 
@@ -29,7 +28,7 @@ const ServiceRequestDetail = ({
   const [isDeclineModalVisible, setIsDeclineModalVisible] = useState(false);
   const [isCompletedModalVisible, setIsCompletedModalVisible] = useState(false);
 
-  const actionButtonsVisible = user?.role === "Organization";
+  const isOrganization = user?.role === "Organization";
 
   const handleSubmit = (status: ServiceRequestStatus) => {
     if (isSuccess && data?.data) {
@@ -108,7 +107,7 @@ const ServiceRequestDetail = ({
         />
         <List.Item
           title={data?.data.service.expected_result}
-          description="Ождиемый результат"
+          description="Ожидаемый результат"
         />
         <List.Item
           title={getServiceRequestStatusLabel(data?.data.status || "Pending")}
@@ -120,21 +119,37 @@ const ServiceRequestDetail = ({
         <Divider bold />
       </View>
 
-      <List.Section
-        title="Информация о заказчике"
-        titleStyle={{ fontSize: 22, fontWeight: "700" }}
-      >
-        <List.Item
-          title={data?.data.requested_by.full_name}
-          description="Полное имя"
-        />
-        <List.Item
-          title={data?.data.requested_by.email}
-          description="Электронная почта"
-        />
-      </List.Section>
+      {isOrganization ? (
+        <List.Section
+          title="Информация о заказчике"
+          titleStyle={{ fontSize: 22, fontWeight: "700" }}
+        >
+          <List.Item
+            title={data?.data.requested_by.full_name}
+            description="Полное имя"
+          />
+          <List.Item
+            title={data?.data.requested_by.email}
+            description="Электронная почта"
+          />
+        </List.Section>
+      ) : (
+        <List.Section
+          title="Информация о поставщике"
+          titleStyle={{ fontSize: 22, fontWeight: "700" }}
+        >
+          <List.Item
+            title={data?.data.service.organization.name}
+            description="Название организации"
+          />
+          <List.Item
+            title={data?.data.service.organization.email}
+            description="Электронная почта"
+          />
+        </List.Section>
+      )}
 
-      {actionButtonsVisible && (
+      {isOrganization && (
         <View style={commonStyles.container}>
           {data?.data.status === "Pending" && (
             <>
