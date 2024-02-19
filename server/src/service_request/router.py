@@ -23,14 +23,14 @@ service = ServiceRequestService(session=DbSession)
 
 
 @service_request_router.get("", response_model=Page[ServiceRequestRead])
-# @rbac(
-#     roles=[UserRole.ORGANIZATION, UserRole.CLIENT],
-# )
+@rbac(
+    roles=[UserRole.ORGANIZATION, UserRole.CLIENT],
+)
 def paginated_list(
     service_request_filter: ServiceRequestFilter = FilterDepends(
         ServiceRequestFilter
     ),
-    # current_user: User = Depends(current_active_user),
+    current_user: User = Depends(current_active_user),
 ):
     return service.paginated_list(service_request_filter)
 
