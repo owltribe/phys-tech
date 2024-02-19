@@ -9,9 +9,11 @@ import { commonStyles } from "styles/commonStyles";
 import ServiceCard from "./ServiceCard";
 
 const ServiceList = ({
-  navigation
+  navigation,
+  isEditable
 }: {
   navigation: ServicesScreenProps["navigation"];
+  isEditable?: boolean;
 }) => {
   const { user } = useAuth();
 
@@ -51,11 +53,13 @@ const ServiceList = ({
       renderItem={({ item }) => (
         <ServiceCard
           serviceData={item}
-          onPress={() =>
-            navigation.navigate("Service", {
-              serviceId: item.id
-            })
+          onNavigateToDetail={() =>
+            navigation.navigate("Service", { serviceId: item.id })
           }
+          onNavigateToEdit={() =>
+            navigation.navigate("ServiceEdit", { service: item })
+          }
+          isEditable={isEditable}
         />
       )}
       ListFooterComponent={ListFooter}

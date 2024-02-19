@@ -1,30 +1,82 @@
+import { useState } from "react";
 import { StyleSheet } from "react-native";
-import { Card, IconButton, MD2Colors } from "react-native-paper";
+import { Card, IconButton, MD2Colors, Menu } from "react-native-paper";
 import { ServiceRead } from "types/generated";
 
 const ServiceCard = ({
   serviceData,
-  onPress
+  onNavigateToDetail,
+  onNavigateToEdit,
+  isEditable
 }: {
   serviceData: ServiceRead;
-  onPress: () => void;
+  onNavigateToDetail: () => void;
+  onNavigateToEdit?: () => void;
+  isEditable?: boolean;
 }) => {
+  const [visible, setVisible] = useState(false);
+
+  const openMenu = () => {
+    setVisible(true);
+  };
+  const closeMenu = () => {
+    setVisible(false);
+  };
+
   return (
-    <Card
-      mode="elevated"
-      style={styles.card}
-      onPress={onPress}
-    >
-      <Card.Content style={styles.content}>
-        <Card.Title
-          title={serviceData.name}
-          subtitle={serviceData.description}
-          titleVariant="titleMedium"
-          style={styles.title}
-          right={() => <IconButton icon="chevron-right" />}
-        />
-      </Card.Content>
-    </Card>
+    <>
+      <Card
+        mode="elevated"
+        style={styles.card}
+        onPress={isEditable ? undefined : onNavigateToDetail}
+      >
+        <Card.Content style={styles.content}>
+          <Card.Title
+            title={serviceData.name}
+            subtitle={serviceData.description}
+            titleVariant="titleMedium"
+            style={styles.title}
+            right={({ size }) =>
+              isEditable ? (
+                <Menu
+                  visible={visible}
+                  onDismiss={closeMenu}
+                  anchor={
+                    <IconButton
+                      icon="dots-horizontal"
+                      size={size}
+                      onPress={openMenu}
+                    />
+                  }
+                >
+                  <Menu.Item
+                    onPress={() => {
+                      if (onNavigateToEdit) {
+                        onNavigateToEdit();
+                      }
+                      closeMenu();
+                    }}
+                    title="Редактировать"
+                  />
+                  <Menu.Item
+                    onPress={() => {
+                      onNavigateToDetail();
+                      closeMenu();
+                    }}
+                    title="Детали"
+                  />
+                </Menu>
+              ) : (
+                <IconButton
+                  icon="chevron-right"
+                  size={size}
+                />
+              )
+            }
+          />
+        </Card.Content>
+      </Card>
+    </>
   );
 };
 

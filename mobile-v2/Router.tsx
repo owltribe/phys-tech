@@ -10,6 +10,7 @@ import ProfileEdit from "./src/screens/private/common/ProfileEdit";
 import ServiceDetail from "./src/screens/private/common/ServiceDetail";
 import ServiceRequestDetail from "./src/screens/private/common/ServiceRequestDetail/ServiceRequestDetail";
 import OrganizationEdit from "./src/screens/private/organization/OrganizationEdit";
+import ServiceEdit from "./src/screens/private/organization/ServiceEdit";
 import Login from "./src/screens/public/Login";
 import Onboarding from "./src/screens/public/Onboarding";
 import Register from "./src/screens/public/Register";
@@ -37,7 +38,12 @@ export default function Router() {
             <Stack.Screen
               name="Service"
               component={ServiceDetail}
-              options={{ title: "Сервис" }}
+              options={{ title: "Услуга" }}
+            />
+            <Stack.Screen
+              name="ServiceEdit"
+              component={ServiceEdit}
+              options={{ title: "Редактирование услуги" }}
             />
             <Stack.Screen
               name="ServiceRequest"

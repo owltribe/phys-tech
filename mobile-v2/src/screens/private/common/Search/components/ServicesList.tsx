@@ -44,7 +44,9 @@ const ServicesList = ({
       renderItem={({ item }) => (
         <ServiceCard
           serviceData={item}
-          onPress={() => navigation.navigate("Service", { serviceId: item.id })}
+          onNavigateToDetail={() =>
+            navigation.navigate("Service", { serviceId: item.id })
+          }
         />
       )}
       ListFooterComponent={ListFooter}

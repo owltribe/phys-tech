@@ -12,7 +12,7 @@ import MyServiceRequests from "screens/private/client/MyServiceRequests";
 import Home from "screens/private/common/Home";
 import Profile from "screens/private/common/Profile";
 import Search from "screens/private/common/Search/Search";
-import Services from "screens/private/organization/MyServices";
+import MyServices from "screens/private/organization/MyServices";
 import { RootStackParamList } from "screens/types";
 import theme from "styles/theme";
 
@@ -51,7 +51,7 @@ export default function BottomNavigationTab() {
       {isOrganization ? (
         <Tab.Screen
           name="Services"
-          component={Services}
+          component={MyServices}
           options={{
             title: "Мои Услуги",
             tabBarLabel: "Мои Услуги",
