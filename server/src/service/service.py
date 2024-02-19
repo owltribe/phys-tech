@@ -47,7 +47,7 @@ class ServiceService:
         return []
 
     def retrieve(
-        self, service_id: str, current_user: Optional[User]
+        self, service_id: str, current_user: Optional[User] = None
     ) -> Type[Service]:
         instance = (
             self.session.query(Service)
@@ -56,7 +56,7 @@ class ServiceService:
             .first()
         )
 
-        if instance in self.list_by_user_id(current_user.id):
+        if current_user and instance in self.list_by_user_id(current_user.id):
             instance.is_editable = True
 
         if instance is None:
