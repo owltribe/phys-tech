@@ -108,7 +108,7 @@ const ServiceRequestDetail = ({
         />
         <List.Item
           title={data?.data.service.expected_result}
-          description="Ождиемый результат"
+          description="Ожидаемый результат"
         />
         <List.Item
           title={getServiceRequestStatusLabel(data?.data.status || "Pending")}
