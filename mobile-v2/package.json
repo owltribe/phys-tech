@@ -19,6 +19,7 @@
     "axios": "^1.6.5",
     "dayjs": "^1.11.10",
     "expo": "~50.0.6",
+    "expo-font": "^11.10.3",
     "expo-image-picker": "~14.7.1",
     "expo-status-bar": "~1.11.1",
     "lucide-react-native": "^0.320.0",
