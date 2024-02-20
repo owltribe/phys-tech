@@ -1,7 +1,4 @@
-import {
-  configureFonts,
-  MD3LightTheme as DefaultTheme
-} from "react-native-paper";
+import { MD3LightTheme } from "react-native-paper";
 
 const fontConfig = {
   web: {
@@ -110,12 +107,7 @@ const lightBlueColors = {
 };
 
 const theme = {
-  ...DefaultTheme,
-  ...lightBlueColors
-  // colors: {
-  //   ...DefaultTheme.colors,
-  // },
-  // fonts: configureFonts({config: fontConfig as Partial<MD3Type>, isV3: false}),
+  ...MD3LightTheme
 };
 
 export default theme;

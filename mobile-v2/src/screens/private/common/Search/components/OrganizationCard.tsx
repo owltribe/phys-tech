@@ -13,7 +13,7 @@ const OrganizationCard = ({
   return (
     <Card
       mode="elevated"
-      style={styles.card}
+      style={[styles.card]}
       onPress={onPress}
     >
       <Card.Title
@@ -43,7 +43,8 @@ const OrganizationCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: MD2Colors.white
+    backgroundColor: MD2Colors.white,
+    marginHorizontal: 16
   },
   title: {
     flexShrink: 1,

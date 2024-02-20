@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import { ActivityIndicator, Chip } from "react-native-paper";
 import EmptyStatement from "components/EmptyStatement";
 import useOrganizations from "hooks/organization/useOrganizations";
@@ -57,28 +57,9 @@ const OrganizationsList = ({
 
   return (
     <>
-      <View style={styles.row}>
-        {organizationCategories.map((category) => (
-          <Chip
-            key={category.value}
-            selected={categories.includes(category.value)}
-            mode="outlined"
-            showSelectedOverlay
-            onPress={() => toggleCategory(category.value)}
-            style={styles.chip}
-          >
-            {category.label}
-          </Chip>
-        ))}
-      </View>
-
       <FlatList
         data={data?.data.items}
-        contentContainerStyle={[
-          commonStyles.defaultHorizontalPadding,
-          commonStyles.defaultVerticalPadding,
-          commonStyles.defaultListGap
-        ]}
+        contentContainerStyle={[commonStyles.defaultListGap]}
         renderItem={({ item }) => (
           <OrganizationCard
             organizationData={item}
@@ -87,6 +68,28 @@ const OrganizationsList = ({
             }
           />
         )}
+        ListHeaderComponent={
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            contentContainerStyle={commonStyles.defaultHorizontalPadding}
+          >
+            {organizationCategories
+              .sort((c) => (categories.includes(c.value) ? -1 : 1))
+              .map((category) => (
+                <Chip
+                  key={category.value}
+                  selected={categories.includes(category.value)}
+                  mode="outlined"
+                  showSelectedOverlay
+                  onPress={() => toggleCategory(category.value)}
+                  style={styles.chip}
+                >
+                  {category.label}
+                </Chip>
+              ))}
+          </ScrollView>
+        }
         ListFooterComponent={ListFooter}
       />
     </>

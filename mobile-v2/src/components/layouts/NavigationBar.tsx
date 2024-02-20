@@ -11,7 +11,10 @@ export default function NavigationBar({
   const title = getHeaderTitle(options, route.name);
 
   return (
-    <Appbar.Header>
+    <Appbar.Header
+      mode="center-aligned"
+      elevated
+    >
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
       <Appbar.Content title={title} />
     </Appbar.Header>
