@@ -17,18 +17,7 @@ COPY . /app
 # Expose port 8080 as required by App Platform
 EXPOSE 8080
 
-CMD [
-    "poetry",
-    "run",
-    "uvicorn",
-    "main:app",
-    "--host",
-    "0.0.0.0",
-    "--port",
-    "8080",
-    "--forwarded-allow-ips='*'",
-    "--proxy-headers"
-    ]
+CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080", "--forwarded-allow-ips='*'", "--proxy-headers"]
 
 # Migrations apply
 #CMD ["poetry", "run", "alembic", "upgrade", "head"]
