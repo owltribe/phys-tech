@@ -1,15 +1,16 @@
 import React from "react";
-import { View } from "react-native";
+import { StyleProp, View, ViewStyle } from "react-native";
 import { HelperText, TextInput } from "react-native-paper";
 
 export interface TextFieldProps
   extends Omit<React.ComponentProps<typeof TextInput>, "error"> {
   error?: string;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
-const TextField = ({ error, ...props }: TextFieldProps) => {
+const TextField = ({ error, containerStyle, ...props }: TextFieldProps) => {
   return (
-    <View>
+    <View style={containerStyle}>
       <TextInput
         outlineStyle={{
           borderRadius: 12

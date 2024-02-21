@@ -8,7 +8,6 @@ import {
   View
 } from "react-native";
 import { Divider, SegmentedButtons } from "react-native-paper";
-import DropDown from "react-native-paper-dropdown";
 import { yupResolver } from "@hookform/resolvers/yup";
 import DialogWithRadioBtns from "components/fields/DialogWithRadioBtns";
 import TextField from "components/fields/TextField";

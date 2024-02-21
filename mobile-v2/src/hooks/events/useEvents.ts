@@ -33,7 +33,7 @@ export default function useEvents({
   useRefreshOnFocus(fetchEvents);
 
   return useQuery({
-    queryKey: ["event", search, startDate, eventName],
+    queryKey: ["events", search, startDate, eventName],
     queryFn: fetchEvents
   });
 }
