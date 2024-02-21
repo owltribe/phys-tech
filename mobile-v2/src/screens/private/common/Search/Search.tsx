@@ -35,7 +35,7 @@ export default function Search({
 
   return (
     <ScreenWrapper withScrollView={false}>
-      <KeyboardAvoidingView style={[styles.container]}>
+      <KeyboardAvoidingView>
         <View style={commonStyles.container}>
           <Searchbar
             placeholder="Поиск..."
@@ -71,9 +71,3 @@ export default function Search({
     </ScreenWrapper>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 32
-  }
-});
