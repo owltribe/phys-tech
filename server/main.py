@@ -22,8 +22,8 @@ app = FastAPI()
 # Third party apps
 add_pagination(app)
 admin = Admin(
-    app,
-    sync_engine,
+    app=app,
+    engine=sync_engine,
     authentication_backend=admin_authentication_backend,
     title="PhysTech Admin",
 )
