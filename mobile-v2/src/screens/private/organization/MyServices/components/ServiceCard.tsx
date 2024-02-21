@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StyleSheet } from "react-native";
-import { Card, IconButton, MD2Colors, Menu } from "react-native-paper";
+import { Card, IconButton, MD2Colors, Menu, Text } from "react-native-paper";
 import { ServiceRead } from "types/generated";
 
 const ServiceCard = ({
@@ -74,6 +74,7 @@ const ServiceCard = ({
               )
             }
           />
+          <Text>{serviceData.organization?.name}</Text>
         </Card.Content>
       </Card>
     </>
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: MD2Colors.white
   },
   content: {
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
     paddingHorizontal: 0,
     paddingVertical: 0
