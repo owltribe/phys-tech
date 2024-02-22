@@ -146,12 +146,10 @@ const styles = StyleSheet.create({
     gap: 12
   },
   itemLabel: {
-    flex: 1,
     color: mantineColors.dark[3],
     fontFamily: "GoogleSans-Regular"
   },
   itemText: {
-    flex: 1,
     textAlign: "right",
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
