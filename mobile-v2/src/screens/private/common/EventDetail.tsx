@@ -16,7 +16,7 @@ const EventDetail = ({
     <ScreenWrapper withScrollView={false}>
       <KeyboardAvoidingView style={commonStyles.container}>
         <Surface
-          style={styles.imageContainer}
+          style={styles.surface}
           mode="flat"
           elevation={4}
         >
