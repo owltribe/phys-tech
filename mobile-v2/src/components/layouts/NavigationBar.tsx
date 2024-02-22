@@ -32,7 +32,6 @@ export default function NavigationBar({
         </TouchableHighlight>
       )}
 
-      {/*{back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}*/}
       <Appbar.Content
         title={title}
         titleStyle={styles.title}
@@ -55,6 +54,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: mantineColors.dark[5],
-    fontFamily: "GoogleSans-Bold"
+    fontFamily: "GoogleSans-Bold",
+    fontSize: 20
   }
 });

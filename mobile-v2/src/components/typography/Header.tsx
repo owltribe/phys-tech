@@ -18,7 +18,6 @@ const Header = ({ children, align = "center" }: Props) => (
 const styles = StyleSheet.create({
   header: {
     fontSize: 30,
-    // fontWeight: "800",
     lineHeight: 42,
     width: "100%",
     fontFamily: "GoogleSans-Bold",

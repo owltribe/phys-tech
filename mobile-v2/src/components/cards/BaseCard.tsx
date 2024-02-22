@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { Bolt, ChevronRight } from "lucide-react-native";
 import { mantineColors, white } from "utils/colors";
 
@@ -91,12 +85,13 @@ const styles = StyleSheet.create({
     gap: 2
   },
   title: {
-    fontWeight: "600",
+    fontFamily: "GoogleSans-Bold",
     fontSize: 16
   },
   description: {
+    fontFamily: "GoogleSans-Regular",
     fontSize: 14,
-    color: mantineColors.gray[5]
+    color: mantineColors.gray[6]
   }
 });
 

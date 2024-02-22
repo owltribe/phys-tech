@@ -34,6 +34,18 @@ export const mantineColors = {
     "#1C7ED6",
     "#1971C2",
     "#1864AB"
+  ],
+  red: [
+    "#FFF5F5",
+    "#FFE3E3",
+    "#FFC9C9",
+    "#FFA8A8",
+    "#FF8787",
+    "#FF6B6B",
+    "#FA5252",
+    "#F03E3E",
+    "#E03131",
+    "#C92A2A"
   ]
 };
 
