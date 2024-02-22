@@ -39,7 +39,7 @@ const ServiceRequestCard = ({
               "DD/MM/YYYY HH:mm"
             )}`}
             titleVariant="titleMedium"
-            style={styles.title}
+            style={styles.cardTitle}
             right={() => <IconButton icon="chevron-right" />}
           />
         </Card.Content>

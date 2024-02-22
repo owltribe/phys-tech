@@ -4,10 +4,10 @@ import {
   Image,
   KeyboardAvoidingView,
   StyleSheet,
+  Text,
   View
 } from "react-native";
-import { COLOR_TEXT_DEFAULT } from "react-native-onboard/lib/OnboardFlow/constants";
-import { Snackbar, Surface, Text } from "react-native-paper";
+import { Divider, Snackbar, Text as PaperText } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
 import PrimaryButton from "components/PrimaryButton";
 import ScreenWrapper from "components/ScreenWrapper";
@@ -15,12 +15,15 @@ import * as ImagePicker from "expo-image-picker";
 import useCreateServiceRequest from "hooks/service_requests/useCreateServiceRequest";
 import useService from "hooks/services/useService";
 import useUploadServiceImage from "hooks/services/useUploadServiceImage";
-import { ImageIcon } from "lucide-react-native";
+import { ImageIcon, Instagram } from "lucide-react-native";
 import { useAuth } from "providers/AuthProvider";
 import { ServiceScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
+import { mantineColors } from "utils/colors";
 import { getFormattedError } from "utils/error-helper";
 import { showToastWithGravityAndOffset } from "utils/notifications";
+
+import { formatCost } from "../../../utils/money-formatter";
 
 const ServiceDetail = ({
   navigation,
@@ -102,15 +105,23 @@ const ServiceDetail = ({
     }
   };
 
+  const handleNavigateToOrganization = (organizationId: string) => {
+    navigation.navigate("Organization", {
+      organizationId: organizationId
+    });
+  };
+
   return (
     <>
       <ScreenWrapper>
-        <KeyboardAvoidingView style={commonStyles.container}>
+        <KeyboardAvoidingView
+          style={[commonStyles.container, commonStyles.defaultListGap]}
+        >
           {data?.data.service_images?.length ? (
             <Carousel
               loop={false}
               pagingEnabled
-              style={styles.surface}
+              style={styles.imageContainer}
               width={width - 16 * 2}
               height={width / 2}
               data={data?.data.service_images || []}
@@ -125,28 +136,67 @@ const ServiceDetail = ({
               )}
             />
           ) : (
-            <Surface
-              style={styles.surface}
-              mode="flat"
-              elevation={4}
-            >
-              <ImageIcon
+            <View style={styles.imageContainer}>
+              <Instagram
                 size={42}
-                strokeWidth={1.2}
-                color={COLOR_TEXT_DEFAULT}
+                color={mantineColors.dark[5]}
               />
-            </Surface>
+            </View>
           )}
 
-          <Text
-            variant="headlineSmall"
-            style={{ fontWeight: "700" }}
-          >
-            {data?.data.name}
-          </Text>
-          <Text variant="titleMedium">{`Ожидаемый результат: ${data?.data.expected_result}`}</Text>
-          <Text variant="titleMedium">{`Описание: ${data?.data.description}`}</Text>
-          <Text variant="titleMedium">{`Цена: ${data?.data.cost} KZT`}</Text>
+          {data?.data && (
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>Главное</Text>
+              <View style={styles.cardInnerContainer}>
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Название</Text>
+                  <Text style={styles.itemText}>{data.data.name}</Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Ожидаемый результат</Text>
+                  <Text style={styles.itemText}>
+                    {data.data.expected_result}
+                  </Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Цена</Text>
+                  <Text style={styles.itemText}>
+                    {formatCost(data.data.cost)}
+                  </Text>
+                </View>
+              </View>
+              <Divider bold />
+              <View style={styles.item}>
+                <Text style={styles.itemLabel}>Организация</Text>
+                <Text
+                  style={styles.itemLink}
+                  onPress={() =>
+                    handleNavigateToOrganization(data.data.organization.id)
+                  }
+                >
+                  {data.data.organization.name}
+                </Text>
+              </View>
+            </View>
+          )}
+
+          {data?.data.description && (
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>Описание</Text>
+              <View style={styles.cardInnerContainer}>
+                <Text style={styles.itemText}>{data.data.description}</Text>
+              </View>
+            </View>
+          )}
+
+          {/*<View style={styles.card}>*/}
+          {/*  <Text style={styles.cardTitle}>Услуги Организации</Text>*/}
+          {/*  <View style={styles.cardInnerContainer}>*/}
+          {/*    <Text style={styles.itemText}>s</Text>*/}
+          {/*  </View>*/}
+          {/*</View>*/}
 
           <View style={styles.button}>
             {isOrganization && data?.data.is_editable && (
@@ -203,13 +253,53 @@ const ServiceDetail = ({
 };
 
 const styles = StyleSheet.create({
-  surface: {
+  imageContainer: {
+    backgroundColor: mantineColors.gray[1],
     borderRadius: 16,
     height: 200,
     width: "100%",
     alignItems: "center",
     justifyContent: "center"
   },
+  card: {
+    // backgroundColor: mantineColors.gray[1],
+    borderRadius: 16,
+    paddingVertical: 18,
+    paddingHorizontal: 6,
+    gap: 24
+  },
+  cardTitle: {
+    fontSize: 22,
+    color: mantineColors.dark[5],
+    fontFamily: "GoogleSans-Medium"
+  },
+  cardInnerContainer: {
+    flex: 1,
+    gap: 16
+  },
+  item: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 12
+  },
+  itemLabel: {
+    flex: 1,
+    color: mantineColors.dark[3],
+    fontFamily: "GoogleSans-Regular"
+  },
+  itemText: {
+    flex: 1,
+    color: mantineColors.dark[5],
+    fontFamily: "GoogleSans-Medium"
+  },
+  itemLink: {
+    flex: 1,
+    color: mantineColors.blue[5],
+    fontFamily: "GoogleSans-MediumItalic",
+    textDecorationLine: "underline"
+  },
+
   button: {
     marginTop: 16
   },

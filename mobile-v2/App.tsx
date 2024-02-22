@@ -18,6 +18,7 @@ export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     "GoogleSans-Regular": require("./assets/fonts/GoogleSans-Regular.ttf"),
     "GoogleSans-Medium": require("./assets/fonts/GoogleSans-Medium.ttf"),
+    "GoogleSans-MediumItalic": require("./assets/fonts/GoogleSans-MediumItalic.ttf"),
     "GoogleSans-Bold": require("./assets/fonts/GoogleSans-Bold.ttf")
   });
 

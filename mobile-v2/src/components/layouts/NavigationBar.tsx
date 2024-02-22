@@ -3,9 +3,8 @@ import { Appbar } from "react-native-paper";
 import { getHeaderTitle } from "@react-navigation/elements";
 import { StackHeaderProps } from "@react-navigation/stack";
 import { ChevronLeft } from "lucide-react-native";
+import { commonStyles } from "styles/commonStyles";
 import { mantineColors, white } from "utils/colors";
-
-import { commonStyles } from "../../styles/commonStyles";
 
 export default function NavigationBar({
   navigation,
