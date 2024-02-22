@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
   },
   title: {
     color: mantineColors.dark[5],
-    fontWeight: "700"
+    fontFamily: "GoogleSans-Bold"
   }
 });
