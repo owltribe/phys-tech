@@ -198,7 +198,11 @@ const OrganizationEdit = ({
                 key={si.id}
                 style={styles.imageContainer}
                 onPress={() => handleDestroyServiceImage(si.id)}
-                disabled={destroyServiceImageMutation.isPending || isLoading}
+                disabled={
+                  uploadServiceImageMutation.isPending ||
+                  destroyServiceImageMutation.isPending ||
+                  isLoading
+                }
               >
                 <>
                   {uploadServiceImageMutation.isPending ||
