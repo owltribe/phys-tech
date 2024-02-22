@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { OrganizationRead } from './OrganizationRead';
 import type { ServiceImageRead } from './ServiceImageRead';
 export type ServiceRead = {
     id: string;
@@ -10,6 +11,7 @@ export type ServiceRead = {
     expected_result: (string | null);
     cost: number;
     service_images?: Array<ServiceImageRead>;
+    organization: OrganizationRead;
     is_editable?: boolean;
 };
 
