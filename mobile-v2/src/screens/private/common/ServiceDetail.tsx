@@ -7,23 +7,22 @@ import {
   Text,
   View
 } from "react-native";
-import { Divider, Snackbar, Text as PaperText } from "react-native-paper";
+import { Divider, Snackbar } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
-import PrimaryButton from "components/PrimaryButton";
+import OutlineButton from "components/buttons/OutlineButton";
+import SolidButton from "components/buttons/SolidButton";
 import ScreenWrapper from "components/ScreenWrapper";
-import * as ImagePicker from "expo-image-picker";
 import useCreateServiceRequest from "hooks/service_requests/useCreateServiceRequest";
+import useDestroyService from "hooks/services/useDestroyService";
 import useService from "hooks/services/useService";
-import useUploadServiceImage from "hooks/services/useUploadServiceImage";
-import { ImageIcon, Instagram } from "lucide-react-native";
+import { Bolt, SquarePen, Trash2 } from "lucide-react-native";
 import { useAuth } from "providers/AuthProvider";
 import { ServiceScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import { mantineColors } from "utils/colors";
 import { getFormattedError } from "utils/error-helper";
+import { formatCost } from "utils/money-formatter";
 import { showToastWithGravityAndOffset } from "utils/notifications";
-
-import { formatCost } from "../../../utils/money-formatter";
 
 const ServiceDetail = ({
   navigation,
@@ -42,7 +41,7 @@ const ServiceDetail = ({
   const { data, isSuccess, isLoading } = useService(serviceId);
 
   const createServiceRequestMutation = useCreateServiceRequest();
-  const uploadServiceImageMutation = useUploadServiceImage(serviceId);
+  const destroyServiceMutation = useDestroyService(serviceId);
 
   const isOrganization = user?.role === "Organization";
 
@@ -53,7 +52,7 @@ const ServiceDetail = ({
         {
           onSuccess: (response) => {
             setSnackbarContent({
-              message: `Заявка на услугу "${response.data.service.name}" была создана. Переключитесь на вкладку заявки, чтобы посмотреть актуальный статус.`,
+              message: `Заявка на услугу была создана. Переключитесь на вкладку заявки, чтобы посмотреть актуальный статус.`,
               requestId: response.data.id
             });
           },
@@ -70,44 +69,28 @@ const ServiceDetail = ({
     }
   };
 
-  const handleUploadServiceImage = async () => {
-    const options: ImagePicker.ImagePickerOptions = {
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 0.75
-    };
-
-    const result = await ImagePicker.launchImageLibraryAsync(options);
-
-    if (!result.canceled) {
-      const formData = new FormData();
-
-      const image = {
-        uri: result.assets[0].uri,
-        type: "image/png",
-        name: `service-image-${serviceId}`
-      };
-      // @ts-ignore
-      formData.append("image", image);
-
-      uploadServiceImageMutation.mutate(formData, {
-        onSuccess: () => {
-          showToastWithGravityAndOffset("Изображение успешно загружено");
-        },
-        onError: (error) => {
-          showToastWithGravityAndOffset(
-            getFormattedError(
-              error.response?.data.detail || "Не удалось загрузить изображение"
-            )
-          );
-        }
-      });
-    }
-  };
-
   const handleNavigateToOrganization = (organizationId: string) => {
     navigation.navigate("Organization", {
       organizationId: organizationId
+    });
+  };
+
+  const handleDestroyService = () => {
+    destroyServiceMutation.mutate(undefined, {
+      onSuccess: () => {
+        showToastWithGravityAndOffset(
+          `Услуга "${data?.data.name}" была удалена.`
+        );
+        navigation.navigate("Services");
+      },
+      onError: (e) => {
+        showToastWithGravityAndOffset(
+          `Ошибка удаление услуги. ${getFormattedError(
+            e.response?.data.detail || ""
+          )}`
+        );
+        navigation.navigate("Services");
+      }
     });
   };
 
@@ -137,7 +120,7 @@ const ServiceDetail = ({
             />
           ) : (
             <View style={styles.imageContainer}>
-              <Instagram
+              <Bolt
                 size={42}
                 color={mantineColors.dark[5]}
               />
@@ -191,34 +174,33 @@ const ServiceDetail = ({
             </View>
           )}
 
-          <View style={styles.button}>
-            {isOrganization && data?.data.is_editable && (
-              <PrimaryButton
-                mode="contained"
-                icon={(props) => (
-                  <ImageIcon
-                    {...props}
-                    size={22}
-                  />
-                )}
-                loading={uploadServiceImageMutation.isPending}
-                disabled={isLoading}
-                onPress={handleUploadServiceImage}
-              >
-                Добавить изображение
-              </PrimaryButton>
-            )}
-            {!isOrganization && (
-              <PrimaryButton
-                mode="contained"
-                loading={createServiceRequestMutation.isPending}
-                disabled={isLoading || user?.role === "Organization"}
-                onPress={handleSubmit}
-              >
-                Запросить услугу
-              </PrimaryButton>
-            )}
-          </View>
+          {data?.data.is_editable && isOrganization && (
+            <>
+              <SolidButton
+                title="Редактировать"
+                Icon={SquarePen}
+                onPress={() =>
+                  navigation.navigate("ServiceEdit", { service: data.data })
+                }
+              />
+              <OutlineButton
+                title="Удалить"
+                color="red"
+                Icon={Trash2}
+                loading={destroyServiceMutation.isPending}
+                onPress={handleDestroyService}
+              />
+            </>
+          )}
+
+          {!isOrganization && (
+            <SolidButton
+              title="Запросить услугу"
+              loading={createServiceRequestMutation.isPending}
+              disabled={isLoading}
+              onPress={handleSubmit}
+            />
+          )}
         </KeyboardAvoidingView>
       </ScreenWrapper>
 
@@ -292,9 +274,6 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline"
   },
 
-  button: {
-    marginTop: 16
-  },
   image: {
     flex: 1,
     width: "100%"
