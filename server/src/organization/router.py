@@ -10,7 +10,8 @@ from src.organization.schemas import (
     OrganizationCreate,
     OrganizationFilter,
     OrganizationRead,
-    OrganizationUpdate, OrganizationRetrieve,
+    OrganizationRetrieve,
+    OrganizationUpdate,
 )
 from src.organization.service import OrganizationService
 
