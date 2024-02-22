@@ -6,7 +6,7 @@ const ServiceCard = ({
   data,
   onPress
 }: {
-  data: ServiceRead;
+  data: Pick<ServiceRead, "name" | "organization">;
   onPress?: () => void;
 }) => {
   return (

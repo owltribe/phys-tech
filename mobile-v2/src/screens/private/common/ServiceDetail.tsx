@@ -191,13 +191,6 @@ const ServiceDetail = ({
             </View>
           )}
 
-          {/*<View style={styles.card}>*/}
-          {/*  <Text style={styles.cardTitle}>Услуги Организации</Text>*/}
-          {/*  <View style={styles.cardInnerContainer}>*/}
-          {/*    <Text style={styles.itemText}>s</Text>*/}
-          {/*  </View>*/}
-          {/*</View>*/}
-
           <View style={styles.button}>
             {isOrganization && data?.data.is_editable && (
               <PrimaryButton
@@ -262,7 +255,6 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   card: {
-    // backgroundColor: mantineColors.gray[1],
     borderRadius: 16,
     paddingVertical: 18,
     paddingHorizontal: 6,
