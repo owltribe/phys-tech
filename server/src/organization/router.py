@@ -10,7 +10,7 @@ from src.organization.schemas import (
     OrganizationCreate,
     OrganizationFilter,
     OrganizationRead,
-    OrganizationUpdate,
+    OrganizationUpdate, OrganizationRetrieve,
 )
 from src.organization.service import OrganizationService
 
@@ -32,7 +32,7 @@ def paginated_list(
 
 
 @organizations_router.get(
-    "/{organization_id}", response_model=OrganizationRead
+    "/{organization_id}", response_model=OrganizationRetrieve
 )
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
 def retrieve(
