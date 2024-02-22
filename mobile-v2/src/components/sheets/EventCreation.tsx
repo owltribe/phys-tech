@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SheetManager } from "react-native-actions-sheet";
 import { Button, Text } from "react-native-paper";
 import { DatePickerModal, TimePickerModal } from "react-native-paper-dates";
@@ -10,6 +10,7 @@ import TextField from "components/fields/TextField";
 import PrimaryButton from "components/PrimaryButton";
 import dayjs from "dayjs";
 import useCreateEvent from "hooks/events/useCreateEvent";
+import { commonStyles } from "styles/commonStyles";
 import { EventCreate } from "types/generated";
 import { showToastWithGravity } from "utils/notifications";
 import * as yup from "yup";
@@ -168,7 +169,9 @@ const EventCreation = () => {
         rules={{ required: true }}
         name="start_date"
         render={({ field: { onChange, value } }) => (
-          <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={[styles.timeFieldContainers, commonStyles.defaultListGap]}
+          >
             <TextField
               label="Дата"
               value={value ? dayjs(value).format("DD/MM/YYYY") : undefined}
@@ -180,7 +183,7 @@ const EventCreation = () => {
 
             <Button
               onPress={() => setStartDateModalOpened(true)}
-              style={{ width: "50%" }}
+              compact
             >
               Выбрать дату
             </Button>
@@ -207,7 +210,7 @@ const EventCreation = () => {
         render={({ field: { onChange, value } }) => (
           <>
             <View
-              style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+              style={[styles.timeFieldContainers, commonStyles.defaultListGap]}
             >
               <TextField
                 label="Время"
@@ -227,7 +230,7 @@ const EventCreation = () => {
 
               <Button
                 onPress={() => setStartTimeModalOpened(true)}
-                style={{ width: "50%" }}
+                compact
               >
                 Выбрать время
               </Button>
@@ -269,7 +272,7 @@ const EventCreation = () => {
         render={({ field: { onChange, onBlur, value } }) => (
           <TextField
             mode="outlined"
-            label="Продолжительность"
+            label="Продолжительность в минутах"
             onBlur={onBlur}
             onChangeText={(text) => onChange(Number(text))}
             value={String(value)}
@@ -289,5 +292,14 @@ const EventCreation = () => {
     </DefaultActionSheet>
   );
 };
+
+const styles = StyleSheet.create({
+  timeFieldContainers: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  }
+});
 
 export default EventCreation;

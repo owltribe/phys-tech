@@ -17,7 +17,7 @@ export default function App() {
     <ReactQueryClientProvider>
       <AuthProvider>
         <SafeAreaProvider
-          style={{ flex: 1, marginTop: StatusBar.currentHeight }}
+          style={{ flex: 1, paddingTop: StatusBar.currentHeight }}
         >
           <SheetProvider>
             <PaperProvider theme={theme}>
