@@ -1,19 +1,16 @@
 import { FlatList, StyleSheet } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import ServiceCard from "components/cards/ServiceCard";
 import EmptyStatement from "components/EmptyStatement";
 import useServices from "hooks/services/useServices";
 import { useAuth } from "providers/AuthProvider";
 import { ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
-import ServiceCard from "./ServiceCard";
-
 const ServiceList = ({
-  navigation,
-  isEditable
+  navigation
 }: {
   navigation: ServicesScreenProps["navigation"];
-  isEditable?: boolean;
 }) => {
   const { user } = useAuth();
 
@@ -52,14 +49,8 @@ const ServiceList = ({
       ]}
       renderItem={({ item }) => (
         <ServiceCard
-          serviceData={item}
-          onNavigateToDetail={() =>
-            navigation.navigate("Service", { serviceId: item.id })
-          }
-          onNavigateToEdit={() =>
-            navigation.navigate("ServiceEdit", { service: item })
-          }
-          isEditable={isEditable}
+          data={item}
+          onPress={() => navigation.navigate("Service", { serviceId: item.id })}
         />
       )}
       ListFooterComponent={ListFooter}
