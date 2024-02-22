@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { Bolt, ChevronRight } from "lucide-react-native";
 import { mantineColors, white } from "utils/colors";
 
@@ -46,12 +52,13 @@ const BaseCard = ({
 
   if (onPress) {
     return (
-      <TouchableOpacity
+      <TouchableHighlight
         style={styles.container}
         onPress={onPress}
+        underlayColor={mantineColors.gray[0]}
       >
         {Content}
-      </TouchableOpacity>
+      </TouchableHighlight>
     );
   }
   return <View style={styles.container}>{Content}</View>;
