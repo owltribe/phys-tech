@@ -22,6 +22,7 @@ class ServiceRead(BaseModel):
     expected_result: Optional[str]
     cost: int
     service_images: List[ServiceImageRead] = []
+    organization: OrganizationRead
     is_editable: bool = False
 
     class Config:

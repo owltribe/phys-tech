@@ -16,6 +16,7 @@ from src.service.schemas import (
     ServiceRead,
     ServiceUpdate,
 )
+from src.service_image.service import ServiceImageService
 from src.service_request.service import ServiceRequestService
 
 
@@ -24,6 +25,7 @@ class ServiceService:
         self.session = session
         self.organization_service = OrganizationService(session)
         self.service_request_service = ServiceRequestService(session)
+        self.service_image_service = ServiceImageService(session)
         self.s3_service = S3Service()
 
     def paginated_list(
@@ -128,3 +130,6 @@ class ServiceService:
             self.session.refresh(instance)
 
         return instance
+
+    def list_service_images(self, service_id: str):
+        return self.service_image_service.list_by_service_id(service_id)

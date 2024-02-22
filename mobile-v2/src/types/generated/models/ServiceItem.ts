@@ -3,15 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrganizationRead } from './OrganizationRead';
-import type { ServiceImageRead } from './ServiceImageRead';
-export type ServiceRead = {
+export type ServiceItem = {
     id: string;
     name: string;
-    description: (string | null);
-    expected_result: (string | null);
-    cost: number;
-    service_images?: Array<ServiceImageRead>;
     organization: OrganizationRead;
-    is_editable?: boolean;
 };
 

@@ -29,6 +29,7 @@ export default function useUploadServiceImage(
     mutationFn: uploadOrganizationAvatar,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["services", serviceId] });
+      queryClient.invalidateQueries({ queryKey: ["serviceImages", serviceId] });
     }
   });
 }

@@ -41,12 +41,7 @@ const Services = ({ navigation }: ServicesScreenProps) => {
         />
       </KeyboardAvoidingView>
 
-      {selectedOption === MyServices && (
-        <ServiceList
-          navigation={navigation}
-          isEditable
-        />
-      )}
+      {selectedOption === MyServices && <ServiceList navigation={navigation} />}
       {selectedOption === SERVICE_REQUESTS && (
         <ServiceRequestsList navigation={navigation} />
       )}

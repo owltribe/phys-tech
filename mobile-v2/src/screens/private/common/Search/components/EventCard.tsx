@@ -30,7 +30,7 @@ const EventCard = ({
           title={eventData.name}
           subtitle={fullStartDate}
           titleVariant="titleMedium"
-          style={styles.title}
+          style={styles.cardTitle}
           left={() => (
             <Avatar.Image
               source={localImage}

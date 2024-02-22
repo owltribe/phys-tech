@@ -81,7 +81,7 @@ const lightBlueColors = {
     onErrorContainer: "rgb(65, 0, 2)",
     background: "rgb(255, 251, 255)",
     onBackground: "rgb(27, 27, 31)",
-    surface: "rgb(255, 251, 255)",
+    imageContainer: "rgb(255, 251, 255)",
     onSurface: "rgb(27, 27, 31)",
     surfaceVariant: "rgb(228, 225, 236)",
     onSurfaceVariant: "rgb(70, 70, 79)",

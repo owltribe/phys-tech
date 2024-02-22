@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     paddingVertical: 16,
-    gap: 12
+    gap: 12,
+    fontFamily: "GoogleSans-Bold"
   }
 });

@@ -1,8 +1,8 @@
 import { FlatList } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import ServiceCard from "components/cards/ServiceCard";
 import EmptyStatement from "components/EmptyStatement";
 import useServices from "hooks/services/useServices";
-import ServiceCard from "screens/private/organization/MyServices/components/ServiceCard";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 
@@ -43,10 +43,8 @@ const ServicesList = ({
       ]}
       renderItem={({ item }) => (
         <ServiceCard
-          serviceData={item}
-          onNavigateToDetail={() =>
-            navigation.navigate("Service", { serviceId: item.id })
-          }
+          data={item}
+          onPress={() => navigation.navigate("Service", { serviceId: item.id })}
         />
       )}
       ListFooterComponent={ListFooter}

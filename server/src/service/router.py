@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import APIRouter, Depends, File, UploadFile, status
 from fastapi_filter import FilterDepends
 from fastapi_pagination.links import Page
@@ -13,6 +15,7 @@ from src.service.schemas import (
     ServiceUpdate,
 )
 from src.service.service import ServiceService
+from src.service_image.schemas import ServiceImageRead
 
 services_router = APIRouter(prefix="/services", tags=["Services"])
 
@@ -86,3 +89,15 @@ def destroy(
     service_id: str, current_user: User = Depends(current_active_user)
 ):
     return service.destroy(service_id)
+
+
+@services_router.get(
+    "/{service_id}/images", response_model=List[ServiceImageRead]
+)
+@rbac(
+    roles=[UserRole.ORGANIZATION],
+)
+def list_service_images(
+    service_id: str, current_user: User = Depends(current_active_user)
+):
+    return service.list_service_images(service_id)

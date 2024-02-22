@@ -4,22 +4,24 @@ import {
   Image,
   KeyboardAvoidingView,
   StyleSheet,
+  Text,
   View
 } from "react-native";
-import { COLOR_TEXT_DEFAULT } from "react-native-onboard/lib/OnboardFlow/constants";
-import { Snackbar, Surface, Text } from "react-native-paper";
+import { Divider, Snackbar } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
-import PrimaryButton from "components/PrimaryButton";
+import OutlineButton from "components/buttons/OutlineButton";
+import SolidButton from "components/buttons/SolidButton";
 import ScreenWrapper from "components/ScreenWrapper";
-import * as ImagePicker from "expo-image-picker";
 import useCreateServiceRequest from "hooks/service_requests/useCreateServiceRequest";
+import useDestroyService from "hooks/services/useDestroyService";
 import useService from "hooks/services/useService";
-import useUploadServiceImage from "hooks/services/useUploadServiceImage";
-import { ImageIcon } from "lucide-react-native";
+import { Bolt, SquarePen, Trash2 } from "lucide-react-native";
 import { useAuth } from "providers/AuthProvider";
 import { ServiceScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
+import { mantineColors } from "utils/colors";
 import { getFormattedError } from "utils/error-helper";
+import { formatCost } from "utils/money-formatter";
 import { showToastWithGravityAndOffset } from "utils/notifications";
 
 const ServiceDetail = ({
@@ -39,7 +41,7 @@ const ServiceDetail = ({
   const { data, isSuccess, isLoading } = useService(serviceId);
 
   const createServiceRequestMutation = useCreateServiceRequest();
-  const uploadServiceImageMutation = useUploadServiceImage(serviceId);
+  const destroyServiceMutation = useDestroyService(serviceId);
 
   const isOrganization = user?.role === "Organization";
 
@@ -50,7 +52,7 @@ const ServiceDetail = ({
         {
           onSuccess: (response) => {
             setSnackbarContent({
-              message: `Заявка на услугу "${response.data.service.name}" была создана. Переключитесь на вкладку заявки, чтобы посмотреть актуальный статус.`,
+              message: `Заявка на услугу была создана. Переключитесь на вкладку заявки, чтобы посмотреть актуальный статус.`,
               requestId: response.data.id
             });
           },
@@ -67,50 +69,42 @@ const ServiceDetail = ({
     }
   };
 
-  const handleUploadServiceImage = async () => {
-    const options: ImagePicker.ImagePickerOptions = {
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 0.75
-    };
+  const handleNavigateToOrganization = (organizationId: string) => {
+    navigation.navigate("Organization", {
+      organizationId: organizationId
+    });
+  };
 
-    const result = await ImagePicker.launchImageLibraryAsync(options);
-
-    if (!result.canceled) {
-      const formData = new FormData();
-
-      const image = {
-        uri: result.assets[0].uri,
-        type: "image/png",
-        name: `service-image-${serviceId}`
-      };
-      // @ts-ignore
-      formData.append("image", image);
-
-      uploadServiceImageMutation.mutate(formData, {
-        onSuccess: () => {
-          showToastWithGravityAndOffset("Изображение успешно загружено");
-        },
-        onError: (error) => {
-          showToastWithGravityAndOffset(
-            getFormattedError(
-              error.response?.data.detail || "Не удалось загрузить изображение"
-            )
-          );
-        }
-      });
-    }
+  const handleDestroyService = () => {
+    destroyServiceMutation.mutate(undefined, {
+      onSuccess: () => {
+        showToastWithGravityAndOffset(
+          `Услуга "${data?.data.name}" была удалена.`
+        );
+        navigation.navigate("Services");
+      },
+      onError: (e) => {
+        showToastWithGravityAndOffset(
+          `Ошибка удаление услуги. ${getFormattedError(
+            e.response?.data.detail || ""
+          )}`
+        );
+        navigation.navigate("Services");
+      }
+    });
   };
 
   return (
     <>
       <ScreenWrapper>
-        <KeyboardAvoidingView style={commonStyles.container}>
+        <KeyboardAvoidingView
+          style={[commonStyles.container, commonStyles.defaultListGap]}
+        >
           {data?.data.service_images?.length ? (
             <Carousel
               loop={false}
               pagingEnabled
-              style={styles.surface}
+              style={styles.imageContainer}
               width={width - 16 * 2}
               height={width / 2}
               data={data?.data.service_images || []}
@@ -125,57 +119,88 @@ const ServiceDetail = ({
               )}
             />
           ) : (
-            <Surface
-              style={styles.surface}
-              mode="flat"
-              elevation={4}
-            >
-              <ImageIcon
+            <View style={styles.imageContainer}>
+              <Bolt
                 size={42}
-                strokeWidth={1.2}
-                color={COLOR_TEXT_DEFAULT}
+                color={mantineColors.dark[5]}
               />
-            </Surface>
+            </View>
           )}
 
-          <Text
-            variant="headlineSmall"
-            style={{ fontWeight: "700" }}
-          >
-            {data?.data.name}
-          </Text>
-          <Text variant="titleMedium">{`Ожидаемый результат: ${data?.data.expected_result}`}</Text>
-          <Text variant="titleMedium">{`Описание: ${data?.data.description}`}</Text>
-          <Text variant="titleMedium">{`Цена: ${data?.data.cost} KZT`}</Text>
+          {data?.data && (
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>Главное</Text>
+              <View style={styles.cardInnerContainer}>
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Название</Text>
+                  <Text style={styles.itemText}>{data.data.name}</Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Ожидаемый результат</Text>
+                  <Text style={styles.itemText}>
+                    {data.data.expected_result}
+                  </Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Цена</Text>
+                  <Text style={styles.itemText}>
+                    {formatCost(data.data.cost)}
+                  </Text>
+                </View>
+              </View>
+              <Divider bold />
+              <View style={styles.item}>
+                <Text style={styles.itemLabel}>Организация</Text>
+                <Text
+                  style={styles.itemLink}
+                  onPress={() =>
+                    handleNavigateToOrganization(data.data.organization.id)
+                  }
+                >
+                  {data.data.organization.name}
+                </Text>
+              </View>
+            </View>
+          )}
 
-          <View style={styles.button}>
-            {isOrganization && data?.data.is_editable && (
-              <PrimaryButton
-                mode="contained"
-                icon={(props) => (
-                  <ImageIcon
-                    {...props}
-                    size={22}
-                  />
-                )}
-                loading={uploadServiceImageMutation.isPending}
-                disabled={isLoading}
-                onPress={handleUploadServiceImage}
-              >
-                Добавить изображение
-              </PrimaryButton>
-            )}
-            {!isOrganization && (
-              <PrimaryButton
-                mode="contained"
-                loading={createServiceRequestMutation.isPending}
-                disabled={isLoading || user?.role === "Organization"}
-                onPress={handleSubmit}
-              >
-                Запросить услугу
-              </PrimaryButton>
-            )}
-          </View>
+          {data?.data.description && (
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>Описание</Text>
+              <View style={styles.cardInnerContainer}>
+                <Text style={styles.itemText}>{data.data.description}</Text>
+              </View>
+            </View>
+          )}
+
+          {data?.data.is_editable && isOrganization && (
+            <>
+              <SolidButton
+                title="Редактировать"
+                Icon={SquarePen}
+                onPress={() =>
+                  navigation.navigate("ServiceEdit", { service: data.data })
+                }
+              />
+              <OutlineButton
+                title="Удалить"
+                color="red"
+                Icon={Trash2}
+                loading={destroyServiceMutation.isPending}
+                onPress={handleDestroyService}
+              />
+            </>
+          )}
+
+          {!isOrganization && (
+            <SolidButton
+              title="Запросить услугу"
+              loading={createServiceRequestMutation.isPending}
+              disabled={isLoading}
+              onPress={handleSubmit}
+            />
+          )}
         </KeyboardAvoidingView>
       </ScreenWrapper>
 
@@ -203,16 +228,52 @@ const ServiceDetail = ({
 };
 
 const styles = StyleSheet.create({
-  surface: {
+  imageContainer: {
+    backgroundColor: mantineColors.gray[1],
     borderRadius: 16,
     height: 200,
     width: "100%",
     alignItems: "center",
     justifyContent: "center"
   },
-  button: {
-    marginTop: 16
+  card: {
+    borderRadius: 16,
+    paddingVertical: 18,
+    paddingHorizontal: 6,
+    gap: 24
   },
+  cardTitle: {
+    fontSize: 22,
+    color: mantineColors.dark[5],
+    fontFamily: "GoogleSans-Medium"
+  },
+  cardInnerContainer: {
+    flex: 1,
+    gap: 16
+  },
+  item: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 12
+  },
+  itemLabel: {
+    flex: 1,
+    color: mantineColors.dark[3],
+    fontFamily: "GoogleSans-Regular"
+  },
+  itemText: {
+    flex: 1,
+    color: mantineColors.dark[5],
+    fontFamily: "GoogleSans-Medium"
+  },
+  itemLink: {
+    flex: 1,
+    color: mantineColors.blue[5],
+    fontFamily: "GoogleSans-MediumItalic",
+    textDecorationLine: "underline"
+  },
+
   image: {
     flex: 1,
     width: "100%"

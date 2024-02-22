@@ -32,6 +32,31 @@ class OrganizationRead(BaseModel):
         from_attributes = True
 
 
+class ServiceItem(BaseModel):
+    id: UUID4
+    name: str
+    organization: OrganizationRead
+
+    class Config:
+        from_attributes = True
+
+
+class OrganizationRetrieve(BaseModel):
+    id: UUID4
+    name: str
+    bin: Optional[str]
+    address: Optional[str]
+    contact: Optional[str]
+    email: str
+    description: str
+    category: Optional[OrganizationCategory]
+    services: List[ServiceItem]
+    photo: Optional[str]
+
+    class Config:
+        from_attributes = True
+
+
 class OrganizationUpdate(BaseModel):
     name: Optional[str] = None
     bin: Optional[str] = None
