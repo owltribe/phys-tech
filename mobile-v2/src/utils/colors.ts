@@ -1,3 +1,42 @@
+export const mantineColors = {
+  dark: [
+    "#C9C9C9",
+    "#B8B8B8",
+    "#828282",
+    "#696969",
+    "#424242",
+    "#3B3B3B",
+    "#2E2E2E",
+    "#242424",
+    "#1F1F1F",
+    "#141414"
+  ],
+  gray: [
+    "#F8F9FA",
+    "#F1F3F5",
+    "#E9ECEF",
+    "#DEE2E6",
+    "#CED4DA",
+    "#ADB5BD",
+    "#868E96",
+    "#495057",
+    "#343A40",
+    "#212529"
+  ],
+  blue: [
+    "#E7F5FF",
+    "#D0EBFF",
+    "#A5D8FF",
+    "#74C0FC",
+    "#4DABF7",
+    "#339AF0",
+    "#228BE6",
+    "#1C7ED6",
+    "#1971C2",
+    "#1864AB"
+  ]
+};
+
 export const inherit = "inherit";
 export const transparent = "transparent";
 export const black = "#000";
