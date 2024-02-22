@@ -25,6 +25,8 @@ class S3Service:
             aws_secret_access_key=self.AWS_SECRET_ACCESS_KEY,
         )
 
+        self.SERVICE_IMAGE_BUCKET = "service-image"
+
     def __put_object(
         self, bucket_name: str, key: str, file: UploadFile = File(...)
     ):
@@ -80,9 +82,8 @@ class S3Service:
         service_image_id: str,
         file: UploadFile = File(...),
     ):
-        bucket_name = "service-image"
         key = f"{service_id}/{service_image_id}.png"
-        response, url = self.__put_object(bucket_name, key, file)
+        response, url = self.__put_object(self.SERVICE_IMAGE_BUCKET, key, file)
 
         if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
             return url
@@ -91,3 +92,15 @@ class S3Service:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Ошибка загрузки изображения в хранилище.",
             )
+
+    def delete_service_image(self, service_id: str, service_image_id: str):
+        key = f"{service_id}/{service_image_id}.png"
+
+        response = self.client.delete_object(
+            Bucket=self.SERVICE_IMAGE_BUCKET, Key=key
+        )
+
+        if response["ResponseMetadata"]["HTTPStatusCode"] == 204:
+            return True
+        else:
+            raise HTTPException("Ошибка удаления изображения сервиса.")

@@ -14,6 +14,7 @@ from src.organization.router import organizations_router
 from src.service.admin import ServiceAdmin
 from src.service.router import services_router
 from src.service_image.admin import ServiceImageAdmin
+from src.service_image.router import service_image_router
 from src.service_request.admin import ServiceRequestAdmin
 from src.service_request.router import service_request_router
 
@@ -43,6 +44,7 @@ app.include_router(services_router)
 app.include_router(organizations_router)
 app.include_router(events_router)
 app.include_router(service_request_router)
+app.include_router(service_image_router)
 
 
 @app.get("/privacy-policy", response_class=HTMLResponse)
