@@ -1,13 +1,8 @@
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import { Linking } from "react-native";
-import {
-  Avatar,
-  Button,
-  Divider,
-  List,
-  MD3Colors,
-  Text
-} from "react-native-paper";
+import { Avatar, Divider, List, MD3Colors, Text } from "react-native-paper";
+import OutlineButton from "components/buttons/OutlineButton";
+import SolidButton from "components/buttons/SolidButton";
 import ScreenWrapper from "components/ScreenWrapper";
 import * as ImagePicker from "expo-image-picker";
 import useUploadAvatar from "hooks/auth/useUploadAvatar";
@@ -23,8 +18,6 @@ import {
   getUserRoleLabel
 } from "utils/enum-helpers";
 import { PrivacyPolicyLink, TermsAndConditionsLink } from "utils/links";
-
-import OutlineButton from "../../../../components/buttons/OutlineButton";
 
 export default function Profile({ navigation }: ProfileScreenProps) {
   const { user, onLogout } = useAuth();
@@ -128,11 +121,10 @@ export default function Profile({ navigation }: ProfileScreenProps) {
 
         {user && (
           <View style={commonStyles.container}>
-            <OutlineButton
+            <SolidButton
               title="Редактировать профиль"
               onPress={() => navigation.navigate("ProfileEdit", { user: user })}
               Icon={SquarePen}
-              color="yellow"
               compact
             />
             <OutlineButton
@@ -202,7 +194,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
               </View>
 
               <View style={commonStyles.container}>
-                <OutlineButton
+                <SolidButton
                   title="Редактировать организацию"
                   loading={uploadOrganizationAvatarMutation.isPending}
                   onPress={() =>
@@ -211,7 +203,6 @@ export default function Profile({ navigation }: ProfileScreenProps) {
                     })
                   }
                   Icon={SquarePen}
-                  color="yellow"
                   compact
                 />
                 <OutlineButton
