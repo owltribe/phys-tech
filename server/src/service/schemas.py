@@ -51,7 +51,7 @@ class ServiceUpdate(BaseModel):
 
 
 class ServiceFilter(Filter):
-    order_by: List[str] = None
+    order_by: List[str] = ['-created_at']
     search: Optional[str] = None
     organization_id: Optional[UUID4] = None
 

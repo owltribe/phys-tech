@@ -68,7 +68,7 @@ class OrganizationUpdate(BaseModel):
 
 
 class OrganizationFilter(Filter):
-    order_by: List[str] = None
+    order_by: List[str] = ['-created_at']
     search: Optional[str] = None
     category__in: Optional[List[OrganizationCategory]] = None
 
