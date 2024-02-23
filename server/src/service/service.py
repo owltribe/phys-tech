@@ -102,7 +102,19 @@ class ServiceService:
     def destroy(self, service_id: str):
         instance = self.retrieve(service_id)
 
+        service_images = self.service_image_service.list_by_service_id(
+            service_id
+        )
+
+        if service_images:
+
+            for image in service_images:
+                self.s3_service.delete_service_image(instance.id, image.id)
+                self.session.delete(image)
+            self.session.commit()
+
         if instance:
+            self.s3_service.delete_service_folder(instance.id)
             self.session.delete(instance)
             self.session.commit()
         return None

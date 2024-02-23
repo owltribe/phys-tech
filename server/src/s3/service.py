@@ -1,4 +1,5 @@
 import boto3
+from botocore.exceptions import ClientError
 from fastapi import File, HTTPException, UploadFile, status
 
 from config import (
@@ -41,7 +42,7 @@ class S3Service:
 
             return response, url
 
-        except Exception as e:
+        except ClientError as e:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=str(e),
@@ -103,4 +104,58 @@ class S3Service:
         if response["ResponseMetadata"]["HTTPStatusCode"] == 204:
             return True
         else:
-            raise HTTPException("Ошибка удаления изображения сервиса.")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Ошибка удаления изображения услуги.",
+            )
+
+    def delete_service_folder(self, service_id: str):
+        key = f"{service_id}/"
+
+        response = self.client.delete_object(
+            Bucket=self.SERVICE_IMAGE_BUCKET, Key=key
+        )
+
+        if response["ResponseMetadata"]["HTTPStatusCode"] == 204:
+            return True
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Ошибка удаления папки услуги.",
+            )
+
+    # def delete_service_images(self, service_id: str):
+    #     prefix = f"{service_id}/"
+    #
+    #     # response = self.client.list_objects(
+    #     #     Bucket=self.SERVICE_IMAGE_BUCKET,
+    #     #     Prefix=prefix,
+    #     # )
+    #
+    #     response = (
+    #         self.client.object_versions(
+    #             Bucket=self.SERVICE_IMAGE_BUCKET,
+    #         )
+    #         .filter(Prefix=prefix)
+    #         .delete()
+    #     )
+    #     print(response, "0=0-=0=0=-00=-0=-0")
+    #
+    #     if "Contents" not in response:
+    #         return True
+    #
+    #     if "Contents" in response:
+    #         objects_to_delete = [
+    #             {"Key": obj["Key"]} for obj in response["Contents"]
+    #         ]
+    #         response = self.client.delete_objects(
+    #             Bucket=self.SERVICE_IMAGE_BUCKET,
+    #             Delete={"Objects": objects_to_delete},
+    #         )
+    #         if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
+    #             return True
+    #         else:
+    #             raise HTTPException(
+    #                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    #                 detail="Ошибка удаления изображений услуги.",
+    #             )
