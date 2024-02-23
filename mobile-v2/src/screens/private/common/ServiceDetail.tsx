@@ -149,18 +149,25 @@ const ServiceDetail = ({
                     {formatCost(data.data.cost)}
                   </Text>
                 </View>
-              </View>
-              <Divider bold />
-              <View style={styles.item}>
-                <Text style={styles.itemLabel}>Организация</Text>
-                <Text
-                  style={styles.itemLink}
-                  onPress={() =>
-                    handleNavigateToOrganization(data.data.organization.id)
-                  }
-                >
-                  {data.data.organization.name}
-                </Text>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Организация</Text>
+                  <Text
+                    style={styles.itemLink}
+                    onPress={() =>
+                      handleNavigateToOrganization(data.data.organization.id)
+                    }
+                  >
+                    {data.data.organization.name}
+                  </Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Контакты</Text>
+                  <Text style={styles.itemText}>
+                    {data.data.organization.contact}
+                  </Text>
+                </View>
               </View>
             </View>
           )}
