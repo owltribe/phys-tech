@@ -49,6 +49,7 @@ class ServiceRequestService:
             status=ServiceRequestStatus.PENDING,
             service_id=service_request_create.service_id,
             requested_by_id=requested_by.id,
+            comment=service_request_create.comment,
         )
         self.session.add(instance)
         self.session.commit()

@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { KeyboardAvoidingView, StyleSheet } from "react-native";
+import {
+  KeyboardAvoidingView,
+  StatusBar,
+  StyleSheet,
+  View
+} from "react-native";
 import { FAB } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
 import SegmentedControl from "components/SegmentedControl";
@@ -12,11 +17,11 @@ import AddServiceModal from "./components/AddServiceModal";
 import ServiceList from "./components/ServiceList";
 import ServiceRequestsList from "./components/ServiceRequestsList";
 
-const MyServices = "Services";
+const SERVICES = "Services";
 const SERVICE_REQUESTS = "ServiceRequests";
 
 const options = [
-  { label: "Услуги", value: MyServices },
+  { label: "Услуги", value: SERVICES },
   { label: "Заявки", value: SERVICE_REQUESTS }
 ];
 
@@ -25,54 +30,54 @@ type OptionsType = "Services" | "ServiceRequests";
 const Services = ({ navigation }: ServicesScreenProps) => {
   const { user } = useAuth();
 
-  const [selectedOption, setSelectedOption] = useState<OptionsType>(MyServices);
+  const [selectedOption, setSelectedOption] = useState<OptionsType>(SERVICES);
   const [isAddServiceModalOpened, setIsAddServiceModalOpened] = useState(false);
 
   const isOrganization = user?.role === "Organization";
 
   return (
-    <ScreenWrapper withScrollView={false}>
-      <KeyboardAvoidingView style={[commonStyles.container]}>
-        <Header align="left">Мои Услуги</Header>
-        <SegmentedControl
-          options={options}
-          selectedOption={selectedOption}
-          onOptionPress={(o) => setSelectedOption(o as OptionsType)}
-        />
-      </KeyboardAvoidingView>
+    <>
+      <ScreenWrapper withScrollView={false}>
+        <KeyboardAvoidingView style={[{ paddingTop: StatusBar.currentHeight }]}>
+          <View style={[commonStyles.defaultHorizontalPadding]}>
+            <Header align="left">Мои Услуги</Header>
+            <SegmentedControl
+              options={options}
+              selectedOption={selectedOption}
+              onOptionPress={(o) => setSelectedOption(o as OptionsType)}
+            />
+          </View>
+        </KeyboardAvoidingView>
 
-      {selectedOption === MyServices && <ServiceList navigation={navigation} />}
-      {selectedOption === SERVICE_REQUESTS && (
-        <ServiceRequestsList navigation={navigation} />
-      )}
+        {selectedOption === SERVICES && <ServiceList navigation={navigation} />}
+        {selectedOption === SERVICE_REQUESTS && (
+          <ServiceRequestsList navigation={navigation} />
+        )}
 
-      {isOrganization && selectedOption === MyServices && (
-        <>
-          <FAB
-            label="Добавить услугу"
-            icon="plus"
-            style={styles.fab}
-            onPress={() => setIsAddServiceModalOpened(true)}
-            animated
-          />
-          <AddServiceModal
-            visible={isAddServiceModalOpened}
-            onClose={() => setIsAddServiceModalOpened(false)}
-          />
-        </>
-      )}
-    </ScreenWrapper>
+        {isOrganization && selectedOption === SERVICES && (
+          <>
+            <FAB
+              label="Добавить услугу"
+              icon="plus"
+              style={styles.fab}
+              onPress={() => setIsAddServiceModalOpened(true)}
+              animated
+            />
+            <AddServiceModal
+              visible={isAddServiceModalOpened}
+              onClose={() => setIsAddServiceModalOpened(false)}
+            />
+          </>
+        )}
+      </ScreenWrapper>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  cover: {
-    width: 72,
-    height: 72
-  },
   fab: {
     position: "absolute",
-    margin: 16,
+    margin: 10,
     right: 0,
     bottom: 0
   }

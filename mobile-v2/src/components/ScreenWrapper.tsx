@@ -7,8 +7,8 @@ import {
   View,
   ViewStyle
 } from "react-native";
-import { MD2Colors } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { white } from "utils/colors";
 
 type Props = ScrollViewProps & {
   children: React.ReactNode;
@@ -29,7 +29,7 @@ export default function ScreenWrapper({
   const containerStyle = [
     styles.container,
     {
-      backgroundColor: MD2Colors.white,
+      backgroundColor: white,
       paddingBottom: insets.bottom,
       paddingLeft: insets.left,
       paddingRight: insets.left

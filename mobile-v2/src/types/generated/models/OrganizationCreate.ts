@@ -5,9 +5,9 @@
 import type { OrganizationCategory } from './OrganizationCategory';
 export type OrganizationCreate = {
     name: string;
-    bin: (string | null);
-    address: (string | null);
-    contact: (string | null);
+    bin: string;
+    address: string;
+    contact: string;
     email: string;
     description: string;
     category: (OrganizationCategory | null);

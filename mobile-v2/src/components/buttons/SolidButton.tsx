@@ -7,7 +7,9 @@ import {
 } from "react-native";
 import {
   HORIZONTAL_PADDING_DEFAULT,
-  VERTICAL_PADDING_DEFAULT
+  HORIZONTAL_PADDING_SMALL_DEFAULT,
+  VERTICAL_PADDING_DEFAULT,
+  VERTICAL_PADDING_SMALL_DEFAULT
 } from "react-native-onboard/lib/OnboardFlow/constants";
 import { LucideIcon } from "lucide-react-native";
 import { mantineColors, white } from "utils/colors";
@@ -21,6 +23,7 @@ interface SolidButtonProps
   Icon?: LucideIcon;
   color?: "blue" | "red";
   loading?: boolean;
+  compact?: boolean;
 }
 
 const SolidButton = ({
@@ -29,7 +32,8 @@ const SolidButton = ({
   Icon,
   color = "blue",
   disabled,
-  loading
+  loading,
+  compact
 }: SolidButtonProps) => {
   const theme = useMemo(() => {
     return {
@@ -45,11 +49,14 @@ const SolidButton = ({
         gap: 16,
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: VERTICAL_PADDING_DEFAULT * 1.2,
-        paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
+        paddingVertical:
+          (compact
+            ? VERTICAL_PADDING_SMALL_DEFAULT
+            : VERTICAL_PADDING_DEFAULT) * 1.2,
+        paddingHorizontal: compact
+          ? HORIZONTAL_PADDING_SMALL_DEFAULT
+          : HORIZONTAL_PADDING_DEFAULT,
         borderRadius: 16,
-        elevation: 16,
-        shadowColor: theme[2],
         backgroundColor: theme[6],
         opacity: disabled ? 0.6 : 1
       },
@@ -61,7 +68,7 @@ const SolidButton = ({
         color: white
       }
     });
-  }, [theme, disabled]);
+  }, [theme, disabled, compact]);
 
   return (
     <TouchableHighlight

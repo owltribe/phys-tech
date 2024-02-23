@@ -1,6 +1,7 @@
 import React from "react";
-import { StyleProp, View, ViewStyle } from "react-native";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { HelperText, TextInput } from "react-native-paper";
+import { mantineColors, white } from "utils/colors";
 
 export interface TextFieldProps
   extends Omit<React.ComponentProps<typeof TextInput>, "error"> {
@@ -10,12 +11,13 @@ export interface TextFieldProps
 
 const TextField = ({ error, containerStyle, ...props }: TextFieldProps) => {
   return (
-    <View style={containerStyle}>
+    <View style={[containerStyle]}>
       <TextInput
-        outlineStyle={{
-          borderRadius: 12
-        }}
+        outlineStyle={styles.textInput}
+        outlineColor={mantineColors.gray[4]}
+        activeOutlineColor={mantineColors.blue[6]}
         error={!!error}
+        mode="outlined"
         {...props}
       />
       {!!error && (
@@ -30,5 +32,12 @@ const TextField = ({ error, containerStyle, ...props }: TextFieldProps) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  textInput: {
+    borderRadius: 8,
+    backgroundColor: white
+  }
+});
 
 export default TextField;

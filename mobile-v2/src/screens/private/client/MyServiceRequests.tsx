@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, StyleSheet } from "react-native";
+import { KeyboardAvoidingView, StatusBar, View } from "react-native";
 import ScreenWrapper from "components/ScreenWrapper";
 import Header from "components/typography/Header";
 import ServiceRequestsList from "screens/private/organization/MyServices/components/ServiceRequestsList";
@@ -8,21 +8,15 @@ import { commonStyles } from "styles/commonStyles";
 const MyServiceRequests = ({ navigation }: ServiceRequestsScreenProps) => {
   return (
     <ScreenWrapper withScrollView={false}>
-      <KeyboardAvoidingView style={[commonStyles.container]}>
-        <Header align="left">Мои заявки</Header>
+      <KeyboardAvoidingView style={[{ paddingTop: StatusBar.currentHeight }]}>
+        <View style={commonStyles.defaultHorizontalPadding}>
+          <Header align="left">Мои заявки</Header>
+        </View>
       </KeyboardAvoidingView>
 
       <ServiceRequestsList navigation={navigation} />
     </ScreenWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  text: {
-    marginTop: 16,
-    marginBottom: 4,
-    fontWeight: "700"
-  }
-});
 
 export default MyServiceRequests;

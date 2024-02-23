@@ -19,6 +19,9 @@ import { commonStyles } from "styles/commonStyles";
 import theme from "styles/theme";
 import * as yup from "yup";
 
+import SolidButton from "../../components/buttons/SolidButton";
+import { mantineColors } from "../../utils/colors";
+
 const schema = yup
   .object({
     username: yup
@@ -66,57 +69,59 @@ const Login = ({ navigation }: LoginScreenProps) => {
 
         <Header>Добро пожаловать</Header>
 
-        <Controller
-          control={control}
-          rules={{
-            required: true
-          }}
-          name="username"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextField
-              mode="outlined"
-              label="Электронная почта"
-              autoComplete="email"
-              inputMode="email"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              textContentType="emailAddress"
-              keyboardType="email-address"
-              error={errors.username?.message}
-            />
-          )}
-        />
+        <View style={styles.inputsContainer}>
+          <Controller
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="username"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextField
+                mode="outlined"
+                label="Электронная почта"
+                autoComplete="email"
+                inputMode="email"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                textContentType="emailAddress"
+                keyboardType="email-address"
+                error={errors.username?.message}
+              />
+            )}
+          />
 
-        <Controller
-          control={control}
-          rules={{
-            required: true
-          }}
-          name="password"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextField
-              mode="outlined"
-              label="Пароль"
-              autoComplete="password"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              secureTextEntry
-              autoCorrect={false}
-              autoCapitalize="none"
-              error={errors.password?.message}
-            />
-          )}
-        />
+          <Controller
+            control={control}
+            rules={{
+              required: true
+            }}
+            name="password"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextField
+                mode="outlined"
+                label="Пароль"
+                autoComplete="password"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                secureTextEntry
+                autoCorrect={false}
+                autoCapitalize="none"
+                error={errors.password?.message}
+              />
+            )}
+          />
+        </View>
 
-        <PrimaryButton
-          mode="contained"
-          loading={isLoginLoading}
-          onPress={handleSubmit(onSubmit)}
-        >
-          Войти
-        </PrimaryButton>
+        <View style={styles.buttonContainer}>
+          <SolidButton
+            title="Войти"
+            loading={isLoginLoading}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </View>
 
         <View style={styles.row}>
           <Text style={styles.label}>Нет аккаунта?</Text>
@@ -130,6 +135,12 @@ const Login = ({ navigation }: LoginScreenProps) => {
 };
 
 const styles = StyleSheet.create({
+  inputsContainer: {
+    gap: 6
+  },
+  buttonContainer: {
+    marginTop: 16
+  },
   forgotPassword: {
     width: "100%",
     alignItems: "flex-end",
@@ -144,11 +155,12 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   label: {
-    color: theme.colors.secondary
+    fontFamily: "GoogleSans-Regular",
+    color: mantineColors.gray[6]
   },
   link: {
-    fontWeight: "bold",
-    color: theme.colors.primary
+    fontFamily: "GoogleSans-Bold",
+    color: mantineColors.blue[5]
   },
   logoContainer: {
     alignItems: "center",

@@ -12,7 +12,7 @@ from src.service.schemas import ServiceFilter, ServiceRead, ServiceRetrieve
 
 class ServiceRequestCreate(BaseModel):
     service_id: Optional[str]
-    # requested_by_id: Optional[str]
+    comment: Optional[str] = None
 
 
 class ServiceRequestRead(BaseModel):
@@ -29,6 +29,7 @@ class ServiceRequestRead(BaseModel):
 class ServiceRequestRetrieve(BaseModel):
     id: UUID4
     status: ServiceRequestStatus
+    comment: Optional[str]
     service: ServiceRetrieve
     requested_by: UserRead
     created_at: datetime
@@ -44,7 +45,7 @@ class ServiceRequestUpdate(BaseModel):
 
 
 class ServiceRequestFilter(Filter):
-    order_by: List[str] = None
+    order_by: List[str] = ["created_at"]
     search: Optional[str] = None
     status: Optional[ServiceRequestStatus] = None
     requested_by_id: Optional[str] = None

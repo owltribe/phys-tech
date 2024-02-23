@@ -20,9 +20,9 @@ class Organization(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         UUID, primary_key=True, default=uuid.uuid4
     )
-    name: Mapped[str] = mapped_column(String, nullable=False)
-    bin: Mapped[str] = mapped_column(String, nullable=False)
-    address: Mapped[str] = mapped_column(String, nullable=False)
+    name: Mapped[str] = mapped_column(String)
+    bin: Mapped[str] = mapped_column(String)
+    address: Mapped[str] = mapped_column(String)
     contact: Mapped[str] = mapped_column(String)
     email: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)

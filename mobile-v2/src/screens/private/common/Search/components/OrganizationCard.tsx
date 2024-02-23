@@ -21,7 +21,7 @@ const OrganizationCard = ({
         titleVariant="bodyLarge"
         subtitle={organizationData.description}
         subtitleNumberOfLines={2}
-        style={styles.cardTitle}
+        style={styles.title}
         right={() => (
           <View style={styles.iconContainer}>
             <IconButton icon="chevron-right" />

@@ -1,12 +1,11 @@
 import { FlatList, StyleSheet } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
+import ServiceRequestCard from "components/cards/ServiceRequestCard";
 import EmptyStatement from "components/EmptyStatement";
+import Loader from "components/Loader";
 import useServiceRequests from "hooks/service_requests/useServiceRequests";
 import { useAuth } from "providers/AuthProvider";
 import { ServiceRequestsScreenProps, ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
-
-import ServiceRequestCard from "./ServiceRequestCard";
 
 const ServiceRequestsList = ({
   navigation
@@ -30,7 +29,7 @@ const ServiceRequestsList = ({
     }
     if (isLoading || isFetching) {
       return (
-        <ActivityIndicator
+        <Loader
           size="large"
           style={commonStyles.loadderMargin}
         />
@@ -49,10 +48,10 @@ const ServiceRequestsList = ({
         scrollEventThrottle={16}
         style={styles.container}
         contentContainerStyle={[
+          styles.container,
           commonStyles.defaultVerticalPadding,
           commonStyles.defaultHorizontalPadding,
-          commonStyles.defaultListGap,
-          styles.container
+          commonStyles.defaultListGap
         ]}
         renderItem={({ item }) => (
           <ServiceRequestCard

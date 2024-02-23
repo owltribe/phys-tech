@@ -114,7 +114,7 @@ const EventCreation = () => {
         onSuccess: () => {
           reset();
           showToastWithGravity(`Мероприятье создано.`);
-          SheetManager.hide("event-creation");
+          SheetManager.hide("EventCreation");
         }
       }
     );

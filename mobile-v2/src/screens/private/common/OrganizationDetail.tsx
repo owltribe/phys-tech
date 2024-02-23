@@ -68,7 +68,7 @@ const OrganizationDetail = ({
               </View>
               <Divider bold />
               <View style={styles.item}>
-                <Text style={styles.itemLabel}>Контакты</Text>
+                <Text style={styles.itemLabel}>Номер телефона</Text>
                 <Text style={styles.itemText}>{data.data.contact}</Text>
               </View>
               <Divider bold />
@@ -91,6 +91,7 @@ const OrganizationDetail = ({
                   onPress={() =>
                     navigation.navigate("Service", { serviceId: service.id })
                   }
+                  organizationView
                 />
               ))}
             </View>
@@ -146,6 +147,7 @@ const styles = StyleSheet.create({
     gap: 12
   },
   itemLabel: {
+    flex: 1,
     color: mantineColors.dark[3],
     fontFamily: "GoogleSans-Regular"
   },

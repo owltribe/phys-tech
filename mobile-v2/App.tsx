@@ -1,7 +1,7 @@
 import "./src/components/sheets";
 
 import { useCallback } from "react";
-import { LogBox, StatusBar } from "react-native";
+import { LogBox } from "react-native";
 import { SheetProvider } from "react-native-actions-sheet";
 import { PaperProvider } from "react-native-paper";
 import { registerTranslation, ru } from "react-native-paper-dates";
@@ -37,7 +37,7 @@ export default function App() {
     <ReactQueryClientProvider>
       <AuthProvider>
         <SafeAreaProvider
-          style={{ flex: 1, paddingTop: StatusBar.currentHeight }}
+          style={{ flex: 1 }}
           onLayout={onLayoutRootView}
         >
           <SheetProvider>

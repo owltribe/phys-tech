@@ -109,7 +109,7 @@ const OrganizationEdit = ({
           render={({ field: { onChange, onBlur, value } }) => (
             <TextField
               mode="outlined"
-              label="Контактная информация"
+              label="Номер телефона"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value || undefined}
@@ -127,6 +127,7 @@ const OrganizationEdit = ({
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              inputMode="email"
             />
           )}
         />

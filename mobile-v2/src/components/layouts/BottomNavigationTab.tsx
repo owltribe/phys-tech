@@ -15,6 +15,7 @@ import Search from "screens/private/common/Search/Search";
 import MyServices from "screens/private/organization/MyServices";
 import { RootStackParamList } from "screens/types";
 import theme from "styles/theme";
+import { mantineColors, white } from "utils/colors";
 
 const Tab = createMaterialBottomTabNavigator<RootStackParamList>();
 
@@ -25,11 +26,11 @@ export default function BottomNavigationTab() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor={theme.colors.primary}
-      activeIndicatorStyle={{ backgroundColor: MD2Colors.white }}
+      activeColor={mantineColors.blue[4]}
+      activeIndicatorStyle={{ backgroundColor: white }}
       barStyle={{
-        backgroundColor: MD2Colors.white,
-        borderColor: theme.colors.outlineVariant,
+        backgroundColor: white,
+        borderColor: mantineColors.dark[0],
         borderTopWidth: 1
       }}
     >
@@ -53,7 +54,6 @@ export default function BottomNavigationTab() {
           name="Services"
           component={MyServices}
           options={{
-            cardTitle: "Мои Услуги",
             tabBarLabel: "Мои Услуги",
             tabBarIcon: ({ color, focused }) => (
               <Table2
@@ -69,7 +69,6 @@ export default function BottomNavigationTab() {
           name="ServiceRequests"
           component={MyServiceRequests}
           options={{
-            cardTitle: "Мои заявки",
             tabBarLabel: "Мои заявки",
             tabBarIcon: ({ color, focused }) => (
               <Files
