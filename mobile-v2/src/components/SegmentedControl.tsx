@@ -10,9 +10,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming
 } from "react-native-reanimated";
-import theme from "styles/theme";
-
-import { white } from "../utils/colors";
+import { mantineColors, white } from "utils/colors";
 
 type SegmentedControlProps = {
   options: { label: string; value: string }[];
@@ -27,8 +25,8 @@ const SegmentedControl = ({
 }: SegmentedControlProps) => {
   const { width: windowWidth } = useWindowDimensions();
 
-  const internalPadding = 20;
-  const segmentedControlWidth = windowWidth - 40;
+  const internalPadding = 12;
+  const segmentedControlWidth = windowWidth - 32;
 
   const itemWidth = (segmentedControlWidth - internalPadding) / options.length;
 
@@ -47,7 +45,6 @@ const SegmentedControl = ({
         styles.container,
         {
           width: segmentedControlWidth,
-          borderRadius: 26,
           paddingLeft: internalPadding / 2
         }
       ]}
@@ -92,13 +89,15 @@ const SegmentedControl = ({
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: mantineColors.gray[1],
     flexDirection: "row",
     height: 55,
-    backgroundColor: theme.colors.primaryContainer
+    width: "100%",
+    borderRadius: 14
   },
   activeBox: {
     position: "absolute",
-    borderRadius: 26,
+    borderRadius: 16,
     shadowColor: "black",
     shadowOffset: {
       width: 0,
@@ -108,12 +107,11 @@ const styles = StyleSheet.create({
     elevation: 3,
     height: "80%",
     top: "10%",
-    backgroundColor: theme.colors.primary
+    backgroundColor: mantineColors.blue[5]
   },
   labelContainer: { justifyContent: "center", alignItems: "center" },
   label: {
-    fontSize: 12,
-    fontWeight: "500"
+    fontFamily: "GoogleSans-Medium"
   },
   labelActive: {
     color: white

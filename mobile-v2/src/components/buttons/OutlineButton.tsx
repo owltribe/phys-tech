@@ -7,10 +7,12 @@ import {
 } from "react-native";
 import {
   HORIZONTAL_PADDING_DEFAULT,
-  VERTICAL_PADDING_DEFAULT
+  HORIZONTAL_PADDING_SMALL_DEFAULT,
+  VERTICAL_PADDING_DEFAULT,
+  VERTICAL_PADDING_SMALL_DEFAULT
 } from "react-native-onboard/lib/OnboardFlow/constants";
 import { LucideIcon } from "lucide-react-native";
-import { mantineColors, white } from "utils/colors";
+import { mantineColors } from "utils/colors";
 
 interface OutlineButtonProps
   extends Pick<
@@ -19,8 +21,9 @@ interface OutlineButtonProps
   > {
   title: string;
   Icon?: LucideIcon;
-  color?: "blue" | "red";
+  color?: "blue" | "red" | "yellow";
   loading?: boolean;
+  compact?: boolean;
 }
 
 const OutlineButton = ({
@@ -29,27 +32,34 @@ const OutlineButton = ({
   Icon,
   color = "blue",
   disabled,
-  loading
+  loading,
+  compact
 }: OutlineButtonProps) => {
   const theme = useMemo(() => {
     return {
       blue: mantineColors.blue,
-      red: mantineColors.red
+      red: mantineColors.red,
+      yellow: mantineColors.yellow
     }[color];
   }, [color]);
 
   const styles = useMemo(() => {
     return StyleSheet.create({
       button: {
-        flexDirection: "row",
         gap: 16,
+        flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: VERTICAL_PADDING_DEFAULT,
-        paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
+        paddingVertical: compact
+          ? VERTICAL_PADDING_SMALL_DEFAULT
+          : VERTICAL_PADDING_DEFAULT,
+        paddingHorizontal: compact
+          ? HORIZONTAL_PADDING_SMALL_DEFAULT
+          : HORIZONTAL_PADDING_DEFAULT,
         borderRadius: 16,
-        borderWidth: 2, // Add border width
-        borderColor: theme[6], // Add border color
+        borderWidth: 1.2, // Add border width
+        borderColor: theme[2], // Add border color
+        backgroundColor: theme[0], // Add border color
         opacity: disabled ? 0.6 : 1
       },
       text: {
@@ -60,13 +70,13 @@ const OutlineButton = ({
         color: theme[6] // Set text color to match border color
       }
     });
-  }, [theme, disabled]);
+  }, [theme, disabled, compact]);
 
   return (
     <TouchableHighlight
       style={[styles.button]}
       onPress={onPress}
-      underlayColor={theme[9]}
+      underlayColor={theme[7]}
       disabled={disabled || loading}
       touchSoundDisabled
     >

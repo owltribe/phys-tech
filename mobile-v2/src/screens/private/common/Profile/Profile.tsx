@@ -12,6 +12,7 @@ import ScreenWrapper from "components/ScreenWrapper";
 import * as ImagePicker from "expo-image-picker";
 import useUploadAvatar from "hooks/auth/useUploadAvatar";
 import useUploadOrganizationAvatar from "hooks/organization/useUploadOrganizationAvatar";
+import { Camera, LogOut, SquarePen } from "lucide-react-native";
 import { useAuth } from "providers/AuthProvider";
 import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
@@ -22,6 +23,8 @@ import {
   getUserRoleLabel
 } from "utils/enum-helpers";
 import { PrivacyPolicyLink, TermsAndConditionsLink } from "utils/links";
+
+import OutlineButton from "../../../../components/buttons/OutlineButton";
 
 export default function Profile({ navigation }: ProfileScreenProps) {
   const { user, onLogout } = useAuth();
@@ -124,27 +127,21 @@ export default function Profile({ navigation }: ProfileScreenProps) {
         </View>
 
         {user && (
-          <View
-            style={[
-              commonStyles.defaultHorizontalPadding,
-              commonStyles.defaultVerticalPadding,
-              commonStyles.defaultListGap
-            ]}
-          >
-            <Button
-              mode="elevated"
+          <View style={commonStyles.container}>
+            <OutlineButton
+              title="Редактировать профиль"
               onPress={() => navigation.navigate("ProfileEdit", { user: user })}
-            >
-              Редактировать профиль
-            </Button>
-
-            <Button
-              mode="elevated"
+              Icon={SquarePen}
+              color="yellow"
+              compact
+            />
+            <OutlineButton
+              title="Обновить фото профиля"
+              onPress={() => navigation.navigate("ProfileEdit", { user: user })}
               loading={uploadAvatarMutation.isPending}
-              onPress={handleUploadAvatar}
-            >
-              Обновить фото профиля
-            </Button>
+              Icon={Camera}
+              compact
+            />
           </View>
         )}
 
@@ -204,33 +201,27 @@ export default function Profile({ navigation }: ProfileScreenProps) {
                 </View>
               </View>
 
-              <View
-                style={[
-                  commonStyles.defaultHorizontalPadding,
-                  commonStyles.defaultListGap,
-                  { marginTop: 16 }
-                ]}
-              >
-                {user?.organization && (
-                  <Button
-                    mode="elevated"
-                    onPress={() =>
-                      navigation.navigate("OrganizationEdit", {
-                        organization: user.organization as OrganizationRead
-                      })
-                    }
-                  >
-                    Редактировать организацию
-                  </Button>
-                )}
-
-                <Button
-                  mode="elevated"
+              <View style={commonStyles.container}>
+                <OutlineButton
+                  title="Редактировать организацию"
+                  loading={uploadOrganizationAvatarMutation.isPending}
+                  onPress={() =>
+                    navigation.navigate("OrganizationEdit", {
+                      organization: user.organization as OrganizationRead
+                    })
+                  }
+                  Icon={SquarePen}
+                  color="yellow"
+                  compact
+                />
+                <OutlineButton
+                  title="Обновить фото организации"
                   loading={uploadOrganizationAvatarMutation.isPending}
                   onPress={handleUpdateOrganizationAvatar}
-                >
-                  Обновить фото организации
-                </Button>
+                  Icon={Camera}
+                  color="blue"
+                  compact
+                />
               </View>
 
               <List.Item
@@ -277,15 +268,13 @@ export default function Profile({ navigation }: ProfileScreenProps) {
         </List.Section>
 
         <View style={commonStyles.container}>
-          <Button
-            mode="contained-tonal"
-            icon="logout"
+          <OutlineButton
+            compact
+            color="red"
+            Icon={LogOut}
+            title="Выйти"
             onPress={onLogout}
-            textColor={theme.colors.error}
-            buttonColor={theme.colors.errorContainer}
-          >
-            Выйти
-          </Button>
+          />
         </View>
       </KeyboardAvoidingView>
     </ScreenWrapper>
