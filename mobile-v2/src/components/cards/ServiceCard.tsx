@@ -1,18 +1,24 @@
 import { ServiceRead } from "types/generated";
 
+import { formatCost } from "../../utils/money-formatter";
+
 import BaseCard from "./BaseCard";
 
 const ServiceCard = ({
   data,
-  onPress
+  onPress,
+  organizationView
 }: {
-  data: Pick<ServiceRead, "name" | "organization">;
+  data: Pick<ServiceRead, "name" | "organization" | "cost">;
   onPress?: () => void;
+  organizationView?: boolean;
 }) => {
   return (
     <BaseCard
       title={data.name}
-      description={data.organization.name}
+      description={
+        organizationView ? formatCost(data.cost) : data.organization.name
+      }
       onPress={onPress}
     />
   );

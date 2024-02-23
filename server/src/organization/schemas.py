@@ -35,6 +35,7 @@ class OrganizationRead(BaseModel):
 class ServiceItem(BaseModel):
     id: UUID4
     name: str
+    cost: int
     organization: OrganizationRead
 
     class Config:

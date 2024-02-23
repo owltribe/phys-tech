@@ -91,6 +91,7 @@ const OrganizationDetail = ({
                   onPress={() =>
                     navigation.navigate("Service", { serviceId: service.id })
                   }
+                  organizationView
                 />
               ))}
             </View>
