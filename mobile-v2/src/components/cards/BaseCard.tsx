@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
-import { Bolt, ChevronRight } from "lucide-react-native";
+import { ChevronRight } from "lucide-react-native";
 import { mantineColors, white } from "utils/colors";
 
 const BaseCard = ({
@@ -13,16 +13,16 @@ const BaseCard = ({
 }) => {
   const Content = (
     <>
-      <View style={styles.leftAddon}>
-        <Bolt
-          size={26}
-          color={mantineColors.dark[5]}
-        />
-      </View>
+      {/*<View style={styles.leftAddon}>*/}
+      {/*  <Bolt*/}
+      {/*    size={26}*/}
+      {/*    color={mantineColors.dark[5]}*/}
+      {/*  />*/}
+      {/*</View>*/}
       <View style={styles.textContainer}>
         <Text
           style={styles.title}
-          numberOfLines={1}
+          numberOfLines={2}
           ellipsizeMode="tail"
         >
           {title}
@@ -70,15 +70,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 12
   },
-  leftAddon: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 12,
-    backgroundColor: mantineColors.gray[1],
-    borderRadius: 12,
-    width: 50,
-    height: 50
-  },
+  // leftAddon: {
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   padding: 12,
+  //   backgroundColor: mantineColors.gray[1],
+  //   borderRadius: 12,
+  //   width: 50,
+  //   height: 50
+  // },
   textContainer: {
     flex: 1,
     justifyContent: "center",

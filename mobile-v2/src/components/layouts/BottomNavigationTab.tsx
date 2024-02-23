@@ -53,7 +53,6 @@ export default function BottomNavigationTab() {
           name="Services"
           component={MyServices}
           options={{
-            cardTitle: "Мои Услуги",
             tabBarLabel: "Мои Услуги",
             tabBarIcon: ({ color, focused }) => (
               <Table2
@@ -69,7 +68,6 @@ export default function BottomNavigationTab() {
           name="ServiceRequests"
           component={MyServiceRequests}
           options={{
-            cardTitle: "Мои заявки",
             tabBarLabel: "Мои заявки",
             tabBarIcon: ({ color, focused }) => (
               <Files
