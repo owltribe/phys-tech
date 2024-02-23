@@ -7,7 +7,7 @@ const Onboarding = ({ navigation }: OnboardingScreenProps) => {
     <OnboardFlow
       pages={[
         {
-          cardTitle: "Science Услуги",
+          title: "Science Услуги",
           subtitle:
             "Приложение предназначено для упрощения процесса сбора, поиска и получения информации по научно-аналитическим и экспериментальным исследованиям",
           imageUri: Image.resolveAssetSource(
@@ -17,7 +17,7 @@ const Onboarding = ({ navigation }: OnboardingScreenProps) => {
           secondaryButtonTitle: "Авторизоваться"
         },
         {
-          cardTitle: "Организации",
+          title: "Организации",
           subtitle:
             "Список научно-исследовательских организаций, Вузов и частных компаний. Профили организаций с детальной информацией.",
           imageUri: Image.resolveAssetSource(
@@ -26,7 +26,7 @@ const Onboarding = ({ navigation }: OnboardingScreenProps) => {
           primaryButtonTitle: "Далее"
         },
         {
-          cardTitle: "Услуги",
+          title: "Услуги",
           subtitle:
             "Каталог научных услуг от каждой организации. Описание, стоимость и способы заказа услуг",
           imageUri: Image.resolveAssetSource(
@@ -35,7 +35,7 @@ const Onboarding = ({ navigation }: OnboardingScreenProps) => {
           primaryButtonTitle: "Далее"
         },
         {
-          cardTitle: "Мероприятия",
+          title: "Мероприятия",
           subtitle: "Календарь семинаров, конференций и других мероприятий",
           imageUri: Image.resolveAssetSource(
             require("images/illustrations/events.png")
