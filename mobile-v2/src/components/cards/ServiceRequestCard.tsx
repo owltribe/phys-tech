@@ -1,9 +1,7 @@
 import { StyleSheet, View } from "react-native";
-import { Badge } from "react-native-paper";
+import ServieRequestBadge from "components/badges/ServieRequestBadge";
 import dayjs from "dayjs";
-import { ServiceRequestRead, ServiceRequestStatus } from "types/generated";
-import { mantineColors } from "utils/colors";
-import { getServiceRequestStatusLabel } from "utils/enum-helpers";
+import { ServiceRequestRead } from "types/generated";
 
 import BaseCard from "./BaseCard";
 
@@ -14,31 +12,12 @@ const ServiceRequestCard = ({
   serviceRequest: ServiceRequestRead;
   onPress: () => void;
 }) => {
-  const getBadgeColor = (status: ServiceRequestStatus) => {
-    if (status === "Pending") {
-      return mantineColors.yellow[5];
-    }
-    if (status === "Approved") {
-      return mantineColors.blue[8];
-    }
-    if (status === "Rejected") {
-      return mantineColors.red[5];
-    }
-
-    return mantineColors.green[8];
-  };
-
   return (
     <View style={styles.card}>
-      <Badge
-        style={[
-          styles.badge,
-          { backgroundColor: getBadgeColor(serviceRequest.status) }
-        ]}
-        size={24}
-      >
-        {getServiceRequestStatusLabel(serviceRequest.status)}
-      </Badge>
+      <ServieRequestBadge
+        style={styles.badge}
+        status={serviceRequest.status}
+      />
       <BaseCard
         title={serviceRequest.service.name}
         description={`${dayjs(serviceRequest.created_at)
@@ -59,9 +38,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 5,
     top: -12,
-    right: 5,
-    paddingHorizontal: 12,
-    fontFamily: "GoogleSans-Regular"
+    right: 5
   }
 });
 

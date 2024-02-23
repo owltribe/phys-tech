@@ -15,6 +15,7 @@ import * as yup from "yup";
 
 interface FormValues {
   email: string;
+  contact: string;
   first_name: string;
   last_name: string;
   password: string;
@@ -26,6 +27,10 @@ const schema = yup.object().shape({
     .string()
     .required("Введите адрес электронной почты")
     .email("Некорректный формат адреса электронной почты"),
+  contact: yup
+    .string()
+    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона")
+    .required("Введите номер телефона"),
   first_name: yup.string().required("Введите свое имя"),
   last_name: yup.string().required("Введите свою фамилию"),
   password: yup
@@ -97,6 +102,25 @@ const ClientForm = ({
             onChangeText={onChange}
             value={value}
             error={errors.email?.message}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        rules={{
+          required: true
+        }}
+        name="contact"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextField
+            mode="outlined"
+            label="Номер телефона"
+            autoComplete="tel"
+            inputMode="tel"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            error={errors.contact?.message}
           />
         )}
       />

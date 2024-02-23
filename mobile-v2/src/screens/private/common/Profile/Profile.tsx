@@ -225,7 +225,7 @@ export default function Profile({ navigation }: ProfileScreenProps) {
               />
               <List.Item
                 title={user.organization.contact}
-                description="Контакты"
+                description="Номер телефона"
               />
               <List.Item
                 title={user?.organization?.bin}

@@ -9,9 +9,9 @@ from models.organization import OrganizationCategory
 
 class OrganizationCreate(BaseModel):
     name: str
-    bin: Optional[str]
-    address: Optional[str]
-    contact: Optional[str]
+    bin: str
+    address: str
+    contact: str
     email: str
     description: str
     category: Optional[OrganizationCategory]
@@ -20,9 +20,9 @@ class OrganizationCreate(BaseModel):
 class OrganizationRead(BaseModel):
     id: UUID4
     name: str
-    bin: Optional[str]
-    address: Optional[str]
-    contact: Optional[str]
+    bin: str
+    address: str
+    contact: str
     email: str
     description: str
     category: Optional[OrganizationCategory]
@@ -69,7 +69,7 @@ class OrganizationUpdate(BaseModel):
 
 
 class OrganizationFilter(Filter):
-    order_by: List[str] = ['-created_at']
+    order_by: List[str] = ["-created_at"]
     search: Optional[str] = None
     category__in: Optional[List[OrganizationCategory]] = None
 

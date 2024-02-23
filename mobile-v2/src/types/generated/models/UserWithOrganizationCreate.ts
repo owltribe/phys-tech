@@ -10,6 +10,7 @@ export type UserWithOrganizationCreate = {
     is_active?: (boolean | null);
     is_superuser?: (boolean | null);
     is_verified?: (boolean | null);
+    contact: string;
     first_name: string;
     last_name: string;
     role: UserRole;

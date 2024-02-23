@@ -23,23 +23,16 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     )
     avatar: Mapped[str] = mapped_column(String, nullable=True)
     role = mapped_column(Enum(UserRole, name="user_role_enum"), nullable=False)
+    contact: Mapped[str] = mapped_column(String, nullable=True)
     email: Mapped[str] = mapped_column(
-        String(length=320), unique=True, index=True, nullable=False
+        String(length=320), unique=True, index=True
     )
-    first_name: Mapped[str] = mapped_column(String, nullable=False)
-    last_name: Mapped[str] = mapped_column(String, nullable=False)
-    hashed_password: Mapped[str] = mapped_column(
-        String(length=1024), nullable=False
-    )
-    is_active: Mapped[bool] = mapped_column(
-        Boolean, default=True, nullable=False
-    )
-    is_superuser: Mapped[bool] = mapped_column(
-        Boolean, default=False, nullable=False
-    )
-    is_verified: Mapped[bool] = mapped_column(
-        Boolean, default=False, nullable=False
-    )
+    first_name: Mapped[str] = mapped_column(String)
+    last_name: Mapped[str] = mapped_column(String)
+    hashed_password: Mapped[str] = mapped_column(String(length=1024))
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    is_superuser: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
 
     requested_services = relationship(
         "ServiceRequest",

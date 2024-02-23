@@ -18,12 +18,19 @@ import * as yup from "yup";
 
 interface FormValues {
   email: string;
+  contact: string;
   first_name: string;
   last_name: string;
   password: string;
   rePassword: string;
 
-  organization_data: OrganizationCreate | null;
+  organization_name: string;
+  organization_bin: string;
+  organization_address: string;
+  organization_contact: string;
+  organization_email: string;
+  organization_description: string;
+  organization_category: OrganizationCategory;
 }
 
 const schema = yup.object().shape({
@@ -31,6 +38,10 @@ const schema = yup.object().shape({
     .string()
     .required("Введите адрес электронной почты")
     .email("Некорректный формат адреса электронной почты"),
+  contact: yup
+    .string()
+    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона")
+    .required("Введите номер телефона"),
   first_name: yup.string().required("Введите свое имя"),
   last_name: yup.string().required("Введите свою фамилию"),
   password: yup
@@ -41,28 +52,38 @@ const schema = yup.object().shape({
     .string()
     .oneOf([yup.ref("password")], "Пароли должны совпадать")
     .required("Повторите пароль"),
-  organization_data: yup.object().shape({
-    name: yup.string().required("Введите название организации"),
-    bin: yup.string().required("Введите БИН организации"),
-    address: yup.string().required("Введите адрес организации"),
-    contact: yup.string().required("Введите контакты номер телефона"),
-    email: yup
-      .string()
-      .required()
-      .email("Некорректный формат адреса электронной почты"),
-    description: yup.string().required("Опешите род деятельность организации"),
-    category: yup
-      .string()
-      .oneOf<OrganizationCategory>(
-        [
-          "Scientific Organization",
-          "University",
-          "Technopark",
-          "Commercial Laboratory Company"
-        ],
-        "Выберите категорию организации"
-      )
-  })
+
+  organization_name: yup.string().required("Введите название организации"),
+  organization_bin: yup
+    .string()
+    .matches(
+      /^\d{12}/,
+      "Некорректный формат БИН. Пример корректного: 123456789012"
+    )
+    .required("Введите БИН организации"),
+  organization_address: yup.string().required("Введите адрес организации"),
+  organization_contact: yup
+    .string()
+    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона")
+    .required("Введите номер телефона"),
+  organization_email: yup
+    .string()
+    .required()
+    .email("Некорректный формат адреса электронной почты"),
+  organization_description: yup
+    .string()
+    .required("Опешите род деятельность организации"),
+  organization_category: yup
+    .string()
+    .oneOf<OrganizationCategory>(
+      [
+        "Scientific Organization",
+        "University",
+        "Technopark",
+        "Commercial Laboratory Company"
+      ],
+      "Выберите категорию организации"
+    )
 });
 
 const OrganizationForm = ({
@@ -84,23 +105,44 @@ const OrganizationForm = ({
       password: "",
       rePassword: "",
 
-      organization_data: {
-        name: "",
-        bin: "",
-        address: "",
-        contact: "",
-        email: "",
-        description: "",
-        category: "Scientific Organization"
-      }
+      organization_name: "",
+      organization_bin: "",
+      organization_address: "",
+      organization_contact: "",
+      organization_email: "",
+      organization_description: "",
+      organization_category: "Scientific Organization"
     },
 
     resolver: yupResolver(schema)
   });
 
   const onSubmit = (formValues: FormValues) => {
+    const {
+      organization_name,
+      organization_bin,
+      organization_address,
+      organization_contact,
+      organization_email,
+      organization_description,
+      organization_category,
+      ...registerValues
+    } = formValues;
+
     onRegister(
-      { ...formValues, role: "Organization" },
+      {
+        ...registerValues,
+        role: "Organization",
+        organization_data: {
+          name: organization_name,
+          bin: organization_bin,
+          address: organization_address,
+          contact: organization_contact,
+          email: organization_email,
+          description: organization_description,
+          category: organization_category
+        }
+      },
       {
         onError: (error) => {
           showToastWithGravityAndOffset(
@@ -138,6 +180,27 @@ const OrganizationForm = ({
           />
         )}
       />
+
+      <Controller
+        control={control}
+        rules={{
+          required: true
+        }}
+        name="contact"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextField
+            mode="outlined"
+            label="Номер телефона"
+            autoComplete="tel"
+            inputMode="tel"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            error={errors.contact?.message}
+          />
+        )}
+      />
+
       <Controller
         control={control}
         rules={{
@@ -222,7 +285,7 @@ const OrganizationForm = ({
       <Controller
         control={control}
         rules={{ required: true }}
-        name="organization_data.name"
+        name="organization_name"
         render={({ field: { onChange, onBlur, value } }) => (
           <TextField
             mode="outlined"
@@ -230,13 +293,14 @@ const OrganizationForm = ({
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            error={errors?.organization_name?.message}
           />
         )}
       />
       <Controller
         control={control}
         rules={{ required: true }}
-        name="organization_data.bin"
+        name="organization_bin"
         render={({ field: { onChange, onBlur, value } }) => (
           <TextField
             mode="outlined"
@@ -244,13 +308,14 @@ const OrganizationForm = ({
             onBlur={onBlur}
             onChangeText={onChange}
             value={value || undefined}
+            error={errors?.organization_bin?.message}
           />
         )}
       />
       <Controller
         control={control}
         rules={{ required: true }}
-        name="organization_data.address"
+        name="organization_address"
         render={({ field: { onChange, onBlur, value } }) => (
           <TextField
             mode="outlined"
@@ -258,27 +323,30 @@ const OrganizationForm = ({
             onBlur={onBlur}
             onChangeText={onChange}
             value={value || undefined}
+            error={errors?.organization_address?.message}
           />
         )}
       />
       <Controller
         control={control}
         rules={{ required: true }}
-        name="organization_data.contact"
+        name="organization_contact"
         render={({ field: { onChange, onBlur, value } }) => (
           <TextField
             mode="outlined"
-            label="Контактная информация"
+            label="Номер телефона организации"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value || undefined}
+            inputMode="tel"
+            error={errors?.organization_contact?.message}
           />
         )}
       />
       <Controller
         control={control}
         rules={{ required: true }}
-        name="organization_data.email"
+        name="organization_email"
         render={({ field: { onChange, onBlur, value } }) => (
           <TextField
             mode="outlined"
@@ -286,13 +354,15 @@ const OrganizationForm = ({
             onBlur={onBlur}
             onChangeText={onChange}
             value={value || undefined}
+            inputMode="email"
+            error={errors?.organization_email?.message}
           />
         )}
       />
       <Controller
         control={control}
         rules={{ required: true }}
-        name="organization_data.description"
+        name="organization_description"
         render={({ field: { onChange, onBlur, value } }) => (
           <TextField
             mode="outlined"
@@ -300,13 +370,14 @@ const OrganizationForm = ({
             onBlur={onBlur}
             onChangeText={onChange}
             value={value || undefined}
+            error={errors?.organization_category?.message}
           />
         )}
       />
       <Controller
         control={control}
         rules={{ required: true }}
-        name="organization_data.category"
+        name="organization_category"
         render={({ field: { onChange, value } }) => (
           <DialogWithRadioBtns
             textField={{

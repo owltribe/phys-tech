@@ -163,7 +163,7 @@ const ServiceDetail = ({
                 </View>
                 <Divider bold />
                 <View style={styles.item}>
-                  <Text style={styles.itemLabel}>Контакты</Text>
+                  <Text style={styles.itemLabel}>Номер телефона</Text>
                   <Text style={styles.itemText}>
                     {data.data.organization.contact}
                   </Text>

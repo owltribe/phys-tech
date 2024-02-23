@@ -3,7 +3,7 @@ from typing import Optional
 
 from fastapi_users import schemas
 from fastapi_users.models import ID
-from pydantic import UUID4, EmailStr
+from pydantic import EmailStr, constr
 
 from models.user import UserRole
 from src.organization.schemas import OrganizationCreate, OrganizationRead
@@ -13,6 +13,7 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
     id: ID
     avatar: Optional[str] = None
     email: EmailStr
+    contact: Optional[str] = None
     first_name: str
     last_name: str
     role: UserRole
@@ -31,6 +32,7 @@ class UserReadWithOrganization(UserRead):
 
 class UserCreate(schemas.BaseUserCreate):
     email: EmailStr
+    contact: constr(pattern=r"^(\+7|8)7\d{9}$")  # Phone number pattern
     first_name: str
     last_name: str
     role: UserRole
