@@ -41,9 +41,9 @@ const ServiceRequestCard = ({
       </Badge>
       <BaseCard
         title={serviceRequest.service.name}
-        description={`${dayjs(serviceRequest.created_at).format(
-          "DD/MM/YYYY HH:mm"
-        )}`}
+        description={`${dayjs(serviceRequest.created_at)
+          .locale("ru")
+          .format("DD MMMM YYYY HH:MM")}`}
         onPress={onPress}
       />
     </View>
