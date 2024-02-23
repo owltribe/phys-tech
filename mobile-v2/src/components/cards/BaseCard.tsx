@@ -65,8 +65,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     backgroundColor: white,
-    elevation: 16,
-    shadowColor: mantineColors.gray[6],
+    elevation: 4,
     borderRadius: 10,
     padding: 12
   },
