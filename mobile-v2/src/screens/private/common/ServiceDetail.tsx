@@ -7,6 +7,7 @@ import {
   Text,
   View
 } from "react-native";
+import { SheetManager } from "react-native-actions-sheet";
 import { Divider, Snackbar } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
 import OutlineButton from "components/buttons/OutlineButton";
@@ -33,41 +34,11 @@ const ServiceDetail = ({
   const width = Dimensions.get("window").width;
   const { user } = useAuth();
 
-  const [snackbarContent, setSnackbarContent] = useState<{
-    message: string;
-    requestId: string | null;
-  } | null>(null);
+  const { data, isLoading } = useService(serviceId);
 
-  const { data, isSuccess, isLoading } = useService(serviceId);
-
-  const createServiceRequestMutation = useCreateServiceRequest();
   const destroyServiceMutation = useDestroyService(serviceId);
 
   const isOrganization = user?.role === "Organization";
-
-  const handleSubmit = () => {
-    if (isSuccess && data?.data) {
-      createServiceRequestMutation.mutate(
-        { service_id: serviceId },
-        {
-          onSuccess: (response) => {
-            setSnackbarContent({
-              message: `Заявка на услугу была создана. Переключитесь на вкладку заявки, чтобы посмотреть актуальный статус.`,
-              requestId: response.data.id
-            });
-          },
-          onError: (error) => {
-            setSnackbarContent({
-              message: `Ошибка создания заявки на услугу. Повторите позже. ${String(
-                error.response?.data.detail
-              )}`,
-              requestId: null
-            });
-          }
-        }
-      );
-    }
-  };
 
   const handleNavigateToOrganization = (organizationId: string) => {
     navigation.navigate("Organization", {
@@ -176,7 +147,9 @@ const ServiceDetail = ({
             <View style={styles.card}>
               <Text style={styles.cardTitle}>Описание</Text>
               <View style={styles.cardInnerContainer}>
-                <Text style={styles.itemText}>{data.data.description}</Text>
+                <Text style={[styles.itemText, { textAlign: "left" }]}>
+                  {data.data.description}
+                </Text>
               </View>
             </View>
           )}
@@ -200,36 +173,41 @@ const ServiceDetail = ({
             </>
           )}
 
-          {!isOrganization && (
+          {data?.data && !isOrganization && (
             <SolidButton
               title="Запросить услугу"
-              loading={createServiceRequestMutation.isPending}
+              // loading={createServiceRequestMutation.isPending}
               disabled={isLoading}
-              onPress={handleSubmit}
+              onPress={() =>
+                SheetManager.show("ServiceRequestCreation", {
+                  payload: { serviceId: data.data.id }
+                })
+              }
+              // onPress={handleSubmit}
             />
           )}
         </KeyboardAvoidingView>
       </ScreenWrapper>
 
-      <Snackbar
-        visible={!!snackbarContent}
-        onDismiss={() => setSnackbarContent(null)}
-        action={{
-          label: snackbarContent?.requestId ? "Перейти к заявке" : "Закрыть",
-          onPress: () => {
-            if (snackbarContent?.requestId) {
-              navigation.navigate("ServiceRequest", {
-                serviceRequestId: snackbarContent.requestId
-              });
-            } else {
-              setSnackbarContent(null);
-            }
-          }
-        }}
-        duration={Snackbar.DURATION_LONG}
-      >
-        {snackbarContent?.message}
-      </Snackbar>
+      {/*<Snackbar*/}
+      {/*  visible={!!snackbarContent}*/}
+      {/*  onDismiss={() => setSnackbarContent(null)}*/}
+      {/*  action={{*/}
+      {/*    label: snackbarContent?.requestId ? "Перейти к заявке" : "Закрыть",*/}
+      {/*    onPress: () => {*/}
+      {/*      if (snackbarContent?.requestId) {*/}
+      {/*        navigation.navigate("ServiceRequest", {*/}
+      {/*          serviceRequestId: snackbarContent.requestId*/}
+      {/*        });*/}
+      {/*      } else {*/}
+      {/*        setSnackbarContent(null);*/}
+      {/*      }*/}
+      {/*    }*/}
+      {/*  }}*/}
+      {/*  duration={Snackbar.DURATION_LONG}*/}
+      {/*>*/}
+      {/*  {snackbarContent?.message}*/}
+      {/*</Snackbar>*/}
     </>
   );
 };
@@ -270,11 +248,13 @@ const styles = StyleSheet.create({
     fontFamily: "GoogleSans-Regular"
   },
   itemText: {
+    textAlign: "right",
     flex: 1,
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
   },
   itemLink: {
+    textAlign: "right",
     flex: 1,
     color: mantineColors.blue[5],
     fontFamily: "GoogleSans-MediumItalic",

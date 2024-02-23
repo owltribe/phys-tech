@@ -62,7 +62,7 @@ const EventsList = ({
           label="Добавить"
           icon="plus"
           style={styles.fab}
-          onPress={() => SheetManager.show("event-creation")}
+          onPress={() => SheetManager.show("EventCreation")}
           animated
         />
       )}

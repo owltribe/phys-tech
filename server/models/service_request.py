@@ -1,7 +1,7 @@
 import enum
 import uuid
 
-from sqlalchemy import UUID, Enum, ForeignKey
+from sqlalchemy import UUID, Enum, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
@@ -24,6 +24,7 @@ class ServiceRequest(Base):
         Enum(ServiceRequestStatus, name="servicerequest_status_enum"),
         default=ServiceRequestStatus.PENDING,
     )
+    comment: Mapped[str] = mapped_column(String, nullable=True)
 
     service_id: Mapped[uuid.UUID] = mapped_column(
         UUID,

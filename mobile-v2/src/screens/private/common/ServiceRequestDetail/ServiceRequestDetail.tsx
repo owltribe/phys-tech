@@ -184,6 +184,17 @@ const ServiceRequestDetail = ({
           </View>
         )}
 
+        {data?.data.comment && (
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Комментарий от заказчика</Text>
+            <View style={styles.cardInnerContainer}>
+              <Text style={[styles.itemText, { textAlign: "left" }]}>
+                {data.data.comment}
+              </Text>
+            </View>
+          </View>
+        )}
+
         {isOrganization && (
           <View style={commonStyles.defaultListGap}>
             {data?.data.status === "Pending" && (

@@ -8,6 +8,7 @@ import type { UserRead } from './UserRead';
 export type ServiceRequestRetrieve = {
     id: string;
     status: ServiceRequestStatus;
+    comment: (string | null);
     service: ServiceRetrieve;
     requested_by: UserRead;
     created_at: string;

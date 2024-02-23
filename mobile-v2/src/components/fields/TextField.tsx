@@ -17,6 +17,7 @@ const TextField = ({ error, containerStyle, ...props }: TextFieldProps) => {
         outlineColor={mantineColors.gray[4]}
         activeOutlineColor={mantineColors.blue[6]}
         error={!!error}
+        mode="outlined"
         {...props}
       />
       {!!error && (
