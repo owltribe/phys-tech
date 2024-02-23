@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, StyleSheet } from "react-native";
+import { KeyboardAvoidingView } from "react-native";
 import ScreenWrapper from "components/ScreenWrapper";
 import Header from "components/typography/Header";
 import ServiceRequestsList from "screens/private/organization/MyServices/components/ServiceRequestsList";
@@ -16,13 +16,5 @@ const MyServiceRequests = ({ navigation }: ServiceRequestsScreenProps) => {
     </ScreenWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  text: {
-    marginTop: 16,
-    marginBottom: 4,
-    fontWeight: "700"
-  }
-});
 
 export default MyServiceRequests;
