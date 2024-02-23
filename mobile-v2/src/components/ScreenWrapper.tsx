@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   ScrollView,
   ScrollViewProps,
+  StatusBar,
   StyleProp,
   StyleSheet,
   View,
@@ -30,6 +31,7 @@ export default function ScreenWrapper({
     styles.container,
     {
       backgroundColor: MD2Colors.white,
+      paddingTop: StatusBar.currentHeight,
       paddingBottom: insets.bottom,
       paddingLeft: insets.left,
       paddingRight: insets.left

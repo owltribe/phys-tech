@@ -6,10 +6,7 @@ import { ErrorModel, ServiceImageRead } from "types/generated";
 
 export default function useServiceImages(
   serviceId: string
-): UseQueryResult<
-  AxiosResponse<Array<ServiceImageRead>>,
-  AxiosError<ErrorModel>
-> {
+): UseQueryResult<AxiosResponse<ServiceImageRead[]>, AxiosError<ErrorModel>> {
   const client = useClient();
 
   const fetchServices = () => {

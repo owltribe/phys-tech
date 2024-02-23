@@ -37,7 +37,7 @@ export default function App() {
     <ReactQueryClientProvider>
       <AuthProvider>
         <SafeAreaProvider
-          style={{ flex: 1, paddingTop: StatusBar.currentHeight }}
+          style={{ flex: 1 }}
           onLayout={onLayoutRootView}
         >
           <SheetProvider>

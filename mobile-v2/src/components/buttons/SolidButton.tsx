@@ -48,8 +48,6 @@ const SolidButton = ({
         paddingVertical: VERTICAL_PADDING_DEFAULT * 1.2,
         paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
         borderRadius: 16,
-        elevation: 16,
-        shadowColor: theme[2],
         backgroundColor: theme[6],
         opacity: disabled ? 0.6 : 1
       },

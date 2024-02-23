@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
-  TouchableHighlight,
   TouchableOpacity,
   View
 } from "react-native";
@@ -15,6 +14,7 @@ import SolidButton from "components/buttons/SolidButton";
 import TextField from "components/fields/TextField";
 import ScreenWrapper from "components/ScreenWrapper";
 import * as ImagePicker from "expo-image-picker";
+import useDestroyServiceImage from "hooks/service-image/useDestroyServiceImage";
 import useServiceImages from "hooks/services/useServiceImages";
 import useUpdateService from "hooks/services/useUpdateService";
 import useUploadServiceImage from "hooks/services/useUploadServiceImage";
@@ -22,14 +22,12 @@ import { Folder, Save, Trash2 } from "lucide-react-native";
 import { ServiceEditScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import { ServiceUpdate } from "types/generated";
+import { mantineColors, white } from "utils/colors";
 import { getFormattedError } from "utils/error-helper";
 import {
   showToastWithGravity,
   showToastWithGravityAndOffset
 } from "utils/notifications";
-
-import useDestroyServiceImage from "../../../hooks/service-image/useDestroyServiceImage";
-import { mantineColors, white } from "../../../utils/colors";
 
 interface FormValues {
   name: string;
