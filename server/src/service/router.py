@@ -3,8 +3,9 @@ from typing import List
 from fastapi import APIRouter, Depends, File, UploadFile, status
 from fastapi_filter import FilterDepends
 from fastapi_pagination.links import Page
+from sqlalchemy.orm import Session
 
-from database import DbSession
+from database import get_db
 from models import User, UserRole
 from src.auth.auth_backend import current_active_user
 from src.auth.rbac import rbac
@@ -19,8 +20,6 @@ from src.service_image.schemas import ServiceImageRead
 
 services_router = APIRouter(prefix="/services", tags=["Services"])
 
-service = ServiceService(session=DbSession)
-
 
 @services_router.get("", response_model=Page[ServiceRead])
 @rbac(
@@ -29,8 +28,9 @@ service = ServiceService(session=DbSession)
 def paginated_list(
     service_filter: ServiceFilter = FilterDepends(ServiceFilter),
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.paginated_list(service_filter)
+    return ServiceService(session).paginated_list(service_filter)
 
 
 @services_router.post("", response_model=ServiceRead)
@@ -41,8 +41,11 @@ def paginated_list(
 def create(
     service_create: ServiceCreate,
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.create(service=service_create, current_user=current_user)
+    return ServiceService(session).create(
+        service=service_create, current_user=current_user
+    )
 
 
 @services_router.post("/{service_id}/image", response_model=ServiceRead)
@@ -51,16 +54,21 @@ def upload_service_image(
     service_id: str,
     image: UploadFile = File(...),
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.upload_service_image(service_id, image)
+    return ServiceService(session).upload_service_image(service_id, image)
 
 
 @services_router.get("/{service_id}", response_model=ServiceRead)
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
 def retrieve(
-    service_id: str, current_user: User = Depends(current_active_user)
+    service_id: str,
+    current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.retrieve(service_id=service_id, current_user=current_user)
+    return ServiceService(session).retrieve(
+        service_id=service_id, current_user=current_user
+    )
 
 
 @services_router.put("/{service_id}", response_model=ServiceRead)
@@ -72,8 +80,9 @@ def update(
     service_id: str,
     service_update: ServiceUpdate,
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.update(service_id, service_update)
+    return ServiceService(session).update(service_id, service_update)
 
 
 @services_router.delete(
@@ -86,9 +95,11 @@ def update(
     error_message="Удалять услуги могут только организации.",
 )
 def destroy(
-    service_id: str, current_user: User = Depends(current_active_user)
+    service_id: str,
+    current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.destroy(service_id)
+    return ServiceService(session).destroy(service_id)
 
 
 @services_router.get(
@@ -98,6 +109,8 @@ def destroy(
     roles=[UserRole.ORGANIZATION],
 )
 def list_service_images(
-    service_id: str, current_user: User = Depends(current_active_user)
+    service_id: str,
+    current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.list_service_images(service_id)
+    return ServiceService(session).list_service_images(service_id)

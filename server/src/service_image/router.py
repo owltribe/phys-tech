@@ -1,14 +1,13 @@
 from fastapi import APIRouter, Depends, status
+from sqlalchemy.orm import Session
 
-from database import DbSession
+from database import get_db
 from models import User, UserRole
 from src.auth.auth_backend import current_active_user
 from src.auth.rbac import rbac
 from src.service_image.service import ServiceImageService
 
 service_image_router = APIRouter(prefix="/service-images", tags=["Services"])
-
-service = ServiceImageService(session=DbSession)
 
 
 @service_image_router.delete(
@@ -21,6 +20,8 @@ service = ServiceImageService(session=DbSession)
     error_message="Удалять изображения могут только организации.",
 )
 def destroy(
-    service_image_id: str, current_user: User = Depends(current_active_user)
+    service_image_id: str,
+    current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.destroy(service_image_id)
+    return ServiceImageService(session).destroy(service_image_id)

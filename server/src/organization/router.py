@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, UploadFile
 from fastapi_filter import FilterDepends
 from fastapi_pagination.links import Page
+from sqlalchemy.orm import Session
 
-from database import DbSession
+from database import get_db
 from models import User, UserRole
 from src.auth.auth_backend import current_active_user
 from src.auth.rbac import rbac
@@ -18,7 +19,6 @@ from src.organization.service import OrganizationService
 organizations_router = APIRouter(
     prefix="/organizations", tags=["Organizations"]
 )
-service = OrganizationService(session=DbSession)
 
 
 @organizations_router.get("", response_model=Page[OrganizationRead])
@@ -28,8 +28,9 @@ def paginated_list(
         OrganizationFilter
     ),
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.paginated_list(organization_filter)
+    return OrganizationService(session).paginated_list(organization_filter)
 
 
 @organizations_router.get(
@@ -37,9 +38,11 @@ def paginated_list(
 )
 @rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
 def retrieve(
-    organization_id: str, current_user: User = Depends(current_active_user)
+    organization_id: str,
+    current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.retrieve(organization_id)
+    return OrganizationService(session).retrieve(organization_id)
 
 
 @organizations_router.post("", response_model=OrganizationRead)
@@ -47,8 +50,9 @@ def retrieve(
 def create(
     organization: OrganizationCreate = Depends(),
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.create(organization=organization)
+    return OrganizationService(session).create(organization=organization)
 
 
 @organizations_router.put(
@@ -59,8 +63,11 @@ def update(
     organization_id: str,
     updated_organization: OrganizationUpdate,
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.update(organization_id, updated_organization, current_user)
+    return OrganizationService(session).update(
+        organization_id, updated_organization, current_user
+    )
 
 
 @organizations_router.post("/photo", response_model=None)
@@ -68,5 +75,8 @@ def update(
 def upload_profile_picture(
     photo: UploadFile = File(...),
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.upload_profile_picture(current_user, file=photo)
+    return OrganizationService(session).upload_profile_picture(
+        current_user, file=photo
+    )

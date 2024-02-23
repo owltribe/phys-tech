@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, status
 from fastapi_filter import FilterDepends
 from fastapi_pagination.links import Page
+from sqlalchemy.orm import Session
 
-from database import DbSession
+from database import get_db
 from models import User, UserRole
 from src.auth.auth_backend import current_active_user
 from src.auth.rbac import rbac
@@ -19,8 +20,6 @@ service_request_router = APIRouter(
     prefix="/service-requests", tags=["Service Requests"]
 )
 
-service = ServiceRequestService(session=DbSession)
-
 
 @service_request_router.get("", response_model=Page[ServiceRequestRead])
 @rbac(
@@ -31,8 +30,11 @@ def paginated_list(
         ServiceRequestFilter
     ),
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.paginated_list(service_request_filter)
+    return ServiceRequestService(session).paginated_list(
+        service_request_filter
+    )
 
 
 @service_request_router.post("", response_model=ServiceRequestRead)
@@ -42,8 +44,9 @@ def paginated_list(
 def create(
     service_request_create: ServiceRequestCreate,
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.create(
+    return ServiceRequestService(session).create(
         service_request_create=service_request_create,
         requested_by=current_user,
     )
@@ -58,8 +61,11 @@ def create(
 def retrieve(
     service_request_id: str,
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.retrieve(service_request_id=service_request_id)
+    return ServiceRequestService(session).retrieve(
+        service_request_id=service_request_id
+    )
 
 
 @service_request_router.put(
@@ -72,8 +78,11 @@ def update(
     service_request_id: str,
     service_request_update: ServiceRequestUpdate,
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.update(service_request_id, service_request_update)
+    return ServiceRequestService(session).update(
+        service_request_id, service_request_update
+    )
 
 
 @service_request_router.delete(
@@ -87,5 +96,6 @@ def update(
 def delete(
     service_request_id: str,
     current_user: User = Depends(current_active_user),
+    session: Session = Depends(get_db),
 ):
-    return service.delete(service_request_id)
+    return ServiceRequestService(session).delete(service_request_id)
