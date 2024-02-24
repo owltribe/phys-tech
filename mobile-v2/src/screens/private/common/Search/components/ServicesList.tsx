@@ -39,9 +39,7 @@ const ServicesList = ({
           colors={refreshControlColors}
         />
       }
-      ListEmptyComponent={
-        <EmptyStatement description="Нет доступных организаций" />
-      }
+      ListEmptyComponent={<EmptyStatement description="Нет доступных услуг" />}
     />
   );
 };

@@ -49,7 +49,7 @@ const EventsList = ({
           />
         }
         ListEmptyComponent={
-          <EmptyStatement description="Нет доступных организаций" />
+          <EmptyStatement description="Нет доступных мероприятий" />
         }
       />
 
