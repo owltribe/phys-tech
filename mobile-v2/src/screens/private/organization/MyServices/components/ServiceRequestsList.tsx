@@ -1,11 +1,11 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, RefreshControl, StyleSheet } from "react-native";
 import ServiceRequestCard from "components/cards/ServiceRequestCard";
 import EmptyStatement from "components/EmptyStatement";
-import Loader from "components/Loader";
 import useServiceRequests from "hooks/service_requests/useServiceRequests";
 import { useAuth } from "providers/AuthProvider";
 import { ServiceRequestsScreenProps, ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
+import { refreshControlColors } from "utils/colors";
 
 const ServiceRequestsList = ({
   navigation
@@ -18,26 +18,10 @@ const ServiceRequestsList = ({
 
   const isOrganization = user?.role === "Organization";
 
-  const { data, isSuccess, isLoading, isFetching } = useServiceRequests({
+  const { data, refetch, isLoading, isFetching } = useServiceRequests({
     organizationId: isOrganization ? user?.organization?.id : undefined,
     requestedById: !isOrganization ? user?.id : undefined
   });
-
-  const ListFooter = () => {
-    if (isSuccess && !data?.data.items.length) {
-      return <EmptyStatement description="Нет заявок" />;
-    }
-    if (isLoading || isFetching) {
-      return (
-        <Loader
-          size="large"
-          style={commonStyles.loadderMargin}
-        />
-      );
-    }
-
-    return null;
-  };
 
   return (
     <>
@@ -47,8 +31,19 @@ const ServiceRequestsList = ({
         onEndReachedThreshold={0}
         scrollEventThrottle={16}
         style={styles.container}
+        onRefresh={refetch}
+        refreshing={isLoading || isFetching}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading || isFetching}
+            onRefresh={refetch}
+            colors={refreshControlColors}
+          />
+        }
+        ListEmptyComponent={
+          <EmptyStatement description="У вас нет заявок на услуги" />
+        }
         contentContainerStyle={[
-          styles.container,
           commonStyles.defaultVerticalPadding,
           commonStyles.defaultHorizontalPadding,
           commonStyles.defaultListGap
@@ -63,7 +58,6 @@ const ServiceRequestsList = ({
             }}
           />
         )}
-        ListFooterComponent={ListFooter}
       />
     </>
   );

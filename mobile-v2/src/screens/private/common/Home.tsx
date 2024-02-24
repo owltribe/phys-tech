@@ -1,22 +1,24 @@
-import { FlatList, KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import {
-  Avatar,
-  Card,
-  IconButton,
-  MD2Colors,
-  Searchbar
-} from "react-native-paper";
+  FlatList,
+  KeyboardAvoidingView,
+  StatusBar,
+  StyleSheet,
+  View
+} from "react-native";
+import BaseCard from "components/cards/BaseCard";
+import SearchBar from "components/fields/SearchBar";
 import ScreenWrapper from "components/ScreenWrapper";
 import { Atom, Calendar, HeartHandshake } from "lucide-react-native";
 import { HomeScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
+import { mantineColors, white } from "utils/colors";
 
 export default function Home({ navigation }: HomeScreenProps) {
   const cardsData = [
     {
       label: "Организации",
       description: "Профили научных организаций с детальной информацией",
-      background: MD2Colors.indigoA700,
+      background: mantineColors.blue[4],
       Icon: Atom,
       onPress: () =>
         navigation.navigate("Search", { defaultOption: "organization" })
@@ -24,14 +26,14 @@ export default function Home({ navigation }: HomeScreenProps) {
     {
       label: "Услуги",
       description: "Каталог научных услуг от каждой организации",
-      background: MD2Colors.deepPurpleA700,
+      background: mantineColors.yellow[4],
       Icon: HeartHandshake,
       onPress: () => navigation.navigate("Search", { defaultOption: "service" })
     },
     {
       label: "Мероприятия",
       description: "Календарь семинаров, конференций и других мероприятий",
-      background: MD2Colors.deepOrangeA700,
+      background: mantineColors.indigo[4],
       Icon: Calendar,
       onPress: () => navigation.navigate("Search", { defaultOption: "event" })
     }
@@ -39,9 +41,9 @@ export default function Home({ navigation }: HomeScreenProps) {
 
   return (
     <ScreenWrapper withScrollView={false}>
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView style={[{ paddingTop: StatusBar.currentHeight }]}>
         <View style={commonStyles.defaultHorizontalPadding}>
-          <Searchbar
+          <SearchBar
             placeholder="Поиск..."
             value=""
             onFocus={() => navigation.navigate("Search")}
@@ -52,30 +54,19 @@ export default function Home({ navigation }: HomeScreenProps) {
           data={cardsData}
           contentContainerStyle={[
             commonStyles.defaultHorizontalPadding,
-            styles.flatlistContainer
+            commonStyles.defaultVerticalPadding,
+            commonStyles.defaultListGap
           ]}
           renderItem={({ item }) => (
-            <Card
-              mode="elevated"
-              style={styles.card}
+            <BaseCard
+              title={item.label}
+              description={item.description}
+              descriptionNumberOfLines={3}
               onPress={item.onPress}
-            >
-              <Card.Title
-                title={item.label}
-                titleVariant="labelLarge"
-                subtitle={item.description}
-                subtitleNumberOfLines={3}
-                style={styles.cardTitle}
-                left={() => (
-                  <item.Icon
-                    strokeWidth={1}
-                    size={42}
-                    color={item.background}
-                  />
-                )}
-                right={() => <IconButton icon="chevron-right" />}
-              />
-            </Card>
+              Icon={item.Icon}
+              styleLeftAddon={{ backgroundColor: item.background }}
+              iconProps={{ color: white, strokeWidth: 1.6 }}
+            />
           )}
         />
       </KeyboardAvoidingView>
@@ -90,7 +81,7 @@ const styles = StyleSheet.create({
   card: {
     marginTop: 16,
     gap: 0,
-    backgroundColor: MD2Colors.white
+    backgroundColor: white
   },
   content: {
     flexDirection: "row",

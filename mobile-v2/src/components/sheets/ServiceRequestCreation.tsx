@@ -57,6 +57,7 @@ const ServiceRequestCreation = ({
         />
         <OutlineButton
           title="Отменить"
+          onPress={() => SheetManager.hide("ServiceRequestCreation")}
           disabled={createServiceRequestMutation.isPending}
           color="red"
         />

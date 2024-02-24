@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { KeyboardAvoidingView, StatusBar, View } from "react-native";
+import SearchBar from "components/fields/SearchBar";
 import ScreenWrapper from "components/ScreenWrapper";
 import SegmentedControl from "components/SegmentedControl";
 import { SearchScreenProps } from "screens/types";
@@ -35,10 +35,16 @@ export default function Search({
 
   return (
     <ScreenWrapper withScrollView={false}>
-      <KeyboardAvoidingView>
-        <View style={commonStyles.container}>
-          <Searchbar
+      <KeyboardAvoidingView style={[{ paddingTop: StatusBar.currentHeight }]}>
+        <View
+          style={[
+            commonStyles.defaultHorizontalPadding,
+            commonStyles.defaultListGap
+          ]}
+        >
+          <SearchBar
             placeholder="Поиск..."
+            mode="bar"
             value={search}
             onChangeText={setSearch}
           />

@@ -1,10 +1,10 @@
-import { FlatList } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
+import { FlatList, RefreshControl } from "react-native";
 import ServiceCard from "components/cards/ServiceCard";
 import EmptyStatement from "components/EmptyStatement";
 import useServices from "hooks/services/useServices";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
+import { refreshControlColors } from "utils/colors";
 
 const ServicesList = ({
   search,
@@ -13,25 +13,9 @@ const ServicesList = ({
   search: string;
   navigation: SearchScreenProps["navigation"];
 }) => {
-  const { data, isLoading, isFetching, isSuccess } = useServices({
+  const { data, refetch, isLoading, isFetching } = useServices({
     search: search
   });
-
-  const ListFooter = () => {
-    if (isSuccess && !data?.data.items.length) {
-      return <EmptyStatement description="Нет доступных услуг" />;
-    }
-    if (isLoading || isFetching) {
-      return (
-        <ActivityIndicator
-          size="large"
-          style={commonStyles.loadderMargin}
-        />
-      );
-    }
-
-    return null;
-  };
 
   return (
     <FlatList
@@ -47,7 +31,17 @@ const ServicesList = ({
           onPress={() => navigation.navigate("Service", { serviceId: item.id })}
         />
       )}
-      ListFooterComponent={ListFooter}
+      refreshing={isLoading || isFetching}
+      refreshControl={
+        <RefreshControl
+          refreshing={isLoading || isFetching}
+          onRefresh={refetch}
+          colors={refreshControlColors}
+        />
+      }
+      ListEmptyComponent={
+        <EmptyStatement description="Нет доступных организаций" />
+      }
     />
   );
 };

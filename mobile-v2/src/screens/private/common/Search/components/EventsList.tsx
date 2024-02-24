@@ -1,12 +1,13 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, RefreshControl, StyleSheet } from "react-native";
 import { SheetManager } from "react-native-actions-sheet";
-import { ActivityIndicator, FAB } from "react-native-paper";
+import { FAB } from "react-native-paper";
+import EventCard from "components/cards/EventCard";
 import EmptyStatement from "components/EmptyStatement";
 import useEvents from "hooks/events/useEvents";
 import { useAuth } from "providers/AuthProvider";
-import EventCard from "screens/private/common/Search/components/EventCard";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
+import { mantineColors, refreshControlColors, white } from "utils/colors";
 
 const EventsList = ({
   search,
@@ -17,33 +18,18 @@ const EventsList = ({
 }) => {
   const { user } = useAuth();
 
-  const { data, isLoading, isFetching, isSuccess } = useEvents({
+  const { data, refetch, isLoading, isFetching } = useEvents({
     search: search
   });
 
   const isOrganization = user?.role === "Organization";
-
-  const ListFooter = () => {
-    if (isSuccess && !data?.data.items.length) {
-      return <EmptyStatement description="Нет мероприятий" />;
-    }
-    if (isLoading || isFetching) {
-      return (
-        <ActivityIndicator
-          size="large"
-          style={commonStyles.loadderMargin}
-        />
-      );
-    }
-
-    return null;
-  };
 
   return (
     <>
       <FlatList
         data={data?.data.items}
         contentContainerStyle={[
+          styles.container,
           commonStyles.defaultHorizontalPadding,
           commonStyles.defaultVerticalPadding,
           commonStyles.defaultListGap
@@ -54,7 +40,17 @@ const EventsList = ({
             onPress={() => navigation.navigate("Event", { eventId: item.id })}
           />
         )}
-        ListFooterComponent={ListFooter}
+        refreshing={isLoading || isFetching}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading || isFetching}
+            onRefresh={refetch}
+            colors={refreshControlColors}
+          />
+        }
+        ListEmptyComponent={
+          <EmptyStatement description="Нет доступных организаций" />
+        }
       />
 
       {isOrganization && (
@@ -62,6 +58,7 @@ const EventsList = ({
           label="Добавить"
           icon="plus"
           style={styles.fab}
+          color={white}
           onPress={() => SheetManager.show("EventCreation")}
           animated
         />
@@ -70,11 +67,16 @@ const EventsList = ({
   );
 };
 const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 80
+  },
   fab: {
     position: "absolute",
-    margin: 16,
+    margin: 10,
     right: 0,
-    bottom: 0
+    bottom: 0,
+
+    backgroundColor: mantineColors.blue[5]
   }
 });
 

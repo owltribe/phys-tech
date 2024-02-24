@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
-import { ActivityIndicator, Chip } from "react-native-paper";
+import { FlatList, RefreshControl, ScrollView, StyleSheet } from "react-native";
+import { Chip } from "react-native-paper";
+import OrganizationCard from "components/cards/OrganizationCard";
 import EmptyStatement from "components/EmptyStatement";
 import useOrganizations from "hooks/organization/useOrganizations";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
+import { refreshControlColors, white } from "utils/colors";
 import { organizationCategories } from "utils/enum-helpers";
-
-import OrganizationCard from "./OrganizationCard";
 
 const OrganizationsList = ({
   search,
@@ -18,7 +18,7 @@ const OrganizationsList = ({
 }) => {
   const [categories, setCategories] = useState<string[]>([]);
 
-  const { data, isLoading, isFetching, isSuccess } = useOrganizations({
+  const { data, refetch, isLoading, isFetching } = useOrganizations({
     search: search,
     category__in: categories
   });
@@ -39,40 +39,39 @@ const OrganizationsList = ({
     }
   };
 
-  const ListFooter = () => {
-    if (isSuccess && !data?.data.items.length) {
-      return <EmptyStatement description="Нет организаций" />;
-    }
-    if (isLoading || isFetching) {
-      return (
-        <ActivityIndicator
-          size="large"
-          style={commonStyles.loadderMargin}
-        />
-      );
-    }
-
-    return null;
-  };
-
   return (
     <>
       <FlatList
         data={data?.data.items}
-        contentContainerStyle={[commonStyles.defaultListGap]}
+        contentContainerStyle={[
+          commonStyles.defaultHorizontalPadding,
+          commonStyles.defaultVerticalPadding,
+          commonStyles.defaultListGap
+        ]}
         renderItem={({ item }) => (
           <OrganizationCard
-            organizationData={item}
+            organization={item}
             onPress={() =>
               navigation.navigate("Organization", { organizationId: item.id })
             }
           />
         )}
+        refreshing={isLoading || isFetching}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading || isFetching}
+            onRefresh={refetch}
+            colors={refreshControlColors}
+          />
+        }
+        ListEmptyComponent={
+          <EmptyStatement description="Нет доступных организаций" />
+        }
+        stickyHeaderIndices={[0]}
         ListHeaderComponent={
           <ScrollView
             showsHorizontalScrollIndicator={false}
             horizontal
-            contentContainerStyle={commonStyles.defaultHorizontalPadding}
           >
             {organizationCategories
               .sort((c) => (categories.includes(c.value) ? -1 : 1))
@@ -90,7 +89,6 @@ const OrganizationsList = ({
               ))}
           </ScrollView>
         }
-        ListFooterComponent={ListFooter}
       />
     </>
   );
@@ -98,7 +96,8 @@ const OrganizationsList = ({
 
 const styles = StyleSheet.create({
   chip: {
-    margin: 4
+    margin: 4,
+    backgroundColor: white
   },
   row: {
     flexDirection: "row",
