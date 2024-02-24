@@ -11,7 +11,7 @@ export type OrganizationRead = {
     contact: string;
     email: string;
     description: string;
-    category: (OrganizationCategory | null);
+    category: OrganizationCategory;
     photo: (string | null);
 };
 

@@ -23,12 +23,7 @@ const ServiceList = ({
       return <EmptyStatement description="У вас пока нет услуг" />;
     }
     if (isLoading || isFetching) {
-      return (
-        <Loader
-          size="large"
-          style={commonStyles.loadderMargin}
-        />
-      );
+      return <Loader size="large" />;
     }
 
     return null;

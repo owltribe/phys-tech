@@ -89,7 +89,7 @@ const SegmentedControl = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: mantineColors.gray[1],
+    backgroundColor: mantineColors.gray[2],
     flexDirection: "row",
     height: 55,
     width: "100%",

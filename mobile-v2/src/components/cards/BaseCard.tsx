@@ -1,24 +1,45 @@
-import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
-import { ChevronRight } from "lucide-react-native";
+import React from "react";
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+  ViewStyle
+} from "react-native";
+import { ChevronRight, LucideIcon, LucideProps } from "lucide-react-native";
 import { mantineColors, white } from "utils/colors";
 
 const BaseCard = ({
   title,
   description,
-  onPress
+  descriptionNumberOfLines = 1,
+  onPress,
+  styleLeftAddon,
+  Icon,
+  iconProps,
+  Footer
 }: {
   title: string;
   description: string;
+  descriptionNumberOfLines?: number;
   onPress?: () => void;
+  styleLeftAddon?: StyleProp<ViewStyle>;
+  Icon?: LucideIcon;
+  iconProps?: LucideProps;
+  Footer?: React.ReactNode;
 }) => {
   const Content = (
-    <>
-      {/*<View style={styles.leftAddon}>*/}
-      {/*  <Bolt*/}
-      {/*    size={26}*/}
-      {/*    color={mantineColors.dark[5]}*/}
-      {/*  />*/}
-      {/*</View>*/}
+    <View style={styles.innerContainer}>
+      {Icon && (
+        <View style={[styles.leftAddon, styleLeftAddon]}>
+          <Icon
+            size={26}
+            color={mantineColors.dark[5]}
+            {...iconProps}
+          />
+        </View>
+      )}
       <View style={styles.textContainer}>
         <Text
           style={styles.title}
@@ -29,7 +50,7 @@ const BaseCard = ({
         </Text>
         <Text
           style={styles.description}
-          numberOfLines={1}
+          numberOfLines={descriptionNumberOfLines}
           ellipsizeMode="tail"
         >
           {description}
@@ -41,7 +62,7 @@ const BaseCard = ({
           color={mantineColors.dark[5]}
         />
       </View>
-    </>
+    </View>
   );
 
   if (onPress) {
@@ -51,7 +72,10 @@ const BaseCard = ({
         onPress={onPress}
         underlayColor={mantineColors.gray[0]}
       >
-        {Content}
+        <>
+          {Content}
+          {Footer}
+        </>
       </TouchableHighlight>
     );
   }
@@ -61,23 +85,26 @@ const BaseCard = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
     backgroundColor: white,
     elevation: 4,
     borderRadius: 10,
     padding: 12
   },
-  // leftAddon: {
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   padding: 12,
-  //   backgroundColor: mantineColors.gray[1],
-  //   borderRadius: 12,
-  //   width: 50,
-  //   height: 50
-  // },
+  innerContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12
+  },
+  leftAddon: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 12,
+    backgroundColor: mantineColors.gray[1],
+    borderRadius: 12,
+    width: 50,
+    height: 50
+  },
   textContainer: {
     flex: 1,
     justifyContent: "center",

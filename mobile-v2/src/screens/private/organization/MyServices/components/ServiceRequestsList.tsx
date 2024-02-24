@@ -28,12 +28,7 @@ const ServiceRequestsList = ({
       return <EmptyStatement description="Нет заявок" />;
     }
     if (isLoading || isFetching) {
-      return (
-        <Loader
-          size="large"
-          style={commonStyles.loadderMargin}
-        />
-      );
+      return <Loader size="large" />;
     }
 
     return null;

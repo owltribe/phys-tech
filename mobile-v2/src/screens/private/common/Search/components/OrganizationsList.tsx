@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
-import { ActivityIndicator, Chip } from "react-native-paper";
+import { FlatList, ScrollView, StyleSheet } from "react-native";
+import { Chip } from "react-native-paper";
+import OrganizationCard from "components/cards/OrganizationCard";
 import EmptyStatement from "components/EmptyStatement";
+import Loader from "components/Loader";
 import useOrganizations from "hooks/organization/useOrganizations";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
+import { white } from "utils/colors";
 import { organizationCategories } from "utils/enum-helpers";
-
-import OrganizationCard from "./OrganizationCard";
 
 const OrganizationsList = ({
   search,
@@ -44,12 +45,7 @@ const OrganizationsList = ({
       return <EmptyStatement description="Нет организаций" />;
     }
     if (isLoading || isFetching) {
-      return (
-        <ActivityIndicator
-          size="large"
-          style={commonStyles.loadderMargin}
-        />
-      );
+      return <Loader size="large" />;
     }
 
     return null;
@@ -59,20 +55,24 @@ const OrganizationsList = ({
     <>
       <FlatList
         data={data?.data.items}
-        contentContainerStyle={[commonStyles.defaultListGap]}
+        contentContainerStyle={[
+          commonStyles.defaultHorizontalPadding,
+          commonStyles.defaultVerticalPadding,
+          commonStyles.defaultListGap
+        ]}
         renderItem={({ item }) => (
           <OrganizationCard
-            organizationData={item}
+            organization={item}
             onPress={() =>
               navigation.navigate("Organization", { organizationId: item.id })
             }
           />
         )}
+        stickyHeaderIndices={[0]}
         ListHeaderComponent={
           <ScrollView
             showsHorizontalScrollIndicator={false}
             horizontal
-            contentContainerStyle={commonStyles.defaultHorizontalPadding}
           >
             {organizationCategories
               .sort((c) => (categories.includes(c.value) ? -1 : 1))
@@ -98,7 +98,8 @@ const OrganizationsList = ({
 
 const styles = StyleSheet.create({
   chip: {
-    margin: 4
+    margin: 4,
+    backgroundColor: white
   },
   row: {
     flexDirection: "row",

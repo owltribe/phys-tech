@@ -80,7 +80,7 @@ const OrganizationDetail = ({
           </View>
         )}
 
-        {!!data?.data.services && (
+        {!!data?.data.services.length && (
           <View style={[styles.card, { paddingHorizontal: 0 }]}>
             <Text style={styles.cardTitle}>Сервисы</Text>
             <View style={styles.cardInnerContainer}>

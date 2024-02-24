@@ -25,7 +25,7 @@ class OrganizationRead(BaseModel):
     contact: str
     email: str
     description: str
-    category: Optional[OrganizationCategory]
+    category: OrganizationCategory
     photo: Optional[str]
 
     class Config:
