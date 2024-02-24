@@ -85,6 +85,8 @@ export const mantineColors = {
   ]
 };
 
+export const refreshControlColors = [mantineColors.blue[6]];
+
 export const inherit = "inherit";
 export const transparent = "transparent";
 export const black = "#000";

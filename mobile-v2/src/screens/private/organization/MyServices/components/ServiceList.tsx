@@ -1,11 +1,11 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, RefreshControl, StyleSheet } from "react-native";
 import ServiceCard from "components/cards/ServiceCard";
 import EmptyStatement from "components/EmptyStatement";
-import Loader from "components/Loader";
 import useServices from "hooks/services/useServices";
 import { useAuth } from "providers/AuthProvider";
 import { ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
+import { refreshControlColors } from "utils/colors";
 
 const ServiceList = ({
   navigation
@@ -14,20 +14,9 @@ const ServiceList = ({
 }) => {
   const { user } = useAuth();
 
-  const { data, isLoading, isFetching, isSuccess } = useServices({
+  const { data, refetch, isLoading, isFetching, isSuccess } = useServices({
     organizationId: user?.organization?.id
   });
-
-  const ListFooter = () => {
-    if (isSuccess && !data?.data.items.length) {
-      return <EmptyStatement description="У вас пока нет услуг" />;
-    }
-    if (isLoading || isFetching) {
-      return <Loader size="large" />;
-    }
-
-    return null;
-  };
 
   return (
     <FlatList
@@ -36,6 +25,15 @@ const ServiceList = ({
       onEndReachedThreshold={0}
       scrollEventThrottle={16}
       style={styles.container}
+      refreshing={isLoading || isFetching}
+      refreshControl={
+        <RefreshControl
+          refreshing={isLoading || isFetching}
+          onRefresh={refetch}
+          colors={refreshControlColors}
+        />
+      }
+      ListEmptyComponent={<EmptyStatement description="У вас нет услуг" />}
       contentContainerStyle={[
         styles.container,
         commonStyles.defaultHorizontalPadding,
@@ -48,14 +46,13 @@ const ServiceList = ({
           onPress={() => navigation.navigate("Service", { serviceId: item.id })}
         />
       )}
-      ListFooterComponent={ListFooter}
     />
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 60
+    paddingBottom: 80
   }
 });
 

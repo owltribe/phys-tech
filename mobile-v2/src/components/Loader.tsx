@@ -4,19 +4,20 @@ import { mantineColors } from "utils/colors";
 
 import { commonStyles } from "../styles/commonStyles";
 
-type LoaderProps = Omit<
-  React.ComponentProps<typeof ActivityIndicator>,
-  "color"
->;
+interface LoaderProps
+  extends Omit<React.ComponentProps<typeof ActivityIndicator>, "color"> {
+  refreshControl?: boolean;
+}
 
-const Loader = ({ style, ...props }: LoaderProps) => {
-  return (
-    <ActivityIndicator
-      color={mantineColors.blue[6]}
-      style={[commonStyles.loadderMargin, style]}
-      {...props}
-    />
-  );
+const Loader = ({ style, refreshControl, ...props }: LoaderProps) => {
+  if (refreshControl)
+    return (
+      <ActivityIndicator
+        color={mantineColors.blue[6]}
+        style={[commonStyles.loadderMargin, style]}
+        {...props}
+      />
+    );
 };
 
 export default Loader;
