@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
   },
   labelContainer: { justifyContent: "center", alignItems: "center" },
   label: {
+    fontSize: 12,
     fontFamily: "GoogleSans-Medium"
   },
   labelActive: {
