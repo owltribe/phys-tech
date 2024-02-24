@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { FlatList, ScrollView, StyleSheet } from "react-native";
+import { FlatList, RefreshControl, ScrollView, StyleSheet } from "react-native";
 import { Chip } from "react-native-paper";
 import OrganizationCard from "components/cards/OrganizationCard";
 import EmptyStatement from "components/EmptyStatement";
-import Loader from "components/Loader";
 import useOrganizations from "hooks/organization/useOrganizations";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
-import { white } from "utils/colors";
+import { refreshControlColors, white } from "utils/colors";
 import { organizationCategories } from "utils/enum-helpers";
 
 const OrganizationsList = ({
@@ -19,7 +18,7 @@ const OrganizationsList = ({
 }) => {
   const [categories, setCategories] = useState<string[]>([]);
 
-  const { data, isLoading, isFetching, isSuccess } = useOrganizations({
+  const { data, refetch, isLoading, isFetching } = useOrganizations({
     search: search,
     category__in: categories
   });
@@ -40,17 +39,6 @@ const OrganizationsList = ({
     }
   };
 
-  const ListFooter = () => {
-    if (isSuccess && !data?.data.items.length) {
-      return <EmptyStatement description="Нет организаций" />;
-    }
-    if (isLoading || isFetching) {
-      return <Loader size="large" />;
-    }
-
-    return null;
-  };
-
   return (
     <>
       <FlatList
@@ -68,6 +56,17 @@ const OrganizationsList = ({
             }
           />
         )}
+        refreshing={isLoading || isFetching}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading || isFetching}
+            onRefresh={refetch}
+            colors={refreshControlColors}
+          />
+        }
+        ListEmptyComponent={
+          <EmptyStatement description="Нет доступных организаций" />
+        }
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
           <ScrollView
@@ -90,7 +89,6 @@ const OrganizationsList = ({
               ))}
           </ScrollView>
         }
-        ListFooterComponent={ListFooter}
       />
     </>
   );
