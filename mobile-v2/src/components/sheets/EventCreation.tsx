@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { SheetManager } from "react-native-actions-sheet";
-import { Button, Text } from "react-native-paper";
 import { DatePickerModal, TimePickerModal } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/src/Date/Calendar";
 import { yupResolver } from "@hookform/resolvers/yup";
+import OutlineButton from "components/buttons/OutlineButton";
+import SolidButton from "components/buttons/SolidButton";
 import TextField from "components/fields/TextField";
-import PrimaryButton from "components/PrimaryButton";
+import Title from "components/typography/Title";
 import dayjs from "dayjs";
 import useCreateEvent from "hooks/events/useCreateEvent";
 import { commonStyles } from "styles/commonStyles";
@@ -123,12 +124,7 @@ const EventCreation = () => {
   return (
     <DefaultActionSheet>
       <View>
-        <Text
-          variant="headlineSmall"
-          style={{ fontWeight: "700" }}
-        >
-          Создание мероприятия
-        </Text>
+        <Title>Создание мероприятия</Title>
       </View>
 
       <Controller
@@ -181,12 +177,11 @@ const EventCreation = () => {
               error={errors?.start_date?.message}
             />
 
-            <Button
+            <OutlineButton
+              title="Выбрать дату"
               onPress={() => setStartDateModalOpened(true)}
               compact
-            >
-              Выбрать дату
-            </Button>
+            />
 
             <DatePickerModal
               locale="ru"
@@ -228,12 +223,11 @@ const EventCreation = () => {
                 error={errors?.start_time?.message}
               />
 
-              <Button
+              <OutlineButton
+                title="Выбрать время"
                 onPress={() => setStartTimeModalOpened(true)}
                 compact
-              >
-                Выбрать время
-              </Button>
+              />
             </View>
 
             <TimePickerModal
@@ -282,13 +276,11 @@ const EventCreation = () => {
         )}
       />
 
-      <PrimaryButton
-        mode="contained"
+      <SolidButton
+        title="Добавить мероприятие"
         loading={createEventMutation.isPending}
         onPress={handleSubmit(onSubmit)}
-      >
-        Добавить
-      </PrimaryButton>
+      />
     </DefaultActionSheet>
   );
 };

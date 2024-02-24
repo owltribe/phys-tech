@@ -7,7 +7,7 @@ import useEvents from "hooks/events/useEvents";
 import { useAuth } from "providers/AuthProvider";
 import { SearchScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
-import { refreshControlColors } from "utils/colors";
+import { mantineColors, refreshControlColors, white } from "utils/colors";
 
 const EventsList = ({
   search,
@@ -58,6 +58,7 @@ const EventsList = ({
           label="Добавить"
           icon="plus"
           style={styles.fab}
+          color={white}
           onPress={() => SheetManager.show("EventCreation")}
           animated
         />
@@ -73,7 +74,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     margin: 10,
     right: 0,
-    bottom: 0
+    bottom: 0,
+
+    backgroundColor: mantineColors.blue[5]
   }
 });
 

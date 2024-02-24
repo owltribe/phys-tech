@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View
 } from "react-native";
+import { SheetManager } from "react-native-actions-sheet";
 import { FAB } from "react-native-paper";
 import ScreenWrapper from "components/ScreenWrapper";
 import SegmentedControl from "components/SegmentedControl";
@@ -12,8 +13,8 @@ import Header from "components/typography/Header";
 import { useAuth } from "providers/AuthProvider";
 import { ServicesScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
+import { mantineColors, white } from "utils/colors";
 
-import AddServiceModal from "./components/AddServiceModal";
 import ServiceList from "./components/ServiceList";
 import ServiceRequestsList from "./components/ServiceRequestsList";
 
@@ -31,7 +32,6 @@ const Services = ({ navigation }: ServicesScreenProps) => {
   const { user } = useAuth();
 
   const [selectedOption, setSelectedOption] = useState<OptionsType>(SERVICES);
-  const [isAddServiceModalOpened, setIsAddServiceModalOpened] = useState(false);
 
   const isOrganization = user?.role === "Organization";
 
@@ -60,12 +60,9 @@ const Services = ({ navigation }: ServicesScreenProps) => {
               label="Добавить услугу"
               icon="plus"
               style={styles.fab}
-              onPress={() => setIsAddServiceModalOpened(true)}
+              color={white}
+              onPress={() => SheetManager.show("ServiceCreation")}
               animated
-            />
-            <AddServiceModal
-              visible={isAddServiceModalOpened}
-              onClose={() => setIsAddServiceModalOpened(false)}
             />
           </>
         )}
@@ -79,7 +76,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     margin: 10,
     right: 0,
-    bottom: 0
+    bottom: 0,
+
+    backgroundColor: mantineColors.blue[5]
   }
 });
 
