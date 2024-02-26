@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import ServieRequestBadge from "components/badges/ServieRequestBadge";
 import dayjs from "dayjs";
 import { ServiceRequestRead } from "types/generated";
+import { mantineColors } from "utils/colors";
 import { fontSize } from "utils/font-helper";
 
 import BaseCard from "./BaseCard";
@@ -42,9 +43,10 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
-    marginTop: 6,
+    marginTop: 8,
     fontSize: fontSize.small,
-    fontFamily: "GoogleSans-Regular"
+    fontFamily: "GoogleSans-MediumItalic",
+    color: mantineColors.dark[4]
   },
   badge: {
     position: "absolute",

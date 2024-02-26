@@ -19,10 +19,10 @@ class EventCreate(BaseModel):
 class EventRead(BaseModel):
     id: UUID4
     name: str
-    description: Optional[str]
+    description: str
     start_date: date
     start_time: time
-    duration: Optional[int]
+    duration: int
     location: str
 
     class Config:

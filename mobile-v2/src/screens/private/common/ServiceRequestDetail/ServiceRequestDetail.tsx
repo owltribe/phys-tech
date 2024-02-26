@@ -12,7 +12,7 @@ import { ServiceRequestScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import { ServiceRequestStatus } from "types/generated";
 import { mantineColors } from "utils/colors";
-import { formatCost } from "utils/money-formatter";
+import { formatCost } from "utils/formatters";
 import { showToastWithGravityAndOffset } from "utils/notifications";
 
 import ApproveModal from "./components/ApproveModal";

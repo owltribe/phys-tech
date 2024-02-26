@@ -9,6 +9,8 @@ import { commonStyles } from "styles/commonStyles";
 import { mantineColors, white } from "utils/colors";
 import { getOrganizationCategoryLabel } from "utils/enum-helpers";
 
+import { fontSize } from "../../../utils/font-helper";
+
 const OrganizationDetail = ({
   route: {
     params: { organizationId }
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   title: {
-    fontSize: 20,
+    fontSize: fontSize.large,
     fontFamily: "GoogleSans-Regular"
   },
 
