@@ -13,6 +13,7 @@ import {
 } from "react-native-onboard/lib/OnboardFlow/constants";
 import { LucideIcon } from "lucide-react-native";
 import { mantineColors } from "utils/colors";
+import { fontPixel } from "utils/font-helper";
 
 interface OutlineButtonProps
   extends Pick<
@@ -63,7 +64,7 @@ const OutlineButton = ({
         opacity: disabled ? 0.6 : 1
       },
       text: {
-        fontSize: 16,
+        fontSize: fontPixel(16),
         lineHeight: 21,
         fontFamily: "GoogleSans-Medium",
         letterSpacing: 0.25,

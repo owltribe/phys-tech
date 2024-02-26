@@ -7,6 +7,7 @@ import { Calendar } from "lucide-react-native";
 import { EventScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import { mantineColors } from "utils/colors";
+import { fontPixel } from "utils/font-helper";
 import { formatMinutesToHoursMinutes } from "utils/formatters";
 
 const EventDetail = ({
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     gap: 24
   },
   cardTitle: {
-    fontSize: 22,
+    fontSize: fontPixel(22),
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
   },

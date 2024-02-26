@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { Apple } from "lucide-react-native";
 import { mantineColors } from "utils/colors";
+import { fontPixel } from "utils/font-helper";
 
 const EmptyStatement = ({
   description = "Нет данных"
@@ -47,11 +48,11 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   title: {
-    fontSize: 26,
+    fontSize: fontPixel(26),
     fontFamily: "GoogleSans-Bold"
   },
   description: {
-    fontSize: 18,
+    fontSize: fontPixel(18),
     fontFamily: "GoogleSans-Medium",
     color: mantineColors.gray[6]
   }

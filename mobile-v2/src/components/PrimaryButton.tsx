@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
-import theme from "styles/theme";
+import { fontPixel } from "utils/font-helper";
 
 type PrimaryButtonProps = Omit<
   React.ComponentProps<typeof Button>,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   fontStyles: {
     fontWeight: "800",
-    fontSize: 18
+    fontSize: fontPixel(18)
   }
 });
 

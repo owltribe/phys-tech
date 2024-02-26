@@ -20,6 +20,7 @@ import { ServiceScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import { mantineColors } from "utils/colors";
 import { getFormattedError } from "utils/error-helper";
+import { fontPixel } from "utils/font-helper";
 import { formatCost } from "utils/formatters";
 import { showToastWithGravityAndOffset } from "utils/notifications";
 
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
     gap: 24
   },
   cardTitle: {
-    fontSize: 22,
+    fontSize: fontPixel(22),
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
   },
