@@ -19,7 +19,9 @@ const OrganizationProfile = ({ organization }: OrganizationProfileProps) => {
   const uploadOrganizationAvatarMutation = useUploadOrganizationAvatar();
 
   const handleEdit = () => {
-    SheetManager.show("UserProfileEdit");
+    SheetManager.show("OrganizationEdit", {
+      payload: { organization: organization }
+    });
   };
 
   const handleUpdateOrganizationAvatar = async () => {

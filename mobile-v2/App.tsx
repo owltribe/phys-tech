@@ -64,11 +64,11 @@ export default function App() {
           style={{ flex: 1 }}
           onLayout={onLayoutRootView}
         >
-          <SheetProvider>
-            <PaperProvider theme={theme}>
+          <PaperProvider theme={theme}>
+            <SheetProvider>
               <Router />
-            </PaperProvider>
-          </SheetProvider>
+            </SheetProvider>
+          </PaperProvider>
         </SafeAreaProvider>
       </AuthProvider>
     </ReactQueryClientProvider>

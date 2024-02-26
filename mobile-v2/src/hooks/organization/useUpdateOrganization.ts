@@ -12,7 +12,7 @@ import {
 } from "types/generated";
 
 export default function useUpdateOrganization(
-  organizationId: string
+  organizationId?: string
 ): UseMutationResult<
   AxiosResponse<OrganizationRead>,
   AxiosError<ErrorModel>,

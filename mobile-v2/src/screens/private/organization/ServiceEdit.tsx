@@ -36,7 +36,7 @@ interface FormValues {
   cost: string;
 }
 
-const OrganizationEdit = ({
+const ServiceEdit = ({
   navigation,
   route: {
     params: { service }
@@ -292,4 +292,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default OrganizationEdit;
+export default ServiceEdit;
