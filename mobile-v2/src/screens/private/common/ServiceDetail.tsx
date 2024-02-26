@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Dimensions,
   Image,
@@ -8,12 +7,11 @@ import {
   View
 } from "react-native";
 import { SheetManager } from "react-native-actions-sheet";
-import { Divider, Snackbar } from "react-native-paper";
+import { Divider } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
 import OutlineButton from "components/buttons/OutlineButton";
 import SolidButton from "components/buttons/SolidButton";
 import ScreenWrapper from "components/ScreenWrapper";
-import useCreateServiceRequest from "hooks/service_requests/useCreateServiceRequest";
 import useDestroyService from "hooks/services/useDestroyService";
 import useService from "hooks/services/useService";
 import { Bolt, SquarePen, Trash2 } from "lucide-react-native";
@@ -22,7 +20,8 @@ import { ServiceScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import { mantineColors } from "utils/colors";
 import { getFormattedError } from "utils/error-helper";
-import { formatCost } from "utils/money-formatter";
+import { fontPixel } from "utils/font-helper";
+import { formatCost } from "utils/formatters";
 import { showToastWithGravityAndOffset } from "utils/notifications";
 
 const ServiceDetail = ({
@@ -228,7 +227,7 @@ const styles = StyleSheet.create({
     gap: 24
   },
   cardTitle: {
-    fontSize: 22,
+    fontSize: fontPixel(22),
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
   },

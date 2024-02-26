@@ -276,11 +276,13 @@ const EventCreation = () => {
         )}
       />
 
-      <SolidButton
-        title="Добавить мероприятие"
-        loading={createEventMutation.isPending}
-        onPress={handleSubmit(onSubmit)}
-      />
+      <View style={styles.buttonContainer}>
+        <SolidButton
+          title="Создать"
+          loading={createEventMutation.isPending}
+          onPress={handleSubmit(onSubmit)}
+        />
+      </View>
     </DefaultActionSheet>
   );
 };
@@ -291,6 +293,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
+  },
+  buttonContainer: {
+    marginTop: 16
   }
 });
 

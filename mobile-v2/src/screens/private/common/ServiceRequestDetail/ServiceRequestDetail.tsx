@@ -12,7 +12,8 @@ import { ServiceRequestScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import { ServiceRequestStatus } from "types/generated";
 import { mantineColors } from "utils/colors";
-import { formatCost } from "utils/money-formatter";
+import { fontPixel } from "utils/font-helper";
+import { formatCost } from "utils/formatters";
 import { showToastWithGravityAndOffset } from "utils/notifications";
 
 import ApproveModal from "./components/ApproveModal";
@@ -257,7 +258,7 @@ const styles = StyleSheet.create({
     gap: 24
   },
   cardTitle: {
-    fontSize: 22,
+    fontSize: fontPixel(22),
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
   },

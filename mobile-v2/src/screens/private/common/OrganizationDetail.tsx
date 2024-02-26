@@ -8,6 +8,7 @@ import { OrganizationScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
 import { mantineColors, white } from "utils/colors";
 import { getOrganizationCategoryLabel } from "utils/enum-helpers";
+import { fontPixel, fontSize } from "utils/font-helper";
 
 const OrganizationDetail = ({
   route: {
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   title: {
-    fontSize: 20,
+    fontSize: fontSize.large,
     fontFamily: "GoogleSans-Regular"
   },
 
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     gap: 24
   },
   cardTitle: {
-    fontSize: 22,
+    fontSize: fontPixel(22),
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
   },

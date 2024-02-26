@@ -5,10 +5,10 @@
 export type EventRead = {
     id: string;
     name: string;
-    description: (string | null);
+    description: string;
     start_date: string;
     start_time: string;
-    duration: (number | null);
+    duration: number;
     location: string;
 };
 
