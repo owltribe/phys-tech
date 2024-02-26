@@ -23,7 +23,6 @@ export type RootStackParamList = {
   ServiceRequest: { serviceRequestId: string };
   Search?: { defaultOption?: "organization" | "service" | "event" };
   Profile: undefined;
-  ProfileEdit: { user: UserReadWithOrganization };
   Settings: undefined;
   // Place: { placeId: number };
 };
@@ -88,10 +87,6 @@ export type SearchScreenProps = NativeStackScreenProps<
 export type ProfileScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Profile"
->;
-export type ProfileEditScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  "ProfileEdit"
 >;
 
 // export type PlaceScreenProps = NativeStackScreenProps<

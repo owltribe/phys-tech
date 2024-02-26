@@ -6,7 +6,6 @@ import { useAuth } from "providers/AuthProvider";
 
 import EventDetail from "./src/screens/private/common/EventDetail";
 import OrganizationDetail from "./src/screens/private/common/OrganizationDetail";
-import ProfileEdit from "./src/screens/private/common/ProfileEdit";
 import ServiceDetail from "./src/screens/private/common/ServiceDetail";
 import ServiceRequestDetail from "./src/screens/private/common/ServiceRequestDetail";
 import OrganizationEdit from "./src/screens/private/organization/OrganizationEdit";
@@ -59,11 +58,6 @@ export default function Router() {
               name="Organization"
               component={OrganizationDetail}
               options={{ title: "Организация" }}
-            />
-            <Stack.Screen
-              name="ProfileEdit"
-              component={ProfileEdit}
-              options={{ title: "Редактировать профиль" }}
             />
             {user.role === "Organization" && (
               <Stack.Screen

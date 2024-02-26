@@ -1,4 +1,3 @@
-import { MD2Colors } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import {
   Files,
@@ -14,7 +13,6 @@ import Profile from "screens/private/common/Profile";
 import Search from "screens/private/common/Search/Search";
 import MyServices from "screens/private/organization/MyServices";
 import { RootStackParamList } from "screens/types";
-import theme from "styles/theme";
 import { mantineColors, white } from "utils/colors";
 
 const Tab = createMaterialBottomTabNavigator<RootStackParamList>();

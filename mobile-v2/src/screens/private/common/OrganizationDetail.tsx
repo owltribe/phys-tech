@@ -26,7 +26,7 @@ const OrganizationDetail = ({
         <View style={styles.imageContainer}>
           {data?.data.photo ? (
             <Image
-              source={{ uri: data?.data.photo }}
+              source={{ uri: data?.data.photo + "?" + new Date() }}
               style={styles.image}
             />
           ) : (

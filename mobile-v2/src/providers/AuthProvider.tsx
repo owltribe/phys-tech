@@ -23,6 +23,7 @@ interface AuthProps {
   user: UserReadWithOrganization | null;
   isLoginLoading: boolean;
   isRegisterLoading: boolean;
+  refetchProfile: () => void;
   onLogin: (formValues: Body_auth_jwt_login_auth_login_post) => void;
   onLogout: () => void;
   onRegister: (
@@ -91,7 +92,8 @@ export const AuthProvider = ({
     });
   }
 
-  const { isLoading: profileIsLoading } = useProfile(accessToken);
+  const { isLoading: profileIsLoading, refetch: refetchProfile } =
+    useProfile(accessToken);
   const loginMutation = useLogin();
   const registerMutation = useRegister();
   const logoutMutation = useLogout();
@@ -138,6 +140,7 @@ export const AuthProvider = ({
     user: user,
     isLoginLoading: loginMutation.isPending || profileIsLoading,
     isRegisterLoading: registerMutation.isPending,
+    refetchProfile: refetchProfile,
     onLogin: onLogin,
     onRegister: onRegister,
     onLogout
