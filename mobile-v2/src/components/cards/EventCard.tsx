@@ -20,7 +20,7 @@ const EventCard = ({
   return (
     <BaseCard
       title={eventData.name}
-      description={`Дата начала: ${fullStartDate}`}
+      description={fullStartDate}
       descriptionNumberOfLines={2}
       onPress={onPress}
       Icon={Calendar}

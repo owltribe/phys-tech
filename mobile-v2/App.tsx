@@ -15,6 +15,8 @@ import theme from "./src/styles/theme";
 import Router from "./Router";
 registerTranslation("ru", ru);
 
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     "GoogleSans-Regular": require("./assets/fonts/GoogleSans-Regular.ttf"),

@@ -11,6 +11,7 @@ import Animated, {
   withTiming
 } from "react-native-reanimated";
 import { mantineColors, white } from "utils/colors";
+import { fontSize } from "utils/font-helper";
 
 type SegmentedControlProps = {
   options: { label: string; value: string }[];
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
   },
   labelContainer: { justifyContent: "center", alignItems: "center" },
   label: {
-    fontSize: 12,
+    fontSize: fontSize.small,
     fontFamily: "GoogleSans-Medium"
   },
   labelActive: {

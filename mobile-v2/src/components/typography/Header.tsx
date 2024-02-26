@@ -5,6 +5,7 @@ import {
   COLOR_TEXT_DEFAULT,
   VERTICAL_PADDING_SMALL_DEFAULT
 } from "react-native-onboard/lib/OnboardFlow/constants";
+import { fontPixel } from "utils/font-helper";
 
 type Props = {
   children: React.ReactNode;
@@ -17,7 +18,7 @@ const Header = ({ children, align = "center" }: Props) => (
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 30,
+    fontSize: fontPixel(32),
     lineHeight: 42,
     width: "100%",
     fontFamily: "GoogleSans-Bold",

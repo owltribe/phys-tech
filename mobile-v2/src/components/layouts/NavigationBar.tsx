@@ -5,6 +5,7 @@ import { StackHeaderProps } from "@react-navigation/stack";
 import { ChevronLeft } from "lucide-react-native";
 import { commonStyles } from "styles/commonStyles";
 import { mantineColors, white } from "utils/colors";
+import { fontSize } from "utils/font-helper";
 
 export default function NavigationBar({
   navigation,
@@ -55,6 +56,6 @@ const styles = StyleSheet.create({
   title: {
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Bold",
-    fontSize: 20
+    fontSize: fontSize.xlarge
   }
 });

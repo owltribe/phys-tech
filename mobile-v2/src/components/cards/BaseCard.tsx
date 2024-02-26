@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { ChevronRight, LucideIcon, LucideProps } from "lucide-react-native";
 import { mantineColors, white } from "utils/colors";
+import { fontSize } from "utils/font-helper";
 
 const BaseCard = ({
   title,
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: white,
-    elevation: 4,
+    elevation: 2,
     borderRadius: 10,
     padding: 12
   },
@@ -112,11 +113,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "GoogleSans-Bold",
-    fontSize: 16
+    fontSize: fontSize.medium
   },
   description: {
     fontFamily: "GoogleSans-Regular",
-    fontSize: 14,
+    fontSize: fontSize.medium,
     color: mantineColors.gray[6]
   }
 });

@@ -1,7 +1,8 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import ServieRequestBadge from "components/badges/ServieRequestBadge";
 import dayjs from "dayjs";
 import { ServiceRequestRead } from "types/generated";
+import { fontSize } from "utils/font-helper";
 
 import BaseCard from "./BaseCard";
 
@@ -20,9 +21,14 @@ const ServiceRequestCard = ({
       />
       <BaseCard
         title={serviceRequest.service.name}
-        description={`${dayjs(serviceRequest.created_at)
-          .locale("ru")
-          .format("DD MMMM YYYY HH:MM")}`}
+        description={serviceRequest.requested_by.full_name}
+        Footer={
+          <Text style={styles.footer}>
+            {`${dayjs(serviceRequest.created_at)
+              .locale("ru")
+              .format("DD MMMM YYYY HH:MM")}`}
+          </Text>
+        }
         onPress={onPress}
       />
     </View>
@@ -33,6 +39,12 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     marginTop: 4
+  },
+  footer: {
+    flex: 1,
+    marginTop: 6,
+    fontSize: fontSize.small,
+    fontFamily: "GoogleSans-Regular"
   },
   badge: {
     position: "absolute",
