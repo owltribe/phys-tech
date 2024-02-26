@@ -1,11 +1,12 @@
 import "./src/components/sheets";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { LogBox } from "react-native";
 import { SheetProvider } from "react-native-actions-sheet";
 import { PaperProvider } from "react-native-paper";
 import { registerTranslation, ru } from "react-native-paper-dates";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { AuthProvider } from "providers/AuthProvider";
@@ -17,6 +18,8 @@ registerTranslation("ru", ru);
 
 SplashScreen.preventAutoHideAsync();
 
+const STORAGE_ACCESS_TOKEN_KEY = "accessToken";
+
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     "GoogleSans-Regular": require("./assets/fonts/GoogleSans-Regular.ttf"),
@@ -25,7 +28,23 @@ export default function App() {
     "GoogleSans-Bold": require("./assets/fonts/GoogleSans-Bold.ttf")
   });
 
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  const handleSetAccessToken = async (token: string | null) => {
+    if (token !== null) {
+      AsyncStorage.setItem(STORAGE_ACCESS_TOKEN_KEY, token);
+    } else {
+      AsyncStorage.removeItem(STORAGE_ACCESS_TOKEN_KEY);
+    }
+    setAccessToken(token);
+  };
+
   const onLayoutRootView = useCallback(async () => {
+    const storedAccessToken = await AsyncStorage.getItem(
+      STORAGE_ACCESS_TOKEN_KEY
+    );
+    setAccessToken(storedAccessToken);
+
     if (fontsLoaded || fontError) {
       await SplashScreen.hideAsync();
     }
@@ -37,7 +56,10 @@ export default function App() {
 
   return (
     <ReactQueryClientProvider>
-      <AuthProvider>
+      <AuthProvider
+        accessToken={accessToken}
+        setAccessToken={handleSetAccessToken}
+      >
         <SafeAreaProvider
           style={{ flex: 1 }}
           onLayout={onLayoutRootView}

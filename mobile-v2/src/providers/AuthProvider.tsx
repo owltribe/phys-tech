@@ -45,9 +45,16 @@ export function useAuth() {
   return context;
 }
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({
+  children,
+  accessToken,
+  setAccessToken
+}: {
+  children: React.ReactNode;
+  accessToken: string | null;
+  setAccessToken: (token: string | null) => Promise<void>;
+}) => {
   const [user, setUser] = useState<UserReadWithOrganization | null>(null);
-  const [token, setToken] = useState<string | null>(null);
 
   function useProfile(
     accessToken: string | null
@@ -66,14 +73,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
           setUser(res.data);
         })
-        .catch((error) => {
+        .catch(async (error) => {
+          await setAccessToken(null);
           showToastWithGravityAndOffset(
             getFormattedError(
               error.response?.data.detail || "Ошибка авторизации"
             )
           );
           setUser(null);
-          setToken(null);
         });
     };
 
@@ -84,7 +91,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
   }
 
-  const { isLoading: profileIsLoading } = useProfile(token);
+  const { isLoading: profileIsLoading } = useProfile(accessToken);
   const loginMutation = useLogin();
   const registerMutation = useRegister();
   const logoutMutation = useLogout();
@@ -96,9 +103,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           getFormattedError(e.response?.data.detail || "Ошибка авторизации")
         );
       },
-      onSuccess: (res) => {
+      onSuccess: async (res) => {
         const accessToken = res.data.access_token;
-        setToken(accessToken);
+        await setAccessToken(accessToken);
       }
     });
   };
@@ -120,6 +127,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         showToastWithGravityAndOffset("Ошибка выхода из аккаунта");
       },
       onSuccess: async () => {
+        await setAccessToken(null);
         axiosInstance.defaults.headers.common["Authorization"] = null;
         setUser(null);
       }
