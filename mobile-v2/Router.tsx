@@ -69,7 +69,7 @@ export default function Router() {
               <Stack.Screen
                 name="OrganizationEdit"
                 component={OrganizationEdit}
-                options={{ title: "Редактирование организации" }}
+                options={{ title: "Редактировать организацию" }}
               />
             )}
           </>
