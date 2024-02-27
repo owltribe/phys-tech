@@ -74,6 +74,7 @@ const OrganizationCategoriesSelect = ({
           width: 100
         }}
         onClose={onClose}
+        gestureEnabled
       >
         <ScrollView contentContainerStyle={commonStyles.container}>
           <Title>Категория организации</Title>
