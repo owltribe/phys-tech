@@ -9,6 +9,7 @@ export type UserUpdate = {
     is_active?: (boolean | null);
     is_superuser?: (boolean | null);
     is_verified?: (boolean | null);
+    contact: string;
     first_name?: (string | null);
     last_name?: (string | null);
     role?: (UserRole | null);

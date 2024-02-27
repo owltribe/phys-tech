@@ -10,6 +10,6 @@ export type OrganizationCreate = {
     contact: string;
     email: string;
     description: string;
-    category: (OrganizationCategory | null);
+    category: OrganizationCategory;
 };
 

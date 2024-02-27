@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from fastapi_filter.contrib.sqlalchemy import Filter
-from pydantic import UUID4, BaseModel
+from pydantic import UUID4, BaseModel, constr
 
 from models import Organization
 from models.organization import OrganizationCategory
@@ -11,10 +11,10 @@ class OrganizationCreate(BaseModel):
     name: str
     bin: str
     address: str
-    contact: str
+    contact: constr(pattern=r"^(\+7|8)7\d{9}$")  # Phone number pattern
     email: str
     description: str
-    category: Optional[OrganizationCategory]
+    category: OrganizationCategory
 
 
 class OrganizationRead(BaseModel):
@@ -59,13 +59,13 @@ class OrganizationRetrieve(BaseModel):
 
 
 class OrganizationUpdate(BaseModel):
-    name: Optional[str] = None
-    bin: Optional[str] = None
-    address: Optional[str] = None
-    contact: Optional[str] = None
-    email: Optional[str] = None
-    description: Optional[str] = None
-    category: Optional[str] = None
+    name: str
+    bin: str
+    address: str
+    contact: constr(pattern=r"^(\+7|8)7\d{9}$")  # Phone number pattern
+    email: str
+    description: str
+    category: str
 
 
 class OrganizationFilter(Filter):

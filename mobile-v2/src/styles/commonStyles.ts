@@ -14,6 +14,9 @@ export const commonStyles = StyleSheet.create({
   defaultVerticalPadding: {
     paddingVertical: 16
   },
+  defaultVerticalMargin: {
+    marginVertical: 16
+  },
   defaultListGap: {
     gap: 16
   },

@@ -21,7 +21,7 @@ const BaseCard = ({
   iconProps,
   Footer
 }: {
-  title: string;
+  title?: string;
   description: string;
   descriptionNumberOfLines?: number;
   onPress?: () => void;
@@ -42,13 +42,16 @@ const BaseCard = ({
         </View>
       )}
       <View style={styles.textContainer}>
-        <Text
-          style={styles.title}
-          numberOfLines={2}
-          ellipsizeMode="tail"
-        >
-          {title}
-        </Text>
+        {title && (
+          <Text
+            style={styles.title}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
+            {title}
+          </Text>
+        )}
+
         <Text
           style={styles.description}
           numberOfLines={descriptionNumberOfLines}

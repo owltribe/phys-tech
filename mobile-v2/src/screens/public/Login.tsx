@@ -9,18 +9,15 @@ import {
 } from "react-native";
 import { Image } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
+import SolidButton from "components/buttons/SolidButton";
 import TextField from "components/fields/TextField";
-import PrimaryButton from "components/PrimaryButton";
 import ScreenWrapper from "components/ScreenWrapper";
 import Header from "components/typography/Header";
 import { useAuth } from "providers/AuthProvider";
 import { LoginScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
-import theme from "styles/theme";
+import { mantineColors } from "utils/colors";
 import * as yup from "yup";
-
-import SolidButton from "../../components/buttons/SolidButton";
-import { mantineColors } from "../../utils/colors";
 
 const schema = yup
   .object({

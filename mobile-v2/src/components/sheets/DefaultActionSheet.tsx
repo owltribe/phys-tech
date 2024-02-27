@@ -18,7 +18,7 @@ const DefaultActionSheet = (props: DefaultActionSheetProps) => {
       indicatorStyle={{
         width: 100
       }}
-      gestureEnabled={true}
+      gestureEnabled
       {...props}
     >
       <ScrollView contentContainerStyle={commonStyles.container}>

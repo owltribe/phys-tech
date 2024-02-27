@@ -1,5 +1,7 @@
 import { MD3LightTheme } from "react-native-paper";
 
+import { mantineColors } from "../utils/colors";
+
 const fontConfig = {
   web: {
     regular: {
@@ -59,13 +61,13 @@ const fontConfig = {
 
 const lightBlueColors = {
   colors: {
-    primary: "rgb(52, 61, 255)",
+    primary: mantineColors.blue[5],
     // primary: '#339AF0',
     onPrimary: "rgb(255, 255, 255)",
     // onPrimary: '#E7F5FF',
     primaryContainer: "rgb(224, 224, 255)",
     // primaryContainer: '#D0EBFF',
-    onPrimaryContainer: "rgb(0, 0, 110)",
+    onPrimaryContainer: mantineColors.blue[9],
     // onPrimaryContainer: '#1C7ED6',
     secondary: "rgb(92, 93, 114)",
     onSecondary: "rgb(255, 255, 255)",
@@ -75,7 +77,7 @@ const lightBlueColors = {
     onTertiary: "rgb(255, 255, 255)",
     tertiaryContainer: "rgb(255, 216, 238)",
     onTertiaryContainer: "rgb(46, 17, 38)",
-    error: "rgb(186, 26, 26)",
+    error: mantineColors.red[8],
     onError: "rgb(255, 255, 255)",
     errorContainer: "rgb(255, 218, 214)",
     onErrorContainer: "rgb(65, 0, 2)",
@@ -107,7 +109,7 @@ const lightBlueColors = {
 };
 
 const theme = {
-  ...MD3LightTheme
+  ...lightBlueColors
 };
 
 export default theme;
