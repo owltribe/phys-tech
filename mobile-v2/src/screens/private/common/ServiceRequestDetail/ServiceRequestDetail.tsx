@@ -126,7 +126,9 @@ const ServiceRequestDetail = ({
               <Divider bold />
               <View style={styles.item}>
                 <Text style={styles.itemLabel}>Статус заявки</Text>
-                <ServieRequestBadge status={data.data.status} />
+                <View style={styles.badgeContainer}>
+                  <ServieRequestBadge status={data.data.status} />
+                </View>
               </View>
             </View>
           </View>
@@ -198,7 +200,7 @@ const ServiceRequestDetail = ({
         )}
 
         {isOrganization && (
-          <View style={commonStyles.defaultListGap}>
+          <View style={[commonStyles.container, { paddingHorizontal: 0 }]}>
             {data?.data.status === "Pending" && (
               <>
                 <SolidButton
@@ -274,14 +276,20 @@ const styles = StyleSheet.create({
     gap: 12
   },
   itemLabel: {
+    flex: 1,
     color: mantineColors.dark[3],
     fontFamily: "GoogleSans-Regular"
   },
   itemText: {
     flex: 1,
-    textAlign: "right",
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
+  },
+
+  badgeContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start"
   }
 });
 

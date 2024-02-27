@@ -28,7 +28,9 @@ class ServiceRequest(Base):
 
     service_id: Mapped[uuid.UUID] = mapped_column(
         UUID,
-        ForeignKey("service.id", name="fk_service_request_service"),
+        ForeignKey(
+            "service.id", name="fk_service_request_service", ondelete="CASCADE"
+        ),
         nullable=False,
     )
     service = relationship("Service", back_populates="service_requests")

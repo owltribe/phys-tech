@@ -147,7 +147,9 @@ const ServiceEdit = ({
               label="Предполагаемый результат"
               onBlur={onBlur}
               onChangeText={onChange}
-              value={value || undefined}
+              value={value}
+              multiline
+              numberOfLines={2}
             />
           )}
         />
@@ -160,7 +162,9 @@ const ServiceEdit = ({
               label="Описание"
               onBlur={onBlur}
               onChangeText={onChange}
-              value={value || undefined}
+              value={value}
+              multiline
+              numberOfLines={4}
             />
           )}
         />

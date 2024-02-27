@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Dimensions,
   Image,
@@ -24,6 +25,8 @@ import { fontPixel } from "utils/font-helper";
 import { formatCost } from "utils/formatters";
 import { showToastWithGravityAndOffset } from "utils/notifications";
 
+import ApproveModal from "./ServiceRequestDetail/components/ApproveModal";
+
 const ServiceDetail = ({
   navigation,
   route: {
@@ -34,8 +37,16 @@ const ServiceDetail = ({
   const { user } = useAuth();
 
   const { data, isLoading } = useService(serviceId);
-
   const destroyServiceMutation = useDestroyService(serviceId);
+
+  const [isDestroyModalOpened, setIsDestroyModalOpened] = useState(false);
+
+  const handleOpenDestroyModal = () => {
+    setIsDestroyModalOpened(true);
+  };
+  const handleDismissDestroyModal = () => {
+    setIsDestroyModalOpened(false);
+  };
 
   const isOrganization = user?.role === "Organization";
 
@@ -167,7 +178,7 @@ const ServiceDetail = ({
                 color="red"
                 Icon={Trash2}
                 loading={destroyServiceMutation.isPending}
-                onPress={handleDestroyService}
+                onPress={handleOpenDestroyModal}
               />
             </>
           )}
@@ -175,16 +186,23 @@ const ServiceDetail = ({
           {data?.data && !isOrganization && (
             <SolidButton
               title="Запросить услугу"
-              // loading={createServiceRequestMutation.isPending}
               disabled={isLoading}
               onPress={() =>
                 SheetManager.show("ServiceRequestCreation", {
                   payload: { serviceId: data.data.id }
                 })
               }
-              // onPress={handleSubmit}
             />
           )}
+
+          <ApproveModal
+            visible={isDestroyModalOpened}
+            title="Удаление услуги"
+            description={`Вы уверенны, что хотите безвозвратно удалить услугу "${data?.data.name}"? Заявки на услугу так же будут удалены.`}
+            onConfirm={handleDestroyService}
+            onDismiss={handleDismissDestroyModal}
+            isLoading={destroyServiceMutation.isPending}
+          />
         </KeyboardAvoidingView>
       </ScreenWrapper>
 

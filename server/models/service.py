@@ -28,7 +28,10 @@ class Service(Base):
     organization = relationship("Organization", back_populates="services")
 
     service_requests = relationship(
-        "ServiceRequest", back_populates="service", uselist=True
+        "ServiceRequest",
+        back_populates="service",
+        uselist=True,
+        cascade="delete",
     )
     service_images = relationship(
         "ServiceImage", back_populates="service", uselist=True
