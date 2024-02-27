@@ -2,17 +2,50 @@ import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { SheetManager, SheetProps } from "react-native-actions-sheet";
+import { yupResolver } from "@hookform/resolvers/yup";
 import SolidButton from "components/buttons/SolidButton";
-import DialogWithRadioBtns from "components/fields/DialogWithRadioBtns";
+import OrganizationCategoriesSelect from "components/fields/OrganizationCategoriesSelect";
 import TextField from "components/fields/TextField";
 import Title from "components/typography/Title";
 import useUpdateOrganization from "hooks/organization/useUpdateOrganization";
 import { OrganizationCategory } from "types/generated";
-import { organizationCategories } from "utils/enum-helpers";
 import { getFormattedError } from "utils/error-helper";
 import { showToastWithGravity } from "utils/notifications";
+import * as yup from "yup";
 
 import DefaultActionSheet from "./DefaultActionSheet";
+
+const schema = yup.object().shape({
+  name: yup.string().required("Введите название организации"),
+  bin: yup
+    .string()
+    .matches(
+      /^\d{12}/,
+      "Некорректный формат БИН. Пример корректного: 123456789012"
+    )
+    .required("Введите БИН организации"),
+  address: yup.string().required("Введите адрес организации"),
+  contact: yup
+    .string()
+    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона")
+    .required("Введите номер телефона"),
+  email: yup
+    .string()
+    .required()
+    .email("Некорректный формат адреса электронной почты"),
+  description: yup.string().required("Опешите род деятельность организации"),
+  category: yup
+    .string()
+    .oneOf<OrganizationCategory>(
+      [
+        "Scientific Organization",
+        "University",
+        "Technopark",
+        "Commercial Laboratory Company"
+      ],
+      "Выберите категорию организации"
+    )
+});
 
 interface FormValues {
   id: string;
@@ -22,15 +55,19 @@ interface FormValues {
   contact: string;
   email: string;
   description: string;
-  category: OrganizationCategory | null;
+  category: OrganizationCategory;
 }
 
 const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
   const updateOrganization = useUpdateOrganization(payload?.organization.id);
 
-  const { control, handleSubmit, reset } = useForm<FormValues>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm({
     defaultValues: {
-      id: payload?.organization.id,
       name: payload?.organization.name,
       bin: payload?.organization.bin || "",
       address: payload?.organization.address || "",
@@ -38,11 +75,13 @@ const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
       email: payload?.organization.email,
       description: payload?.organization.description,
       category: payload?.organization.category || undefined
-    }
+    },
+
+    resolver: yupResolver(schema)
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    updateOrganization.mutate(formValues, {
+    updateOrganization.mutate(formValues as FormValues, {
       onError: (e) => {
         showToastWithGravity(
           getFormattedError(
@@ -75,6 +114,7 @@ const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            error={errors.name?.message}
           />
         )}
       />
@@ -88,7 +128,8 @@ const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
             label="БИН"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value || undefined}
+            value={value}
+            error={errors.bin?.message}
           />
         )}
       />
@@ -102,7 +143,8 @@ const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
             label="Адрес"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value || undefined}
+            value={value}
+            error={errors.address?.message}
           />
         )}
       />
@@ -116,7 +158,8 @@ const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
             label="Номер телефона"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value || undefined}
+            value={value}
+            error={errors.contact?.message}
           />
         )}
       />
@@ -132,6 +175,7 @@ const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
             onChangeText={onChange}
             value={value}
             inputMode="email"
+            error={errors.email?.message}
           />
         )}
       />
@@ -146,6 +190,7 @@ const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            error={errors.description?.message}
           />
         )}
       />
@@ -154,12 +199,12 @@ const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
         rules={{ required: true }}
         name="category"
         render={({ field: { onChange, value } }) => (
-          <DialogWithRadioBtns
+          <OrganizationCategoriesSelect
             textField={{
               label: "Категория Организации",
-              value: value || undefined
+              value: value || undefined,
+              error: errors.category?.message
             }}
-            items={organizationCategories}
             onSubmit={(v) => onChange(v)}
           />
         )}
@@ -169,7 +214,9 @@ const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
         <SolidButton
           title="Сохранить"
           loading={updateOrganization.isPending}
-          onPress={handleSubmit(onSubmit)}
+          onPress={handleSubmit((formValues) =>
+            onSubmit(formValues as FormValues)
+          )}
         />
       </View>
     </DefaultActionSheet>

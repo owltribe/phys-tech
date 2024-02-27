@@ -38,7 +38,7 @@ export const organizationCategories = [
     label: "Коммерческая лаборатория",
     value: "Commercial Laboratory Company"
   },
-  { label: "Вуз", value: "University" }
+  { label: "Университет", value: "University" }
 ];
 
 export const getOrganizationCategoryLabel = (

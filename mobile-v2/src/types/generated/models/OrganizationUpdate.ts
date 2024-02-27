@@ -3,12 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export type OrganizationUpdate = {
-    name?: (string | null);
-    bin?: (string | null);
-    address?: (string | null);
-    contact?: (string | null);
-    email?: (string | null);
-    description?: (string | null);
-    category?: (string | null);
+    name: string;
+    bin: string;
+    address: string;
+    contact: string;
+    email: string;
+    description: string;
+    category: string;
 };
 

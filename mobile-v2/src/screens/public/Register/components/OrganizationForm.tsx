@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SolidButton from "components/buttons/SolidButton";
-import DialogWithRadioBtns from "components/fields/DialogWithRadioBtns";
+import OrganizationCategoriesSelect from "components/fields/OrganizationCategoriesSelect";
 import TextField from "components/fields/TextField";
 import { useAuth } from "providers/AuthProvider";
 import { RegisterScreenProps } from "screens/types";
@@ -307,7 +307,7 @@ const OrganizationForm = ({
             label="БИН"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value || undefined}
+            value={value}
             error={errors?.organization_bin?.message}
           />
         )}
@@ -322,7 +322,7 @@ const OrganizationForm = ({
             label="Адрес"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value || undefined}
+            value={value}
             error={errors?.organization_address?.message}
           />
         )}
@@ -337,7 +337,7 @@ const OrganizationForm = ({
             label="Номер телефона организации"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value || undefined}
+            value={value}
             inputMode="tel"
             error={errors?.organization_contact?.message}
           />
@@ -353,7 +353,7 @@ const OrganizationForm = ({
             label="Почта"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value || undefined}
+            value={value}
             inputMode="email"
             error={errors?.organization_email?.message}
           />
@@ -369,8 +369,8 @@ const OrganizationForm = ({
             label="Описание организаций"
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value || undefined}
-            error={errors?.organization_category?.message}
+            value={value}
+            error={errors?.organization_description?.message}
           />
         )}
       />
@@ -379,12 +379,12 @@ const OrganizationForm = ({
         rules={{ required: true }}
         name="organization_category"
         render={({ field: { onChange, value } }) => (
-          <DialogWithRadioBtns
+          <OrganizationCategoriesSelect
             textField={{
               label: "Категория Организации",
-              value: value || undefined
+              value: value,
+              error: errors?.organization_category?.message
             }}
-            items={organizationCategories}
             onSubmit={(v) => onChange(v)}
           />
         )}

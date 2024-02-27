@@ -102,7 +102,10 @@ export const AuthProvider = ({
     loginMutation.mutate(formValues, {
       onError: async (e) => {
         showToastWithGravityAndOffset(
-          getFormattedError(e.response?.data.detail || "Ошибка авторизации")
+          getFormattedError(
+            e.response?.data.detail ||
+              "Ошибка авторизации. Проверьте подключение к интернету"
+          )
         );
       },
       onSuccess: async (res) => {

@@ -139,7 +139,7 @@ const UserProfileEdit = ({ payload }: SheetProps<"UserProfileEdit">) => {
 
       <View style={styles.buttonContainer}>
         <SolidButton
-          title="Обновить"
+          title="Сохранить"
           loading={updateProfileMutation.isPending}
           onPress={handleSubmit(onSubmit)}
         />
