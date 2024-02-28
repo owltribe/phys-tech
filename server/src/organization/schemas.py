@@ -50,7 +50,7 @@ class OrganizationRetrieve(BaseModel):
     contact: Optional[str]
     email: str
     description: str
-    category: Optional[OrganizationCategory]
+    category: OrganizationCategory
     services: List[ServiceItem]
     photo: Optional[str]
 

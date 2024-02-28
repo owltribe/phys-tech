@@ -165,7 +165,7 @@ const ServiceDetail = ({
           )}
 
           {data?.data.is_editable && isOrganization && (
-            <>
+            <View style={styles.buttonsContainer}>
               <SolidButton
                 title="Редактировать"
                 Icon={SquarePen}
@@ -180,19 +180,21 @@ const ServiceDetail = ({
                 loading={destroyServiceMutation.isPending}
                 onPress={handleOpenDestroyModal}
               />
-            </>
+            </View>
           )}
 
           {data?.data && !isOrganization && (
-            <SolidButton
-              title="Запросить услугу"
-              disabled={isLoading}
-              onPress={() =>
-                SheetManager.show("ServiceRequestCreation", {
-                  payload: { serviceId: data.data.id }
-                })
-              }
-            />
+            <View style={styles.buttonsContainer}>
+              <SolidButton
+                title="Запросить услугу"
+                disabled={isLoading}
+                onPress={() =>
+                  SheetManager.show("ServiceRequestCreation", {
+                    payload: { serviceId: data.data.id }
+                  })
+                }
+              />
+            </View>
           )}
 
           <ApproveModal
@@ -231,17 +233,16 @@ const ServiceDetail = ({
 
 const styles = StyleSheet.create({
   imageContainer: {
+    flex: 1,
     backgroundColor: mantineColors.gray[1],
     borderRadius: 16,
     height: 200,
-    width: "100%",
     alignItems: "center",
     justifyContent: "center"
   },
   card: {
     borderRadius: 16,
     paddingVertical: 18,
-    paddingHorizontal: 6,
     gap: 24
   },
   cardTitle: {
@@ -265,8 +266,8 @@ const styles = StyleSheet.create({
     fontFamily: "GoogleSans-Regular"
   },
   itemText: {
-    textAlign: "right",
     flex: 1,
+    textAlign: "right",
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
   },
@@ -281,6 +282,11 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     width: "100%"
+  },
+  buttonsContainer: {
+    flex: 1,
+    gap: 8,
+    marginTop: 16
   }
 });
 
