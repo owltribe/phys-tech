@@ -6793,17 +6793,17 @@ react-native-gesture-handler@~2.14.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-modal-datetime-picker@^17.1.0:
+  version "17.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-17.1.0.tgz#74291bf92b830be285752f437841f52885c90e0b"
+  integrity sha512-jfTwfaCLtBffYbQ+pOGFLM+J5HmUh3vb9rT0JrrQPjxzecdc8pNYreB1c96+mVuq8bDCvaCdIeuEsslTqLJL0Q==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-onboard@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/react-native-onboard/-/react-native-onboard-2.6.0.tgz#46c0dd62c11ee2fbd5b545006ae1391f7dafb254"
   integrity sha512-33mO3L0s4BxSPJEqpUaVVUVD28iMyVMO+ey4gB4fURVgQRTm1EcDydUsgRhiirGMKdyK8kqh6NI0TTKW7GSYSQ==
-
-react-native-paper-dates@^0.21.9:
-  version "0.21.9"
-  resolved "https://registry.yarnpkg.com/react-native-paper-dates/-/react-native-paper-dates-0.21.9.tgz#1333112bb6c00fe9550c2d3e70d051095787ec59"
-  integrity sha512-beBigyrSSai+gO3hG+MQjFJ4VhhTgta4n+DELfpHiOa2MY7xIPlnYwY5GYUBYnwBBcs/ju5ug+uxcOv2CPe2uA==
-  dependencies:
-    color "^4.2.3"
 
 react-native-paper-dropdown@^1.0.7:
   version "1.0.7"

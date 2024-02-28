@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
     paddingVertical: 18,
-    paddingHorizontal: 6,
     gap: 24
   },
   cardTitle: {

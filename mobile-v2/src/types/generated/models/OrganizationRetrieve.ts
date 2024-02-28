@@ -12,7 +12,7 @@ export type OrganizationRetrieve = {
     contact: (string | null);
     email: string;
     description: string;
-    category: (OrganizationCategory | null);
+    category: OrganizationCategory;
     services: Array<ServiceItem>;
     photo: (string | null);
 };
