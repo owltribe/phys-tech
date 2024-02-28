@@ -200,7 +200,7 @@ const ServiceRequestDetail = ({
         )}
 
         {isOrganization && (
-          <View style={[commonStyles.container, { paddingHorizontal: 0 }]}>
+          <View style={[commonStyles.container]}>
             {data?.data.status === "Pending" && (
               <>
                 <SolidButton
@@ -256,7 +256,6 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
     paddingVertical: 18,
-    paddingHorizontal: 6,
     gap: 24
   },
   cardTitle: {
