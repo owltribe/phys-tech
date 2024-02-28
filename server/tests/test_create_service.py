@@ -14,12 +14,12 @@ class TestEventService(unittest.TestCase):
     def test_create_event(self):
         # Test data
         event_data = EventCreate(
-            name="test name",
-            description="test desc",
+            name="Сьемки 2",
+            description="Качество съёмки улучшает фирменная система визуализации PolarAce, которая задействует искусственный интеллект и мощный чип Sony CXD5622GG",
             start_date="2024-03-28",
             start_time="14:00",
             duration=90,
-            location="Almaty"
+            location="Алматы"
         )
         
         # Call the create method with the test data
