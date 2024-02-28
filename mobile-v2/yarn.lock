@@ -6805,13 +6805,6 @@ react-native-onboard@^2.6.0:
   resolved "https://registry.yarnpkg.com/react-native-onboard/-/react-native-onboard-2.6.0.tgz#46c0dd62c11ee2fbd5b545006ae1391f7dafb254"
   integrity sha512-33mO3L0s4BxSPJEqpUaVVUVD28iMyVMO+ey4gB4fURVgQRTm1EcDydUsgRhiirGMKdyK8kqh6NI0TTKW7GSYSQ==
 
-react-native-paper-dates@^0.21.9:
-  version "0.21.9"
-  resolved "https://registry.yarnpkg.com/react-native-paper-dates/-/react-native-paper-dates-0.21.9.tgz#1333112bb6c00fe9550c2d3e70d051095787ec59"
-  integrity sha512-beBigyrSSai+gO3hG+MQjFJ4VhhTgta4n+DELfpHiOa2MY7xIPlnYwY5GYUBYnwBBcs/ju5ug+uxcOv2CPe2uA==
-  dependencies:
-    color "^4.2.3"
-
 react-native-paper-dropdown@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/react-native-paper-dropdown/-/react-native-paper-dropdown-1.0.7.tgz#64fe004b05b73ca5c781873d800ac5062b35bdc9"

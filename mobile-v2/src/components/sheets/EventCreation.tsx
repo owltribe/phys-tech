@@ -3,8 +3,6 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { SheetManager } from "react-native-actions-sheet";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-// import { DatePickerModal, TimePickerModal } from "react-native-paper-dates";
-import { CalendarDate } from "react-native-paper-dates/src/Date/Calendar";
 import { yupResolver } from "@hookform/resolvers/yup";
 import OutlineButton from "components/buttons/OutlineButton";
 import SolidButton from "components/buttons/SolidButton";
@@ -59,6 +57,8 @@ const EventCreation = () => {
   });
 
   const createEventMutation = useCreateEvent();
+
+  const todayDate = dayjs();
 
   const onCancelStatTime = () => {
     setStartTimeModalOpened(false);
@@ -173,10 +173,8 @@ const EventCreation = () => {
               onConfirm={(selectedDate) =>
                 onConfirmStartDate(selectedDate, onChange)
               }
-              // validRange={{
-              //   startDate: todayDate.toDate(),
-              //   endDate: todayDate.add(2, "months").toDate()
-              // }}
+              minimumDate={todayDate.toDate()}
+              maximumDate={todayDate.add(6, "months").toDate()}
             />
           </View>
         )}
@@ -209,6 +207,9 @@ const EventCreation = () => {
             <DateTimePickerModal
               locale="ru"
               mode="time"
+              is24Hour
+              display="spinner"
+              timePickerModeAndroid="default"
               isVisible={startTimeModalOpened}
               onCancel={onCancelStatTime}
               onConfirm={(selectedDate) =>
