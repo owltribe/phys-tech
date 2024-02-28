@@ -37,8 +37,6 @@ const schema = yup.object().shape({
   location: yup.string().required("Поле не может быть пустым")
 });
 
-const todayDate = dayjs();
-
 const EventCreation = () => {
   const [startDateModalOpened, setStartDateModalOpened] = useState(false);
   const [startTimeModalOpened, setStartTimeModalOpened] = useState(false);
