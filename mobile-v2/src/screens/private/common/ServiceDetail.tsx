@@ -118,13 +118,6 @@ const ServiceDetail = ({
                 </View>
                 <Divider bold />
                 <View style={styles.item}>
-                  <Text style={styles.itemLabel}>Ожидаемый результат</Text>
-                  <Text style={styles.itemText}>
-                    {data.data.expected_result}
-                  </Text>
-                </View>
-                <Divider bold />
-                <View style={styles.item}>
                   <Text style={styles.itemLabel}>Цена</Text>
                   <Text style={styles.itemText}>
                     {formatCost(data.data.cost)}
@@ -159,6 +152,17 @@ const ServiceDetail = ({
               <View style={styles.cardInnerContainer}>
                 <Text style={[styles.itemText, { textAlign: "left" }]}>
                   {data.data.description}
+                </Text>
+              </View>
+            </View>
+          )}
+
+          {data?.data.expected_result && (
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>Ожидаемый результат</Text>
+              <View style={styles.cardInnerContainer}>
+                <Text style={[styles.itemText, { textAlign: "left" }]}>
+                  {data.data.expected_result}
                 </Text>
               </View>
             </View>
