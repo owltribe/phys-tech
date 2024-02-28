@@ -20,10 +20,12 @@ const Onboarding = ({ navigation }: OnboardingScreenProps) => {
           title: "Science Услуги",
           subtitle:
             "Приложение предназначено для упрощения процесса сбора, поиска и получения информации по научно-аналитическим и экспериментальным исследованиям",
-
-          imageUri: Image.resolveAssetSource(
-            require("../../../assets/logo.png")
-          ).uri,
+          imageComponent: (
+            <Image
+              source={require("../../../assets/logo.png")}
+              style={{ width: "100%", height: 320 }}
+            />
+          ),
           primaryButtonTitle: "Далее",
           secondaryButtonTitle: "Авторизоваться",
           titleStyle: titleStyle,
@@ -33,9 +35,12 @@ const Onboarding = ({ navigation }: OnboardingScreenProps) => {
           title: "Организации",
           subtitle:
             "Список научно-исследовательских организаций, Вузов и частных компаний. Профили организаций с детальной информацией.",
-          imageUri: Image.resolveAssetSource(
-            require("images/illustrations/organizations.png")
-          ).uri,
+          imageComponent: (
+            <Image
+              source={require("images/illustrations/organizations.png")}
+              style={{ width: "100%", height: 260, marginVertical: 40 }}
+            />
+          ),
           primaryButtonTitle: "Далее",
           titleStyle: titleStyle,
           subtitleStyle: subtitleStyle
@@ -44,9 +49,12 @@ const Onboarding = ({ navigation }: OnboardingScreenProps) => {
           title: "Услуги",
           subtitle:
             "Каталог научных услуг от каждой организации. Описание, стоимость и способы заказа услуг",
-          imageUri: Image.resolveAssetSource(
-            require("images/illustrations/services.png")
-          ).uri,
+          imageComponent: (
+            <Image
+              source={require("images/illustrations/services.png")}
+              style={{ width: "100%", height: 260, marginVertical: 40 }}
+            />
+          ),
           primaryButtonTitle: "Далее",
           titleStyle: titleStyle,
           subtitleStyle: subtitleStyle
@@ -54,9 +62,12 @@ const Onboarding = ({ navigation }: OnboardingScreenProps) => {
         {
           title: "Мероприятия",
           subtitle: "Календарь семинаров, конференций и других мероприятий",
-          imageUri: Image.resolveAssetSource(
-            require("images/illustrations/events.png")
-          ).uri,
+          imageComponent: (
+            <Image
+              source={require("images/illustrations/events.png")}
+              style={{ width: "100%", height: 260, marginVertical: 40 }}
+            />
+          ),
           primaryButtonTitle: "Авторизоваться",
           titleStyle: titleStyle,
           subtitleStyle: subtitleStyle

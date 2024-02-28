@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { SheetManager } from "react-native-actions-sheet";
-import { DatePickerModal, TimePickerModal } from "react-native-paper-dates";
-import { CalendarDate } from "react-native-paper-dates/src/Date/Calendar";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { yupResolver } from "@hookform/resolvers/yup";
 import OutlineButton from "components/buttons/OutlineButton";
 import SolidButton from "components/buttons/SolidButton";
@@ -22,10 +21,7 @@ interface FormValues {
   name: string;
   description: string;
   start_date: Date | undefined;
-  start_time: {
-    hours: number;
-    minutes: number;
-  };
+  start_time: Date | undefined;
   duration: number;
   location: string;
 }
@@ -34,15 +30,10 @@ const schema = yup.object().shape({
   name: yup.string().required("Поле не может быть пустым"),
   description: yup.string().required("Поле не может быть пустым"),
   start_date: yup.date().required("Поле не может быть пустым"),
-  start_time: yup.object().shape({
-    hours: yup.number().default(12),
-    minutes: yup.number().default(0)
-  }),
+  start_time: yup.date().required("Поле не может быть пустым"),
   duration: yup.number().required("Поле не может быть пустым").default(0),
   location: yup.string().required("Поле не может быть пустым")
 });
-
-const todayDate = dayjs();
 
 const EventCreation = () => {
   const [startDateModalOpened, setStartDateModalOpened] = useState(false);
@@ -58,10 +49,7 @@ const EventCreation = () => {
       name: "",
       description: "",
       start_date: undefined,
-      start_time: {
-        hours: 12,
-        minutes: 0
-      },
+      start_time: undefined,
       duration: 0,
       location: ""
     },
@@ -70,32 +58,28 @@ const EventCreation = () => {
 
   const createEventMutation = useCreateEvent();
 
-  const onDismissStatTime = () => {
+  const todayDate = dayjs();
+
+  const onCancelStatTime = () => {
     setStartTimeModalOpened(false);
   };
   const onConfirmStartTime = (
-    {
-      hours,
-      minutes
-    }: {
-      hours: number;
-      minutes: number;
-    },
-    onChange: (value: { hours: number; minutes: number }) => void
+    selectedDate: Date,
+    onChange: (value: Date) => void
   ) => {
     setStartTimeModalOpened(false);
-    onChange({ hours, minutes });
+    onChange(selectedDate);
   };
 
-  const onDismissStartDate = () => {
+  const onCancelStartDate = () => {
     setStartDateModalOpened(false);
   };
   const onConfirmStartDate = (
-    params: { date: CalendarDate },
+    selectedDate: Date,
     onChange: (value: Date | undefined) => void
   ) => {
     setStartDateModalOpened(false);
-    onChange(params.date);
+    onChange(selectedDate);
   };
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
@@ -103,10 +87,7 @@ const EventCreation = () => {
       {
         ...formValues,
         start_date: dayjs(formValues.start_date).format("YYYY-MM-DD"),
-        start_time: dayjs()
-          .hour(formValues.start_time.hours)
-          .minute(formValues.start_time.minutes)
-          .format("HH:mm")
+        start_time: dayjs(formValues.start_time).format("HH:MM")
       } as EventCreate,
       {
         onError: (error) => {
@@ -183,17 +164,17 @@ const EventCreation = () => {
               compact
             />
 
-            <DatePickerModal
+            <DateTimePickerModal
               locale="ru"
-              mode="single"
-              visible={startDateModalOpened}
-              onDismiss={onDismissStartDate}
+              mode="date"
+              isVisible={startDateModalOpened}
               date={value}
-              onConfirm={(params) => onConfirmStartDate(params, onChange)}
-              validRange={{
-                startDate: todayDate.toDate(),
-                endDate: todayDate.add(2, "months").toDate()
-              }}
+              onCancel={onCancelStartDate}
+              onConfirm={(selectedDate) =>
+                onConfirmStartDate(selectedDate, onChange)
+              }
+              minimumDate={todayDate.toDate()}
+              maximumDate={todayDate.add(6, "months").toDate()}
             />
           </View>
         )}
@@ -209,14 +190,7 @@ const EventCreation = () => {
             >
               <TextField
                 label="Время"
-                value={
-                  value
-                    ? dayjs()
-                        .hour(value.hours)
-                        .minute(value.minutes)
-                        .format("HH:mm")
-                    : undefined
-                }
+                value={value ? dayjs(value).format("HH:mm") : undefined}
                 mode="outlined"
                 readOnly
                 containerStyle={{ width: "50%" }}
@@ -230,15 +204,20 @@ const EventCreation = () => {
               />
             </View>
 
-            <TimePickerModal
+            <DateTimePickerModal
               locale="ru"
-              use24HourClock
-              visible={startTimeModalOpened}
-              onDismiss={onDismissStatTime}
-              onConfirm={(time) => onConfirmStartTime(time, onChange)}
-              hours={value.hours}
-              minutes={value.minutes}
-              defaultInputType="keyboard"
+              mode="time"
+              is24Hour
+              display="spinner"
+              timePickerModeAndroid="default"
+              isVisible={startTimeModalOpened}
+              onCancel={onCancelStatTime}
+              onConfirm={(selectedDate) =>
+                onConfirmStartTime(selectedDate, onChange)
+              }
+              // hours={value.hours}
+              // minutes={value.minutes}
+              // defaultInputType="keyboard"
             />
           </>
         )}

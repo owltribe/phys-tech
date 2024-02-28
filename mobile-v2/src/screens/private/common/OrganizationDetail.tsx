@@ -41,48 +41,56 @@ const OrganizationDetail = ({
         </View>
 
         {data?.data && (
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Главное</Text>
-            <View style={styles.cardInnerContainer}>
-              <View style={styles.item}>
-                <Text style={styles.itemLabel}>Описание</Text>
-                <Text style={styles.itemText}>{data.data.description}</Text>
-              </View>
-              <Divider bold />
-              <View style={styles.item}>
-                <Text style={styles.itemLabel}>Категория</Text>
-                <Text style={styles.itemText}>
-                  {data.data.category
-                    ? getOrganizationCategoryLabel(data.data.category)
-                    : null}
-                </Text>
-              </View>
-              <Divider bold />
-              <View style={styles.item}>
-                <Text style={styles.itemLabel}>БИН</Text>
-                <Text style={styles.itemText}>{data.data.bin}</Text>
-              </View>
-              <Divider bold />
-              <View style={styles.item}>
-                <Text style={styles.itemLabel}>Адрес</Text>
-                <Text style={styles.itemText}>{data.data.address}</Text>
-              </View>
-              <Divider bold />
-              <View style={styles.item}>
-                <Text style={styles.itemLabel}>Номер телефона</Text>
-                <Text style={styles.itemText}>{data.data.contact}</Text>
-              </View>
-              <Divider bold />
-              <View style={styles.item}>
-                <Text style={styles.itemLabel}>Почта</Text>
-                <Text style={styles.itemText}>{data.data.email}</Text>
+          <>
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>Главное</Text>
+              <View style={styles.cardInnerContainer}>
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Категория</Text>
+                  <Text style={styles.itemText}>
+                    {getOrganizationCategoryLabel(data.data.category)}
+                  </Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>БИН</Text>
+                  <Text style={styles.itemText}>{data.data.bin}</Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Адрес</Text>
+                  <Text style={styles.itemText}>{data.data.address}</Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Номер телефона</Text>
+                  <Text style={styles.itemText}>
+                    {data.data.contact || "-"}
+                  </Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Почта</Text>
+                  <Text style={styles.itemText}>{data.data.email}</Text>
+                </View>
               </View>
             </View>
-          </View>
+
+            {data.data.description && (
+              <View style={styles.card}>
+                <Text style={styles.cardTitle}>Описание</Text>
+                <View style={styles.cardInnerContainer}>
+                  <Text style={[styles.itemText, { textAlign: "left" }]}>
+                    {data.data.description}
+                  </Text>
+                </View>
+              </View>
+            )}
+          </>
         )}
 
         {!!data?.data.services.length && (
-          <View style={[styles.card, { paddingHorizontal: 0 }]}>
+          <View style={styles.card}>
             <Text style={styles.cardTitle}>Сервисы</Text>
             <View style={styles.cardInnerContainer}>
               {data.data.services.map((service) => (
@@ -128,7 +136,6 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
     paddingVertical: 18,
-    paddingHorizontal: 6,
     gap: 24
   },
   cardTitle: {
@@ -153,6 +160,7 @@ const styles = StyleSheet.create({
     fontFamily: "GoogleSans-Regular"
   },
   itemText: {
+    flex: 1,
     textAlign: "right",
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
