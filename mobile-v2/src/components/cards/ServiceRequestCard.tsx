@@ -21,7 +21,9 @@ const ServiceRequestCard = ({
         status={serviceRequest.status}
       />
       <BaseCard
-        title={serviceRequest.service.name}
+        title={`#${serviceRequest.id.slice(0, 4)} - ${
+          serviceRequest.service.name
+        }`}
         description={serviceRequest.requested_by.full_name}
         Footer={
           <Text style={styles.footer}>

@@ -11,6 +11,7 @@ from src.event.schemas import EventCreate, EventFilter, EventRead, EventUpdate
 from src.event.service import EventService
 
 events_router = APIRouter(prefix="/events", tags=["Events"])
+service = EventService
 
 
 @events_router.get("", response_model=Page[EventRead])
@@ -20,7 +21,7 @@ def paginated_list(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return EventService(session).paginated_list(event_filter)
+    return service(session).paginated_list(event_filter)
 
 
 @events_router.post("", response_model=EventRead)
@@ -30,7 +31,7 @@ def create(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return EventService(session).create(event=event)
+    return service(session).create(event=event)
 
 
 @events_router.get("/{event_id}", response_model=EventRead)
@@ -40,7 +41,7 @@ def retrieve(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return EventService(session).retrieve(event_id)
+    return service(session).retrieve(event_id)
 
 
 @events_router.put("/{event_id}", response_model=EventRead)
@@ -51,7 +52,7 @@ def update(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return EventService(session).update(event_id, updated_event)
+    return service(session).update(event_id, updated_event)
 
 
 @events_router.delete(
@@ -63,4 +64,4 @@ def destroy(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return EventService(session).destroy(event_id)
+    return service(session).destroy(event_id)

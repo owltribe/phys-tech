@@ -106,6 +106,13 @@ const ServiceRequestDetail = ({
             <Text style={styles.cardTitle}>Информация об услуге</Text>
             <View style={styles.cardInnerContainer}>
               <View style={styles.item}>
+                <Text style={styles.itemLabel}>Номер заявки</Text>
+                <Text style={styles.itemText}>
+                  {`#${data.data.id.slice(0, 4)}`}
+                </Text>
+              </View>
+              <Divider bold />
+              <View style={styles.item}>
                 <Text style={styles.itemLabel}>Название</Text>
                 <Text style={styles.itemText}>{data.data.service.name}</Text>
               </View>
