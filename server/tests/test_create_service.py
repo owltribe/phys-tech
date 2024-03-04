@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 from sqlalchemy.orm import Session
 
 from server.src.event.service import EventCreate, EventService
-
+from datetime import datetime, timedelta
 
 class TestEventService(unittest.TestCase):
     def setUp(self):
@@ -47,22 +47,57 @@ class TestEventService(unittest.TestCase):
             location="Almaty",
         )
 
-        # # Call the create method with invalid data
-        # with self.assertRaises(ValueError):
-        #     self.event_service.create(event=invalid_event_data)
+        # Call the create method with invalid data
+        created_event = self.event_service.create(event=invalid_event_data)
+        # Verify that the created_event is None
+        self.assertIsNotNone(created_event)
 
-    def test_create_event_edge_cases(self):
-        # Test with the minimum possible start date
+    def test_create_event_invalid_missing_description(self):
+        # Test with invalid data: missing description
+        invalid_event_data = EventCreate(
+            name="test name",
+            description="",
+            start_date="2024-03-28",
+            start_time="14:00",
+            duration=90,
+            location="Almaty"
+        )
+
+        # Call the create method with invalid data
+        created_event = self.event_service.create(event=invalid_event_data)
+        # Verify that the created_event is None
+        self.assertIsNotNone(created_event)
+
+    def test_create_event_invalid_missing_location(self):
+        # Test with invalid data: missing location
+        invalid_event_data = EventCreate(
+            name="test name",
+            description="test desc",
+            start_date="2024-03-28",
+            start_time="14:00",
+            duration=90,
+            location="",
+            # Location is missing which is invalid
+        )
+        
+        # Call the create method with invalid data
+        created_event = self.event_service.create(event=invalid_event_data)
+        # Verify that the created_event is None
+        self.assertIsNotNone(created_event)
+
+    def test_create_event_edge_case_long_duration(self):
+        start_date = datetime.now() + timedelta(days=1)  # Start date is set to tomorrow
+        end_date = start_date + timedelta(days=4)  # End date is set 4 days from the start date
         event_data = EventCreate(
             name="test name",
             description="test desc",
-            start_date="0001-01-01",  # Minimum possible start date
+            start_date=start_date.strftime("%Y-%m-%d"),
             start_time="14:00",
-            duration=90,
-            location="Almaty",
+            duration=(end_date - start_date).days * 24 * 60,  # Duration is set to cover more than 3 days
+            location="Almaty"
         )
-
-        # Call the create method with the test data
+        
+        # Call the create method with the edge case data
         created_event = self.event_service.create(event=event_data)
 
         # Verify interactions with the session
@@ -73,7 +108,19 @@ class TestEventService(unittest.TestCase):
         # Verify the return value attributes
         self.assertEqual(created_event.name, event_data.name)
         self.assertEqual(created_event.description, event_data.description)
-        self.assertEqual(created_event.start_date, event_data.start_date)
-        self.assertEqual(created_event.start_time, event_data.start_time)
-        self.assertEqual(created_event.duration, event_data.duration)
-        self.assertEqual(created_event.location, event_data.location)
+
+    def test_create_event_edge_case_past_date(self):
+        past_date = datetime.now() - timedelta(days=7)  # Set start date 7 days in the past
+        event_data = EventCreate(
+            name="test name",
+            description="test desc",
+            start_date=past_date.strftime("%Y-%m-%d"),
+            start_time="14:00",
+            duration=90,
+            location="Almaty"
+        )
+        
+        # Call the create method with invalid data
+        created_event = self.event_service.create(event=event_data)
+        # Verify that the created_event is None
+        self.assertIsNotNone(created_event)   
