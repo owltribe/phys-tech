@@ -19,6 +19,7 @@ from src.service_request.service import ServiceRequestService
 service_request_router = APIRouter(
     prefix="/service-requests", tags=["Service Requests"]
 )
+service = ServiceRequestService
 
 
 @service_request_router.get("", response_model=Page[ServiceRequestRead])
@@ -32,9 +33,7 @@ def paginated_list(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceRequestService(session).paginated_list(
-        service_request_filter
-    )
+    return service(session).paginated_list(service_request_filter)
 
 
 @service_request_router.post("", response_model=ServiceRequestRead)
@@ -46,7 +45,7 @@ def create(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceRequestService(session).create(
+    return service(session).create(
         service_request_create=service_request_create,
         requested_by=current_user,
     )
@@ -63,9 +62,7 @@ def retrieve(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceRequestService(session).retrieve(
-        service_request_id=service_request_id
-    )
+    return service(session).retrieve(service_request_id=service_request_id)
 
 
 @service_request_router.put(
@@ -80,9 +77,7 @@ def update(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceRequestService(session).update(
-        service_request_id, service_request_update
-    )
+    return service(session).update(service_request_id, service_request_update)
 
 
 @service_request_router.delete(
@@ -98,4 +93,4 @@ def delete(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceRequestService(session).delete(service_request_id)
+    return service(session).delete(service_request_id)

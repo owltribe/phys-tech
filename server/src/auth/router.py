@@ -33,6 +33,7 @@ auth_router.include_router(
 auth_router.include_router(
     fastapi_users.get_users_router(UserRead, UserUpdate),
 )
+service = UserService
 
 
 @auth_router.get(
@@ -45,7 +46,7 @@ def auth_me(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return UserService(session).retrieve(current_user.id)
+    return service(session).retrieve(current_user.id)
 
 
 @auth_router.post(
@@ -59,4 +60,4 @@ def upload_my_avatar(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return UserService(session).upload_avatar(current_user, image)
+    return service(session).upload_avatar(current_user, image)

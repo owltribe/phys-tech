@@ -13,7 +13,7 @@ import { LogOut, Notebook, Shield } from "lucide-react-native";
 import { useAuth } from "providers/AuthProvider";
 import { ProfileScreenProps } from "screens/types";
 import { commonStyles } from "styles/commonStyles";
-import { PrivacyPolicyLink, TermsAndConditionsLink } from "utils/links";
+import { PRIVACY_POLICY_LINK, TERMS_AND_CONDITIONS_LINK } from "utils/links";
 
 import OrganizationProfile from "./components/OrganizationProfile";
 import UserProfile from "./components/UserProfile";
@@ -54,12 +54,12 @@ export default function Profile({ navigation }: ProfileScreenProps) {
           <BaseCard
             description="Политика конфиденциальности"
             Icon={Shield}
-            onPress={() => openLink(PrivacyPolicyLink)}
+            onPress={() => openLink(PRIVACY_POLICY_LINK)}
           />
           <BaseCard
             description="Условия и положения"
             Icon={Notebook}
-            onPress={() => openLink(TermsAndConditionsLink)}
+            onPress={() => openLink(TERMS_AND_CONDITIONS_LINK)}
           />
         </View>
 

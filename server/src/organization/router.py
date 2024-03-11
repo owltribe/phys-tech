@@ -19,6 +19,7 @@ from src.organization.service import OrganizationService
 organizations_router = APIRouter(
     prefix="/organizations", tags=["Organizations"]
 )
+service = OrganizationService
 
 
 @organizations_router.get("", response_model=Page[OrganizationRead])
@@ -30,7 +31,7 @@ def paginated_list(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return OrganizationService(session).paginated_list(organization_filter)
+    return service(session).paginated_list(organization_filter)
 
 
 @organizations_router.get(
@@ -42,7 +43,7 @@ def retrieve(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return OrganizationService(session).retrieve(organization_id)
+    return service(session).retrieve(organization_id)
 
 
 @organizations_router.post("", response_model=OrganizationRead)
@@ -52,7 +53,7 @@ def create(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return OrganizationService(session).create(organization=organization)
+    return service(session).create(organization=organization)
 
 
 @organizations_router.put(
@@ -65,7 +66,7 @@ def update(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return OrganizationService(session).update(
+    return service(session).update(
         organization_id, updated_organization, current_user
     )
 
@@ -77,6 +78,4 @@ def upload_profile_picture(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return OrganizationService(session).upload_profile_picture(
-        current_user, file=photo
-    )
+    return service(session).upload_profile_picture(current_user, file=photo)

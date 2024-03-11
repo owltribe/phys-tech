@@ -19,6 +19,7 @@ from src.service.service import ServiceService
 from src.service_image.schemas import ServiceImageRead
 
 services_router = APIRouter(prefix="/services", tags=["Services"])
+service = ServiceService
 
 
 @services_router.get("", response_model=Page[ServiceRead])
@@ -30,7 +31,7 @@ def paginated_list(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceService(session).paginated_list(service_filter)
+    return service(session).paginated_list(service_filter)
 
 
 @services_router.post("", response_model=ServiceRead)
@@ -43,7 +44,7 @@ def create(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceService(session).create(
+    return service(session).create(
         service=service_create, current_user=current_user
     )
 
@@ -56,7 +57,7 @@ def upload_service_image(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceService(session).upload_service_image(service_id, image)
+    return service(session).upload_service_image(service_id, image)
 
 
 @services_router.get("/{service_id}", response_model=ServiceRead)
@@ -66,7 +67,7 @@ def retrieve(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceService(session).retrieve(
+    return service(session).retrieve(
         service_id=service_id, current_user=current_user
     )
 
@@ -82,7 +83,7 @@ def update(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceService(session).update(service_id, service_update)
+    return service(session).update(service_id, service_update)
 
 
 @services_router.delete(
@@ -99,7 +100,7 @@ def destroy(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceService(session).destroy(service_id)
+    return service(session).destroy(service_id)
 
 
 @services_router.get(
@@ -113,4 +114,4 @@ def list_service_images(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceService(session).list_service_images(service_id)
+    return service(session).list_service_images(service_id)

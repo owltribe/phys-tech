@@ -8,6 +8,7 @@ from src.auth.rbac import rbac
 from src.service_image.service import ServiceImageService
 
 service_image_router = APIRouter(prefix="/service-images", tags=["Services"])
+service = ServiceImageService
 
 
 @service_image_router.delete(
@@ -24,4 +25,4 @@ def destroy(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return ServiceImageService(session).destroy(service_image_id)
+    return service(session).destroy(service_image_id)

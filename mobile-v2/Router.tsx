@@ -1,3 +1,4 @@
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import BottomNavigationTab from "components/layouts/BottomNavigationTab";
@@ -16,8 +17,52 @@ import { RootStackParamList } from "./src/screens/types";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
+const authenticatedScreens = {
+  Main: {
+    component: BottomNavigationTab,
+    options: { headerShown: false }
+  },
+  Service: {
+    component: ServiceDetail,
+    options: { title: "Услуга" }
+  },
+  ServiceEdit: {
+    component: ServiceEdit,
+    options: { title: "Редактирование услуги" }
+  },
+  ServiceRequest: {
+    component: ServiceRequestDetail,
+    options: { title: "Заявка на услугу" }
+  },
+  Event: {
+    component: EventDetail,
+    options: { title: "Мероприятие" }
+  },
+  Organization: {
+    component: OrganizationDetail,
+    options: { title: "Организация" }
+  }
+};
+
+const unauthenticatedScreens = {
+  Onboarding: {
+    component: Onboarding,
+    options: { headerShown: false }
+  },
+  Login: {
+    component: Login,
+    options: { headerShown: false }
+  },
+  Register: {
+    component: Register,
+    options: { title: "Регистрация" }
+  }
+};
+
 export default function Router() {
   const { user } = useAuth();
+
+  const screens = user ? authenticatedScreens : unauthenticatedScreens;
 
   return (
     <NavigationContainer>
@@ -26,58 +71,13 @@ export default function Router() {
           header: (props) => <NavigationBar {...props} />
         }}
       >
-        {user ? (
-          <>
-            <Stack.Screen
-              name="Main"
-              component={BottomNavigationTab}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Service"
-              component={ServiceDetail}
-              options={{ title: "Услуга" }}
-            />
-            <Stack.Screen
-              name="ServiceEdit"
-              component={ServiceEdit}
-              options={{ title: "Редактирование услуги" }}
-            />
-            <Stack.Screen
-              name="ServiceRequest"
-              component={ServiceRequestDetail}
-              options={{ title: "Заявка на услугу" }}
-            />
-            <Stack.Screen
-              name="Event"
-              component={EventDetail}
-              options={{ title: "Мероприятие" }}
-            />
-            <Stack.Screen
-              name="Organization"
-              component={OrganizationDetail}
-              options={{ title: "Организация" }}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="Onboarding"
-              component={Onboarding}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Register"
-              component={Register}
-              options={{ title: "Регистрация" }}
-            />
-          </>
-        )}
+        {Object.entries(screens).map(([name, screen]) => (
+          <Stack.Screen
+            key={name}
+            name={name}
+            {...screen}
+          />
+        ))}
       </Stack.Navigator>
     </NavigationContainer>
   );
