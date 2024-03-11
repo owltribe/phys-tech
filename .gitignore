@@ -3,4 +3,4 @@ __pycache__/
 .env
 .expo
 node_modules
-./mobile-v2/schema.yaml
+mobile/schema.yaml
