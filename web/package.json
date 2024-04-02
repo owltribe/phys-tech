@@ -10,9 +10,12 @@
     "generate-types": "curl http://localhost:8000/openapi.json -o schema.yaml && yarn run openapi --input ./schema.yaml --output ./src/types/generated --exportServices=false --exportCore=false --useUnionTypes"
   },
   "dependencies": {
+    "@radix-ui/themes": "^3.0.1",
+    "clsx": "^2.1.0",
     "next": "14.1.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwind-merge": "^2.2.2"
   },
   "devDependencies": {
     "@types/node": "^20",
