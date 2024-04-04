@@ -31,3 +31,19 @@ body {
     text-wrap: balance;
   }
 }
+
+.animate-spin-once {
+  animation: spin-once 1s ease-in-out;
+}
+
+@keyframes spin-once {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-30deg);
+  }
+  75% {
+    transform: rotate(30deg);
+  }
+}
