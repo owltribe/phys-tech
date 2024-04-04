@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_pagination import add_pagination
 from sqladmin import Admin
+from starlette.middleware.cors import CORSMiddleware
 
 from database import sync_engine
 from src.auth.admin import UserAdmin, admin_authentication_backend
@@ -19,6 +20,15 @@ from src.service_request.admin import ServiceRequestAdmin
 from src.service_request.router import service_request_router
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Third party apps
 add_pagination(app)
