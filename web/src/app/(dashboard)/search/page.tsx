@@ -1,6 +1,6 @@
 // import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import ListServices from "@/app/dashboard/search/_components/ListServices";
+import ListServices from "@/app/(dashboard)/search/_components/ListServices";
 
 // import { db } from "@/lib/db";
 // import { SearchInput } from "@/components/search-input";

@@ -47,3 +47,65 @@ body {
     transform: rotate(30deg);
   }
 }
+
+/*@font-face {*/
+/*  font-family: 'GoogleSans';*/
+/*  src: url('../../public/fonts/GoogleSans-Regular.ttf') format('ttf'),*/
+/*       url('../../public/fonts/GoogleSans-Medium.ttf') format('ttf'),*/
+/*       url('../../public/fonts/GoogleSans-Bold.ttf') format('ttf'),*/
+/*       url('../../public/fonts/GoogleSans-Italic.ttf') format('ttf'),*/
+/*       url('../../public/fonts/GoogleSans-MediumItalic.ttf') format('ttf'),*/
+/*       url('../../public/fonts/GoogleSans-BoldItalic.ttf') format('ttf');*/
+/*}*/
+
+/*@layer base {*/
+/*  @font-face {*/
+/*    font-family: 'GoogleSans';*/
+/*    font-style: normal;*/
+/*    font-weight: 400;*/
+/*    font-display: swap;*/
+/*    src: url(../../public/fonts/GoogleSans-Regular.ttf) format('ttf');*/
+/*  }*/
+/*  @font-face {*/
+/*    font-family: 'GoogleSans';*/
+/*    font-style: normal;*/
+/*    font-weight: 500;*/
+/*    font-display: swap;*/
+/*    src: url(../../public/fonts/GoogleSans-Medium.ttf) format('ttf');*/
+/*  }*/
+/*  @font-face {*/
+/*    font-family: 'GoogleSans';*/
+/*    font-style: normal;*/
+/*    font-weight: 700;*/
+/*    font-display: swap;*/
+/*    src: url(../../public/fonts/GoogleSans-Bold.ttf) format('ttf');*/
+/*  }*/
+
+/*  @font-face {*/
+/*    font-family: 'GoogleSans';*/
+/*    font-style: italic;*/
+/*    font-weight: 400;*/
+/*    font-display: swap;*/
+/*    src: url(../../public/fonts/GoogleSans-Italic.ttf) format('ttf');*/
+/*  }*/
+/*  @font-face {*/
+/*    font-family: 'GoogleSans';*/
+/*    font-style: italic;*/
+/*    font-weight: 500;*/
+/*    font-display: swap;*/
+/*    src: url(../../public/fonts/GoogleSans-MediumItalic.ttf) format('ttf');*/
+/*  }*/
+/*  @font-face {*/
+/*    font-family: 'GoogleSans';*/
+/*    font-style: italic;*/
+/*    font-weight: 700;*/
+/*    font-display: swap;*/
+/*    src: url(../../public/fonts/GoogleSans-BoldItalic.ttf) format('ttf');*/
+/*  }*/
+/*}*/
+
+/*@layer base {*/
+/*  html {*/
+/*    font-family: "GoogleSans", system-ui, sans-serif;*/
+/*  }*/
+/*}*/

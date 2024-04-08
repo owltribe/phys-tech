@@ -1,6 +1,6 @@
 'use client'
 
-import ServiceCard from "@/app/dashboard/search/_components/ServiceCard";
+import ServiceCard from "@/app/(dashboard)/search/_components/ServiceCard";
 import useServices from "@/hooks/services/useServices";
 
 export default function ListServices() {
@@ -22,7 +22,7 @@ export default function ListServices() {
           </div>
           {isSuccess && data?.total === 0 && (
             <div className="text-center text-sm text-muted-foreground mt-10">
-              Нет доступных услуг
+                <p className="font-googleSans">Нет доступных услуг</p>
             </div>
           )}
       </>

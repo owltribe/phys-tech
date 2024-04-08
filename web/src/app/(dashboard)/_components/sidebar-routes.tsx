@@ -13,13 +13,13 @@ const guestRoutes = [
   // },
   {
     icon: Compass,
-    label: "Поиск",
-    href: "/dashboard/search",
+    label: "Поиск услуг",
+    href: "/search",
   },
   {
     icon: Building2,
     label: "Организации",
-    href: "/dashboard/organizations",
+    href: "/organizations",
   },
 ];
 
