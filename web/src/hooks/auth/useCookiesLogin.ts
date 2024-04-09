@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import {useMutation, UseMutationResult, useQueryClient} from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import {
   BearerResponse,
@@ -7,17 +7,19 @@ import {
 } from "@/types/generated";
 import {axiosInstance} from "@/lib/axios-instances";
 
-export default function useLogin(): UseMutationResult<
+export default function useCookiesLogin(): UseMutationResult<
   BearerResponse,
   AxiosError<ErrorModel>,
   Body_auth_jwt_login_auth_login_post
 > {
+  const queryClient = useQueryClient()
+
   const mutationFn = (payload: Body_auth_jwt_login_auth_login_post): Promise<BearerResponse> => {
     const formData = new FormData();
     formData.append("username", payload.username);
     formData.append("password", payload.password);
 
-    return axiosInstance.post("/auth/login", formData, {
+    return axiosInstance.post("/auth/cookies/login", formData, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
@@ -26,5 +28,10 @@ export default function useLogin(): UseMutationResult<
 
   return useMutation({
     mutationFn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["auth"]
+      })
+    }
   });
 }
