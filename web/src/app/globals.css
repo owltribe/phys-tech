@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -26,6 +27,40 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -48,64 +83,40 @@ body {
   }
 }
 
-/*@font-face {*/
-/*  font-family: 'GoogleSans';*/
-/*  src: url('../../public/fonts/GoogleSans-Regular.ttf') format('ttf'),*/
-/*       url('../../public/fonts/GoogleSans-Medium.ttf') format('ttf'),*/
-/*       url('../../public/fonts/GoogleSans-Bold.ttf') format('ttf'),*/
-/*       url('../../public/fonts/GoogleSans-Italic.ttf') format('ttf'),*/
-/*       url('../../public/fonts/GoogleSans-MediumItalic.ttf') format('ttf'),*/
-/*       url('../../public/fonts/GoogleSans-BoldItalic.ttf') format('ttf');*/
-/*}*/
+/* Dialog */
 
-/*@layer base {*/
-/*  @font-face {*/
-/*    font-family: 'GoogleSans';*/
-/*    font-style: normal;*/
-/*    font-weight: 400;*/
-/*    font-display: swap;*/
-/*    src: url(../../public/fonts/GoogleSans-Regular.ttf) format('ttf');*/
-/*  }*/
-/*  @font-face {*/
-/*    font-family: 'GoogleSans';*/
-/*    font-style: normal;*/
-/*    font-weight: 500;*/
-/*    font-display: swap;*/
-/*    src: url(../../public/fonts/GoogleSans-Medium.ttf) format('ttf');*/
-/*  }*/
-/*  @font-face {*/
-/*    font-family: 'GoogleSans';*/
-/*    font-style: normal;*/
-/*    font-weight: 700;*/
-/*    font-display: swap;*/
-/*    src: url(../../public/fonts/GoogleSans-Bold.ttf) format('ttf');*/
-/*  }*/
-
-/*  @font-face {*/
-/*    font-family: 'GoogleSans';*/
-/*    font-style: italic;*/
-/*    font-weight: 400;*/
-/*    font-display: swap;*/
-/*    src: url(../../public/fonts/GoogleSans-Italic.ttf) format('ttf');*/
-/*  }*/
-/*  @font-face {*/
-/*    font-family: 'GoogleSans';*/
-/*    font-style: italic;*/
-/*    font-weight: 500;*/
-/*    font-display: swap;*/
-/*    src: url(../../public/fonts/GoogleSans-MediumItalic.ttf) format('ttf');*/
-/*  }*/
-/*  @font-face {*/
-/*    font-family: 'GoogleSans';*/
-/*    font-style: italic;*/
-/*    font-weight: 700;*/
-/*    font-display: swap;*/
-/*    src: url(../../public/fonts/GoogleSans-BoldItalic.ttf) format('ttf');*/
-/*  }*/
-/*}*/
-
-/*@layer base {*/
-/*  html {*/
-/*    font-family: "GoogleSans", system-ui, sans-serif;*/
-/*  }*/
-/*}*/
+.DialogOverlay {
+  background-color: var(--black-a9);
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.DialogContent {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 450px;
+  max-height: 85vh;
+  padding: 25px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.DialogContent:focus {
+  outline: none;
+}
+.DialogTitle {
+  margin: 0;
+  font-weight: 500;
+  color: var(--mauve-12);
+  font-size: 17px;
+}
+.DialogDescription {
+  margin: 10px 0 20px;
+  color: var(--mauve-11);
+  font-size: 15px;
+  line-height: 1.5;
+}

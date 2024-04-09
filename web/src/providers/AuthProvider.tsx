@@ -19,6 +19,9 @@ import {
 } from "@/types/generated";
 import {authAxiosInstance, axiosInstance} from "@/lib/axios-instances";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import toast from "react-hot-toast";
+import {getFormattedError} from "@/lib/error-helper";
+import LoginDialog from "@/components/dialogs/LoginDialog";
 
 interface AuthProps {
   user: UserReadWithOrganization | null;
@@ -35,6 +38,8 @@ interface AuthProps {
       UserWithOrganizationCreate
     >
   ) => void;
+  openLoginModal: () => void;
+  closeLoginModal: () => void;
 }
 
 export const AuthContext = createContext<AuthProps>({} as AuthProps);
@@ -55,10 +60,12 @@ export const AuthProvider = ({
   const [user, setUser] = useState<UserReadWithOrganization | null>(null);
 
   const [token, setToken] = useLocalStorage<string | null>('physTechAccessToken', null)
+  const [isLoginModalOpened, setIsLoginModalOpened] = useState(false)
+
 
   function useProfile(
     accessToken: string | null
-  ): UseQueryResult<AxiosResponse<UserRead>, AxiosError<ErrorModel>> {
+  ): UseQueryResult<UserRead, AxiosError<ErrorModel>> {
     const fetchProfile = () => {
       return authAxiosInstance
         .get("/auth/me/profile", {
@@ -66,16 +73,17 @@ export const AuthProvider = ({
             Authorization: `Bearer ${accessToken}`
           }
         })
-        .then((res: AxiosResponse<UserRead>) => {
-          axiosInstance.defaults.headers.common[
+        .then((res: any) => {
+          authAxiosInstance.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${accessToken}`;
 
-          setUser(res.data);
+          setUser(res as UserRead);
         })
         .catch(async (error) => {
           await setToken(null);
           setUser(null);
+          // toast.error("Не удалось загрузить профиль пользователя.")
         });
     };
 
@@ -93,11 +101,16 @@ export const AuthProvider = ({
 
   const onLogin = (formValues: Body_auth_jwt_login_auth_login_post) => {
     loginMutation.mutate(formValues, {
-      onError: () => {
+      onError: (e) => {
+        toast.error(getFormattedError(
+            e.response?.data.detail ||
+              "Ошибка авторизации. Проверьте подключение к интернету"
+          ));
       },
-      onSuccess: async (res: any) => {
-        const accessToken = res.data.access_token;
+      onSuccess: async (res) => {
+        const accessToken = res.access_token;
         await setToken(accessToken);
+        toast.success("Вы успешно авторизовались.")
       }
     });
   };
@@ -119,8 +132,9 @@ export const AuthProvider = ({
       },
       onSuccess: async () => {
         await setToken(null);
-        axiosInstance.defaults.headers.common["Authorization"] = null;
+        authAxiosInstance.defaults.headers.common["Authorization"] = null;
         setUser(null);
+        window.location.reload()
       }
     });
   };
@@ -132,8 +146,16 @@ export const AuthProvider = ({
     refetchProfile: refetchProfile,
     onLogin: onLogin,
     onRegister: onRegister,
-    onLogout
+    onLogout,
+    openLoginModal: () => setIsLoginModalOpened(true),
+    closeLoginModal: () => setIsLoginModalOpened(true),
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>
+    <LoginDialog
+      open={isLoginModalOpened}
+      onOpenChange={setIsLoginModalOpened}
+    />
+    {children}
+  </AuthContext.Provider>;
 };

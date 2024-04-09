@@ -8,11 +8,11 @@ import {
 import {axiosInstance} from "@/lib/axios-instances";
 
 export default function useLogin(): UseMutationResult<
-  AxiosResponse<BearerResponse>,
+  BearerResponse,
   AxiosError<ErrorModel>,
   Body_auth_jwt_login_auth_login_post
 > {
-  const mutationFn = (payload: Body_auth_jwt_login_auth_login_post) => {
+  const mutationFn = (payload: Body_auth_jwt_login_auth_login_post): Promise<BearerResponse> => {
     const formData = new FormData();
     formData.append("username", payload.username);
     formData.append("password", payload.password);

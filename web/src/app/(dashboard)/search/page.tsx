@@ -1,6 +1,9 @@
 // import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import ListServices from "@/app/(dashboard)/search/_components/ListServices";
+import LoginDialog from "@/components/dialogs/LoginDialog";
+import {Button} from "@radix-ui/themes";
+import {LogIn} from "lucide-react";
 
 // import { db } from "@/lib/db";
 // import { SearchInput } from "@/components/search-input";
@@ -38,14 +41,22 @@ const SearchPage = async ({
 
   return (
     <>
-      <div className="px-6 pt-6 md:hidden md:mb-0 block">
-        {/*<SearchInput />*/}
-        Hello teacher
-      </div>
+      {/*<div className="px-6 pt-6 md:hidden md:mb-0 block">*/}
+      {/*  /!*<SearchInput />*!/*/}
+      {/*  Hello teacher*/}
+      {/*</div>*/}
       <div className="p-6 space-y-4">
         {/*<Categories*/}
         {/*  items={categories}*/}
         {/*/>*/}
+
+           {/*<LoginDialog>*/}
+           {/* <Button size="2">*/}
+           {/*   <LogIn className="h-4 w-4 mr-2" />*/}
+           {/*   Войти*/}
+           {/* </Button>*/}
+          {/*</LoginDialog>*/}
+
         <ListServices />
       </div>
     </>

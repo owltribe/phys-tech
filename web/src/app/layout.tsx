@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import {Theme} from "@radix-ui/themes";
 
-import "./globals.css";
 import '@radix-ui/themes/styles.css';
+import "./globals.css";
 
 import ToastProvider from "@/providers/ToasterProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";

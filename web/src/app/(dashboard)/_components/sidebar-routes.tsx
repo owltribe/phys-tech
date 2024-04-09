@@ -1,16 +1,13 @@
 "use client";
 
-import {BarChart, Building2, Compass, Layout, List} from "lucide-react";
+import {BarChart, Building2, Compass, Calendar, List} from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
+import {useAuth} from "@/providers/AuthProvider";
+import {useMemo} from "react";
 
 const guestRoutes = [
-  // {
-  //   icon: Layout,
-  //   label: "Dashboard",
-  //   href: "/",
-  // },
   {
     icon: Compass,
     label: "Поиск услуг",
@@ -21,9 +18,14 @@ const guestRoutes = [
     label: "Организации",
     href: "/organizations",
   },
+  {
+    icon: Calendar,
+    label: "Мероприятия",
+    href: "/events",
+  },
 ];
 
-const teacherRoutes = [
+const organizationRoutes = [
   {
     icon: List,
     label: "Courses",
@@ -38,13 +40,20 @@ const teacherRoutes = [
 
 export const SidebarRoutes = () => {
   const pathname = usePathname();
+  const {user} = useAuth()
 
-  const isTeacherPage = pathname?.includes("/teacher");
+  const isOrganization = pathname?.includes("/teacher");
 
-  const routes = isTeacherPage ? teacherRoutes : guestRoutes;
+  const routes = useMemo(() => {
+    if (user && user.role === "Organization") {
+      return organizationRoutes
+    }
+
+    return guestRoutes
+  }, [user]);
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="space-y-1.5 p-3 flex flex-col w-full">
       {routes.map((route) => (
         <SidebarItem
           key={route.href}
