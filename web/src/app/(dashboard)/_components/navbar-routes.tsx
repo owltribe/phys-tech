@@ -11,7 +11,6 @@ export default function NavbarRoutes() {
       user,
       onLogout,
       openLoginModal,
-      closeLoginModal,
   } = useAuth();
   const pathname = usePathname();
 

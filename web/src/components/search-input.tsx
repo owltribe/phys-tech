@@ -55,8 +55,8 @@ export const SearchInput = () => {
         color="gray"
         variant="soft"
       >
-        <TextField.Slot side="right" className="rounded-r-md">
-          <Search className="h-4 w-4" />
+        <TextField.Slot side="right" className="rounded-r-lg bg-sky-600">
+          <Search className="h-4 w-4 stroke-white" />
         </TextField.Slot>
       </TextField.Root>
     </Box>
