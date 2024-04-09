@@ -6,7 +6,12 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from models.user import User, UserRole
-from src.auth.auth_backend import auth_backend, current_active_user
+from src.auth.auth_backend import (
+    auth_backend_bearer_jwt,
+    auth_backend_cookie_jwt,
+    current_active_user,
+    fastapi_users,
+)
 from src.auth.rbac import rbac
 from src.auth.schemas import (
     UserRead,
@@ -15,17 +20,14 @@ from src.auth.schemas import (
     UserWithOrganizationCreate,
 )
 from src.auth.service import UserService
-from src.auth.utils import get_user_manager
 
 auth_router = APIRouter(prefix="/auth", tags=["Auth"])
 
-fastapi_users = FastAPIUsers[User, uuid.UUID](
-    get_user_manager,
-    [auth_backend],
-)
-
 auth_router.include_router(
-    fastapi_users.get_auth_router(auth_backend),
+    fastapi_users.get_auth_router(auth_backend_bearer_jwt),
+)
+auth_router.include_router(
+    fastapi_users.get_auth_router(auth_backend_cookie_jwt), prefix="/cookies"
 )
 auth_router.include_router(
     fastapi_users.get_register_router(UserRead, UserWithOrganizationCreate),
