@@ -43,7 +43,7 @@ const ServiceCard = ({
             {category}
           </p>
           <p className="text-md md:text-sm font-medium text-slate-700">
-              {formatPrice(price)}
+            {formatPrice(price)}
           </p>
         </div>
       </div>

@@ -6,7 +6,8 @@ import {useAuth} from "@/providers/AuthProvider";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from 'yup';
-import {Button, Dialog, Flex, Separator, Text, TextField} from "@radix-ui/themes";
+import {Button, Dialog, Flex, Text, Link} from "@radix-ui/themes";
+import TextField from "@/components/ui/text-field";
 
 interface FormValues {
  username: string;
@@ -14,11 +15,11 @@ interface FormValues {
 }
 
 const schema = yup.object().shape({
-    username: yup
-      .string()
-      .email("Введите почту корректно")
-      .required("Введите электронную почту"),
-    password: yup.string().required("Введите пароль")
+  username: yup
+    .string()
+    .email("Введите почту корректно")
+    .required("Введите электронную почту"),
+  password: yup.string().required("Введите пароль")
 });
 
 
@@ -38,13 +39,22 @@ export default function LoginDialog({
     formState: { errors },
     reset,
   } = useForm<FormValues>({
-      resolver: yupResolver(schema),
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = (formValues: FormValues) => {
-    onLogin(formValues)
-    onOpenChange?.(false)
-    reset()
+    console.log(formValues, 'formValues')
+    const onSuccess = () => {
+      reset()
+      onOpenChange?.(false)
+    }
+
+    onLogin(
+      formValues,
+      {
+        onSuccess,
+      }
+    )
   };
 
   const handleOnOpenChange = (o: boolean) => {
@@ -55,39 +65,36 @@ export default function LoginDialog({
   return (
     <Dialog.Root open={open} onOpenChange={handleOnOpenChange}>
       <Dialog.Content size="4" maxWidth="400px">
-        <Dialog.Title>
+        <Dialog.Title size="6">
           Войти
         </Dialog.Title>
-        <Dialog.Description size="2" mb="4">
+        <Dialog.Description size="2" mb="6">
           Авторизуйтесь для взаимодействия с контентом.
         </Dialog.Description>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex direction="column" gap="3">
-            <label>
-              <Text as="div" size="2" mb="1" weight="medium">
-                Электронная почта
-              </Text>
-              <TextField.Root
-                  placeholder='Электронная почта'
-                  {...register('username')}
-              />
-            </label>
-            <label>
-              <Text as="div" size="2" mb="1" weight="medium">
-                Пароль
-              </Text>
-              <TextField.Root
-                  size="2"
-                  placeholder='Пароль'
-                  {...register('password')}
-              />
-            </label>
+            <TextField
+              label="Электронная почта"
+              placeholder='Электронная почта'
+              variant="classic"
+              error={errors.username?.message}
+              {...register('username')}
+            />
+            <TextField
+              label="Пароль"
+              placeholder='Пароль'
+              variant="classic"
+              error={errors.password?.message}
+              {...register('password')}
+            />
 
-            <Separator title="Или" my="3" size="4" />
-
-            <Text size="1">
-              Нет аккаунта? Зарегистрироваться
+            <Text my="4" size="1" align='center'>
+              Нет аккаунта?
+              {' '}
+              <Link href="/register" weight="medium">
+                Зарегистрироваться
+              </Link>
             </Text>
 
             <Flex gap="3" mt="4" justify="end">

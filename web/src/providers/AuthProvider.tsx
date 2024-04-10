@@ -25,7 +25,12 @@ interface AuthProps {
   isLoginLoading: boolean;
   isRegisterLoading: boolean;
   refetchProfile: () => void;
-  onLogin: (formValues: Body_auth_jwt_cookie_login_auth_cookies_login_post) => void;
+  onLogin: (
+    formValues: Body_auth_jwt_cookie_login_auth_cookies_login_post,
+    mutateOptions: {
+      onSuccess: () => void
+    }
+  ) => void;
   onLogout: () => void;
   onRegister: (
     formValues: UserWithOrganizationCreate,
@@ -66,7 +71,12 @@ export const AuthProvider = ({
   const registerMutation = useRegister();
   const logoutMutation = useCookiesLogout();
 
-  const onLogin = (formValues: Body_auth_jwt_cookie_login_auth_cookies_login_post) => {
+  const onLogin: AuthProps['onLogin'] = (
+    formValues,
+    {
+      onSuccess,
+    }
+  ) => {
     loginMutation.mutate(formValues, {
       onError: (e) => {
         toast.error(getFormattedError(
@@ -74,10 +84,9 @@ export const AuthProvider = ({
               "Ошибка авторизации. Проверьте подключение к интернету"
           ));
       },
-      onSuccess: async (res) => {
-        const accessToken = res.access_token;
-        // await setToken(accessToken);
+      onSuccess: () => {
         toast.success("Вы успешно авторизовались.")
+        onSuccess()
       }
     });
   };

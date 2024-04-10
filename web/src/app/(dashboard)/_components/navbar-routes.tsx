@@ -2,17 +2,17 @@
 
 import { usePathname } from "next/navigation";
 import {LogIn, LogOut} from "lucide-react";
-import {Button} from "@radix-ui/themes";
+import {Avatar, Button} from "@radix-ui/themes";
 import {SearchInput} from "@/components/search-input";
 import {useAuth} from "@/providers/AuthProvider";
+import UserButton from "@/app/(dashboard)/_components/user-button";
 
 export default function NavbarRoutes() {
+  const pathname = usePathname();
   const {
     user,
-    onLogout,
     openLoginModal,
   } = useAuth();
-  const pathname = usePathname();
 
   const isServicesPage = pathname === "/services";
 
@@ -25,13 +25,10 @@ export default function NavbarRoutes() {
       )}
       <div className="flex items-center gap-x-2">
         {!!user ? (
-          <Button size="2" color="red" variant="outline" onClick={onLogout}>
-            <LogOut className="h-4 w-4 mr-2" />
-            Выйти
-          </Button>
-          ) : (
-          <Button size="2" onClick={openLoginModal}>
-            <LogIn className="h-4 w-4 mr-2" />
+          <UserButton user={user} />
+        ) : (
+          <Button size="2" variant="surface" color="gray" highContrast onClick={openLoginModal}>
+            <LogIn className="h-4 w-4" />
             Войти
           </Button>
         )}
