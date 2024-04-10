@@ -1,17 +1,17 @@
 "use client";
 
-import {BarChart, Building2, Compass, Calendar, List} from "lucide-react";
+import { Building2, Compass, Calendar } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
 import {useAuth} from "@/providers/AuthProvider";
 import {useMemo} from "react";
 
-const guestRoutes = [
+const clientAndGuestRoutes = [
   {
     icon: Compass,
     label: "Поиск услуг",
-    href: "/search",
+    href: "/services",
   },
   {
     icon: Building2,
@@ -27,14 +27,19 @@ const guestRoutes = [
 
 const organizationRoutes = [
   {
-    icon: List,
-    label: "Courses",
-    href: "/teacher/courses",
+    icon: Compass,
+    label: "Поиск услуг",
+    href: "/services",
   },
   {
-    icon: BarChart,
-    label: "Analytics",
-    href: "/teacher/analytics",
+    icon: Building2,
+    label: "Организации",
+    href: "/organizations",
+  },
+  {
+    icon: Calendar,
+    label: "Мероприятия",
+    href: "/events",
   },
 ]
 
@@ -49,7 +54,7 @@ export const SidebarRoutes = () => {
       return organizationRoutes
     }
 
-    return guestRoutes
+    return clientAndGuestRoutes
   }, [user]);
 
   return (

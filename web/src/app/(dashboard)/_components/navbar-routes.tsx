@@ -8,17 +8,17 @@ import {useAuth} from "@/providers/AuthProvider";
 
 export default function NavbarRoutes() {
   const {
-      user,
-      onLogout,
-      openLoginModal,
+    user,
+    onLogout,
+    openLoginModal,
   } = useAuth();
   const pathname = usePathname();
 
-  const isSearchPage = pathname === "/search";
+  const isServicesPage = pathname === "/services";
 
   return (
     <>
-      {isSearchPage && (
+      {isServicesPage && (
         <div className="hidden md:contents">
           <SearchInput />
         </div>

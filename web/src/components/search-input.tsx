@@ -16,13 +16,13 @@ export const SearchInput = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isSearchPage = pathname === '/search'
+  const isServicesPage = pathname === '/services'
   const isOrganizationsPage = pathname === '/organizations'
   const isEventsPage = pathname === '/events'
 
   const searchFieldPlaceholder = useMemo(() => {
-    if (isSearchPage) {
-      return "Поиск услуг..."
+    if (isServicesPage) {
+      return "Поиск услуги по названию и описанию"
     }
     if (isOrganizationsPage) {
       return "Поиск организации..."
@@ -32,13 +32,13 @@ export const SearchInput = () => {
     }
 
     return "Поиск"
-  }, [isEventsPage, isOrganizationsPage, isSearchPage])
+  }, [isEventsPage, isOrganizationsPage, isServicesPage])
 
   useEffect(() => {
     const url = qs.stringifyUrl({
       url: pathname,
       query: {
-        title: debouncedValue,
+        search: debouncedValue,
       }
     }, { skipEmptyString: true, skipNull: true });
 
