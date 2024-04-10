@@ -9,7 +9,7 @@ import useCookiesLogin from "@/hooks/auth/useCookiesLogin";
 import useCookiesLogout from "@/hooks/auth/useCookiesLogout";
 import useRegister from "@/hooks/auth/useRegister";
 import {
-  Body_auth_jwt_login_auth_login_post,
+  Body_auth_jwt_cookie_login_auth_cookies_login_post,
   ErrorModel,
   UserRead,
   UserReadWithOrganization,
@@ -17,7 +17,7 @@ import {
 } from "@/types/generated";
 import toast from "react-hot-toast";
 import {getFormattedError} from "@/lib/error-helper";
-import LoginDialog from "@/components/dialogs/LoginDialog";
+import LoginDialog from "@/components/dialogs/login-dialog";
 import useProfile from "@/hooks/auth/useProfile";
 
 interface AuthProps {
@@ -25,12 +25,12 @@ interface AuthProps {
   isLoginLoading: boolean;
   isRegisterLoading: boolean;
   refetchProfile: () => void;
-  onLogin: (formValues: Body_auth_jwt_login_auth_login_post) => void;
+  onLogin: (formValues: Body_auth_jwt_cookie_login_auth_cookies_login_post) => void;
   onLogout: () => void;
   onRegister: (
     formValues: UserWithOrganizationCreate,
     mutateOptions: MutationOptions<
-      AxiosResponse<UserRead>,
+      UserRead,
       AxiosError<ErrorModel>,
       UserWithOrganizationCreate
     >
@@ -66,7 +66,7 @@ export const AuthProvider = ({
   const registerMutation = useRegister();
   const logoutMutation = useCookiesLogout();
 
-  const onLogin = (formValues: Body_auth_jwt_login_auth_login_post) => {
+  const onLogin = (formValues: Body_auth_jwt_cookie_login_auth_cookies_login_post) => {
     loginMutation.mutate(formValues, {
       onError: (e) => {
         toast.error(getFormattedError(
@@ -85,7 +85,7 @@ export const AuthProvider = ({
   const onRegister = (
     formValues: UserWithOrganizationCreate,
     mutateOptions: MutationOptions<
-      AxiosResponse<UserRead>,
+      UserRead,
       AxiosError<ErrorModel>,
       UserWithOrganizationCreate
     >

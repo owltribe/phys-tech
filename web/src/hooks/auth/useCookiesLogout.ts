@@ -1,7 +1,7 @@
 import {useMutation, UseMutationResult, useQueryClient} from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { ErrorModel } from "@/types/generated";
-import {authAxiosInstance} from "@/lib/axios-instances";
+import {axiosInstance} from "@/lib/axios-instances";
 
 export default function useCookiesLogout(): UseMutationResult<
   AxiosResponse<void>,
@@ -11,7 +11,7 @@ export default function useCookiesLogout(): UseMutationResult<
   const queryClient = useQueryClient()
 
   const mutationFn = async () => {
-    return authAxiosInstance.post("/auth/cookies/logout");
+    return axiosInstance.post("/auth/cookies/logout");
   };
 
   return useMutation({

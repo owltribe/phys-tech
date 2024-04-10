@@ -1,9 +1,7 @@
-'use client'
-
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { ErrorModel, Page_ServiceRead_ } from "@/types/generated";
-import {axiosInstance} from "@/lib/axios-instances";
+import { axiosInstance } from "@/lib/axios-instances";
 
 export default function useServices({
   search,

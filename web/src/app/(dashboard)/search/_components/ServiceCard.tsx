@@ -38,9 +38,9 @@ export default function ServiceCard ({
                 src={imageUrl}
               />
             ) : (
-                <div className="flex flex-1 justify-center items-center">
-                  <Instagram className="h-4 w-4" />
-                </div>
+              <div className="bg-gray-100 flex w-full h-full justify-center items-center">
+                <Instagram className="h-7 w-7" />
+              </div>
             )}
         </div>
         <div className="flex flex-col pt-2 p-3">

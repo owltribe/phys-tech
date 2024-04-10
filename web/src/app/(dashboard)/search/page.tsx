@@ -1,7 +1,7 @@
 // import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import ListServices from "@/app/(dashboard)/search/_components/ListServices";
-import LoginDialog from "@/components/dialogs/LoginDialog";
+import LoginDialog from "@/components/dialogs/login-dialog";
 import {Button} from "@radix-ui/themes";
 import {LogIn} from "lucide-react";
 

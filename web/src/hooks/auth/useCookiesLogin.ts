@@ -2,7 +2,7 @@ import {useMutation, UseMutationResult, useQueryClient} from "@tanstack/react-qu
 import { AxiosError, AxiosResponse } from "axios";
 import {
   BearerResponse,
-  Body_auth_jwt_login_auth_login_post,
+  Body_auth_jwt_cookie_login_auth_cookies_login_post,
   ErrorModel
 } from "@/types/generated";
 import {axiosInstance} from "@/lib/axios-instances";
@@ -10,11 +10,11 @@ import {axiosInstance} from "@/lib/axios-instances";
 export default function useCookiesLogin(): UseMutationResult<
   BearerResponse,
   AxiosError<ErrorModel>,
-  Body_auth_jwt_login_auth_login_post
+  Body_auth_jwt_cookie_login_auth_cookies_login_post
 > {
   const queryClient = useQueryClient()
 
-  const mutationFn = (payload: Body_auth_jwt_login_auth_login_post): Promise<BearerResponse> => {
+  const mutationFn = (payload: Body_auth_jwt_cookie_login_auth_cookies_login_post): Promise<BearerResponse> => {
     const formData = new FormData();
     formData.append("username", payload.username);
     formData.append("password", payload.password);

@@ -41,6 +41,7 @@ const googleSans = localFont({
       style: 'italic',
     },
   ],
+  variable: '--font-google-sans'
 })
 
 export const metadata: Metadata = {
@@ -60,7 +61,6 @@ export default function RootLayout({
         <ReactQueryProvider>
           <Theme
             accentColor="blue"
-            radius="large"
           >
             <AuthProvider>
               {children}
