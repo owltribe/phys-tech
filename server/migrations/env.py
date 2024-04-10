@@ -2,6 +2,9 @@ import os
 import sys
 from logging.config import fileConfig
 
+# Allows to generate enums migration, however you still need to adjust it manually
+# https://pypi.org/project/alembic-postgresql-enum/
+import alembic_postgresql_enum
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 

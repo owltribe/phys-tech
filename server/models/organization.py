@@ -8,10 +8,9 @@ from database import Base
 
 
 class OrganizationCategory(str, enum.Enum):
-    SCIENTIFIC_ORGANIZATION = "Scientific Organization"
+    SCIENTIFIC_INSTITUTE = "Scientific Institute"
     UNIVERSITY = "University"
-    TECHNOPARK = "Technopark"
-    COMMERCIAL_LABORATORY_COMPANY = "Commercial Laboratory Company"
+    COMPANY = "Company"
 
 
 class Organization(Base):
@@ -30,7 +29,7 @@ class Organization(Base):
 
     category: Mapped[OrganizationCategory] = mapped_column(
         Enum(OrganizationCategory, name="organization_category_enum"),
-        default=OrganizationCategory.SCIENTIFIC_ORGANIZATION,
+        default=OrganizationCategory.SCIENTIFIC_INSTITUTE,
         nullable=False,
     )
 
