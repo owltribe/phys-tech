@@ -2,4 +2,4 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type OrganizationCategory = 'Scientific Organization' | 'University' | 'Technopark' | 'Commercial Laboratory Company';
+export type OrganizationCategory = 'Scientific Institute' | 'University' | 'Company';

@@ -7,8 +7,7 @@ import OrganizationCategoriesSelect from "components/fields/OrganizationCategori
 import TextField from "components/fields/TextField";
 import { useAuth } from "providers/AuthProvider";
 import { RegisterScreenProps } from "screens/types";
-import { OrganizationCategory, OrganizationCreate } from "types/generated";
-import { organizationCategories } from "utils/enum-helpers";
+import { OrganizationCategory } from "types/generated";
 import { getFormattedError } from "utils/error-helper";
 import {
   showToastWithGravity,
@@ -76,12 +75,7 @@ const schema = yup.object().shape({
   organization_category: yup
     .string()
     .oneOf<OrganizationCategory>(
-      [
-        "Scientific Organization",
-        "University",
-        "Technopark",
-        "Commercial Laboratory Company"
-      ],
+      ["Scientific Institute", "University", "Company"],
       "Выберите категорию организации"
     )
 });
@@ -111,7 +105,7 @@ const OrganizationForm = ({
       organization_contact: "",
       organization_email: "",
       organization_description: "",
-      organization_category: "Scientific Organization"
+      organization_category: "Scientific Institute"
     },
 
     resolver: yupResolver(schema)

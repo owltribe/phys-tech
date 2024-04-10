@@ -13,17 +13,17 @@ const OrganizationCategoryBadge = ({
   category
 }: OrganizationCategoryBadgeProps) => {
   const badgeColor = useMemo(() => {
-    if (category === "Scientific Organization") {
+    if (category === "Scientific Institute") {
       return mantineColors.indigo[8];
     }
     if (category === "University") {
       return mantineColors.blue[8];
     }
-    if (category === "Technopark") {
+    if (category === "Company") {
       return mantineColors.gray[5];
     }
 
-    return mantineColors.green[8];
+    return mantineColors.gray[5];
   }, [category]);
 
   return (

@@ -37,12 +37,7 @@ const schema = yup.object().shape({
   category: yup
     .string()
     .oneOf<OrganizationCategory>(
-      [
-        "Scientific Organization",
-        "University",
-        "Technopark",
-        "Commercial Laboratory Company"
-      ],
+      ["Scientific Institute", "University", "Company"],
       "Выберите категорию организации"
     )
 });

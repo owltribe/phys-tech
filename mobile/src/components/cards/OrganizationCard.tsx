@@ -1,9 +1,5 @@
-import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
-import { Badge } from "react-native-paper";
 import { OrganizationRead } from "types/generated";
-import { mantineColors } from "utils/colors";
-import { getOrganizationCategoryLabel } from "utils/enum-helpers";
 
 import OrganizationCategoryBadge from "../badges/OrganizationCategoryBadge";
 

@@ -28,32 +28,34 @@ export const getUserRoleLabel = (role: UserRole) => {
   }
 };
 
-export const organizationCategories = [
+export const organizationCategories: {
+  label: string;
+  value: OrganizationCategory;
+}[] = [
   {
-    label: "Научная организация",
-    value: "Scientific Organization"
+    label: "НИИ (Научно-исследовательский институт)",
+    value: "Scientific Institute"
   },
-  { label: "Технопарк", value: "Technopark" },
   {
-    label: "Коммерческая лаборатория",
-    value: "Commercial Laboratory Company"
+    label: "Компания (ТОО/ИП)",
+    value: "Company"
   },
-  { label: "Университет", value: "University" }
+  {
+    label: "ВУЗ (Высшее учебное заведение)",
+    value: "University"
+  }
 ];
 
 export const getOrganizationCategoryLabel = (
   category: OrganizationCategory
 ) => {
-  if (category === "Scientific Organization") {
-    return "Научная Организация";
+  if (category === "Scientific Institute") {
+    return "НИИ (Научно-исследовательский институт)";
   }
   if (category === "University") {
-    return "Университет";
+    return "ВУЗ (Высшее учебное заведение)";
   }
-  if (category === "Technopark") {
-    return "Технопарк";
-  }
-  if (category === "Commercial Laboratory Company") {
-    return "Коммерческая лаборатория";
+  if (category === "Company") {
+    return "Компания (ТОО/ИП)";
   }
 };

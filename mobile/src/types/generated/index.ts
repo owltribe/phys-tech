@@ -4,6 +4,7 @@
 /* eslint-disable */
 
 export type { BearerResponse } from './models/BearerResponse';
+export type { Body_auth_jwt_cookie_login_auth_cookies_login_post } from './models/Body_auth_jwt_cookie_login_auth_cookies_login_post';
 export type { Body_auth_jwt_login_auth_login_post } from './models/Body_auth_jwt_login_auth_login_post';
 export type { Body_upload_my_avatar_auth_me_avatar_post } from './models/Body_upload_my_avatar_auth_me_avatar_post';
 export type { Body_upload_profile_picture_organizations_photo_post } from './models/Body_upload_profile_picture_organizations_photo_post';
