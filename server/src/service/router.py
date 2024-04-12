@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from models import User, UserRole
-from src.auth.auth_backend import current_active_user
+from src.auth.auth_backend import current_active_user, optional_current_active_user
 from src.auth.rbac import rbac
 from src.service.schemas import (
     ServiceCreate,
@@ -57,10 +57,9 @@ def upload_service_image(
 
 
 @services_router.get("/{service_id}", response_model=ServiceRead)
-@rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
 def retrieve(
     service_id: str,
-    current_user: User = Depends(current_active_user),
+    current_user: User = Depends(optional_current_active_user),
     session: Session = Depends(get_db),
 ):
     return service(session).retrieve(
