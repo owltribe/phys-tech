@@ -31,7 +31,7 @@ const OrganizationCategoryBadge = ({
       style={[styles.badge, { backgroundColor: badgeColor }]}
       size={24}
     >
-      {getOrganizationCategoryLabel(category)}
+      {getOrganizationCategoryLabel(category)?.replace("\n", " ")}
     </Badge>
   );
 };

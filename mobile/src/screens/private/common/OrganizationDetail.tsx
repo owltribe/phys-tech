@@ -155,7 +155,9 @@ const styles = StyleSheet.create({
     gap: 12
   },
   itemLabel: {
-    flex: 1,
+    display: "flex",
+    flexWrap: "nowrap",
+    width: "auto",
     color: mantineColors.dark[3],
     fontFamily: "GoogleSans-Regular"
   },

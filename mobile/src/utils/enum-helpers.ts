@@ -50,12 +50,12 @@ export const getOrganizationCategoryLabel = (
   category: OrganizationCategory
 ) => {
   if (category === "Scientific Institute") {
-    return "НИИ (Научно-исследовательский институт)";
+    return "НИИ\n(Научно-исследовательский институт)";
   }
   if (category === "University") {
-    return "ВУЗ (Высшее учебное заведение)";
+    return "ВУЗ\n(Высшее учебное заведение)";
   }
   if (category === "Company") {
-    return "Компания (ТОО/ИП)";
+    return "Компания\n(ТОО/ИП)";
   }
 };
