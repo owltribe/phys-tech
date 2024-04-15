@@ -23,12 +23,10 @@ service = OrganizationService
 
 
 @organizations_router.get("", response_model=Page[OrganizationRead])
-@rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
 def paginated_list(
     organization_filter: OrganizationFilter = FilterDepends(
         OrganizationFilter
     ),
-    current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
     return service(session).paginated_list(organization_filter)
