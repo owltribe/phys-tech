@@ -127,7 +127,7 @@ const ServiceDetail = ({
                 <View style={styles.item}>
                   <Text style={styles.itemLabel}>Организация</Text>
                   <Text
-                    style={styles.itemLink}
+                    style={[styles.itemText, { color: mantineColors.blue[5] }]}
                     onPress={() =>
                       handleNavigateToOrganization(data.data.organization.id)
                     }
@@ -275,14 +275,6 @@ const styles = StyleSheet.create({
     color: mantineColors.dark[5],
     fontFamily: "GoogleSans-Medium"
   },
-  itemLink: {
-    textAlign: "right",
-    flex: 1,
-    color: mantineColors.blue[5],
-    fontFamily: "GoogleSans-MediumItalic",
-    textDecorationLine: "underline"
-  },
-
   image: {
     flex: 1,
     width: "100%"
