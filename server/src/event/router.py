@@ -15,10 +15,8 @@ service = EventService
 
 
 @events_router.get("", response_model=Page[EventRead])
-@rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
 def paginated_list(
     event_filter: EventFilter = FilterDepends(EventFilter),
-    current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
     return service(session).paginated_list(event_filter)
