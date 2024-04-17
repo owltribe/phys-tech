@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import {LogIn, LogOut} from "lucide-react";
-import {Avatar, Button} from "@radix-ui/themes";
+import {LogIn} from "lucide-react";
+import {Button} from "@radix-ui/themes";
 import {SearchInput} from "@/components/search-input";
 import {useAuth} from "@/providers/AuthProvider";
 import UserButton from "@/app/(dashboard)/_components/user-button";
@@ -14,11 +14,15 @@ export default function NavbarRoutes() {
     openLoginModal,
   } = useAuth();
 
-  const isServicesPage = pathname === "/services";
+  const isSearchInputVisible = [
+    '/services',
+    '/organizations',
+    '/events',
+  ].includes(pathname)
 
   return (
     <>
-      {isServicesPage && (
+      {isSearchInputVisible && (
         <div className="hidden md:contents">
           <SearchInput />
         </div>

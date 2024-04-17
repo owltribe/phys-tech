@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, Compass, Calendar } from "lucide-react";
+import {Building2, Compass, CalendarSearch} from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
@@ -19,7 +19,7 @@ const clientAndGuestRoutes = [
     href: "/organizations",
   },
   {
-    icon: Calendar,
+    icon: CalendarSearch,
     label: "Мероприятия",
     href: "/events",
   },
@@ -37,7 +37,7 @@ const organizationRoutes = [
     href: "/organizations",
   },
   {
-    icon: Calendar,
+    icon: CalendarSearch,
     label: "Мероприятия",
     href: "/events",
   },
