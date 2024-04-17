@@ -11,16 +11,14 @@ const ListEvents = () => {
     search: searchParams.get("search")
   })
 
-  console.log('data', data?.items);
-
 
   return (
     <>
-      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4">
-        {data?.items?.length && data?.items?.map((item) => (
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+        {data?.items.map((event) => (
           <EventCard
-            key={item.id}
-            event={item}
+            key={event.id}
+            event={event}
           />
         ))}
       </div>
