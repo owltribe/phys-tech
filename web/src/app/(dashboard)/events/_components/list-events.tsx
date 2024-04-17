@@ -9,9 +9,8 @@ const ListEvents = () => {
   const searchParams = useSearchParams();
 
   const {data, isSuccess} = useEvents({
-    search: searchParams.get("search")
+    search: searchParams.get("search"),
   })
-
 
   return (
     <Container>

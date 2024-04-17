@@ -26,11 +26,11 @@ const EventCard = ({ event }: EventCardProps) => {
         </div>
 
         <Flex pt="2" p="3" direction="column">
-          <Text color="gray" size="2">
+          <Text color="gray" size="2" className="uppercase">
             {fullStartDate}
           </Text>
 
-          <Heading size="4" mt="2" className="line-clamp-2">
+          <Heading size="4" mt="3" className="line-clamp-2">
             {event.name}
           </Heading>
 

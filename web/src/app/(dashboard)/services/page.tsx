@@ -1,5 +1,4 @@
 import ListServices from "@/app/(dashboard)/services/_components/list-services";
-import Head from "next/head";
 import {Metadata} from "next";
 
 export const metadata: Metadata = {
