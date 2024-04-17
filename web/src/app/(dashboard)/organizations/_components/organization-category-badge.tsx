@@ -1,7 +1,7 @@
 import React from "react";
 import {Badge} from "@radix-ui/themes";
 import {OrganizationCategory} from "@/types/generated";
-import {OrganizationCategoryLabel} from "@/lib/enums";
+import {OrganizationCategoryEnum} from "@/lib/enums";
 
 interface OrganizationCategoryBadgeProps {
   category: OrganizationCategory
@@ -18,7 +18,7 @@ const OrganizationCategoryBadge = ({category}: OrganizationCategoryBadgeProps) =
 
   return (
     <Badge color={colors[category]} size="2">
-      {OrganizationCategoryLabel[category]}
+      {OrganizationCategoryEnum[category]}
     </Badge>
   )
 }

@@ -5,10 +5,12 @@ import {axiosInstance} from "@/lib/axios-instances";
 
 export default function useOrganizations({
   search,
-  category__in
+  category__in,
+  category,
 }: {
   search?: string | null;
   category__in?: string[];
+  category?: string | null;
 }): UseQueryResult<
   Page_OrganizationRead_,
   AxiosError<ErrorModel>
@@ -22,12 +24,15 @@ export default function useOrganizations({
     if (!!category__in && !!category__in.length) {
       params.category__in = category__in.join(",");
     }
+    if (category) {
+      params.category = category;
+    }
 
     return axiosInstance.get(`/organizations`, { params: params });
   };
 
   return useQuery({
-    queryKey: ["organizations", search, category__in],
+    queryKey: ["organizations", search, category__in, category],
     queryFn,
   });
 }

@@ -72,6 +72,7 @@ class OrganizationFilter(Filter):
     order_by: List[str] = ["-created_at"]
     search: Optional[str] = None
     category__in: Optional[List[OrganizationCategory]] = None
+    category: Optional[OrganizationCategory] = None
 
     class Constants(Filter.Constants):
         model = Organization

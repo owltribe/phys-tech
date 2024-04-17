@@ -1,9 +1,8 @@
 import Link from "next/link";
 import {OrganizationRead} from "@/types/generated";
 import OrganizationCategoryBadge from "@/app/(dashboard)/organizations/_components/organization-category-badge";
-import {Badge, Flex, Heading, Text} from "@radix-ui/themes";
-import {Building2, Clock, MapPin} from "lucide-react";
-import {formatMinutesToHoursMinutes} from "@/lib/formatters";
+import {Flex, Heading, Text} from "@radix-ui/themes";
+import {Building2} from "lucide-react";
 import Image from "next/image";
 
 interface OrganizationCardProps {
@@ -30,12 +29,12 @@ const OrganizationCard = ({organization}: OrganizationCardProps) => {
         </div>
 
         <Flex pt="2" p="3" direction="column">
-          <Heading size="4" className="line-clamp-2">
+          <Heading size="4" weight="medium" className="line-clamp-2">
             {organization.name}
           </Heading>
 
           {organization.description && (
-            <Text color="gray" size="2" mt="2" className="line-clamp-4">
+            <Text color="gray" size="2" mt="1" className="line-clamp-4">
               {organization.description}
             </Text>
           )}
