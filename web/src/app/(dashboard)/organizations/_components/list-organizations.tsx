@@ -3,6 +3,7 @@
 import {useSearchParams} from "next/navigation";
 import useOrganizations from "@/hooks/organization/useOrganizations";
 import OrganizationCard from "./organization-card";
+import {Container} from "@radix-ui/themes";
 
 const ListOrganizations = () => {
   const searchParams = useSearchParams();
@@ -12,12 +13,12 @@ const ListOrganizations = () => {
   })
 
   return (
-    <>
+    <Container>
       <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-        {data?.items.map((item) => (
+        {data?.items.map((organization) => (
           <OrganizationCard
-            key={item.id}
-            organization={item}
+            key={organization.id}
+            organization={organization}
           />
         ))}
       </div>
@@ -26,7 +27,7 @@ const ListOrganizations = () => {
           <p className="font-googleSans">Нет доступных организаций</p>
         </div>
       )}
-    </>
+    </Container>
   )
 }
 

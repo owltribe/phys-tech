@@ -3,6 +3,7 @@
 import {useSearchParams} from "next/navigation";
 import EventCard from "./event-card";
 import useEvents from "@/hooks/events/useEvents";
+import {Container} from "@radix-ui/themes";
 
 const ListEvents = () => {
   const searchParams = useSearchParams();
@@ -13,7 +14,7 @@ const ListEvents = () => {
 
 
   return (
-    <>
+    <Container>
       <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
         {data?.items.map((event) => (
           <EventCard
@@ -27,7 +28,7 @@ const ListEvents = () => {
           <p className="font-googleSans">Нет доступных мероприятия</p>
         </div>
       )}
-    </>
+    </Container>
   )
 }
 

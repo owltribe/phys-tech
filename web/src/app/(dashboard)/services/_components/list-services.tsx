@@ -3,16 +3,17 @@
 import ServiceCard from "@/app/(dashboard)/services/_components/service-card";
 import useServices from "@/hooks/services/useServices";
 import {useSearchParams} from "next/navigation";
+import {Container} from "@radix-ui/themes";
 
 const ListServices = () => {
   const searchParams = useSearchParams();
 
   const {data, isSuccess} = useServices({
-      search: searchParams.get("search")
+    search: searchParams.get("search")
   })
 
   return (
-    <>
+    <Container>
       <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
         {data?.items.map((item) => (
           <ServiceCard
@@ -30,7 +31,7 @@ const ListServices = () => {
           <p className="font-googleSans">Нет доступных услуг</p>
         </div>
       )}
-    </>
+    </Container>
   )
 }
 

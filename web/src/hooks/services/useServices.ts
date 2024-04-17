@@ -5,16 +5,20 @@ import { axiosInstance } from "@/lib/axios-instances";
 
 export default function useServices({
   search,
-  organizationId
+  organizationId,
+  page,
 }: {
   search?: string | null;
   organizationId?: string;
+  page?: string
 } = {}): UseQueryResult<
   Page_ServiceRead_,
   AxiosError<ErrorModel>
 > {
   const queryFn = () => {
-    const params = {} as Record<string, string>;
+    const params = {
+      size: '20'
+    } as Record<string, string>;
 
     if (search) {
       params.search = search;
