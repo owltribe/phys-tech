@@ -1,3 +1,6 @@
+import datetime
+
+import pytz
 from fastapi import HTTPException, status
 from fastapi_pagination.ext.sqlalchemy import paginate
 from fastapi_pagination.links import Page
@@ -24,7 +27,15 @@ class EventService:
         return instance
 
     def paginated_list(self, event_filter: EventFilter) -> Page[EventRead]:
-        query = select(Event)
+        # Get the current time in Kazakhstan timezone
+        kazakhstan_tz = pytz.timezone("Asia/Almaty")
+        current_time_kazakhstan = datetime.datetime.now(kazakhstan_tz)
+
+        # Query events that start after the current time in Kazakhstan
+        query = select(Event).filter(
+            Event.start_date >= current_time_kazakhstan.date()
+        )
+
         query = event_filter.filter(query)
         query = event_filter.sort(query)
 

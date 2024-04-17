@@ -39,7 +39,7 @@ class EventUpdate(BaseModel):
 
 
 class EventFilter(Filter):
-    order_by: List[str] = ["-start_date"]
+    order_by: List[str] = ["start_date"]
     search: Optional[str] = None
 
     class Constants(Filter.Constants):

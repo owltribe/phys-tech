@@ -37,4 +37,6 @@ fastapi_users = FastAPIUsers[User, uuid.UUID](
     [auth_backend_bearer_jwt, auth_backend_cookie_jwt],
 )
 current_active_user = fastapi_users.current_user(active=True)
-optional_current_active_user = fastapi_users.current_user(active=True, optional=True)
+optional_current_active_user = fastapi_users.current_user(
+    active=True, optional=True
+)

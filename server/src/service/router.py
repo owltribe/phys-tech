@@ -7,7 +7,10 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from models import User, UserRole
-from src.auth.auth_backend import current_active_user, optional_current_active_user
+from src.auth.auth_backend import (
+    current_active_user,
+    optional_current_active_user,
+)
 from src.auth.rbac import rbac
 from src.service.schemas import (
     ServiceCreate,
