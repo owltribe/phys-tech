@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const Sidebar = () => {
   return (
-    <div className="min-h-[calc(100vh-80px)] overflow-y-auto border-r flex flex-col bg-white shadow-sm">
+    <div className="h-full md:h-auto md:min-h-[calc(100vh-80px)] overflow-y-auto border-r flex flex-col bg-white shadow-sm">
       <div className="flex flex-col w-full">
         <SidebarRoutes />
       </div>
