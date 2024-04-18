@@ -15,13 +15,13 @@ export const SearchInput = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isServicesPage = pathname === '/services'
+  const isServicesPage = pathname === '/services' || '/own-services'
   const isOrganizationsPage = pathname === '/organizations'
   const isEventsPage = pathname === '/events'
 
   const searchFieldPlaceholder = useMemo(() => {
     if (isServicesPage) {
-      return "Поиск услуги по названию и описанию"
+      return "Поиск услуги по названию или описанию"
     }
     if (isOrganizationsPage) {
       return "Поиск организации..."

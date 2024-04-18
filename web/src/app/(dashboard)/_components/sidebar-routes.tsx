@@ -1,31 +1,12 @@
 "use client";
 
-import {Building2, Compass, CalendarSearch} from "lucide-react";
-import { usePathname } from "next/navigation";
+import {Building2, Compass, CalendarSearch, Table2} from "lucide-react";
 
 import { SidebarItem } from "./sidebar-item";
 import {useAuth} from "@/providers/AuthProvider";
 import {useMemo} from "react";
 
-const clientAndGuestRoutes = [
-  {
-    icon: Compass,
-    label: "Поиск услуг",
-    href: "/services",
-  },
-  {
-    icon: Building2,
-    label: "Организации",
-    href: "/organizations",
-  },
-  {
-    icon: CalendarSearch,
-    label: "Мероприятия",
-    href: "/events",
-  },
-];
-
-const organizationRoutes = [
+const publicRoutes = [
   {
     icon: Compass,
     label: "Поиск услуг",
@@ -43,11 +24,21 @@ const organizationRoutes = [
   },
 ]
 
-export const SidebarRoutes = () => {
-  const pathname = usePathname();
-  const {user} = useAuth()
+const clientAndGuestRoutes = [
+  ...publicRoutes
+];
 
-  const isOrganization = pathname?.includes("/teacher");
+const organizationRoutes = [
+  ...publicRoutes,
+  {
+    icon: Table2,
+    label: "Мои услуги",
+    href: "/own-services",
+  }
+]
+
+export const SidebarRoutes = () => {
+  const {user} = useAuth()
 
   const routes = useMemo(() => {
     if (user && user.role === "Organization") {

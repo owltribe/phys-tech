@@ -18,6 +18,7 @@ export default function NavbarRoutes() {
     '/services',
     '/organizations',
     '/events',
+    '/own-services',
   ].includes(pathname)
 
   return (
