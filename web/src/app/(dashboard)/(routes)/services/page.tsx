@@ -1,4 +1,4 @@
-import ListServices from "@/app/(dashboard)/services/_components/list-services";
+import ListServices from "@/app/(dashboard)/(routes)/services/_components/list-services";
 import {Metadata} from "next";
 
 export const metadata: Metadata = {

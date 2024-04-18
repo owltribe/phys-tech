@@ -5,13 +5,20 @@ import useOrganizations from "@/hooks/organization/useOrganizations";
 import OrganizationCard from "./organization-card";
 import {Container, Flex, RadioCards, ScrollArea, Text} from "@radix-ui/themes";
 import {OrganizationCategoryEnum} from "@/lib/enums";
-import CategoryItem from "@/app/(dashboard)/organizations/_components/category-item";
+import CategoryItem from "@/app/(dashboard)/(routes)/organizations/_components/category-item";
+import {Suspense} from "react";
+import CardListLoader from "@/components/loaders/card-list-loader";
 
 const ListOrganizations = () => {
   const searchParams = useSearchParams();
   const categorySearchParam = searchParams.get("category")
 
-  const {data, isSuccess} = useOrganizations({
+  const {
+    data,
+    isSuccess,
+    isLoading,
+    isFetching,
+  } = useOrganizations({
     search: searchParams.get("search"),
     category: categorySearchParam
   })
@@ -25,8 +32,8 @@ const ListOrganizations = () => {
 
   return (
     <Container>
-      <ScrollArea scrollbars="horizontal" mb="3">
-        <Flex gap="2">
+      <ScrollArea scrollbars="horizontal">
+        <Flex gap="2" mb="4">
           <CategoryItem href="/organizations" isActive={isAllCategoriesFilterActive}>
             Все категории
           </CategoryItem>
@@ -43,6 +50,8 @@ const ListOrganizations = () => {
       </ScrollArea>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+        {(isLoading || isFetching) && <CardListLoader />}
+
         {data?.items.map((organization) => (
           <OrganizationCard
             key={organization.id}

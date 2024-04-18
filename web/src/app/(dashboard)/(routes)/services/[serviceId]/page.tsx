@@ -5,7 +5,8 @@ import {Instagram} from "lucide-react";
 
 import ActionsCard from "./_components/ActionsCard";
 import {formatPrice} from "@/lib/formatters";
-import ImagesCarousel from "@/app/(dashboard)/services/[serviceId]/_components/ImagesCarousel";
+
+import ImageCarousel from "@/components/image-carousel";
 
 interface ServiceDetailProps {
   params: {
@@ -24,7 +25,7 @@ export async function generateMetadata({
   }
 }
 
-export default async function ServiceDetail({
+async function ServiceDetail({
   params: { serviceId }
 }: ServiceDetailProps) {
   const service = await fetchService(serviceId)
@@ -38,7 +39,7 @@ export default async function ServiceDetail({
               <Card size="3" className="aspect-video overflow-hidden">
                 <div className="absolute inset-y-0 inset-x-0 w-full">
                   {!!service.service_images?.length ? (
-                    <ImagesCarousel images={service.service_images} />
+                    <ImageCarousel images={service.service_images} />
                   ) : (
                     <div className="bg-gray-100 flex w-full h-full justify-center items-center">
                       <Instagram className="h-10 w-10" />
@@ -94,3 +95,5 @@ export default async function ServiceDetail({
     </Theme>
   )
 }
+
+export default ServiceDetail;

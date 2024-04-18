@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {OrganizationRead} from "@/types/generated";
-import OrganizationCategoryBadge from "@/app/(dashboard)/organizations/_components/organization-category-badge";
+import OrganizationCategoryBadge from "@/app/(dashboard)/(routes)/organizations/_components/organization-category-badge";
 import {Flex, Heading, Text} from "@radix-ui/themes";
 import {Building2} from "lucide-react";
 import Image from "next/image";
@@ -28,8 +28,8 @@ const OrganizationCard = ({organization}: OrganizationCardProps) => {
           )}
         </div>
 
-        <Flex pt="2" p="3" direction="column">
-          <Heading size="4" weight="medium" className="line-clamp-2">
+        <Flex p="3" direction="column">
+          <Heading size="3" weight="medium" className="line-clamp-2">
             {organization.name}
           </Heading>
 
@@ -39,7 +39,7 @@ const OrganizationCard = ({organization}: OrganizationCardProps) => {
             </Text>
           )}
 
-          <Flex my="3" gap="2">
+          <Flex mt="3" gap="2">
             <OrganizationCategoryBadge category={organization.category} />
           </Flex>
         </Flex>

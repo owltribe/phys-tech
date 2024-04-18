@@ -3,6 +3,9 @@ const nextConfig = {
   images: {
     domains: ['science-services.fra1.digitaloceanspaces.com'],
   },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

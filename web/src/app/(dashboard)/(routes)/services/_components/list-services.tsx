@@ -1,28 +1,27 @@
 'use client';
 
-import ServiceCard from "@/app/(dashboard)/services/_components/service-card";
+import ServiceCard from "@/app/(dashboard)/(routes)/services/_components/service-card";
 import useServices from "@/hooks/services/useServices";
 import {useSearchParams} from "next/navigation";
 import {Container} from "@radix-ui/themes";
+import CardListLoader from "@/components/loaders/card-list-loader";
 
 const ListServices = () => {
   const searchParams = useSearchParams();
 
-  const {data, isSuccess} = useServices({
+  const {data, isSuccess, isLoading} = useServices({
     search: searchParams.get("search")
   })
 
   return (
     <Container>
       <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-        {data?.items.map((item) => (
+        {isLoading && <CardListLoader />}
+
+        {data?.items.map((service) => (
           <ServiceCard
-            key={item.id}
-            id={item.id}
-            title={item.name}
-            category={item.organization.name || ''}
-            imageUrl={item.service_images?.[0]?.url}
-            price={item.cost}
+            key={service.id}
+            service={service}
           />
         ))}
       </div>

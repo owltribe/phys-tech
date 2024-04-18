@@ -25,20 +25,20 @@ const EventCard = ({ event }: EventCardProps) => {
           </div>
         </div>
 
-        <Flex pt="2" p="3" direction="column">
-          <Text color="gray" size="2" className="uppercase">
+        <Flex p="3" direction="column">
+          <Text color="gray" size="1" className="uppercase">
             {fullStartDate}
           </Text>
 
-          <Heading size="4" mt="3" className="line-clamp-2">
+          <Heading size="4" mt="3" weight="medium" className="line-clamp-2">
             {event.name}
           </Heading>
 
-          <Text color="gray" size="2" mt="2" className="line-clamp-4">
+          <Text color="gray" mt="1" size="2" className="line-clamp-4">
             {event.description}
           </Text>
 
-          <Flex my="3" gap="2">
+          <Flex mt="3" gap="2">
             <Badge size="2">
               <Clock className="h-3 w-3" />
               {formatMinutesToHoursMinutes(event.duration)}

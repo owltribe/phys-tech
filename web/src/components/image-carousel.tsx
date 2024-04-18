@@ -4,13 +4,14 @@ import '@splidejs/react-splide/css';
 // @ts-ignore
 import {Splide, SplideSlide, SplideTrack} from "@splidejs/react-splide";
 
-import { ServiceImageRead } from "@/types/generated";
-
 interface ImageCarouselProps {
-  images: ServiceImageRead[]
+  images: {
+    id: string;
+    url: string
+  }[]
 }
 
-const ImagesCarousel = ({
+const ImageCarousel = ({
   images
 }: ImageCarouselProps) => {
   return (
@@ -42,4 +43,4 @@ const ImagesCarousel = ({
   )
 }
 
-export default ImagesCarousel
+export default ImageCarousel
