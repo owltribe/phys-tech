@@ -9,7 +9,7 @@ export default function useServices({
   page,
 }: {
   search?: string | null;
-  organizationId?: string;
+  organizationId?: string | null;
   page?: string
 } = {}): UseQueryResult<
   Page_ServiceRead_,

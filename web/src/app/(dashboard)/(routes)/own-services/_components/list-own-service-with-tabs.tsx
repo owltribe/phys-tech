@@ -32,7 +32,7 @@ const ListOwnServiceWithTabs = () => {
         </TabNav.Link>
       </TabNav.Root>
 
-      {!isServiceRequestsActive && <ListServices />}
+      {!isServiceRequestsActive && <ListServices organizationId={user?.organization?.id} />}
       {isServiceRequestsActive && <ListServiceRequestsTable />}
 
       {isSuccess && data?.total === 0 && (

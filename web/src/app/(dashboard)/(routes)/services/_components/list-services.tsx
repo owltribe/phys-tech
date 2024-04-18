@@ -6,11 +6,16 @@ import {useSearchParams} from "next/navigation";
 import {Container} from "@radix-ui/themes";
 import CardListLoader from "@/components/loaders/card-list-loader";
 
-const ListServices = () => {
+interface ListServicesProps {
+  organizationId?: string | null
+}
+
+const ListServices = ({organizationId}: ListServicesProps) => {
   const searchParams = useSearchParams();
 
   const {data, isSuccess, isLoading} = useServices({
-    search: searchParams.get("search")
+    search: searchParams.get("search"),
+    organizationId: organizationId
   })
 
   return (
