@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['science-services.fra1.digitaloceanspaces.com'],
-  },
+  output: 'standalone',
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
