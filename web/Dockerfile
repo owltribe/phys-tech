@@ -22,9 +22,6 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Set production environment variable
-ENV NODE_ENV=production
-
 # Create a non-root user and group
 RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
 
