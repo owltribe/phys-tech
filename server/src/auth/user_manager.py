@@ -15,6 +15,7 @@ from database import async_session_maker
 from models.organization import Organization
 from models.user import UserRole
 from src.auth.schemas import UserRead, UserWithOrganizationCreate
+from src.sendgrid.service import SendgridService
 
 
 class UserManager(
@@ -22,6 +23,8 @@ class UserManager(
 ):
     reset_password_token_secret = AUTH_SECRET
     verification_token_secret = AUTH_SECRET
+
+    sendgrid_service = SendgridService()
 
     async def create(
         self,
@@ -85,14 +88,22 @@ class UserManager(
                 except:
                     raise HTTPException(
                         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                        detail="Ошибка при созданий организации",
+                        detail="Ошибка при создании организации",
                     )
                     # await session.rollback()
 
-    # async def on_after_forgot_password(
-    #     self, user: User, token: str, request: Optional[Request] = None
-    # ):
-    #     print(f"User {user.id} has forgot their password. Reset token: {token}")
+    async def on_after_forgot_password(
+        self,
+        user,
+        token: str,
+        request: Optional[Request] = None,
+    ):
+        if user and token:
+            print(
+                f"User {user.email} has forgot their password. Reset token: {token}"
+            )
+            self.sendgrid_service.send_reset_password_email(user.email, token)
+
     #
     # async def on_after_request_verify(
     #     self, user: User, token: str, request: Optional[Request] = None

@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+ENVIRONMENT = os.environ.get("ENVIRONMENT", "development")
+
 DB_HOST = os.environ.get("DB_HOST")
 DB_PORT = os.environ.get("DB_PORT")
 DB_NAME = os.environ.get("DB_NAME")
@@ -16,4 +18,4 @@ S3_REGION_NAME = os.environ.get("S3_REGION_NAME")
 S3_ACCESS_KEY_ID = os.environ.get("S3_ACCESS_KEY_ID")
 S3_SECRET_ACCESS_KEY = os.environ.get("S3_SECRET_ACCESS_KEY")
 
-ENVIRONMENT = os.environ.get("ENVIRONMENT", "development")
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
