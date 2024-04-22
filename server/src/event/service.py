@@ -27,14 +27,7 @@ class EventService:
         return instance
 
     def paginated_list(self, event_filter: EventFilter) -> Page[EventRead]:
-        # Get the current time in Kazakhstan timezone
-        kazakhstan_tz = pytz.timezone("Asia/Almaty")
-        current_time_kazakhstan = datetime.datetime.now(kazakhstan_tz)
-
-        # Query events that start after the current time in Kazakhstan
-        query = select(Event).filter(
-            Event.start_date >= current_time_kazakhstan.date()
-        )
+        query = select(Event)
 
         query = event_filter.filter(query)
         query = event_filter.sort(query)
