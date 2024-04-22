@@ -12,19 +12,19 @@ const OrganizationCard = ({organization}: OrganizationCardProps) => {
   return (
     <Link href={`/organizations/${organization.id}`}>
       <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg h-full">
-        <div className="relative w-full aspect-video overflow-hidden">
-          {organization.photo ? (
-            <img
-              className="object-cover"
-              alt={organization.name}
-              src={organization.photo}
-            />
-          ) : (
-            <div className="bg-gray-100 flex w-full h-full justify-center items-center">
-              <Building2 className="h-7 w-7" />
-            </div>
-          )}
-        </div>
+        {!!organization.photo ? (
+          <img
+            className="w-full aspect-video object-cover"
+            alt={organization.name}
+            src={organization.photo}
+          />
+        ) : (
+          <div
+            className="relative w-full aspect-video bg-gray-100 flex justify-center items-center"
+          >
+            <Building2 className="h-7 w-7" />
+          </div>
+        )}
 
         <Flex p="3" direction="column">
           <Heading size="3" weight="medium" className="line-clamp-2">

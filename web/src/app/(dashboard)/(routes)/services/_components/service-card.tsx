@@ -14,19 +14,19 @@ const ServiceCard = ({
   return (
     <Link href={`/services/${service.id}`}>
       <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg h-full">
-        <div className="relative w-full aspect-video overflow-hidden">
-          {!!service.service_images?.length ? (
-            <img
-              className="object-cover"
-              alt={service.name}
-              src={service.service_images[0].url}
-            />
-          ) : (
-            <div className="bg-gray-100 flex w-full h-full justify-center items-center">
-              <Instagram className="h-7 w-7" />
-            </div>
-          )}
-        </div>
+        {!!service.service_images?.length ? (
+          <img
+            className="w-full aspect-video object-cover"
+            alt={service.name}
+            src={service.service_images[0].url}
+          />
+        ) : (
+          <div
+            className="relative w-full aspect-video bg-gray-100 flex justify-center items-center"
+          >
+            <Instagram className="h-7 w-7" />
+          </div>
+        )}
         <Flex p="3" direction="column">
           <Text color="gray" size="1">
             {service.organization.name}
