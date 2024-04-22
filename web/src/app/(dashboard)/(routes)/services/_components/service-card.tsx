@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import {Banknote, Instagram} from "lucide-react";
 import {formatPrice} from "@/lib/formatters";
@@ -17,8 +16,7 @@ const ServiceCard = ({
       <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg h-full">
         <div className="relative w-full aspect-video overflow-hidden">
           {!!service.service_images?.length ? (
-            <Image
-              fill
+            <img
               className="object-cover"
               alt={service.name}
               src={service.service_images[0].url}

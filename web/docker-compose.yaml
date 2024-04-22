@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  next:
+    container_name: science-services-next
+    env_file:
+      - .env
+    build:
+      context: .
+      target: production
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - shared_network
+
+networks:
+  shared_network: {}

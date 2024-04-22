@@ -3,7 +3,6 @@ import {OrganizationRead} from "@/types/generated";
 import OrganizationCategoryBadge from "@/app/(dashboard)/(routes)/organizations/_components/organization-category-badge";
 import {Flex, Heading, Text} from "@radix-ui/themes";
 import {Building2} from "lucide-react";
-import Image from "next/image";
 
 interface OrganizationCardProps {
   organization: OrganizationRead
@@ -15,8 +14,7 @@ const OrganizationCard = ({organization}: OrganizationCardProps) => {
       <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg h-full">
         <div className="relative w-full aspect-video overflow-hidden">
           {organization.photo ? (
-            <Image
-              fill
+            <img
               className="object-cover"
               alt={organization.name}
               src={organization.photo}
