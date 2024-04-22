@@ -22,8 +22,12 @@ from src.service_request.router import service_request_router
 app = FastAPI()
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
+    CORSMiddleware(),
+    allow_origins=[
+        "*",
+        "http://localhost:3000",
+        "https://octopus-app-m6bno.ondigitalocean.app/",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
