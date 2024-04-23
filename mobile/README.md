@@ -11,5 +11,8 @@ Examples of using:
 * P.S. you can download this app from app store or play market 
 
 
-To build apk:
+To build APK:
 - eas build -p android --profile preview_apk
+
+To build production AAB:
+- eas build --platform android
