@@ -16,6 +16,7 @@ cookie_transport = CookieTransport(
     cookie_max_age=3600,
     cookie_domain="octopus-app-m6bno.ondigitalocean.app",
     cookie_name="scienceservicesauth",
+    cookie_samesite="none"
 )
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
