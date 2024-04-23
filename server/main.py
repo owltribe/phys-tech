@@ -26,7 +26,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "https://octopus-app-m6bno.ondigitalocean.app/services",
-        "*"
+        "*",
     ],
     allow_credentials=True,
     allow_methods=["*"],

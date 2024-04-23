@@ -1,7 +1,4 @@
-import uuid
-
 from fastapi import APIRouter, Depends, File, UploadFile, status
-from fastapi_users import FastAPIUsers
 from sqlalchemy.orm import Session
 
 from database import get_db

@@ -12,7 +12,11 @@ from config import AUTH_SECRET
 from models import User
 from src.auth.utils import get_user_manager
 
-cookie_transport = CookieTransport(cookie_max_age=3600)
+cookie_transport = CookieTransport(
+    cookie_max_age=3600,
+    cookie_domain="octopus-app-m6bno.ondigitalocean.app",
+    cookie_name="scienceservicesauth",
+)
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
 
