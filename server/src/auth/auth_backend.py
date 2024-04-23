@@ -14,7 +14,6 @@ from src.auth.utils import get_user_manager
 
 cookie_transport = CookieTransport(
     cookie_max_age=3600,
-    cookie_domain="octopus-app-m6bno.ondigitalocean.app",
     cookie_name="scienceservicesauth",
     cookie_samesite="none"
 )
