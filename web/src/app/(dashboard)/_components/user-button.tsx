@@ -6,6 +6,7 @@ import {useAuth} from "@/providers/AuthProvider";
 import {Building2, LogOut, User2} from "lucide-react";
 import {useState} from "react";
 import ProfileDialog from "@/components/dialogs/profile-dialog";
+import {getNonCachingImgUrl} from "@/lib/utils";
 
 interface UserButtonProps {
   user: UserReadWithOrganization
@@ -20,7 +21,7 @@ const UserButton = ({user}: UserButtonProps) => {
 
   const isOrganization = user.role === 'Organization'
 
-  const roleBadgeColor = isOrganization ? 'green' : 'blue'
+  const roleColor = isOrganization ? 'green' : 'blue'
   const roleBadgeText = isOrganization ? 'Организация' : 'Клиент'
 
   const handleOpenProfileDialog = () => {
@@ -34,9 +35,9 @@ const UserButton = ({user}: UserButtonProps) => {
           <Box>
             <Avatar
               radius="full"
-              src={user.avatar || undefined}
+              src={getNonCachingImgUrl(user.avatar)}
               fallback={`${user.first_name[0]}${user.last_name[0]}`}
-              color={roleBadgeColor}
+              color={roleColor}
             />
           </Box>
         </DropdownMenu.Trigger>
@@ -53,7 +54,7 @@ const UserButton = ({user}: UserButtonProps) => {
             </Text>
 
             <Flex>
-              <Badge color={roleBadgeColor} variant="outline">
+              <Badge color={roleColor} variant="outline">
                 {roleBadgeText}
               </Badge>
             </Flex>
