@@ -1,11 +1,30 @@
 ###  Getting started:
   #### Running manually
-  - Add .env file with given credentials  
-  - Activate venv: `poetry shell`
+
+  Server Environment Variables
+  Because app depends on database and storage it is important to provide environment variable
+  securily in .env
+  - Add .env file with given credentials (see .env-sample file for required environments)
+
+  Python Environment
+  There are currently two ways how to manage python virtual enironment
+  1. using pip and venv
+  2. using poetry - it is environment and package manager for the python
+
+  PIP
+  - 
   - Install dependencies: `pip install -r requirements.txt`
+
+  Poetry (Recommended)
+  - if new to poetry please follow documentation - https://python-poetry.org/docs/
+  - Activate venv: `poetry shell`
+  - Install dependencies: `poetry install`
+  
+  Runing the Server
   - Run server: `uvicorn main:app --reload`
 
   #### Running using Docker
+  Database is strongly recommended to be run via docker.
   - Add .env file with given credentials
   - `docker-compose -f docker-compose.dev.yml up --build`
 
