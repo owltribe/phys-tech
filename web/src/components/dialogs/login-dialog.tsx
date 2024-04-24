@@ -8,6 +8,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from 'yup';
 import {Button, Dialog, Flex, Text, Link} from "@radix-ui/themes";
 import TextField from "@/components/ui/text-field";
+import PasswordField from "@/components/ui/password-field";
 
 interface FormValues {
  username: string;
@@ -43,7 +44,6 @@ export default function LoginDialog({
   });
 
   const onSubmit = (formValues: FormValues) => {
-    console.log(formValues, 'formValues')
     const onSuccess = () => {
       reset()
       onOpenChange?.(false)
@@ -75,13 +75,14 @@ export default function LoginDialog({
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex direction="column" gap="3">
             <TextField
+              type="email"
               label="Электронная почта"
               placeholder='Электронная почта'
               variant="classic"
               error={errors.username?.message}
               {...register('username')}
             />
-            <TextField
+            <PasswordField
               label="Пароль"
               placeholder='Пароль'
               variant="classic"
