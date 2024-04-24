@@ -15,7 +15,7 @@ export const SearchInput = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isServicesPage = pathname === '/services' || '/own-services'
+  const isServicesPage = ['/services', '/own-services'].includes(pathname)
   const isOrganizationsPage = pathname === '/organizations'
   const isEventsPage = pathname === '/events'
 

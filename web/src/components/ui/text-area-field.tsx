@@ -1,17 +1,17 @@
 'use client'
 
 import React from "react";
-import {Text, TextField as RadixTextField} from "@radix-ui/themes";
+import {Text, TextArea, TextAreaProps} from "@radix-ui/themes";
 
-interface TextFieldProps extends RadixTextField.RootProps {
+interface TextAreaFieldProps extends TextAreaProps {
   label: string;
   error?: string;
   wrapperClassName?: string;
 }
 
-const TextField = React.forwardRef<
-  React.ElementRef<typeof RadixTextField.Root>,
-  TextFieldProps
+const TextAreaField = React.forwardRef<
+  React.ElementRef<typeof TextArea>,
+  TextAreaFieldProps
 >((
   {
     label,
@@ -31,7 +31,7 @@ const TextField = React.forwardRef<
       <Text as="div" size="2" mb="1" weight="medium">
         {label}
       </Text>
-      <RadixTextField.Root
+      <TextArea
         ref={ref}
         variant={handledVariant}
         color={handledColor}
@@ -46,6 +46,6 @@ const TextField = React.forwardRef<
   )
 })
 
-TextField.displayName = RadixTextField.Root.displayName
+TextAreaField.displayName = TextArea.displayName
 
-export default TextField
+export default TextAreaField

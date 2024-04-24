@@ -173,6 +173,7 @@ const ClientForm = ({
             mode="outlined"
             label="Пароль"
             autoComplete="password"
+            textContentType="password"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
