@@ -1,9 +1,9 @@
 'use client'
 
-import {Avatar, Badge, DropdownMenu, Flex, Heading, Text} from "@radix-ui/themes";
+import {Avatar, Badge, Box, DropdownMenu, Flex, Heading, Text} from "@radix-ui/themes";
 import {UserReadWithOrganization} from "@/types/generated";
 import {useAuth} from "@/providers/AuthProvider";
-import {Building2, LogOut, User, User2} from "lucide-react";
+import {Building2, LogOut, User2} from "lucide-react";
 
 interface UserButtonProps {
   user: UserReadWithOrganization
@@ -21,11 +21,14 @@ const UserButton = ({user}: UserButtonProps) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <Avatar
-          radius="full"
-          src={user.avatar || undefined}
-          fallback={user.first_name[0] + user.last_name[0]}
-        />
+        <Box>
+          <Avatar
+            radius="full"
+            src={user.avatar || undefined}
+            fallback={`${user.first_name[0]}${user.last_name[0]}`}
+            color={roleBadgeColor}
+          />
+        </Box>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <Flex direction="column" py="3" px="3" gap="1">
