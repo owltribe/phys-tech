@@ -14,7 +14,7 @@ export default function useUpdateProfile(): UseMutationResult<
 > {
   const queryClient = useQueryClient();
 
-  const mutationFn = (payload: UserUpdate) => {
+  const mutationFn = (payload: UserUpdate): Promise<UserRead> => {
     return axiosInstance.patch(`/auth/me`, payload);
   };
 

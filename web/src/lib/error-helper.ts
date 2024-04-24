@@ -15,7 +15,7 @@ const formatObjectToString = (obj: Record<string, string | number>): string => {
 };
 
 export const getFormattedError = (
-  errorDetail: ErrorModel["detail"]
+  errorDetail: ErrorModel["detail"] | any
 ): string => {
   if (
     typeof errorDetail === "object" &&

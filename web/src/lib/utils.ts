@@ -5,6 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getNonCachingImgUrl(image: string | undefined) {
+export function getNonCachingImgUrl(image: string | undefined | null) {
  return !!image ? `${image}?${new Date().getTime()}` : undefined;
 }

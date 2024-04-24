@@ -8,13 +8,13 @@ import { ErrorModel, OrganizationRead } from "@/types/generated";
 import {axiosInstance} from "@/lib/axios-instances";
 
 export default function useUploadAvatar(): UseMutationResult<
-  OrganizationRead,
+  void,
   AxiosError<ErrorModel>,
   FormData
 > {
   const queryClient = useQueryClient();
 
-  const mutationFn = (formData: FormData) => {
+  const mutationFn = (formData: FormData): Promise<void> => {
     return axiosInstance.post(`/auth/me/avatar`, formData, {
       headers: {
         "Content-Type": "multipart/form-data"

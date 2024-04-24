@@ -66,6 +66,7 @@ export default function ProfileDialog({
 
   const [avatarImage, setAvatarImage] = useState<string>();
 
+  // @ts-ignore
   const localAvatarImageUrl = !!avatarImage ? URL.createObjectURL(avatarImage) : undefined
   const preventCachingAvatarImageUrl = getNonCachingImgUrl(user.avatar)
 
@@ -80,7 +81,7 @@ export default function ProfileDialog({
   const onSubmit = (formValues: FormValues) => {
     updateProfileMutation.mutate(formValues, {
       onError: (error) => {
-        toast.error('Ошибка обновления профиля', getFormattedError(error.response?.data.detail))
+        toast.error(`Ошибка обновления профиля. ${getFormattedError(error.response?.data.detail)}`)
       },
       onSuccess: () => {
         toast.success('Профиль успешно обновлен')
@@ -89,12 +90,14 @@ export default function ProfileDialog({
     });
   };
 
-  const handleChangeAvatar = (e: React.ChangeEventHandler<HTMLInputElement>) => {
+  const handleChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    // @ts-ignore
     setAvatarImage(e.target.files[0]);
   }
 
   const handleUploadAvatar = () => {
     const formData = new FormData();
+    // @ts-ignore
     formData.append("image", avatarImage);
 
     uploadAvatarMutation.mutate(formData, {
