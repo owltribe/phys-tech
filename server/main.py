@@ -5,6 +5,7 @@ from fastapi_pagination import add_pagination
 from sqladmin import Admin
 from starlette.middleware.cors import CORSMiddleware
 
+from config import ENVIRONMENT
 from database import sync_engine
 from src.auth.admin import UserAdmin, admin_authentication_backend
 from src.auth.router import auth_router
@@ -21,13 +22,20 @@ from src.service_request.router import service_request_router
 
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
+if ENVIRONMENT == "production":
+    allow_origins = [
         "http://localhost:3000",
         "https://octopus-app-m6bno.ondigitalocean.app/services",
         "*",
-    ],
+    ]
+else:
+    allow_origins = [
+        "http://localhost:3000",
+    ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

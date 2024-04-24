@@ -1,4 +1,5 @@
 import uuid
+from typing import Literal
 
 from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import (
@@ -8,14 +9,18 @@ from fastapi_users.authentication import (
     JWTStrategy,
 )
 
-from config import AUTH_SECRET
+from config import AUTH_SECRET, ENVIRONMENT
 from models import User
 from src.auth.utils import get_user_manager
+
+cookie_samesite: Literal["lax", "none"] = (
+    "none" if ENVIRONMENT == "production" else "lax"
+)
 
 cookie_transport = CookieTransport(
     cookie_max_age=3600,
     cookie_name="scienceservicesauth",
-    cookie_samesite="none"
+    cookie_samesite=cookie_samesite,
 )
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
