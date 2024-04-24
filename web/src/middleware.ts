@@ -2,7 +2,10 @@ import type {NextRequest} from 'next/server'
 import {NextResponse} from 'next/server'
 
 export function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname === '/register' && request.cookies.has('scienceservicesauth')) {
+  if (
+    ['/register', '/own-services'].includes(request.nextUrl.pathname)
+    && request.cookies.has('scienceservicesauth')
+  ) {
     return NextResponse.redirect(new URL('/services', request.url))
   }
 
@@ -10,5 +13,8 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/register',
+  matcher: [
+    '/register',
+    '/own-services'
+  ],
 }
