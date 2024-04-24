@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import {Button, Dialog, Flex, Text, Link} from "@radix-ui/themes";
 import TextField from "@/components/ui/text-field";
 import PasswordField from "@/components/ui/password-field";
+import {usePathname, useRouter} from "next/navigation";
 
 interface FormValues {
  username: string;
@@ -32,6 +33,8 @@ export default function LoginDialog({
   open,
   onOpenChange,
 }: LoginDialogProps) {
+  const pathname = usePathname()
+  const router = useRouter()
   const {onLogin, isLoginLoading} = useAuth()
 
   const {
@@ -47,6 +50,10 @@ export default function LoginDialog({
     const onSuccess = () => {
       reset()
       onOpenChange?.(false)
+
+      if (pathname === '/register') {
+        router.replace('/services')
+      }
     }
 
     onLogin(
