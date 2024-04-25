@@ -15,6 +15,8 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/register',
-    '/own-services'
+    '/own-services',
+    '/reset-password',
+    '/forget-password',
   ],
 }

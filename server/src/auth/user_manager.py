@@ -10,7 +10,7 @@ from fastapi_users import (
     schemas,
 )
 
-from config import AUTH_SECRET
+from config import AUTH_SECRET, BASE_CLIENT_URL
 from database import async_session_maker
 from models.organization import Organization
 from models.user import UserRole
@@ -102,7 +102,17 @@ class UserManager(
             print(
                 f"User {user.email} has forgot their password. Reset token: {token}"
             )
-            self.sendgrid_service.send_reset_password_email(user.email, token)
+
+            reset_password_link_url = (
+                f"{BASE_CLIENT_URL}/reset-password?token={token}"
+            )
+            user_full_name = f"{user.first_name} {user.last_name}"
+
+            self.sendgrid_service.send_reset_password_email(
+                to_email=user.email,
+                url=reset_password_link_url,
+                full_name=user_full_name,
+            )
 
     #
     # async def on_after_request_verify(
