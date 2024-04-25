@@ -10,11 +10,12 @@ from fastapi_users import (
     schemas,
 )
 
-from config import AUTH_SECRET
+from config import AUTH_SECRET, BASE_CLIENT_URL
 from database import async_session_maker
 from models.organization import Organization
 from models.user import UserRole
 from src.auth.schemas import UserRead, UserWithOrganizationCreate
+from src.sendgrid.service import SendgridService
 
 
 class UserManager(
@@ -22,6 +23,8 @@ class UserManager(
 ):
     reset_password_token_secret = AUTH_SECRET
     verification_token_secret = AUTH_SECRET
+
+    sendgrid_service = SendgridService()
 
     async def create(
         self,
@@ -85,14 +88,32 @@ class UserManager(
                 except:
                     raise HTTPException(
                         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                        detail="Ошибка при созданий организации",
+                        detail="Ошибка при создании организации",
                     )
                     # await session.rollback()
 
-    # async def on_after_forgot_password(
-    #     self, user: User, token: str, request: Optional[Request] = None
-    # ):
-    #     print(f"User {user.id} has forgot their password. Reset token: {token}")
+    async def on_after_forgot_password(
+        self,
+        user,
+        token: str,
+        request: Optional[Request] = None,
+    ):
+        if user and token:
+            print(
+                f"User {user.email} has forgot their password. Reset token: {token}"
+            )
+
+            reset_password_link_url = (
+                f"{BASE_CLIENT_URL}/reset-password?token={token}"
+            )
+            user_full_name = f"{user.first_name} {user.last_name}"
+
+            self.sendgrid_service.send_reset_password_email(
+                to_email=user.email,
+                url=reset_password_link_url,
+                full_name=user_full_name,
+            )
+
     #
     # async def on_after_request_verify(
     #     self, user: User, token: str, request: Optional[Request] = None

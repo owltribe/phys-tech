@@ -28,7 +28,7 @@ const TextAreaField = React.forwardRef<
 
   return (
     <label className={wrapperClassName}>
-      <Text as="div" size="2" mb="1" weight="medium">
+      <Text as="div" size="2" mb="1" weight="medium" className="text-gray-700">
         {label}
       </Text>
       <TextArea
