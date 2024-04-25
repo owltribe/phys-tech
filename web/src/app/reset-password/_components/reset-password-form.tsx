@@ -1,7 +1,7 @@
 'use client'
 
-import React, {useState} from "react";
-import {AlertDialog, Button, Flex, Heading} from "@radix-ui/themes";
+import React from "react";
+import { Button, Heading} from "@radix-ui/themes";
 import {useAuth} from "@/providers/AuthProvider";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -12,7 +12,6 @@ import PasswordField from "@/components/ui/password-field";
 import {useRouter, useSearchParams} from "next/navigation";
 
 interface FormValues {
-  email: string;
   password: string;
   rePassword: string;
 }
@@ -52,7 +51,7 @@ const ResetPasswordForm = () => {
 
     if (token) {
       const payload = {
-        ...formValues,
+        password: formValues.password,
         token: token,
       }
 
