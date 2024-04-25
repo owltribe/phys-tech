@@ -24,8 +24,7 @@ app = FastAPI()
 
 if ENVIRONMENT == "production":
     allow_origins = [
-        "http://localhost:3000",
-        "https://octopus-app-m6bno.ondigitalocean.app/services",
+        "https://octopus-app-m6bno.ondigitalocean.app",
         "https://science.owltribe.dev",
         "*",
     ]
