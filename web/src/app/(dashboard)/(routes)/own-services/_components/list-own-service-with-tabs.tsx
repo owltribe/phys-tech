@@ -1,18 +1,21 @@
 'use client';
 
-import ServiceCard from "@/app/(dashboard)/(routes)/services/_components/service-card";
 import useServices from "@/hooks/services/useServices";
-import {Container, TabNav} from "@radix-ui/themes";
-import CardListLoader from "@/components/loaders/card-list-loader";
+import {Button, Container, Flex, TabNav} from "@radix-ui/themes";
 import {useAuth} from "@/providers/AuthProvider";
 import Link from "next/link";
 import {useSearchParams} from "next/navigation";
 import ListServiceRequestsTable from "@/app/(dashboard)/(routes)/own-services/_components/list-service-requests-table";
 import ListServices from "@/app/(dashboard)/(routes)/services/_components/list-services";
+import {PlusCircle} from "lucide-react";
+import ServiceCreationDialog from "@/components/dialogs/create-service-dialog";
+import {useState} from "react";
 
 const ListOwnServiceWithTabs = () => {
   const searchParams = useSearchParams()
   const {user} = useAuth();
+
+  const [isCreateDialogOpened, setIsCreateDialogOpened] = useState(false)
 
   const {data, isSuccess, isLoading} = useServices({
     search: searchParams.get("search"),
@@ -21,16 +24,27 @@ const ListOwnServiceWithTabs = () => {
 
   const isServiceRequestsActive = searchParams?.get('tab') === 'service-requests'
 
+  const handleOpenCreateDialog = () => {
+    setIsCreateDialogOpened(true)
+  }
+
   return (
     <Container>
-      <TabNav.Root mb="4">
-        <TabNav.Link asChild active={!isServiceRequestsActive}>
-          <Link href="/own-services">Мои услуги</Link>
-        </TabNav.Link>
-        <TabNav.Link asChild active={isServiceRequestsActive}>
-          <Link href="/own-services?tab=service-requests">Заявки на услуги</Link>
-        </TabNav.Link>
-      </TabNav.Root>
+      <div className="flex flex-col md:flex-row justify-between gap-6 mb-4">
+        <TabNav.Root>
+          <TabNav.Link asChild active={!isServiceRequestsActive}>
+            <Link href="/own-services">Мои услуги</Link>
+          </TabNav.Link>
+          <TabNav.Link asChild active={isServiceRequestsActive}>
+            <Link href="/own-services?tab=service-requests">Заявки на услуги</Link>
+          </TabNav.Link>
+        </TabNav.Root>
+
+        <Button onClick={handleOpenCreateDialog}>
+          <PlusCircle className="h-4 w-4" />
+          Добавить услугу
+        </Button>
+      </div>
 
       {!isServiceRequestsActive && <ListServices organizationId={user?.organization?.id} />}
       {isServiceRequestsActive && <ListServiceRequestsTable />}
@@ -40,6 +54,8 @@ const ListOwnServiceWithTabs = () => {
           <p className="font-googleSans">Нет доступных услуг</p>
         </div>
       )}
+
+      <ServiceCreationDialog open={isCreateDialogOpened} onOpenChange={setIsCreateDialogOpened} />
     </Container>
   )
 }

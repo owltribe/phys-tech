@@ -12,6 +12,14 @@ export function middleware(request: NextRequest) {
   ) {
     return NextResponse.redirect(new URL('/services', request.url))
   }
+  if (
+    [
+      '/own-services',
+    ].includes(request.nextUrl.pathname)
+    && !request.cookies.has('scienceservicesauth')
+  ) {
+    return NextResponse.redirect(new URL('/services', request.url))
+  }
 
   return NextResponse.next()
 }
