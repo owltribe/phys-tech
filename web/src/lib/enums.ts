@@ -1,4 +1,4 @@
-import {OrganizationCategory} from "@/types/generated";
+import {OrganizationCategory, ServiceRequestStatus} from "@/types/generated";
 
 export enum OrganizationCategoryEnum {
   "Scientific Institute" = "НИИ\n(Научно-исследовательский институт)",
@@ -14,3 +14,10 @@ export const organizationCategories: {
       value: value as OrganizationCategory,
       label
     }))
+
+export enum ServiceRequestEnum {
+  Pending = "В обработке",
+  Approved = "Утверждено",
+  Rejected = "Отклонено",
+  Completed = "Завершено",
+}

@@ -45,7 +45,7 @@ class ServiceRequestUpdate(BaseModel):
 
 
 class ServiceRequestFilter(Filter):
-    order_by: List[str] = ["created_at"]
+    order_by: List[str] = ["-created_at"]
     search: Optional[str] = None
     status: Optional[ServiceRequestStatus] = None
     requested_by_id: Optional[str] = None

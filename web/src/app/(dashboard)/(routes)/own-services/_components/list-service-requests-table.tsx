@@ -1,6 +1,6 @@
 'use client'
 
-import {Container, Flex, Link, Table} from "@radix-ui/themes";
+import {Container, Link, Table} from "@radix-ui/themes";
 import useServiceRequests from "@/hooks/service-request/useServiceRequests";
 import {useSearchParams} from "next/navigation";
 import {useAuth} from "@/providers/AuthProvider";
@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 
 import "dayjs/locale/ru";
 import ServiceRequestActions from "@/app/(dashboard)/(routes)/own-services/_components/service-request-actions";
+import ServieRequestBadge from "@/app/(dashboard)/(routes)/own-services/_components/service-request-status-badge";
 
 
 const ListServiceRequestsTable = () => {
@@ -27,6 +28,7 @@ const ListServiceRequestsTable = () => {
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>ID</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Статус</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Услуга</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Заказчик</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Почта</Table.ColumnHeaderCell>
@@ -41,6 +43,9 @@ const ListServiceRequestsTable = () => {
             <Table.Row key={serviceRequest.id}>
               <Table.RowHeaderCell>{`#${serviceRequest.id.slice(0, 4)}`}</Table.RowHeaderCell>
               <Table.Cell>
+                <ServieRequestBadge status={serviceRequest.status} />
+              </Table.Cell>
+              <Table.Cell>
                 <Link href={`/services/${serviceRequest.service.id}`}>
                   {serviceRequest.service.name}
                 </Link>
@@ -51,7 +56,7 @@ const ListServiceRequestsTable = () => {
               <Table.Cell>
                 {dayjs(serviceRequest.created_at)
                   .locale("ru")
-                  .format("DD MMMM YYYY HH:MM")}
+                  .format("DD MMMM YYYY hh:mm")}
               </Table.Cell>
               <Table.Cell>
                 <ServiceRequestActions serviceRequest={serviceRequest} />
