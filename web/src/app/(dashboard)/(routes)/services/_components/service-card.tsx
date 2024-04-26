@@ -3,6 +3,7 @@ import {Instagram} from "lucide-react";
 import {formatPrice} from "@/lib/formatters";
 import {Badge, Flex, Heading, Text} from "@radix-ui/themes";
 import {ServiceRead} from "@/types/generated";
+import {getNonCachingImgUrl} from "@/lib/utils";
 
 interface CourseCardProps {
   service: ServiceRead;
@@ -18,7 +19,7 @@ const ServiceCard = ({
           <img
             className="w-full aspect-video object-cover"
             alt={service.name}
-            src={service.service_images[0].url}
+            src={getNonCachingImgUrl(service.service_images[0].url)}
           />
         ) : (
           <div

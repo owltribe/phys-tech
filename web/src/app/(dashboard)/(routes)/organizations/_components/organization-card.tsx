@@ -3,6 +3,7 @@ import {OrganizationRead} from "@/types/generated";
 import OrganizationCategoryBadge from "@/app/(dashboard)/(routes)/organizations/_components/organization-category-badge";
 import {Flex, Heading, Text} from "@radix-ui/themes";
 import {Building2} from "lucide-react";
+import {getNonCachingImgUrl} from "@/lib/utils";
 
 interface OrganizationCardProps {
   organization: OrganizationRead
@@ -16,7 +17,7 @@ const OrganizationCard = ({organization}: OrganizationCardProps) => {
           <img
             className="w-full aspect-video object-cover"
             alt={organization.name}
-            src={organization.photo}
+            src={getNonCachingImgUrl(organization.photo)}
           />
         ) : (
           <div

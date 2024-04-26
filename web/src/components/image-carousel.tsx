@@ -3,6 +3,7 @@ import '@splidejs/react-splide/css';
 
 // @ts-ignore
 import {Splide, SplideSlide, SplideTrack} from "@splidejs/react-splide";
+import {getNonCachingImgUrl} from "@/lib/utils";
 
 interface ImageCarouselProps {
   images: {
@@ -32,7 +33,7 @@ const ImageCarousel = ({
         {images.map(i => (
           <SplideSlide key={i.id}>
             <img
-              src={i.url}
+              src={getNonCachingImgUrl(i.url)}
               alt={`image-${i.id}`}
               className="h-full w-full object-cover"
             />
