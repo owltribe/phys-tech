@@ -11,7 +11,7 @@ type BadgeColor = React.ComponentProps<typeof Badge>['color']
 
 const OrganizationCategoryBadge = ({category}: OrganizationCategoryBadgeProps) => {
   const colors: Record<OrganizationCategory, BadgeColor> = {
-    "Scientific Institute": 'green',
+    "Scientific Institute": 'jade',
     "University": 'blue',
     "Company": 'gray',
   };

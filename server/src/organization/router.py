@@ -35,10 +35,8 @@ def paginated_list(
 @organizations_router.get(
     "/{organization_id}", response_model=OrganizationRetrieve
 )
-@rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
 def retrieve(
     organization_id: str,
-    current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
     return service(session).retrieve(organization_id)

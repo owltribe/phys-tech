@@ -37,7 +37,7 @@ const OrganizationCard = ({organization}: OrganizationCardProps) => {
             </Text>
           )}
 
-          <Flex mt="3" gap="2">
+          <Flex mt="3">
             <OrganizationCategoryBadge category={organization.category} />
           </Flex>
         </Flex>
