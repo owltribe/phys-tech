@@ -3,11 +3,16 @@
 import {useSearchParams} from "next/navigation";
 import EventCard from "./event-card";
 import useEvents from "@/hooks/events/useEvents";
-import {Container} from "@radix-ui/themes";
-import {Suspense} from "react";
+import {Button, Container, TabNav} from "@radix-ui/themes";
+import {Suspense, useState} from "react";
 import CardListLoader from "@/components/loaders/card-list-loader";
+import Link from "next/link";
+import {PlusCircle} from "lucide-react";
+import EventCreateDialog from "@/components/dialogs/create-event-dialog";
+import {useAuth} from "@/providers/AuthProvider";
 
 const ListEvents = () => {
+  const {user} = useAuth()
   const searchParams = useSearchParams();
 
   const {
@@ -19,9 +24,25 @@ const ListEvents = () => {
     search: searchParams.get("search"),
   })
 
+  const [isCreateDialogOpened, setIsCreateDialogOpened] = useState(false)
+
+  const handleOpenCreateDialog = () => {
+    setIsCreateDialogOpened(true)
+  }
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Container>
+        {(!!user && user.role === 'Organization') && (
+          <div className="flex mb-4">
+            <Button onClick={handleOpenCreateDialog}>
+              <PlusCircle className="h-4 w-4" />
+              Добавить услугу
+            </Button>
+          </div>
+        )}
+
+
         <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
           {(isLoading || isFetching) && <CardListLoader />}
 
@@ -38,6 +59,8 @@ const ListEvents = () => {
           </div>
         )}
       </Container>
+
+      <EventCreateDialog open={isCreateDialogOpened} onOpenChange={setIsCreateDialogOpened} />
     </Suspense>
   )
 }
