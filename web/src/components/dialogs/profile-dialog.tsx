@@ -5,7 +5,7 @@ import {DialogProps} from "@radix-ui/react-dialog";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from 'yup';
-import {Button, Dialog, Flex, Avatar, IconButton, Tooltip} from "@radix-ui/themes";
+import {Button, Dialog, Flex, Avatar, IconButton, Tooltip, Spinner} from "@radix-ui/themes";
 import TextField from "@/components/ui/text-field";
 import {UserReadWithOrganization} from "@/types/generated";
 import useUploadAvatar from "@/hooks/auth/useUploadAvatar";
@@ -64,9 +64,8 @@ export default function ProfileDialog({
     resolver: yupResolver(schema),
   });
 
-  const [avatarImage, setAvatarImage] = useState<string>();
+  const [avatarImage, setAvatarImage] = useState<File | null>(null);
 
-  // @ts-ignore
   const localAvatarImageUrl = !!avatarImage ? URL.createObjectURL(avatarImage) : undefined
   const preventCachingAvatarImageUrl = getNonCachingImgUrl(user.avatar)
 
@@ -90,15 +89,15 @@ export default function ProfileDialog({
     });
   };
 
-  const handleChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    // @ts-ignore
-    setAvatarImage(e.target.files[0]);
-  }
+  const handleChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setAvatarImage(e.target.files[0]);
+    }
+  };
 
   const handleUploadAvatar = () => {
     const formData = new FormData();
-    // @ts-ignore
-    formData.append("image", avatarImage);
+    formData.append("image", avatarImage as Blob);
 
     uploadAvatarMutation.mutate(formData, {
       onError: () => {
@@ -106,7 +105,7 @@ export default function ProfileDialog({
       },
       onSuccess: () => {
         toast.success('Успешная загрузка фото профиля.')
-        setAvatarImage(undefined)
+        setAvatarImage(null)
       }
     })
   }
@@ -131,11 +130,32 @@ export default function ProfileDialog({
                 </Tooltip>
               )}
               {!!avatarImage && (
-                <Tooltip content="Сохранить фото профиля">
-                  <IconButton variant="solid" color="green" radius="full" onClick={handleUploadAvatar}>
-                    <Check className="h-4 w-4" />
-                  </IconButton>
-                </Tooltip>
+                <>
+                  {!uploadAvatarMutation.isPending && (
+                    <Tooltip content="Сохранить фото профиля">
+                      <IconButton
+                        variant="solid"
+                        color="green"
+                        radius="full"
+                        onClick={handleUploadAvatar}
+                      >
+                        <Check className="h-4 w-4"/>
+                      </IconButton>
+                    </Tooltip>
+                  )}
+
+                  {uploadAvatarMutation.isPending && (
+                    <Tooltip content="Загрузка фото">
+                      <IconButton
+                        variant="solid"
+                        color="gray"
+                        radius="full"
+                      >
+                        <Spinner />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </>
               )}
             </div>
 

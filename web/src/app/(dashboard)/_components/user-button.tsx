@@ -7,6 +7,7 @@ import {Building2, LogOut, User2} from "lucide-react";
 import {useState} from "react";
 import ProfileDialog from "@/components/dialogs/profile-dialog";
 import {getNonCachingImgUrl} from "@/lib/utils";
+import OrganizationProfileDialog from "@/components/dialogs/organization-profile-dialog";
 
 interface UserButtonProps {
   user: UserReadWithOrganization
@@ -18,6 +19,7 @@ const UserButton = ({user}: UserButtonProps) => {
   } = useAuth();
 
   const [isProfileDialogOpened, setIsProfileDialogOpened] = useState(false)
+  const [isOrganizationProfileDialogOpened, setIsOrganizationProfileDialogOpened] = useState(false)
 
   const isOrganization = user.role === 'Organization'
 
@@ -26,6 +28,9 @@ const UserButton = ({user}: UserButtonProps) => {
 
   const handleOpenProfileDialog = () => {
     setIsProfileDialogOpened(true)
+  }
+  const handleOpenOrganizationProfileDialog = () => {
+    setIsOrganizationProfileDialogOpened(true)
   }
 
   return (
@@ -67,7 +72,7 @@ const UserButton = ({user}: UserButtonProps) => {
             Профиль
           </DropdownMenu.Item>
           {!!user.organization && (
-            <DropdownMenu.Item>
+            <DropdownMenu.Item onClick={handleOpenOrganizationProfileDialog}>
               <Building2 className="h-4 w-4" />
               Организация
             </DropdownMenu.Item>
@@ -87,6 +92,13 @@ const UserButton = ({user}: UserButtonProps) => {
           user={user}
           open={isProfileDialogOpened}
           onOpenChange={setIsProfileDialogOpened}
+        />
+      )}
+      {(user && user.organization && isOrganizationProfileDialogOpened) && (
+        <OrganizationProfileDialog
+          organization={user.organization}
+          open={isOrganizationProfileDialogOpened}
+          onOpenChange={setIsOrganizationProfileDialogOpened}
         />
       )}
     </>
