@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {Banknote, Instagram} from "lucide-react";
+import {Instagram} from "lucide-react";
 import {formatPrice} from "@/lib/formatters";
 import {Badge, Flex, Heading, Text} from "@radix-ui/themes";
 import {ServiceRead} from "@/types/generated";
@@ -28,17 +28,20 @@ const ServiceCard = ({
           </div>
         )}
         <Flex p="3" direction="column">
-          <Text color="gray" size="1">
+          <Text color="gray" size="1" className="uppercase">
             {service.organization.name}
           </Text>
 
-          <Heading size="3" weight="medium" mt="1" className="line-clamp-2">
+          <Heading size="4" mt="3" weight="medium" className="line-clamp-2">
             {service.name}
           </Heading>
 
-          <Flex mt="3">
-            <Badge color="green" radius="full" size="2">
-              <Banknote className="flex w-4 h-4" />
+          <Text color="gray" mt="1" size="2" className="line-clamp-3">
+            {service.description}
+          </Text>
+
+          <Flex mt="3" gap="2">
+            <Badge size="2" color="green">
               {formatPrice(service.cost)}
             </Badge>
           </Flex>

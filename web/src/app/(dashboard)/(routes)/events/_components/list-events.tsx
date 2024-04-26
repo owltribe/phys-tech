@@ -37,7 +37,7 @@ const ListEvents = () => {
           <div className="flex mb-4">
             <Button onClick={handleOpenCreateDialog}>
               <PlusCircle className="h-4 w-4" />
-              Добавить услугу
+              Добавить мероприятие
             </Button>
           </div>
         )}
