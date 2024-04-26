@@ -33,10 +33,8 @@ def create(
 
 
 @events_router.get("/{event_id}", response_model=EventRead)
-@rbac(roles=[UserRole.ORGANIZATION, UserRole.CLIENT])
 def retrieve(
     event_id: str,
-    current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
     return service(session).retrieve(event_id)
