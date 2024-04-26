@@ -24,10 +24,10 @@ export const SearchInput = () => {
       return "Поиск услуги по названию или описанию"
     }
     if (isOrganizationsPage) {
-      return "Поиск организации..."
+      return "Поиск организации по названию или описанию"
     }
     if (isEventsPage) {
-      return "Поиск мероприятий..."
+      return "Поиск мероприятий по названию или описанию"
     }
 
     return "Поиск"

@@ -3,7 +3,11 @@ import {NextResponse} from 'next/server'
 
 export function middleware(request: NextRequest) {
   if (
-    ['/register', '/own-services'].includes(request.nextUrl.pathname)
+    [
+      '/register',
+      '/reset-password',
+      '/forget-password',
+    ].includes(request.nextUrl.pathname)
     && request.cookies.has('scienceservicesauth')
   ) {
     return NextResponse.redirect(new URL('/services', request.url))
