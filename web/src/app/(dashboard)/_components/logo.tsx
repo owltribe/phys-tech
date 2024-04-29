@@ -7,10 +7,10 @@ export const Logo = ({
 }) => {
   return (
     <Image
-      height={40}
-      width={140}
+      height={32}
+      width={32}
       alt="logo"
-      src="/logo-ipsum.svg"
+      src="/logo.svg"
       className={className}
     />
   )
