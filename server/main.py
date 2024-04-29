@@ -26,7 +26,6 @@ if ENVIRONMENT == "production":
     allow_origins = [
         "https://octopus-app-m6bno.ondigitalocean.app",
         "https://science.owltribe.dev",
-        "*",
     ]
 else:
     allow_origins = [

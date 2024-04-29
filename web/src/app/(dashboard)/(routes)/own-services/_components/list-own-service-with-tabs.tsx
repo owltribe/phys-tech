@@ -4,7 +4,7 @@ import useServices from "@/hooks/services/useServices";
 import {Button, Container, Flex, TabNav} from "@radix-ui/themes";
 import {useAuth} from "@/providers/AuthProvider";
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
+import {redirect, useSearchParams} from "next/navigation";
 import ListServiceRequestsTable from "@/app/(dashboard)/(routes)/own-services/_components/list-service-requests-table";
 import ListServices from "@/app/(dashboard)/(routes)/services/_components/list-services";
 import {PlusCircle} from "lucide-react";
@@ -26,6 +26,10 @@ const ListOwnServiceWithTabs = () => {
 
   const handleOpenCreateDialog = () => {
     setIsCreateDialogOpened(true)
+  }
+
+  if (user?.role !== "Organization") {
+    redirect('/services')
   }
 
   return (

@@ -8,6 +8,7 @@ import "./globals.css";
 import ToastProvider from "@/providers/ToasterProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import {AuthProvider} from "@/providers/AuthProvider";
+import RoutesProtectionProvider from "@/providers/RoutesProtectionProvider";
 
 const googleSans = localFont({
   src: [
@@ -54,6 +55,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en">
       <body className={googleSans.className}>
@@ -63,6 +66,7 @@ export default function RootLayout({
             accentColor="blue"
           >
             <AuthProvider>
+              <RoutesProtectionProvider />
               {children}
             </AuthProvider>
           </Theme>
