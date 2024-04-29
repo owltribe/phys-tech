@@ -1,20 +1,35 @@
 import Link from "next/link";
-import {Instagram} from "lucide-react";
+import {Edit, Instagram} from "lucide-react";
 import {formatPrice} from "@/lib/formatters";
-import {Badge, Flex, Heading, Text} from "@radix-ui/themes";
+import {Badge, Flex, Heading, IconButton, Text, Tooltip} from "@radix-ui/themes";
 import {ServiceRead} from "@/types/generated";
 import {getNonCachingImgUrl} from "@/lib/utils";
+import {MouseEventHandler} from "react";
 
 interface CourseCardProps {
   service: ServiceRead;
+  isEditable?: boolean;
 }
 
 const ServiceCard = ({
   service,
+  isEditable,
 }: CourseCardProps) => {
+  const handleEditClick: MouseEventHandler = (e) => {
+    e.preventDefault()
+  }
+
   return (
-    <Link href={`/services/${service.id}`}>
+    <Link href={`/services/${service.id}`} className="relative">
       <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg h-full">
+        {isEditable && (
+          <Tooltip content="Редактировать услугу">
+            <IconButton className="absolute top-2 right-2 z-10 cursor-pointer" onClick={handleEditClick}>
+              <Edit className="h-5 w-5" />
+            </IconButton>
+          </Tooltip>
+        )}
+
         {!!service.service_images?.length ? (
           <img
             className="w-full aspect-video object-cover"

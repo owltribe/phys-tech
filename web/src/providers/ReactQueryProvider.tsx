@@ -9,8 +9,8 @@ function ReactQueryProvider({ children }: React.PropsWithChildren) {
 
   return (
     <QueryClientProvider client={client}>
-      {children}
       <ReactQueryDevtools initialIsOpen={false} />
+      {children}
     </QueryClientProvider>
   );
 }

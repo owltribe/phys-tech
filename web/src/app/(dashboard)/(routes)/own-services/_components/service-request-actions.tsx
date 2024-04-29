@@ -2,6 +2,7 @@ import {Button, DropdownMenu} from "@radix-ui/themes";
 import {ServiceRequestRead} from "@/types/generated";
 import ServiceRequestActionsAlert from "./service-request-actions-alert";
 import {useState} from "react";
+import ServiceRequestDialog from "@/app/(dashboard)/(routes)/own-services/_components/service-request-dialog";
 
 interface ServiceRequestActionsProps {
   serviceRequest: ServiceRequestRead
@@ -11,10 +12,11 @@ const ServiceRequestActions = ({serviceRequest}: ServiceRequestActionsProps) => 
   const [approveAlertOpened, setApprovedAlertOpened] = useState(false)
   const [rejectAlertOpened, setRejectAlertOpened] = useState(false)
   const [completeAlertOpened, setCompleteAlertOpened] = useState(false)
+  const [detailOpened, setDetailOpened] = useState(false)
 
   return (
     <>
-      <DropdownMenu.Root>
+      <DropdownMenu.Root modal>
         <DropdownMenu.Trigger>
           <Button>
             Действия
@@ -22,11 +24,9 @@ const ServiceRequestActions = ({serviceRequest}: ServiceRequestActionsProps) => 
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
-          <DropdownMenu.Item>
+          <DropdownMenu.Item onClick={() => setDetailOpened(true)}>
             Детали
           </DropdownMenu.Item>
-
-          <DropdownMenu.Separator />
 
           {serviceRequest.status === "Pending" && (
             <>
@@ -63,6 +63,11 @@ const ServiceRequestActions = ({serviceRequest}: ServiceRequestActionsProps) => 
         statusUpdateTo="Completed"
         open={completeAlertOpened}
         onOpenChange={setCompleteAlertOpened}
+      />
+      <ServiceRequestDialog
+        open={detailOpened}
+        onOpenChange={setDetailOpened}
+        serviceRequestId={serviceRequest.id}
       />
     </>
   )

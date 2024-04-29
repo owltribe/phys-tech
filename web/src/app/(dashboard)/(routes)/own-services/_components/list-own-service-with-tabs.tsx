@@ -50,7 +50,7 @@ const ListOwnServiceWithTabs = () => {
         </Button>
       </div>
 
-      {!isServiceRequestsActive && <ListServices organizationId={user?.organization?.id} />}
+      {!isServiceRequestsActive && <ListServices organizationId={user?.organization?.id} isEditable />}
       {isServiceRequestsActive && <ListServiceRequestsTable />}
 
       {isSuccess && data?.total === 0 && (

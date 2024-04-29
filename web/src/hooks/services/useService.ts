@@ -1,10 +1,10 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import {AxiosError, AxiosRequestConfig} from "axios";
 import { ErrorModel, ServiceRead } from "@/types/generated";
 import { axiosInstance } from "@/lib/axios-instances";
 
-export const fetchService = (serviceId: string): Promise<ServiceRead> => {
-  return axiosInstance.get(`/services/${serviceId}`,);
+export const fetchService = (serviceId: string, axiosRequestConfig: AxiosRequestConfig<any> | undefined = undefined): Promise<ServiceRead> => {
+  return axiosInstance.get(`/services/${serviceId}`, axiosRequestConfig);
 };
 
 export default function useService(serviceId: string): UseQueryResult<

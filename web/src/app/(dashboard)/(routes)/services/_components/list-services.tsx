@@ -8,9 +8,13 @@ import CardListLoader from "@/components/loaders/card-list-loader";
 
 interface ListServicesProps {
   organizationId?: string | null
+  isEditable?: boolean
 }
 
-const ListServices = ({organizationId}: ListServicesProps) => {
+const ListServices = ({
+  organizationId,
+  isEditable,
+}: ListServicesProps) => {
   const searchParams = useSearchParams();
 
   const {data, isSuccess, isLoading} = useServices({
@@ -27,6 +31,7 @@ const ListServices = ({organizationId}: ListServicesProps) => {
           <ServiceCard
             key={service.id}
             service={service}
+            isEditable={isEditable}
           />
         ))}
       </div>

@@ -7,6 +7,7 @@ import ActionsCard from "./_components/ActionsCard";
 import {formatPrice} from "@/lib/formatters";
 
 import ImageCarousel from "@/components/image-carousel";
+import {cookies} from "next/headers";
 
 interface ServiceDetailProps {
   params: {
@@ -15,9 +16,15 @@ interface ServiceDetailProps {
 }
 
 export async function generateMetadata({
-  params: { serviceId }
+  params: { serviceId },
+
 }: ServiceDetailProps): Promise<Metadata> {
-  const service = await fetchService(serviceId)
+  const service = await fetchService(serviceId, {
+    headers: {
+      Cookie: cookies().get("scienceservicesauth")?.value,
+    },
+    withCredentials: true,
+  })
 
   return {
     title: service.name,
@@ -28,7 +35,12 @@ export async function generateMetadata({
 async function ServiceDetail({
   params: { serviceId }
 }: ServiceDetailProps) {
-  const service = await fetchService(serviceId)
+  const service = await fetchService(serviceId, {
+    headers: {
+      Cookie: cookies().get("scienceservicesauth")?.value,
+    },
+    withCredentials: true,
+  })
 
   return (
     <Theme radius="small" accentColor="blue">
