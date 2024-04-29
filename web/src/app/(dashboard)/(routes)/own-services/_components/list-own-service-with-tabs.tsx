@@ -13,7 +13,7 @@ import {useState} from "react";
 
 const ListOwnServiceWithTabs = () => {
   const searchParams = useSearchParams()
-  const {user} = useAuth();
+  const {user, isLoginLoading} = useAuth();
 
   const [isCreateDialogOpened, setIsCreateDialogOpened] = useState(false)
 
@@ -28,7 +28,7 @@ const ListOwnServiceWithTabs = () => {
     setIsCreateDialogOpened(true)
   }
 
-  if (user?.role !== "Organization") {
+  if (!isLoginLoading && user?.role !== "Organization") {
     redirect('/services')
   }
 

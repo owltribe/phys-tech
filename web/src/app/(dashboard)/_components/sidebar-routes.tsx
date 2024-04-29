@@ -24,8 +24,17 @@ const publicRoutes = [
   },
 ]
 
-const clientAndGuestRoutes = [
+const guestRoutes = [
   ...publicRoutes
+];
+
+const clientRoutes = [
+  ...publicRoutes,
+  {
+    icon: Table2,
+    label: "Мои заявки",
+    href: "/own-service-requests",
+  }
 ];
 
 const organizationRoutes = [
@@ -44,8 +53,11 @@ export const SidebarRoutes = () => {
     if (user && user.role === "Organization") {
       return organizationRoutes
     }
+    if (user && user.role === "Client") {
+      return clientRoutes
+    }
 
-    return clientAndGuestRoutes
+    return guestRoutes
   }, [user]);
 
   return (

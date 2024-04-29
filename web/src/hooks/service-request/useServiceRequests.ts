@@ -32,7 +32,7 @@ export default function useServiceRequests({
   };
 
   return useQuery({
-    queryKey: ["serviceRequests"],
+    queryKey: ["serviceRequests", search, organizationId, requestedById],
     queryFn,
   });
 }
