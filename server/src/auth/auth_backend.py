@@ -18,7 +18,7 @@ cookie_samesite: Literal["lax", "none"] = (
 )
 
 cookie_transport = CookieTransport(
-    cookie_max_age=3600,
+    cookie_max_age=60 * 60 * 60 * 24,
     cookie_name="scienceservicesauth",
     cookie_samesite=cookie_samesite,
 )
