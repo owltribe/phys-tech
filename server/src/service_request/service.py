@@ -45,6 +45,21 @@ class ServiceRequestService:
     def create(
         self, service_request_create: ServiceRequestCreate, requested_by: User
     ) -> ServiceRequest:
+        from src.service.service import ServiceService
+
+        self.service_service = ServiceService(self.session)
+
+        if service_request_create.service_id in [
+            str(service.id)
+            for service in self.service_service.list_by_user_id(
+                user_id=requested_by.id
+            )
+        ]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Вы не можете создавать заявки на собственные услуги",
+            )
+
         instance = ServiceRequest(
             status=ServiceRequestStatus.PENDING,
             service_id=service_request_create.service_id,

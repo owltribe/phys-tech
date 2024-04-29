@@ -38,7 +38,7 @@ def paginated_list(
 
 @service_request_router.post("", response_model=ServiceRequestRead)
 @rbac(
-    roles=[UserRole.CLIENT],
+    roles=[UserRole.CLIENT, UserRole.ORGANIZATION],
 )
 def create(
     service_request_create: ServiceRequestCreate,
