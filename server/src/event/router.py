@@ -29,7 +29,7 @@ def create(
     current_user: User = Depends(current_active_user),
     session: Session = Depends(get_db),
 ):
-    return service(session).create(event=event)
+    return service(session).create(event=event, current_user=current_user)
 
 
 @events_router.get("/{event_id}", response_model=EventRead)

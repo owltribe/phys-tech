@@ -1,7 +1,7 @@
 import uuid
 
-from sqlalchemy import UUID, Date, Integer, String, Time
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import UUID, Date, ForeignKey, Integer, String, Time
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
 
@@ -18,3 +18,14 @@ class Event(Base):
     start_time: Mapped[Time] = mapped_column(Time)
     duration: Mapped[int] = mapped_column(Integer)
     location: Mapped[str] = mapped_column(String)
+
+    created_by_id: Mapped[uuid.UUID] = mapped_column(
+        UUID,
+        ForeignKey("user.id", name="fk_event_user", ondelete="CASCADE"),
+        nullable=False,
+    )
+    created_by = relationship(
+        "User",
+        back_populates="events",
+        primaryjoin="User.id == Event.created_by_id",
+    )

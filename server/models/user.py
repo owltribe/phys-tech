@@ -42,6 +42,14 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
         uselist=True,
     )
 
+    events = relationship(
+        "Event",
+        back_populates="created_by",
+        primaryjoin="User.id == Event.created_by_id",
+        cascade="delete",
+        uselist=True,
+    )
+
     organization = relationship(
         "Organization",
         back_populates="owner",

@@ -29,7 +29,9 @@ class ServiceService:
         self.s3_service = S3Service()
 
     def paginated_list(
-        self, service_filter: ServiceFilter, optional_current_user: Optional[User] = None
+        self,
+        service_filter: ServiceFilter,
+        optional_current_user: Optional[User] = None,
     ) -> Page[ServiceRead]:
         query = select(Service)
         query = service_filter.filter(query)
@@ -40,7 +42,9 @@ class ServiceService:
 
         # If a current user is provided, prepare a set of their service IDs for quick lookups
         if optional_current_user:
-            user_service_ids = set(s.id for s in self.list_by_user_id(optional_current_user.id))
+            user_service_ids = set(
+                s.id for s in self.list_by_user_id(optional_current_user.id)
+            )
             for service in pagination.items:
                 service.is_editable = service.id in user_service_ids
 

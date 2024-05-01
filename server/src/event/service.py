@@ -7,7 +7,7 @@ from fastapi_pagination.links import Page
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from models import Event
+from models import Event, User
 from src.event.schemas import EventCreate, EventFilter, EventRead, EventUpdate
 
 
@@ -34,9 +34,10 @@ class EventService:
 
         return paginate(self.session, query)
 
-    def create(self, event: EventCreate):
+    def create(self, event: EventCreate, current_user: User):
         instance = Event(
             name=event.name,
+            created_by_id=current_user.id,
             description=event.description,
             start_date=event.start_date,
             start_time=event.start_time,

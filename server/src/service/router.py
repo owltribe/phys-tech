@@ -31,7 +31,9 @@ def paginated_list(
     optional_current_user: User = Depends(optional_current_active_user),
     session: Session = Depends(get_db),
 ):
-    return service(session).paginated_list(service_filter, optional_current_user)
+    return service(session).paginated_list(
+        service_filter, optional_current_user
+    )
 
 
 @services_router.post("", response_model=ServiceRead)
