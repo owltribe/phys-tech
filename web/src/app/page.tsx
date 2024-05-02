@@ -16,7 +16,7 @@ export default function Home() {
             Платформа, упрощающая процесс сбора, поиска и получения информации по научно-аналитическим и экспериментальным исследованиям.
           </Text>
 
-          <Button>
+          <Button className="rounded-full text-md">
             Начать исследование
           </Button>
         </div>
