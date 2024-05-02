@@ -5,63 +5,74 @@ import Button from "@/components/landing/Button";
 
 const Header = () => {
   return (
-    <header className="bg-white">
-      <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-        <Logo />
+    <header>
+      <nav className="fixed z-10 w-full bg-white md:absolute md:bg-transparent">
+        <div className="container m-auto px-2 md:px-12 lg:px-7">
+          <div className="flex flex-wrap items-center justify-between py-2 gap-6 md:py-4 md:gap-0 relative">
+            <input type="checkbox" name="toggle_nav" id="toggle_nav" className="hidden peer" />
+            <div className="w-full px-6 flex justify-between lg:w-max md:px-0">
+              <div aria-label="logo" className="flex space-x-2 items-center">
+                <Logo className="h-6" />
+                <span className="text-2xl font-bold text-gray-900">Science Услуги</span>
+              </div>
 
-        <div className="flex flex-1 items-center justify-end md:justify-between">
-          <nav aria-label="Global" className="hidden md:block">
-            <ul className="flex items-center gap-6 text-sm">
-              <li>
-                <Link className="text-gray-500 transition hover:text-gray-500/75" href="#"> О нас </Link>
-              </li>
+              <div className="flex items-center lg:hidden max-h-10">
+                <label role="button" htmlFor="toggle_nav" aria-label="humburger" id="hamburger"
+                       className="relative  p-6 -mr-6">
+                  <div aria-hidden="true" id="line"
+                       className="m-auto h-0.5 w-6 rounded bg-sky-900 transition duration-300"></div>
+                  <div aria-hidden="true" id="line2"
+                       className="m-auto mt-2 h-0.5 w-6 rounded bg-sky-900 transition duration-300"></div>
+                </label>
+              </div>
+            </div>
 
-              <li>
-                <Link className="text-gray-500 transition hover:text-gray-500/75" href="#"> Решение </Link>
-              </li>
+            <div className="hidden absolute top-full transition translate-y-1 lg:peer-checked:translate-y-0 lg:translate-y-0 left-0
+                  lg:top-0 lg:relative peer-checked:flex w-full
+                  lg:flex lg:flex-row flex-col
+                  flex-wrap justify-center lg:items-center
+                  gap-6 p-6 rounded-xl
+                  bg-white lg:gap-0
+                  lg:p-0
+                  lg:bg-transparent lg:w-7/12">
+              <div className="text-gray-600 lg:pr-4 lg:w-auto w-full lg:pt-0">
+                <ul className="tracking-wide font-medium text-sm flex-col flex lg:flex-row gap-6 lg:gap-0">
+                  <li>
+                    <Link href="#" className="block md:px-4 transition hover:text-primary">
+                      <span>О нас</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="block md:px-4 transition hover:text-primary">
+                      <span>Решение</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="block md:px-4 transition hover:text-primary">
+                      <span>Отзывы</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="block md:px-4 transition hover:text-primary">
+                      <span>Ресурсы</span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-              <li>
-                <Link className="text-gray-500 transition hover:text-gray-500/75" href="#"> Отзывы </Link>
-              </li>
-
-              <li>
-                <Link className="text-gray-500 transition hover:text-gray-500/75" href="#"> Ресурсы </Link>
-              </li>
-
-              <li>
-                <Link className="text-gray-500 transition hover:text-gray-500/75" href="#"> Контакты </Link>
-              </li>
-            </ul>
-          </nav>
-
-          <div className="flex items-center gap-4">
-            <div className="sm:flex sm:gap-4">
+            <div className="hidden lg:flex gap-2">
               <Button>
                 Войти
               </Button>
-              <Button variant='light'>
+              <Button variant="light">
                 Зарегистрироваться
               </Button>
             </div>
 
-            <button
-              className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden"
-            >
-              <span className="sr-only">Toggle menu</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
           </div>
         </div>
-      </div>
+      </nav>
     </header>
   )
 }
