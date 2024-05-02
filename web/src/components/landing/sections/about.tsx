@@ -1,6 +1,6 @@
 import Button from "@/components/landing/Button";
 
-const About = () => {
+export default function About() {
   return (
     <div className="py-16">
       <div className="xl:container m-auto px-6 text-gray-600 md:px-12 xl:px-16">
@@ -28,4 +28,3 @@ const About = () => {
     </div>
   )
 }
-export default About
