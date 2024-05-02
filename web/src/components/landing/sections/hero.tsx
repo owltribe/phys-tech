@@ -13,7 +13,7 @@ export default function Hero() {
         <div className="py-40 ml-auto">
           <div className="lg:w-2/3 text-center mx-auto">
             <div>
-              <Badge size="3" color="yellow" radius="full" mb="4" className="w-fit mx-auto">
+              <Badge variant="surface" size="3" color="teal" radius="full" mb="4" className="w-fit mx-auto">
                 <span className="flex items-center text-balance">
                   Все научные услуги Казахстана в одном месте
 
