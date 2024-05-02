@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {Logo} from "@/app/(dashboard)/_components/logo";
 import Button from "@/components/landing/Button";
+import LoginButton from "./_components/login-button";
 
 
 const Header = () => {
@@ -58,14 +59,19 @@ const Header = () => {
                     </Link>
                   </li>
                 </ul>
+
+                <div className="flex flex-col mt-8 lg:hidden gap-2">
+                  <LoginButton />
+                  <Button href='/register' variant="light">
+                    Зарегистрироваться
+                  </Button>
+                </div>
               </div>
             </div>
 
             <div className="hidden lg:flex gap-2">
-              <Button>
-                Войти
-              </Button>
-              <Button variant="light">
+              <LoginButton />
+              <Button href='/register' variant="light">
                 Зарегистрироваться
               </Button>
             </div>

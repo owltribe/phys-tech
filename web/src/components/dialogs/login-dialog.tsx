@@ -51,7 +51,7 @@ export default function LoginDialog({
       reset()
       onOpenChange?.(false)
 
-      if (pathname === '/register') {
+      if (pathname === '/' || pathname === '/register') {
         router.replace('/services')
       }
     }
