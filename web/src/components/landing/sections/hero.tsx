@@ -12,9 +12,15 @@ export default function Hero() {
       <div className="relative container m-auto px-6 md:px-12 lg:px-7">
         <div className="py-40 ml-auto">
           <div className="lg:w-2/3 text-center mx-auto">
-            <Badge size="3" color="yellow" radius="full" mb="4">
-              Все научные услуги Казахстана в одном месте
-            </Badge>
+            <div>
+              <Badge size="3" color="yellow" radius="full" mb="4" className="w-fit mx-auto">
+                <span className="flex items-center text-balance">
+                  Все научные услуги Казахстана в одном месте
+
+                  <span className="text-xl leading-3 ml-2">🇰🇿</span>
+                </span>
+              </Badge>
+            </div>
             <h1 className="text-center text-balance text-gray-900 font-bold text-4xl md:text-6xl lg:text-4xl xl:text-6xl">
               Оптимизируйте ваш путь <span className="text-blue-600">исследования.</span>
             </h1>
