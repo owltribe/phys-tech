@@ -35,7 +35,7 @@ const Header = () => {
                   gap-6 p-6 rounded-xl
                   bg-white lg:gap-0
                   lg:p-0
-                  lg:bg-transparent lg:w-7/12">
+                  lg:bg-transparent lg:w-7/12 drop-shadow-2xl">
               <div className="text-gray-600 lg:pr-4 lg:w-auto w-full lg:pt-0">
                 <ul className="tracking-wide font-medium text-sm flex-col flex lg:flex-row gap-6 lg:gap-0">
                   <li>
