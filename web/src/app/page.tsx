@@ -2,6 +2,7 @@ import Header from "@/components/landing/Header";
 import Hero from "@/components/landing/sections/hero";
 import About from "@/components/landing/sections/about";
 import TargetAudience from "@/components/landing/sections/target-audience";
+import EfficientBeginning from "@/components/landing/sections/efficient-beginning";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero />
       <About />
       <TargetAudience />
+      <EfficientBeginning />
     </>
   );
 }
