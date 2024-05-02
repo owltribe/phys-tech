@@ -9,6 +9,7 @@ import ToastProvider from "@/providers/ToasterProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import {AuthProvider} from "@/providers/AuthProvider";
 import RoutesProtectionProvider from "@/providers/RoutesProtectionProvider";
+import Header from "@/components/landing/Header";
 
 const googleSans = localFont({
   src: [
@@ -67,6 +68,7 @@ export default function RootLayout({
           >
             <AuthProvider>
               <RoutesProtectionProvider />
+              <Header />
               {children}
             </AuthProvider>
           </Theme>
