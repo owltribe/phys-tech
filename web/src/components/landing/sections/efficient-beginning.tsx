@@ -5,7 +5,7 @@ export default function EfficientBeginning() {
         <div
           className="lg:bg-gray-50 lg:p-16 rounded-[4rem] space-y-6 md:flex md:gap-6 justify-center md:space-y-0 lg:items-center"
         >
-          <div className="md:7/12 lg:w-2/3">
+          <div>
             <h2 className="text-3xl text-center text-balance font-bold text-gray-900 md:text-4xl">
               Путь к эффективным научным начинаниям
             </h2>
