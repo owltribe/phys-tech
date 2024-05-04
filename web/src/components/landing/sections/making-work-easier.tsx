@@ -3,22 +3,20 @@ function Card({
   title,
   description,
   img,
-  color = 'pink'
 }: {
   index: number;
   title: string;
   description: string;
   img?: string;
-  color?: string;
 }) {
   return (
     <div className="p-8 py-10 sm:p-10 rounded-3xl bg-white border border-gray-100 bg-opacity-50 shadow-2xl shadow-gray-600/10">
       <div className="space-y-16">
         <div
           aria-hidden="true"
-          className={`flex h-10 w-10 items-center justify-center rounded-full bg-${color}-50`}
+          className={`flex h-10 w-10 items-center justify-center rounded-full bg-blue-50`}
         >
-          <span className={`font-bold text-${color}-600`}>
+          <span className={`font-bold text-blue-600`}>
             {index}
           </span>
         </div>
@@ -57,22 +55,22 @@ export default function MakingWorkEasier() {
           <Card
             index={1}
             title="Организации"
-            description="Просмотр информации об организации, контактных данных и их услуг"
+            description="Просмотр информации об организации, контактных данных и их услуг."
           />
           <Card
             index={2}
             title="Услуги"
-            description="Список услуг организаций, запрос услуг у организаций"
+            description="Список услуг организаций, запрос услуг у организаций."
           />
           <Card
             index={3}
             title="Заявки"
-            description="Обработка заявки организацией и запрос услуг клиентами"
+            description="Обработка заявки организацией и запрос услуг клиентами."
           />
           <Card
             index={3}
             title="Мероприятия"
-            description="Создание мероприятий от организаций"
+            description="Создание мероприятий от организаций."
           />
         </div>
       </div>
