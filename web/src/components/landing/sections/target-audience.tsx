@@ -6,7 +6,7 @@ export default function TargetAudience() {
     <section className="py-16">
       <div className="xl:container m-auto px-6 text-gray-500 md:px-12">
         <div>
-          <h2 className="mt-4 text-center text-2xl font-bold text-gray-700 md:text-4xl text-pretty">
+          <h2 className="mt-4 text-center text-3xl font-bold text-gray-700 md:text-4xl text-pretty">
             Для кого мы <span className="font-bold text-blue-600">предназначены</span>
           </h2>
           <p className="my-8 text-center text-gray-600 text-balance">

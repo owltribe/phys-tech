@@ -6,7 +6,7 @@ export default function MakingWorkEasier() {
     <section id="solution" className="py-16">
       <div className="container m-auto space-y-16 px-6 md:px-12 lg:px-20">
         <div>
-          <h2 className="mt-4 text-center text-2xl font-bold text-gray-800 md:text-4xl text-pretty">
+          <h2 className="mt-4 text-center text-3xl font-bold text-gray-800 md:text-4xl text-pretty">
             Как мы <span className="font-bold text-blue-600">облегчаем</span> вашу работу
           </h2>
           <p className="my-8 text-center text-gray-600 text-balance">

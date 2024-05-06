@@ -6,7 +6,7 @@ export default function OpenUniqueAdvantages() {
     <section id="advantages" className="py-16">
       <div className="container m-auto space-y-16 px-6 md:px-12 lg:px-20">
         <div>
-          <h2 className="mt-4 text-center text-2xl font-bold text-gray-800 md:text-4xl text-pretty">
+          <h2 className="mt-4 text-center text-3xl font-bold text-gray-800 md:text-4xl text-pretty">
             Откройте для себя уникальные
             <br />
             <span className="text-blue-600">преимущества.</span>

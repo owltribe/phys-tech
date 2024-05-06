@@ -4,9 +4,9 @@ export default function ContactUs(){
   return (
     <section
       id="contact"
-      className="p-8 py-10 sm:p-10 relative before:absolute before:inset-0 before:h-px before:w-96 before:bg-gradient-to-r before:from-purple-300 before:via-sky-400 before:to-transparent"
+      className="relative before:absolute before:inset-0 before:h-px before:w-96 before:bg-gradient-to-r before:from-purple-300 before:via-sky-400 before:to-transparent"
     >
-      <div className="">
+      <div className="py-10">
         <div className="relative mx-auto px-6 md:max-w-full md:px-12 lg:max-w-6xl xl:px-0">
           <div className="items-center justify-between md:flex">
             <div className="h-max py-16 md:w-6/12 xl:w-5/12">
