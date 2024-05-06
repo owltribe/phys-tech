@@ -21,6 +21,7 @@ cookie_transport = CookieTransport(
     cookie_max_age=60 * 60 * 60 * 24,
     cookie_name="scienceservicesauth",
     cookie_samesite=cookie_samesite,
+    cookie_secure=False
 )
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 

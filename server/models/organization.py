@@ -53,3 +53,6 @@ class Organization(Base):
         cascade="delete",
         uselist=True,
     )
+
+    def __str__(self):
+        return f"{self.id}, {self.name}, {self.email}"

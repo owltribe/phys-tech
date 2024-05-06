@@ -36,3 +36,6 @@ class Service(Base):
     service_images = relationship(
         "ServiceImage", back_populates="service", uselist=True
     )
+
+    def __str__(self):
+        return f"{self.id}, {self.name}"
