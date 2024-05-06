@@ -1,4 +1,5 @@
 import Card from "@/components/landing/_components/card";
+import {Bolt, BookDown, Building2, Calendar} from "lucide-react";
 
 export default function MakingWorkEasier() {
   return (
@@ -11,22 +12,22 @@ export default function MakingWorkEasier() {
         </div>
         <div className="mt-16 grid gap-8 sm:grid-cols-2 md:-mx-8 lg:grid-cols-4">
           <Card
-            icon="1"
+            icon={<Building2 />}
             title="Организации"
             description="Просмотр информации об организации, контактных данных и их услуг."
           />
           <Card
-            icon="2"
+            icon={<Bolt />}
             title="Услуги"
             description="Список услуг организаций, запрос услуг у организаций."
           />
           <Card
-            icon="3"
+            icon={<BookDown />}
             title="Заявки"
             description="Обработка заявки организацией и запрос услуг клиентами."
           />
           <Card
-            icon="4"
+            icon={<Calendar />}
             title="Мероприятия"
             description="Создание мероприятий от организаций."
           />
