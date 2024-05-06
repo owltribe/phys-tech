@@ -1,6 +1,7 @@
 import { SidebarRoutes } from "./sidebar-routes"
 import Image from "next/image";
 import Link from "next/link";
+import {googlePlayAppLink} from "@/lib/links";
 
 export const Sidebar = () => {
   return (
@@ -10,7 +11,7 @@ export const Sidebar = () => {
       </div>
 
       <Link
-        href='https://play.google.com/store/apps/details?id=com.asgard.sciencephysservices'
+        href={googlePlayAppLink}
         className="hover:shadow-sm transition overflow-hidden border rounded-lg p-4 m-3 mt-auto"
       >
         <Image
