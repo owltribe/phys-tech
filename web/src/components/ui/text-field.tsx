@@ -7,6 +7,7 @@ interface TextFieldProps extends RadixTextField.RootProps {
   label: string;
   error?: string;
   wrapperClassName?: string;
+  labelProps?: React.ComponentProps<typeof Text>
 }
 
 const TextField = React.forwardRef<
@@ -18,7 +19,9 @@ const TextField = React.forwardRef<
     error,
     variant,
     color,
+    required,
     wrapperClassName,
+    labelProps,
     ...textFieldProps
   },
   ref) => {
@@ -28,13 +31,19 @@ const TextField = React.forwardRef<
 
   return (
     <label className={wrapperClassName}>
-      <Text as="div" size="2" mb="1" weight="medium" className="text-gray-700">
+      <Text as="div" size="2" mb="1" weight="medium" className="text-gray-700" {...labelProps}>
         {label}
+        {!!required && (
+          <Text as='span' color='red'>
+            {' *'}
+          </Text>
+        )}
       </Text>
       <RadixTextField.Root
         ref={ref}
         variant={handledVariant}
         color={handledColor}
+        required={required}
         {...textFieldProps}
       />
       {error && (

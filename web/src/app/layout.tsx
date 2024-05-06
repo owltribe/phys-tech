@@ -68,7 +68,7 @@ export default function RootLayout({
           >
             <AuthProvider>
               <RoutesProtectionProvider />
-x              {children}
+              {children}
             </AuthProvider>
           </Theme>
         </ReactQueryProvider>
