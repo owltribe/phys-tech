@@ -44,18 +44,18 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" className="block md:px-4 transition hover:text-primary">
+                    <Link href="#solution" className="block md:px-4 transition hover:text-primary">
                       <span>Решение</span>
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" className="block md:px-4 transition hover:text-primary">
+                    <Link href="#testimonials" className="block md:px-4 transition hover:text-primary">
                       <span>Отзывы</span>
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" className="block md:px-4 transition hover:text-primary">
-                      <span>Ресурсы</span>
+                    <Link href="#contact" className="block md:px-4 transition hover:text-primary">
+                      <span>Контакты</span>
                     </Link>
                   </li>
                 </ul>

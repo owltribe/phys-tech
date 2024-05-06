@@ -7,7 +7,7 @@ export default function EfficientBeginning() {
         >
           <div>
             <h2 className="text-3xl text-center text-balance font-bold text-gray-900 md:text-4xl">
-              Путь к эффективным научным начинаниям
+              Путь к <span className="font-bold text-blue-600">эффективным</span> научным начинаниям
             </h2>
             <p className="my-8 text-center text-balance text-gray-600">
               Наше приложение способствует формированию сообщества, где научные знания и ресурсы легко доступны и способствует прогрессу в различных научных областях.

@@ -3,7 +3,7 @@ import Button from "@/components/landing/Button";
 
 export default function Hero() {
   return (
-    <main className="relative">
+    <section className="relative">
       <div className="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40">
         <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400"></div>
         <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300"></div>
@@ -37,6 +37,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-    </main>
+    </section>
   )
 }
