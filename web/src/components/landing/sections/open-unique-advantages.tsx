@@ -1,4 +1,4 @@
-import {CircleCheckBig, Eye, Gavel, Hourglass} from "lucide-react";
+import {CircleCheckBig, Eye, Hourglass, MonitorCheck} from "lucide-react";
 import Card from "@/components/landing/_components/card";
 
 export default function OpenUniqueAdvantages() {
@@ -16,7 +16,7 @@ export default function OpenUniqueAdvantages() {
           <Card icon={<CircleCheckBig />} title="Эффективность" description="Повышение эффективности взаимодействия" />
           <Card icon={<Hourglass />} title="Менеджмент" description="Экономия времени" />
           <Card icon={<Eye />} title="Прозрачность" description="Организации получают лучшую видимость и доступность" />
-          <Card icon={<Gavel />} title="Демонстрация" description="Демонстрация специализации и возможности оборудования организаций" />
+          <Card icon={<MonitorCheck />} title="Демонстрация" description="Демонстрация специализации и возможности оборудования организаций" />
         </div>
       </div>
     </section>
