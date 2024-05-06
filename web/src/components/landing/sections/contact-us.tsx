@@ -5,7 +5,7 @@ import ContactUsForm from "@/components/landing/_components/contact-us-form";
 export default function ContactUs(){
   return (
     <section
-      className="p-8 py-10 sm:p-10 relative before:absolute before:inset-0 before:h-px before:w-96 before:bg-gradient-to-r before:from-yellow-300 before:via-purple-400 before:to-transparent">
+      className="p-8 py-10 sm:p-10 relative before:absolute before:inset-0 before:h-px before:w-96 before:bg-gradient-to-r before:from-purple-300 before:via-sky-400 before:to-transparent">
       <div className="">
         <div className="relative mx-auto px-6 md:max-w-full md:px-12 lg:max-w-6xl xl:px-0">
           <div className="items-center justify-between md:flex">
