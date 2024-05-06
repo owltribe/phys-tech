@@ -12,7 +12,6 @@ const ActionsCard = ({
   service
 }: ActionsCardProps) => {
 
-  console.log(service, "service")
   if (service.is_editable) {
     <Card
       size="3"
