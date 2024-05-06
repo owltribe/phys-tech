@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type {Metadata, Viewport} from "next";
 import localFont from "next/font/local";
 import {Theme} from "@radix-ui/themes";
 
@@ -45,6 +45,13 @@ const googleSans = localFont({
   ],
   variable: '--font-google-sans'
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
 
 export const metadata: Metadata = {
   title: "Science Услуги | Научные, научно-исследовательские услуги Казахстан",
