@@ -9,6 +9,10 @@ export default function MakingWorkEasier() {
           <h2 className="mt-4 text-center text-2xl font-bold text-gray-800 md:text-4xl">
             Как мы облегчаем вашу работу
           </h2>
+          <p className="my-8 text-center text-gray-600 text-balance">
+            Приложение решает проблемы, предлагая удобную платформу, где организации могут предоставлять свои услуги,
+            а пользователи - легко просматривать и запрашивать эти услуги.
+          </p>
         </div>
         <div className="mt-16 grid gap-8 sm:grid-cols-2 md:-mx-8 lg:grid-cols-4">
           <Card
