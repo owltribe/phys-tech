@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {Logo} from "@/app/(dashboard)/_components/logo";
 import Button from "@/components/landing/Button";
-import LoginButton from "./_components/login-button";
+import LoginButton from "../_components/login-button";
 
 
 const Header = () => {

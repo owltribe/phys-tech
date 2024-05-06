@@ -9,7 +9,7 @@ import ToastProvider from "@/providers/ToasterProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import {AuthProvider} from "@/providers/AuthProvider";
 import RoutesProtectionProvider from "@/providers/RoutesProtectionProvider";
-import Header from "@/components/landing/Header";
+import Header from "@/components/landing/sections/header";
 
 const googleSans = localFont({
   src: [

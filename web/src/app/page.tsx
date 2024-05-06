@@ -1,4 +1,4 @@
-import Header from "@/components/landing/Header";
+import Header from "@/components/landing/sections/header";
 import Hero from "@/components/landing/sections/hero";
 import About from "@/components/landing/sections/about";
 import TargetAudience from "@/components/landing/sections/target-audience";
