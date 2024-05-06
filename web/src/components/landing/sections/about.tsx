@@ -1,9 +1,8 @@
 import Button from "@/components/landing/Button";
-import Image from "next/image";
 
 export default function About() {
   return (
-    <div className="py-16">
+    <section id="about" className="py-16">
       <div className="xl:container m-auto px-6 text-gray-600 md:px-12 xl:px-16">
         <div
           className="lg:bg-gray-50 lg:p-16 rounded-[4rem] space-y-6 md:flex md:gap-12 justify-center md:space-y-0 lg:items-center">
@@ -27,12 +26,12 @@ export default function About() {
               пользователями, ищущими научные услуги.
             </p>
 
-            <Button>
+            <Button href="#advantages">
               Начать исследовать
             </Button>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

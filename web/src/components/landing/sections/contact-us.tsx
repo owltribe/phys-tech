@@ -1,5 +1,3 @@
-import TextField from "@/components/ui/text-field";
-import Button from "@/components/landing/Button";
 import ContactUsForm from "@/components/landing/_components/contact-us-form";
 
 export default function ContactUs(){

@@ -1,46 +1,4 @@
-function Card({
-  index,
-  title,
-  description,
-  img,
-}: {
-  index: number;
-  title: string;
-  description: string;
-  img?: string;
-}) {
-  return (
-    <div className="p-8 py-10 sm:p-10 rounded-3xl bg-white border border-gray-100 bg-opacity-50 shadow-2xl shadow-gray-600/10">
-      <div className="space-y-16">
-        <div
-          aria-hidden="true"
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-green-50"
-        >
-          <span className="font-bold text-green-600">
-            {index}
-          </span>
-        </div>
-        <div className="space-y-4">
-          <h3 className="text-2xl font-semibold text-gray-800 transition">
-            {title}
-          </h3>
-          <p className="text-gray-600">
-            {description}
-          </p>
-        </div>
-        {img && (
-          <img
-            src={img}
-            className="w-16"
-            width="512"
-            height="512"
-            alt="burger illustration"
-          />
-        )}
-      </div>
-    </div>
-  )
-}
+import Card from "@/components/landing/_components/card";
 
 export default function MakingWorkEasier() {
   return (
@@ -53,22 +11,22 @@ export default function MakingWorkEasier() {
         </div>
         <div className="mt-16 grid gap-8 sm:grid-cols-2 md:-mx-8 lg:grid-cols-4">
           <Card
-            index={1}
+            icon="1"
             title="Организации"
             description="Просмотр информации об организации, контактных данных и их услуг."
           />
           <Card
-            index={2}
+            icon="2"
             title="Услуги"
             description="Список услуг организаций, запрос услуг у организаций."
           />
           <Card
-            index={3}
+            icon="3"
             title="Заявки"
             description="Обработка заявки организацией и запрос услуг клиентами."
           />
           <Card
-            index={3}
+            icon="4"
             title="Мероприятия"
             description="Создание мероприятий от организаций."
           />

@@ -39,7 +39,7 @@ const Header = () => {
               <div className="text-gray-600 lg:pr-4 lg:w-auto w-full lg:pt-0">
                 <ul className="tracking-wide font-medium text-sm flex-col flex lg:flex-row gap-6 lg:gap-0">
                   <li>
-                    <Link href="#" className="block md:px-4 transition hover:text-primary">
+                    <Link href="#about" className="block md:px-4 transition hover:text-primary">
                       <span>О нас</span>
                     </Link>
                   </li>

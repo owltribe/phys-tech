@@ -30,7 +30,7 @@ export default function Hero() {
             </p>
 
             <div className="mx-auto mt-16 space-y-2 lg:space-y-0 md:w-max sm:space-x-6">
-              <Button className="w-full py-3 px-6 text-center rounded-full transition sm:w-max">
+              <Button className="w-full py-3 px-6 text-center rounded-full transition sm:w-max" href="#about">
                 Начать исследование
               </Button>
             </div>
