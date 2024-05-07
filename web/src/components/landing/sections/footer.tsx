@@ -18,7 +18,7 @@ export default function Footer() {
               <div
                 className="flex items-center justify-between gap-6 border-b border-white py-6 md:block md:space-y-6 md:border-none md:py-0">
                 <div aria-label="logo" className="flex space-x-2 items-center">
-                  <Logo className="h-[42px]" />
+                  <Logo className="h-6" />
                   <span className="text-lg font-bold text-gray-900">Science Услуги</span>
                 </div>
                 <div className="flex gap-6">
@@ -60,24 +60,57 @@ export default function Footer() {
             <div className="col-span-8 md:col-span-6 lg:col-span-5">
               <div className="grid grid-cols-2 gap-6 pb-16 sm:grid-cols-3 md:pl-16">
                 <div>
-                  <h6 className="text-lg font-medium text-gray-800">О нас</h6>
+                  <Link className="text-lg font-medium text-gray-800 hover:text-cyan-600" href="#about">О нас</Link>
                   <ul className="mt-4 list-inside space-y-4">
                     <li>
-                      <a href="#" className="transition hover:text-cyan-600">Преимущества</a>
+                      <Link
+                        href="#solution"
+                        className="transition hover:text-cyan-600"
+                      >
+                        Решения
+                      </Link>
                     </li>
                     <li>
-                      <a href="#" className="transition hover:text-cyan-600">Отзывы</a>
+                      <Link
+                        href="#testimonials"
+                        className="transition hover:text-cyan-600"
+                      >
+                        Отзывы
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="#contact"
+                        className="transition hover:text-cyan-600"
+                      >
+                        Контакты
+                      </Link>
                     </li>
                   </ul>
                 </div>
                 <div>
-                  <h6 className="text-lg font-medium text-gray-800">Решение</h6>
+                  <h6 className="text-lg font-medium text-gray-800">Сервисы</h6>
                   <ul className="mt-4 list-inside space-y-4">
                     <li>
-                      <a href="#" className="transition hover:text-cyan-600">Пользователи</a>
+                      <Link href="/services" className="transition hover:text-cyan-600">
+                        Услуги
+                      </Link>
                     </li>
                     <li>
-                      <a href="#" className="transition hover:text-cyan-600">Возможности</a>
+                      <Link
+                        href="/organizations"
+                        className="transition hover:text-cyan-600"
+                      >
+                        Организации
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/events"
+                        className="transition hover:text-cyan-600"
+                      >
+                        Мероприятия
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -85,10 +118,20 @@ export default function Footer() {
                   <h6 className="text-lg font-medium text-gray-800">Контакты</h6>
                   <ul className="mt-4 list-inside space-y-4">
                     <li>
-                      <a href="tel:+77777777777" className="transition hover:text-cyan-600">+7 (777) 777-77-77</a>
+                      <Link
+                        href="tel:+77777777777"
+                        className="transition hover:text-cyan-600"
+                      >
+                        +7 (777) 777-77-77
+                      </Link>
                     </li>
                     <li>
-                      <a href="mailto:owltribe@gmail.com" className="transition hover:text-cyan-600">owltribe@gmail.com</a>
+                      <Link
+                        href="mailto:owl@owltribe.com"
+                        className="transition hover:text-cyan-600"
+                      >
+                        owl@owltribe.com
+                      </Link>
                     </li>
                   </ul>
                 </div>
