@@ -1,19 +1,22 @@
 import React from "react";
 import {cn} from "@/lib/utils";
 import Link from "next/link";
+import {Spinner} from "@radix-ui/themes";
 
 interface ButtonProps {
   children: React.ReactNode;
   variant?: 'solid' | 'light';
-  className?: string
-  href?: string
-  onClick?: () => void
+  className?: string;
+  href?: string;
+  onClick?: () => void;
+  isLoading?: boolean;
 }
 
 const Button = ({
   children,
   variant = 'solid',
   className,
+  isLoading,
   ...props
 }: ButtonProps) => {
   const variantStyles = {
@@ -36,8 +39,10 @@ const Button = ({
           className,
         )
       }
+      disabled={isLoading}
       {...props as any}
     >
+      {isLoading && <Spinner mr="4" />}
       <span
         className={
           cn("relative text-sm font-semibold",
