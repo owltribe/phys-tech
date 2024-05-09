@@ -18,7 +18,7 @@ const schema = yup.object().shape({
   phone: yup
     .string()
     .required('Поле номера телефона обязательно')
-    .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Неверный номер телефона')
+    .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Неверный формат номер телефона')
 });
 
 interface FormValues {
@@ -81,7 +81,7 @@ export default function ContactUsForm() {
           error={errors.email?.message}
         />
         <InputMask
-          mask="+7 (___) ___-__-__"
+          mask="+7 (___)___-__-__"
           replacement={{
             _: /\d/
           }}

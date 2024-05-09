@@ -12,6 +12,8 @@ import useUpdateOrganization from "@/hooks/organization/useUpdateOrganization";
 import useUploadOrganizationAvatar from "@/hooks/organization/useUploadOrganizationAvatar";
 import OrganizationCategorySelect from "@/components/selects/organization-category-select";
 import {getFormattedError} from "@/lib/error-helper";
+import {InputMask} from "@react-input/mask";
+import {formatPhoneNumber, unformatPhoneNumber} from "@/lib/formatters";
 
 
 const schema = yup.object().shape({
@@ -23,8 +25,8 @@ const schema = yup.object().shape({
   address: yup.string().required("Пожалуйста, введите адрес организации."),
   contact: yup
     .string()
-    .matches(/^(\+7|8)7\d{9}$/, "Номер телефона должен быть в формате Казахстана. Пример: +77001234567")
-    .required("Пожалуйста, введите номер телефона."),
+    .required("Пожалуйста введите номер телефона.")
+    .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Неверный формат номера телефона'),
   email: yup
     .string()
     .required("Пожалуйста, введите адрес электронной почты.")
@@ -67,7 +69,7 @@ export default function OrganizationProfileDialog({ open, onOpenChange, organiza
       name: organization.name,
       bin: organization.bin || "",
       address: organization.address || "",
-      contact: organization.contact || "",
+      contact: organization.contact ? formatPhoneNumber(organization.contact) : "",
       email: organization.email,
       description: organization.description,
       category: organization.category,
@@ -87,14 +89,18 @@ export default function OrganizationProfileDialog({ open, onOpenChange, organiza
   };
 
   const onSubmit = (formValues: FormValues) => {
-   updateOrganizationMutation.mutate(formValues, {
-     onError: (error) => {
-       toast.error(`Ошибка обновления профиля. ${getFormattedError(error.response?.data.detail)}`)
-     },
-     onSuccess: () => {
-       toast.success('Профиль успешно обновлен')
-       onOpenChange?.(false)
-     }
+    const payload = {
+      ...formValues,
+      contact: unformatPhoneNumber(formValues.contact)
+    }
+    updateOrganizationMutation.mutate(payload, {
+      onError: (error) => {
+        toast.error(`Ошибка обновления профиля. ${getFormattedError(error.response?.data.detail)}`)
+      },
+      onSuccess: () => {
+        toast.success('Профиль успешно обновлен')
+        onOpenChange?.(false)
+      }
    });
   };
 
@@ -206,8 +212,13 @@ export default function OrganizationProfileDialog({ open, onOpenChange, organiza
               error={errors.address?.message}
               {...register('address')}
             />
-            <TextField
-              type="text"
+            <InputMask
+              mask="+7 (___) ___-__-__"
+              showMask
+              replacement={{
+                _: /\d/
+              }}
+              component={TextField}
               label="Контакт"
               placeholder='Контакт'
               error={errors.contact?.message}

@@ -32,7 +32,7 @@ class UserReadWithOrganization(UserRead):
 
 class UserCreate(schemas.BaseUserCreate):
     email: EmailStr
-    contact: constr(pattern=r"^(\+7|8)7\d{9}$")  # Phone number pattern
+    contact: constr(pattern=r"^7\d{10}$", max_length=11, min_length=11)
     first_name: str
     last_name: str
     role: UserRole
@@ -48,7 +48,8 @@ class UserWithOrganizationCreate(UserCreate):
 
 class UserUpdate(schemas.BaseUserUpdate):
     email: Optional[EmailStr] = None
-    contact: constr(pattern=r"^(\+7|8)7\d{9}$")
+    # contact: constr(pattern=r"^(\+7|8)7\d{9}$")
+    contact: Optional[str] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     role: Optional[UserRole] = None

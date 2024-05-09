@@ -8,10 +8,13 @@ import {useAuth} from "@/providers/AuthProvider";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {getFormattedError} from "@/lib/error-helper";
 import toast from "react-hot-toast";
-import {OrganizationCategory} from "@/types/generated";
+import {OrganizationCategory, UserWithOrganizationCreate} from "@/types/generated";
 import {Separator} from "@radix-ui/themes";
 import TextAreaField from "@/components/ui/text-area-field";
 import OrganizationCategorySelect from "@/components/selects/organization-category-select";
+import {InputMask} from "@react-input/mask";
+import React from "react";
+import {unformatPhoneNumber} from "@/lib/formatters";
 
 interface FormValues {
   email: string;
@@ -38,7 +41,7 @@ const schema = yup.object().shape({
   contact: yup
     .string()
     .required("Введите номер телефона")
-    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона"),
+    .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Неверный формат номера телефона'),
   first_name: yup.string().required("Введите свое имя"),
   last_name: yup.string().required("Введите свою фамилию"),
   password: yup
@@ -62,14 +65,14 @@ const schema = yup.object().shape({
   organization_contact: yup
     .string()
     .required("Введите номер телефона")
-    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона"),
+    .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Неверный формат номера телефона'),
   organization_email: yup
     .string()
     .required("Введите рабочую электронную почту организации")
     .email("Некорректный формат адреса электронной почты"),
   organization_description: yup
     .string()
-    .required("Опешите род деятельность организации"),
+    .required("Опишите род деятельность организации"),
   organization_category: yup
     .string()
     .oneOf<OrganizationCategory>(
@@ -95,6 +98,7 @@ const OrganizationForm = ({
   } = useForm({
     defaultValues: {
       email: "",
+      contact: "",
       first_name: "",
       last_name: "",
       password: "",
@@ -123,27 +127,26 @@ const OrganizationForm = ({
       ...registerValues
     } = formValues;
 
+    const payload = {
+      ...registerValues,
+      contact: unformatPhoneNumber(registerValues.contact),
+      role: "Organization" as UserWithOrganizationCreate['role'],
+      organization_data: {
+        name: organization_name,
+        bin: organization_bin,
+        address: organization_address,
+        contact: unformatPhoneNumber(organization_contact),
+        email: organization_email,
+        description: organization_description,
+        category: organization_category
+      }
+    }
+
     onRegister(
-      {
-        ...registerValues,
-        role: "Organization",
-        organization_data: {
-          name: organization_name,
-          bin: organization_bin,
-          address: organization_address,
-          contact: organization_contact,
-          email: organization_email,
-          description: organization_description,
-          category: organization_category
-        }
-      },
+      payload,
       {
         onError: (error) => {
-          toast.error(
-            getFormattedError(
-              error.response?.data.detail || "Ошибка регистрации"
-            )
-          );
+          toast.error(getFormattedError(error.response?.data.detail || "Ошибка регистрации"));
         },
         onSuccess: () => {
           toast.success("Аккаунт с организацией успешно зарегистрированы.");
@@ -180,13 +183,18 @@ const OrganizationForm = ({
         error={errors.email?.message}
         {...register('email')}
       />
-      <TextField
-        type="tel"
+      <InputMask
+        mask="+7 (___) ___-__-__"
+        showMask
+        replacement={{
+          _: /\d/
+        }}
+        component={TextField}
         label="Номер телефона"
         placeholder="Введите контакный номер"
         wrapperClassName="col-span-6 sm:col-span-3"
         error={errors.contact?.message}
-        {...register('contact')}
+        {...register("contact")}
       />
       <PasswordField
         label="Пароль"
@@ -212,7 +220,13 @@ const OrganizationForm = ({
         error={errors.organization_name?.message}
         {...register('organization_name')}
       />
-      <TextField
+      <InputMask
+        mask="____________"
+        showMask
+        replacement={{
+          _: /\d/
+        }}
+        component={TextField}
         label="БИН"
         placeholder="Введите БИН"
         wrapperClassName="col-span-6 sm:col-span-3"
@@ -242,8 +256,13 @@ const OrganizationForm = ({
         error={errors.organization_email?.message}
         {...register('organization_email')}
       />
-      <TextField
-        type="tel"
+      <InputMask
+        mask="+7 (___) ___-__-__"
+        showMask
+        replacement={{
+          _: /\d/
+        }}
+        component={TextField}
         label="Контактный телефон организации"
         placeholder="Введите контакный номер организации"
         wrapperClassName="col-span-6 sm:col-span-3"
@@ -255,7 +274,7 @@ const OrganizationForm = ({
         placeholder="Добавьте описание организации"
         wrapperClassName="col-span-6"
         error={errors.organization_description?.message}
-        {...register('organization_bin')}
+        {...register('organization_description')}
       />
 
       {children(isRegisterLoading)}
