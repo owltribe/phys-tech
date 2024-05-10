@@ -8,6 +8,10 @@ import {useAuth} from "@/providers/AuthProvider";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {getFormattedError} from "@/lib/error-helper";
 import toast from "react-hot-toast";
+import {unformatPhoneNumber} from "@/lib/formatters";
+import {InputMask} from "@react-input/mask";
+import React from "react";
+import {UserWithOrganizationCreate} from "@/types/generated";
 
 interface FormValues {
   email: string;
@@ -25,8 +29,8 @@ const schema = yup.object().shape({
     .email("Некорректный формат адреса электронной почты"),
   contact: yup
     .string()
-    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона")
-    .required("Введите номер телефона"),
+    .required("Введите номер телефона")
+    .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Неверный формат номера телефона'),
   first_name: yup.string().required("Введите свое имя"),
   last_name: yup.string().required("Введите свою фамилию"),
   password: yup
@@ -64,8 +68,14 @@ const ClientForm = ({
   });
 
   const onSubmit = (formValues: FormValues) => {
+    const payload = {
+      ...formValues,
+      contact: unformatPhoneNumber(formValues.contact),
+      role: "Client" as UserWithOrganizationCreate['role'],
+    }
+
     onRegister(
-      { ...formValues, role: "Client" },
+      payload,
       {
         onError: (error) => {
           toast.error(
@@ -109,8 +119,13 @@ const ClientForm = ({
         error={errors.email?.message}
         {...register('email')}
       />
-      <TextField
-        type="tel"
+      <InputMask
+        mask="+7 (___) ___-__-__"
+        showMask
+        replacement={{
+          _: /\d/
+        }}
+        component={TextField}
         label="Номер телефона"
         placeholder="Введите контакный номер"
         wrapperClassName="col-span-6 sm:col-span-3"

@@ -14,6 +14,8 @@ import toast from "react-hot-toast";
 import {getFormattedError} from "@/lib/error-helper";
 import {Check, Pencil} from "lucide-react";
 import {getNonCachingImgUrl} from "@/lib/utils";
+import {InputMask} from "@react-input/mask";
+import {formatPhoneNumber, unformatPhoneNumber} from "@/lib/formatters";
 
 interface FormValues {
   email: string;
@@ -29,8 +31,8 @@ const schema = yup.object().shape({
     .email("Некорректный формат адреса электронной почты"),
   contact: yup
     .string()
-    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона")
-    .required("Введите номер телефона"),
+    .required("Пожалуйста введите номер телефона.")
+    .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Неверный формат номера телефона'),
   first_name: yup.string().required("Введите свое имя"),
   last_name: yup.string().required("Введите свою фамилию")
 });
@@ -56,7 +58,7 @@ export default function ProfileDialog({
   } = useForm<FormValues>({
     defaultValues: {
       email: user.email,
-      contact: user.contact || "",
+      contact: user.contact ? formatPhoneNumber(user.contact) : "",
       first_name: user.first_name,
       last_name: user.last_name
     },
@@ -78,7 +80,11 @@ export default function ProfileDialog({
   }
 
   const onSubmit = (formValues: FormValues) => {
-    updateProfileMutation.mutate(formValues, {
+    const payload = {
+      ...formValues,
+      contact: unformatPhoneNumber(formValues.contact)
+    }
+    updateProfileMutation.mutate(payload, {
       onError: (error) => {
         toast.error(`Ошибка обновления профиля. ${getFormattedError(error.response?.data.detail)}`)
       },
@@ -185,12 +191,17 @@ export default function ProfileDialog({
               error={errors.email?.message}
               {...register('email')}
             />
-            <TextField
-              type="tel"
+            <InputMask
+              mask="+7 (___) ___-__-__"
+              showMask
+              replacement={{
+                _: /\d/
+              }}
+              component={TextField}
               label="Номер телефона"
-              placeholder='Введите номер телефона'
+              placeholder="Введите номер телефона"
               error={errors.contact?.message}
-              {...register('contact')}
+              {...register("contact")}
             />
             <TextField
               label="Имя"
