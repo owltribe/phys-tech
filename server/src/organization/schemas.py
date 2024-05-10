@@ -64,8 +64,7 @@ class OrganizationUpdate(BaseModel):
     name: str
     bin: str
     address: str
-    contact: str
-    # contact: constr(pattern=r"^(\+7|8)7\d{9}$")  # Phone number pattern
+    contact: constr(pattern=r"^7\d{10}$", max_length=11, min_length=11)
     email: str
     description: str
     category: str
