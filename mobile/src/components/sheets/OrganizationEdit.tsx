@@ -4,12 +4,14 @@ import { StyleSheet, View } from "react-native";
 import { SheetManager, SheetProps } from "react-native-actions-sheet";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SolidButton from "components/buttons/SolidButton";
+import MaskedTextField from "components/fields/MaskedTextField";
 import OrganizationCategoriesSelect from "components/fields/OrganizationCategoriesSelect";
 import TextField from "components/fields/TextField";
 import Title from "components/typography/Title";
 import useUpdateOrganization from "hooks/organization/useUpdateOrganization";
 import { OrganizationCategory } from "types/generated";
 import { getFormattedError } from "utils/error-helper";
+import { phoneNumberMask } from "utils/masks";
 import { showToastWithGravity } from "utils/notifications";
 import * as yup from "yup";
 
@@ -27,8 +29,8 @@ const schema = yup.object().shape({
   address: yup.string().required("Введите адрес организации"),
   contact: yup
     .string()
-    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона")
-    .required("Введите номер телефона"),
+    .required("Введите номер телефона")
+    .matches(/^7\d{10}/, "Неверный формат номера телефона"),
   email: yup
     .string()
     .required()
@@ -148,13 +150,19 @@ const OrganizationEdit = ({ payload }: SheetProps<"OrganizationEdit">) => {
         rules={{ required: true }}
         name="contact"
         render={({ field: { onChange, onBlur, value } }) => (
-          <TextField
-            mode="outlined"
-            label="Номер телефона"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
+          <MaskedTextField
+            mask={phoneNumberMask}
+            label="Номер телефона организации"
+            keyboardType="phone-pad"
+            textContentType="telephoneNumber"
+            contextMenuHidden={false}
+            maxLength={15}
             error={errors.contact?.message}
+            value={value}
+            onBlur={onBlur}
+            onChangeText={(_, unmasked) => {
+              onChange(unmasked);
+            }}
           />
         )}
       />

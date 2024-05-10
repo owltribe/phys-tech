@@ -3,12 +3,14 @@ import { Controller, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SolidButton from "components/buttons/SolidButton";
+import MaskedTextField from "components/fields/MaskedTextField";
 import OrganizationCategoriesSelect from "components/fields/OrganizationCategoriesSelect";
 import TextField from "components/fields/TextField";
 import { useAuth } from "providers/AuthProvider";
 import { RegisterScreenProps } from "screens/types";
 import { OrganizationCategory } from "types/generated";
 import { getFormattedError } from "utils/error-helper";
+import { phoneNumberMask } from "utils/masks";
 import {
   showToastWithGravity,
   showToastWithGravityAndOffset
@@ -39,11 +41,8 @@ const schema = yup.object().shape({
     .email("Некорректный формат адреса электронной почты"),
   contact: yup
     .string()
-    .matches(
-      /^(\+7|8)7\d{9}$/,
-      "Введите Казахстанский формат номера телефона. Пример корректного: +77759999999"
-    )
-    .required("Введите номер телефона"),
+    .required("Введите номер телефона")
+    .matches(/^7\d{10}/, "Неверный формат номера телефона"),
   first_name: yup.string().required("Введите свое имя"),
   last_name: yup.string().required("Введите свою фамилию"),
   password: yup
@@ -66,8 +65,8 @@ const schema = yup.object().shape({
   organization_address: yup.string().required("Введите адрес организации"),
   organization_contact: yup
     .string()
-    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона")
-    .required("Введите номер телефона"),
+    .required("Введите номер телефона")
+    .matches(/^7\d{10}/, "Неверный формат номера телефона"),
   organization_email: yup
     .string()
     .required()
@@ -97,6 +96,7 @@ const OrganizationForm = ({
   } = useForm({
     defaultValues: {
       email: "",
+      contact: "7",
       first_name: "",
       last_name: "",
       password: "",
@@ -105,7 +105,7 @@ const OrganizationForm = ({
       organization_name: "",
       organization_bin: "",
       organization_address: "",
-      organization_contact: "",
+      organization_contact: "7",
       organization_email: "",
       organization_description: "",
       organization_category: "Scientific Institute"
@@ -185,15 +185,19 @@ const OrganizationForm = ({
         }}
         name="contact"
         render={({ field: { onChange, onBlur, value } }) => (
-          <TextField
-            mode="outlined"
+          <MaskedTextField
+            textContentType="telephoneNumber"
+            keyboardType="phone-pad"
             label="Номер телефона"
-            autoComplete="tel"
-            inputMode="tel"
-            onBlur={onBlur}
-            onChangeText={onChange}
+            mask={phoneNumberMask}
+            contextMenuHidden={false}
             value={value}
+            onBlur={onBlur}
             error={errors.contact?.message}
+            maxLength={15}
+            onChangeText={(_, unmasked) => {
+              onChange(unmasked);
+            }}
           />
         )}
       />
@@ -329,14 +333,19 @@ const OrganizationForm = ({
         rules={{ required: true }}
         name="organization_contact"
         render={({ field: { onChange, onBlur, value } }) => (
-          <TextField
-            mode="outlined"
+          <MaskedTextField
+            mask={phoneNumberMask}
             label="Номер телефона организации"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            inputMode="tel"
+            keyboardType="phone-pad"
+            textContentType="telephoneNumber"
+            contextMenuHidden={false}
+            maxLength={15}
             error={errors?.organization_contact?.message}
+            value={value}
+            onBlur={onBlur}
+            onChangeText={(_, unmasked) => {
+              onChange(unmasked);
+            }}
           />
         )}
       />

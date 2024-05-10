@@ -3918,10 +3918,10 @@ expo-status-bar@~1.12.1:
   resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.12.1.tgz#52ce594aab5064a0511d14375364d718ab78aa66"
   integrity sha512-/t3xdbS8KB0prj5KG5w7z+wZPFlPtkgs95BsmrP/E7Q0xHXTcDcQ6Cu2FkFuRM+PKTb17cJDnLkawyS5vDLxMA==
 
-expo@^51.0.1:
-  version "51.0.1"
-  resolved "https://registry.yarnpkg.com/expo/-/expo-51.0.1.tgz#733e82390bc748a53e03170d6dab0f1181448efb"
-  integrity sha512-q+3cnPmNcgKhx4AK0NO9n2Y4VLpvkyRx1O1H5okdUE+3Z8paIMlQsPnl4SnQu6YRY7ar1OmS7txUqRAmr1Sxxg==
+expo@~51.0.2:
+  version "51.0.2"
+  resolved "https://registry.yarnpkg.com/expo/-/expo-51.0.2.tgz#14de27d8d8addec5848285a6e4bd8792d07fc3f2"
+  integrity sha512-aRKrheMMQBcNDg2SBjW5kcSN5G58bdIpsxeSQ65Bx18DFLXjPv5UaU9kzIWRAcxaPtgictn9ut9IJQVZKChNxQ==
   dependencies:
     "@babel/runtime" "^7.20.0"
     "@expo/cli" "0.18.10"
@@ -6495,6 +6495,11 @@ react-native-gesture-handler@~2.16.1:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-mask-input@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-mask-input/-/react-native-mask-input-1.2.3.tgz#c588b145bb48098be54ac6b40ebe7363a302428b"
+  integrity sha512-RWx+gc1EaBslJWR6dsvGdILJ5XvnvZuyEsgJaH9uAMukB3Z9eOlxra1E7Ovck8NSMVcYWpBB/lzojO4LwqqXgA==
+
 react-native-modal-datetime-picker@^17.1.0:
   version "17.1.0"
   resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-17.1.0.tgz#74291bf92b830be285752f437841f52885c90e0b"
@@ -6526,10 +6531,10 @@ react-native-reanimated-carousel@^3.5.1:
   resolved "https://registry.yarnpkg.com/react-native-reanimated-carousel/-/react-native-reanimated-carousel-3.5.1.tgz#3605b9959ffc0aa1c6b8b8736d98f91f46e36b17"
   integrity sha512-9BBQV6JAYSQm2lV7MFtT4mzapXmW4IZO6s38gfiJL84Jg23ivGB1UykcNQauKgtHyhtW2NuZJzItb1s42lM+hA==
 
-react-native-reanimated@3.10.0:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-3.10.0.tgz#7367f0ae9c79193315f4f1ef4d359bfac678a761"
-  integrity sha512-oiQiO+iJ8HTXTli94+Cl5R7nd+TzZf+3MYnMKWtnVDDCxFsqBgpkKO2Xp2ZhZyseXY/JDdH0//E7LlPQRRxpXg==
+react-native-reanimated@~3.10.1:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-3.10.1.tgz#3c37d1100bbba0065df39c96aab0c1ff1b50c0fa"
+  integrity sha512-sfxg6vYphrDc/g4jf/7iJ7NRi+26z2+BszPmvmk0Vnrz6FL7HYljJqTf531F1x6tFmsf+FEAmuCtTUIXFLVo9w==
   dependencies:
     "@babel/plugin-transform-arrow-functions" "^7.0.0-0"
     "@babel/plugin-transform-nullish-coalescing-operator" "^7.0.0-0"

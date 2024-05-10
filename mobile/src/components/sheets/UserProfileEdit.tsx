@@ -11,6 +11,9 @@ import { useAuth } from "providers/AuthProvider";
 import { showToastWithGravity } from "utils/notifications";
 import * as yup from "yup";
 
+import { phoneNumberMask } from "../../utils/masks";
+import MaskedTextField from "../fields/MaskedTextField";
+
 import DefaultActionSheet from "./DefaultActionSheet";
 
 interface FormValues {
@@ -27,8 +30,8 @@ const schema = yup.object().shape({
     .email("Некорректный формат адреса электронной почты"),
   contact: yup
     .string()
-    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона")
-    .required("Введите номер телефона"),
+    .required("Введите номер телефона")
+    .matches(/^7\d{10}/, "Неверный формат номера телефона"),
   first_name: yup.string().required("Введите свое имя"),
   last_name: yup.string().required("Введите свою фамилию")
 });
@@ -94,15 +97,19 @@ const UserProfileEdit = ({ payload }: SheetProps<"UserProfileEdit">) => {
         }}
         name="contact"
         render={({ field: { onChange, onBlur, value } }) => (
-          <TextField
-            mode="outlined"
+          <MaskedTextField
+            mask={phoneNumberMask}
             label="Номер телефона"
-            autoComplete="tel"
-            inputMode="tel"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
+            keyboardType="phone-pad"
+            textContentType="telephoneNumber"
+            contextMenuHidden={false}
+            maxLength={15}
             error={errors.contact?.message}
+            value={value}
+            onBlur={onBlur}
+            onChangeText={(_, unmasked) => {
+              onChange(unmasked);
+            }}
           />
         )}
       />

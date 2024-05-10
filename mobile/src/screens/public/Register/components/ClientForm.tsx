@@ -3,10 +3,12 @@ import { Controller, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SolidButton from "components/buttons/SolidButton";
+import MaskedTextField from "components/fields/MaskedTextField";
 import TextField from "components/fields/TextField";
 import { useAuth } from "providers/AuthProvider";
 import { RegisterScreenProps } from "screens/types";
 import { getFormattedError } from "utils/error-helper";
+import { phoneNumberMask } from "utils/masks";
 import {
   showToastWithGravity,
   showToastWithGravityAndOffset
@@ -29,8 +31,8 @@ const schema = yup.object().shape({
     .email("Некорректный формат адреса электронной почты"),
   contact: yup
     .string()
-    .matches(/^(\+7|8)7\d{9}$/, "Введите Казахстанский формат номера телефона")
-    .required("Введите номер телефона"),
+    .required("Введите номер телефона")
+    .matches(/^7\d{10}/, "Неверный формат номера телефона"),
   first_name: yup.string().required("Введите свое имя"),
   last_name: yup.string().required("Введите свою фамилию"),
   password: yup
@@ -57,6 +59,7 @@ const ClientForm = ({
   } = useForm({
     defaultValues: {
       email: "",
+      contact: "7",
       first_name: "",
       last_name: "",
       password: "",
@@ -112,15 +115,19 @@ const ClientForm = ({
         }}
         name="contact"
         render={({ field: { onChange, onBlur, value } }) => (
-          <TextField
-            mode="outlined"
+          <MaskedTextField
+            textContentType="telephoneNumber"
+            keyboardType="phone-pad"
             label="Номер телефона"
-            autoComplete="tel"
-            inputMode="tel"
-            onBlur={onBlur}
-            onChangeText={onChange}
+            mask={phoneNumberMask}
+            contextMenuHidden={false}
             value={value}
+            onBlur={onBlur}
             error={errors.contact?.message}
+            maxLength={15}
+            onChangeText={(_, unmasked) => {
+              onChange(unmasked);
+            }}
           />
         )}
       />
