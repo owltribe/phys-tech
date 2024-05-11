@@ -11,12 +11,11 @@ interface PaginationProps {
   total: number
 }
 
+
 const Pagination = ({total, page}: PaginationProps) => {
   const pathname = usePathname()
-  const router = useRouter()
   const searchParams = useSearchParams()
-
-  const pageParam = searchParams.get("page")
+  const router = useRouter()
 
   const pagination = usePagination({
     total,
@@ -24,11 +23,12 @@ const Pagination = ({total, page}: PaginationProps) => {
   })
 
   const handleClick = (page: number) => {
-     const url = qs.stringifyUrl({
+    const url = qs.stringifyUrl({
       url: pathname,
       query: {
-        page: page,
-      }
+        search: searchParams.get("search"),
+        page,
+      },
     }, { skipEmptyString: true, skipNull: true });
 
     router.push(url);

@@ -10,6 +10,7 @@ import ListServices from "@/app/(dashboard)/(routes)/services/_components/list-s
 import {PlusCircle} from "lucide-react";
 import ServiceCreationDialog from "@/components/dialogs/create-service-dialog";
 import {useState} from "react";
+import Pagination from "@/components/pagination";
 
 const ListOwnServiceWithTabs = () => {
   const searchParams = useSearchParams()
