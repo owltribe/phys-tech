@@ -3,7 +3,7 @@
 import qs from "query-string";
 import { Search } from "lucide-react";
 import React, {useEffect, useMemo, useState} from "react";
-import { useRouter, usePathname } from "next/navigation";
+import {useRouter, usePathname} from "next/navigation";
 
 import useDebounce from "@/hooks/useDebounce";
 import {Box, TextField} from "@radix-ui/themes";
@@ -34,11 +34,16 @@ export const SearchInput = () => {
   }, [isEventsPage, isOrganizationsPage, isServicesPage])
 
   useEffect(() => {
+    // Parse the current query string
+    const parsedQuery = qs.parse(pathname);
+
+    // Stringify the updated query back into a URL query string
     const url = qs.stringifyUrl({
       url: pathname,
       query: {
+        ...parsedQuery,
         search: debouncedValue,
-      }
+      },
     }, { skipEmptyString: true, skipNull: true });
 
     router.push(url);

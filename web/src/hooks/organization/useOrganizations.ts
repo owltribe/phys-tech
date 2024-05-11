@@ -7,16 +7,20 @@ export default function useOrganizations({
   search,
   category__in,
   category,
+  page,
 }: {
   search?: string | null;
   category__in?: string[];
   category?: string | null;
+  page?: string
 }): UseQueryResult<
   Page_OrganizationRead_,
   AxiosError<ErrorModel>
 > {
   const queryFn = () => {
-    const params = {} as Record<string, string>;
+    const params = {
+      size: '20'
+    } as Record<string, string>;
 
     if (search) {
       params.search = search;
@@ -27,12 +31,14 @@ export default function useOrganizations({
     if (category) {
       params.category = category;
     }
-
+    if (page) {
+      params.page = page
+    }
     return axiosInstance.get(`/organizations`, { params: params });
   };
 
   return useQuery({
-    queryKey: ["organizations", search, category__in, category],
+    queryKey: ["organizations", search, category__in, category, page],
     queryFn,
   });
 }

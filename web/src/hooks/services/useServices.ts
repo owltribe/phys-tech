@@ -26,11 +26,14 @@ export default function useServices({
     if (organizationId) {
       params.organization_id = organizationId;
     }
+    if (page) {
+      params.page = page
+    }
     return axiosInstance.get("/services", { params: params });
   };
 
   return useQuery({
-    queryKey: ["services", search, organizationId],
+    queryKey: ["services", search, organizationId, page],
     queryFn,
   });
 }
