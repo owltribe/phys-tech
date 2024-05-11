@@ -10,10 +10,13 @@ import Link from "next/link";
 import {PlusCircle} from "lucide-react";
 import EventCreateDialog from "@/components/dialogs/create-event-dialog";
 import {useAuth} from "@/providers/AuthProvider";
+import Pagination from "@/components/pagination";
 
 const ListEvents = () => {
   const {user} = useAuth()
   const searchParams = useSearchParams();
+
+  const currentPage = Number(searchParams.get("page")) || 1
 
   const {
     data,
@@ -56,6 +59,14 @@ const ListEvents = () => {
         {isSuccess && data?.total === 0 && (
           <div className="text-center text-sm text-muted-foreground mt-10">
             <p className="font-googleSans">Нет доступных мероприятия</p>
+          </div>
+        )}
+        {isSuccess && !!data && (
+          <div className="flex justify-center my-8">
+            <Pagination
+              page={currentPage}
+              total={data.pages as number}
+            />
           </div>
         )}
       </Container>

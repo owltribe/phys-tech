@@ -3,13 +3,12 @@
 import qs from "query-string";
 import { Search } from "lucide-react";
 import React, {useEffect, useMemo, useState} from "react";
-import {useRouter, usePathname, useSearchParams} from "next/navigation";
+import {useRouter, usePathname} from "next/navigation";
 
 import useDebounce from "@/hooks/useDebounce";
 import {Box, TextField} from "@radix-ui/themes";
 
 export const SearchInput = () => {
-  const searchParams = useSearchParams();
   const [value, setValue] = useState("")
   const debouncedValue = useDebounce(value);
 

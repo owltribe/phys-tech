@@ -27,6 +27,7 @@ const Pagination = ({total, page}: PaginationProps) => {
       url: pathname,
       query: {
         search: searchParams.get("search"),
+        category: searchParams.get("category"),
         page,
       },
     }, { skipEmptyString: true, skipNull: true });

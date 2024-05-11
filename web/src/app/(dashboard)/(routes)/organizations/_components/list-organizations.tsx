@@ -8,10 +8,13 @@ import {OrganizationCategoryEnum} from "@/lib/enums";
 import CategoryItem from "@/app/(dashboard)/(routes)/organizations/_components/category-item";
 import {Suspense} from "react";
 import CardListLoader from "@/components/loaders/card-list-loader";
+import Pagination from "@/components/pagination";
 
 const ListOrganizations = () => {
   const searchParams = useSearchParams();
   const categorySearchParam = searchParams.get("category")
+
+  const currentPage = Number(searchParams.get("page")) || 1
 
   const {
     data,
@@ -20,7 +23,8 @@ const ListOrganizations = () => {
     isFetching,
   } = useOrganizations({
     search: searchParams.get("search"),
-    category: categorySearchParam
+    category: categorySearchParam,
+    page: String(currentPage)
   })
   
   const categoryFilters = Object.entries(OrganizationCategoryEnum)
@@ -62,6 +66,14 @@ const ListOrganizations = () => {
       {isSuccess && data?.total === 0 && (
         <div className="text-center text-sm text-muted-foreground mt-10">
           <p className="font-googleSans">Нет доступных организаций</p>
+        </div>
+      )}
+      {isSuccess && !!data && (
+        <div className="flex justify-center my-8">
+          <Pagination
+            page={currentPage}
+            total={data.pages as number}
+          />
         </div>
       )}
     </Container>
