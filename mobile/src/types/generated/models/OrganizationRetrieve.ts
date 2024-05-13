@@ -15,5 +15,6 @@ export type OrganizationRetrieve = {
     category: OrganizationCategory;
     services: Array<ServiceItem>;
     photo: (string | null);
+    created_at: string;
 };
 

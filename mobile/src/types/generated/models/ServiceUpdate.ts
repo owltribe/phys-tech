@@ -7,5 +7,8 @@ export type ServiceUpdate = {
     description?: (string | null);
     expected_result?: (string | null);
     cost?: (number | null);
+    technical_specifications?: (string | null);
+    sample_preparation?: (string | null);
+    has_certificate?: (boolean | null);
 };
 
