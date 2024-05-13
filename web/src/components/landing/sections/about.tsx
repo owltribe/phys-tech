@@ -26,7 +26,7 @@ export default function About() {
               пользователями, ищущими научные услуги.
             </p>
 
-            <Button href="#advantages">
+            <Button href="/services">
               Начать исследовать
             </Button>
           </div>

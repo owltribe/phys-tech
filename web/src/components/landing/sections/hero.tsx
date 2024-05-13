@@ -29,9 +29,12 @@ export default function Hero() {
               Платформа, упрощающая процесс сбора, поиска и получения информации по научно-аналитическим и экспериментальным исследованиям.
             </p>
 
-            <div className="mx-auto mt-16 space-y-2 lg:space-y-0 md:w-max sm:space-x-6">
-              <Button className="w-full py-3 px-6 text-center rounded-full transition sm:w-max" href="#about">
-                Начать исследование
+            <div className="flex mx-auto items-center mt-16 flex-col gap-2 md:flex-row md:w-max ">
+              <Button className="w-full py-3 px-6 text-center rounded-full transition sm:w-max" href="/services">
+                Начать исследовать
+              </Button>
+              <Button variant="light" className="w-full py-3 px-6 text-center rounded-full transition sm:w-max" href="#about">
+                Изучить детальнее
               </Button>
             </div>
           </div>
