@@ -44,6 +44,10 @@ class ServiceRetrieve(BaseModel):
     cost: int
     service_images: List[ServiceImageRead] = []
     organization: OrganizationRead
+    technical_specifications: Optional[str]
+    sample_preparation: Optional[str]
+    has_certificate: Optional[bool]
+
     is_editable: bool = False
 
     class Config:

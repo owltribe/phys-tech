@@ -4,15 +4,14 @@ import { StyleSheet, View } from "react-native";
 import { SheetManager, SheetProps } from "react-native-actions-sheet";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SolidButton from "components/buttons/SolidButton";
+import MaskedTextField from "components/fields/MaskedTextField";
 import TextField from "components/fields/TextField";
 import Title from "components/typography/Title";
 import useUpdateProfile from "hooks/auth/useUpdateProfile";
 import { useAuth } from "providers/AuthProvider";
+import { phoneNumberMask } from "utils/masks";
 import { showToastWithGravity } from "utils/notifications";
 import * as yup from "yup";
-
-import { phoneNumberMask } from "../../utils/masks";
-import MaskedTextField from "../fields/MaskedTextField";
 
 import DefaultActionSheet from "./DefaultActionSheet";
 

@@ -1,6 +1,8 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { SheetManager } from "react-native-actions-sheet";
+import { COLOR_TEXT_DEFAULT } from "react-native-onboard/lib/OnboardFlow/constants";
+import { Switch, TouchableRipple } from "react-native-paper";
 import OutlineButton from "components/buttons/OutlineButton";
 import SolidButton from "components/buttons/SolidButton";
 import TextField from "components/fields/TextField";
@@ -12,6 +14,8 @@ import {
   showToastWithGravityAndOffset
 } from "utils/notifications";
 
+import { fontSize } from "../../utils/font-helper";
+
 import DefaultActionSheet from "./DefaultActionSheet";
 
 interface FormValues {
@@ -19,6 +23,9 @@ interface FormValues {
   description: string | null;
   expected_result: string | null;
   cost: string;
+  technical_specifications: string | null;
+  sample_preparation: string | null;
+  has_certificate: boolean | null;
 }
 
 const ServiceCreation = () => {
@@ -34,7 +41,10 @@ const ServiceCreation = () => {
       name: "",
       description: "",
       expected_result: "",
-      cost: ""
+      cost: "",
+      technical_specifications: null,
+      sample_preparation: null,
+      has_certificate: null
     }
   });
 
@@ -126,6 +136,49 @@ const ServiceCreation = () => {
         )}
       />
 
+      <Controller
+        control={control}
+        name="has_certificate"
+        render={({ field: { onChange, value } }) => (
+          <TouchableRipple onPress={() => onChange(!value)}>
+            <View style={styles.row}>
+              <Text style={styles.switchLabel}>Есть сертификат</Text>
+              <View pointerEvents="none">
+                <Switch value={!!value} />
+              </View>
+            </View>
+          </TouchableRipple>
+        )}
+      />
+      <Controller
+        control={control}
+        name="technical_specifications"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextField
+            mode="outlined"
+            label="Технические характеристики"
+            placeholder="Введите технические характеристики если таковые имеются"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value || undefined}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="sample_preparation"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextField
+            mode="outlined"
+            label="Подготовка проб"
+            placeholder="Введите какие пробы осуществляются если таковые имеются"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value || undefined}
+          />
+        )}
+      />
+
       <View style={styles.buttonsContainer}>
         <SolidButton
           title="Добавить"
@@ -148,6 +201,18 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 8,
     marginTop: 16
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 8,
+    borderRadius: 16
+  },
+  switchLabel: {
+    fontSize: fontSize.medium,
+    fontFamily: "GoogleSans-Regular",
+    color: COLOR_TEXT_DEFAULT
   }
 });
 
