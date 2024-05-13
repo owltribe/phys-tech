@@ -132,6 +132,27 @@ const ServiceRequestDetail = ({
               </View>
               <Divider bold />
               <View style={styles.item}>
+                <Text style={styles.itemLabel}>Есть сертификат</Text>
+                <Text style={styles.itemText}>
+                  {data.data.service.has_certificate ? "Да" : "Нет"}
+                </Text>
+              </View>
+              <Divider bold />
+              <View style={styles.item}>
+                <Text style={styles.itemLabel}>Технические характеристики</Text>
+                <Text style={styles.itemText}>
+                  {data.data.service.technical_specifications || "-"}
+                </Text>
+              </View>
+              <Divider bold />
+              <View style={styles.item}>
+                <Text style={styles.itemLabel}>Подготовка проб</Text>
+                <Text style={styles.itemText}>
+                  {data.data.service.sample_preparation || "-"}
+                </Text>
+              </View>
+              <Divider bold />
+              <View style={styles.item}>
                 <Text style={styles.itemLabel}>Статус заявки</Text>
                 <View style={styles.badgeContainer}>
                   <ServieRequestBadge status={data.data.status} />
