@@ -20,7 +20,7 @@ class Service(Base):
         String, nullable=True
     )
     sample_preparation: Mapped[str] = mapped_column(String, nullable=True)
-    has_certificate: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    has_certificate: Mapped[bool] = mapped_column(Boolean, nullable=True)
 
     organization_id: Mapped[uuid.UUID] = mapped_column(
         UUID,
