@@ -18,6 +18,7 @@ const TextAreaField = React.forwardRef<
     error,
     variant,
     color,
+    required,
     wrapperClassName,
     ...textFieldProps
   },
@@ -30,11 +31,17 @@ const TextAreaField = React.forwardRef<
     <label className={wrapperClassName}>
       <Text as="div" size="2" mb="1" weight="medium" className="text-gray-700">
         {label}
+        {!!required && (
+          <Text as='span' color='red'>
+            {' *'}
+          </Text>
+        )}
       </Text>
       <TextArea
         ref={ref}
         variant={handledVariant}
         color={handledColor}
+        required={required}
         {...textFieldProps}
       />
       {error && (

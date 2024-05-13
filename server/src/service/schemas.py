@@ -55,6 +55,9 @@ class ServiceUpdate(BaseModel):
     description: Optional[str] = None
     expected_result: Optional[str] = None
     cost: Optional[int] = None
+    technical_specifications: Optional[str] = None
+    sample_preparation: Optional[str] = None
+    has_certificate: Optional[bool] = None
 
 
 class ServiceFilter(Filter):
