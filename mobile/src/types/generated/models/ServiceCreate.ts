@@ -7,5 +7,8 @@ export type ServiceCreate = {
     description: (string | null);
     expected_result: (string | null);
     cost: number;
+    technical_specifications: (string | null);
+    sample_preparation: (string | null);
+    has_certificate: (boolean | null);
 };
 

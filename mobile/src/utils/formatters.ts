@@ -16,3 +16,7 @@ export const formatMinutesToHoursMinutes = (totalMinutes: number): string => {
     } `;
   }
 };
+
+export const formatViewPhoneNumber = (phoneNumber: string) => {
+  return `+${phoneNumber}`;
+};

@@ -6,9 +6,12 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View
 } from "react-native";
+import { COLOR_TEXT_DEFAULT } from "react-native-onboard/lib/OnboardFlow/constants";
+import { Switch, TouchableRipple } from "react-native-paper";
 import OutlineButton from "components/buttons/OutlineButton";
 import SolidButton from "components/buttons/SolidButton";
 import TextField from "components/fields/TextField";
@@ -29,11 +32,16 @@ import {
   showToastWithGravityAndOffset
 } from "utils/notifications";
 
+import { fontSize } from "../../../utils/font-helper";
+
 interface FormValues {
   name: string;
   description: string;
   expected_result: string;
   cost: string;
+  technical_specifications: string | null;
+  sample_preparation: string | null;
+  has_certificate: boolean | null;
 }
 
 const ServiceEdit = ({
@@ -58,7 +66,10 @@ const ServiceEdit = ({
       name: service.name,
       description: service.description || "",
       expected_result: service.expected_result || "",
-      cost: String(service.cost) || ""
+      cost: String(service.cost) || "",
+      technical_specifications: service.technical_specifications,
+      sample_preparation: service.sample_preparation,
+      has_certificate: service.has_certificate
     }
   });
 
@@ -188,6 +199,49 @@ const ServiceEdit = ({
           )}
         />
 
+        <Controller
+          control={control}
+          name="has_certificate"
+          render={({ field: { onChange, value } }) => (
+            <TouchableRipple onPress={() => onChange(!value)}>
+              <View style={styles.row}>
+                <Text style={styles.switchLabel}>Есть сертификат</Text>
+                <View pointerEvents="none">
+                  <Switch value={!!value} />
+                </View>
+              </View>
+            </TouchableRipple>
+          )}
+        />
+        <Controller
+          control={control}
+          name="technical_specifications"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextField
+              mode="outlined"
+              label="Технические характеристики"
+              placeholder="Введите технические характеристики если таковые имеются"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value || undefined}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="sample_preparation"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextField
+              mode="outlined"
+              label="Подготовка проб"
+              placeholder="Введите какие пробы осуществляются если таковые имеются"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value || undefined}
+            />
+          )}
+        />
+
         {!!serviceImagesData?.data && !!serviceImagesData.data.length && (
           <ScrollView
             horizontal
@@ -293,6 +347,18 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 16,
     gap: 8
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 8,
+    borderRadius: 16
+  },
+  switchLabel: {
+    fontSize: fontSize.medium,
+    fontFamily: "GoogleSans-Regular",
+    color: COLOR_TEXT_DEFAULT
   }
 });
 

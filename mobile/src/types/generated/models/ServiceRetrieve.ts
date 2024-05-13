@@ -12,6 +12,9 @@ export type ServiceRetrieve = {
     cost: number;
     service_images?: Array<ServiceImageRead>;
     organization: OrganizationRead;
+    technical_specifications: (string | null);
+    sample_preparation: (string | null);
+    has_certificate: (boolean | null);
     is_editable?: boolean;
 };
 

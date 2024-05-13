@@ -30,7 +30,6 @@ export default function ScreenWrapper({
     styles.container,
     {
       backgroundColor: white,
-      paddingTop: insets.top,
       paddingBottom: insets.bottom,
       paddingLeft: insets.left,
       paddingRight: insets.right

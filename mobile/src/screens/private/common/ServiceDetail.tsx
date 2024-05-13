@@ -22,7 +22,7 @@ import { commonStyles } from "styles/commonStyles";
 import { mantineColors } from "utils/colors";
 import { getFormattedError } from "utils/error-helper";
 import { fontPixel } from "utils/font-helper";
-import { formatCost } from "utils/formatters";
+import { formatCost, formatViewPhoneNumber } from "utils/formatters";
 import { showToastWithGravityAndOffset } from "utils/notifications";
 
 import ApproveModal from "./ServiceRequestDetail/components/ApproveModal";
@@ -139,7 +139,30 @@ const ServiceDetail = ({
                 <View style={styles.item}>
                   <Text style={styles.itemLabel}>Номер телефона</Text>
                   <Text style={styles.itemText}>
-                    {data.data.organization.contact}
+                    {formatViewPhoneNumber(data.data.organization.contact)}
+                  </Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Есть сертификат</Text>
+                  <Text style={styles.itemText}>
+                    {data.data.has_certificate ? "Да" : "Нет"}
+                  </Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>
+                    Технические характеристики
+                  </Text>
+                  <Text style={styles.itemText}>
+                    {data.data.technical_specifications || "-"}
+                  </Text>
+                </View>
+                <Divider bold />
+                <View style={styles.item}>
+                  <Text style={styles.itemLabel}>Подготовка проб</Text>
+                  <Text style={styles.itemText}>
+                    {data.data.sample_preparation || "-"}
                   </Text>
                 </View>
               </View>
