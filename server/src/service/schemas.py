@@ -13,6 +13,9 @@ class ServiceCreate(BaseModel):
     description: Optional[str]
     expected_result: Optional[str]
     cost: int
+    technical_specifications: Optional[str]
+    sample_preparation: Optional[str]
+    has_certificate: Optional[bool]
 
 
 class ServiceRead(BaseModel):
@@ -23,6 +26,10 @@ class ServiceRead(BaseModel):
     cost: int
     service_images: List[ServiceImageRead] = []
     organization: OrganizationRead
+    technical_specifications: Optional[str]
+    sample_preparation: Optional[str]
+    has_certificate: Optional[bool]
+
     is_editable: bool = False
 
     class Config:
@@ -48,6 +55,9 @@ class ServiceUpdate(BaseModel):
     description: Optional[str] = None
     expected_result: Optional[str] = None
     cost: Optional[int] = None
+    technical_specifications: Optional[str] = None
+    sample_preparation: Optional[str] = None
+    has_certificate: Optional[bool] = None
 
 
 class ServiceFilter(Filter):

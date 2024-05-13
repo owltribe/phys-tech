@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import UUID, ForeignKey, Integer, String
+from sqlalchemy import UUID, Boolean, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
@@ -16,6 +16,11 @@ class Service(Base):
     description: Mapped[str] = mapped_column(String, nullable=True)
     expected_result: Mapped[str] = mapped_column(String, nullable=True)
     cost: Mapped[int] = mapped_column(Integer, nullable=False)
+    technical_specifications: Mapped[str] = mapped_column(
+        String, nullable=True
+    )
+    sample_preparation: Mapped[str] = mapped_column(String, nullable=True)
+    has_certificate: Mapped[bool] = mapped_column(Boolean, nullable=True)
 
     organization_id: Mapped[uuid.UUID] = mapped_column(
         UUID,

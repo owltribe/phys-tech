@@ -3,7 +3,7 @@
 
   Server Environment Variables
   Because app depends on database and storage it is important to provide environment variable
-  securily in .env
+  securely in .env
   - Add .env file with given credentials (see .env-sample file for required environments)
 
   Python Environment
@@ -20,7 +20,7 @@
   - Activate venv: `poetry shell`
   - Install dependencies: `poetry install`
   
-  Runing the Server
+  Running the Server
   - Run server: `uvicorn main:app --reload`
 
   #### Running using Docker
