@@ -51,11 +51,48 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: "#FFFFFF",
 }
 
+const APP_NAME = "Science услуги | Научные услуги | Научные услуги Казахстана";
+const APP_DEFAULT_TITLE = "Science Услуги | Научные, научно-исследовательские услуги Казахстан";
+const APP_TITLE_TEMPLATE = "%s - Science услуги App";
+const APP_DESCRIPTION = "Платформа для исследователей, компаний, научных институтов, университетов и других организаций.";
+
 export const metadata: Metadata = {
-  title: "Science Услуги | Научные, научно-исследовательские услуги Казахстан",
-  description: "Платформа для исследователей, компаний, научных институтов, университетов и других организаций.",
+  applicationName: APP_NAME,
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
+  },
+  description: APP_DESCRIPTION,
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
