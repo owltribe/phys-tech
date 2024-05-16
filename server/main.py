@@ -20,9 +20,10 @@ from src.service_image.router import service_image_router
 from src.service_request.admin import ServiceRequestAdmin
 from src.service_request.router import service_request_router
 
-app = FastAPI()
+app_configs = {"title": "Science Services API"}
 
 if ENVIRONMENT == "production":
+    app_configs["openapi_url"] = None
     allow_origins = [
         "https://octopus-app-m6bno.ondigitalocean.app",
         "https://science.owltribe.dev",
@@ -31,6 +32,8 @@ else:
     allow_origins = [
         "http://localhost:3000",
     ]
+
+app = FastAPI(**app_configs)
 
 app.add_middleware(
     CORSMiddleware,
